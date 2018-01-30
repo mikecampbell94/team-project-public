@@ -13,5 +13,16 @@
     <ClCompile Include="Launch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameLoop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Systems\Subsystem.h" />
+    <ClInclude Include="Systems\System.h" />
+    <ClInclude Include="Game\GameLoop.h" />
   </ItemGroup>
 </Project>
