@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsCommon.h" />
+    <ClInclude Include="Graphics Pipeline\GraphicsModule.h" />
     <ClInclude Include="NCLGL Legacy\Mesh.h" />
     <ClInclude Include="Rendering\OGLRenderer.h" />
     <ClInclude Include="Shaders\Shader.h" />

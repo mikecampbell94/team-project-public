@@ -27,6 +27,9 @@
     <ClInclude Include="NCLGL Legacy\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics Pipeline\GraphicsModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="GraphicsCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
