@@ -153,6 +153,7 @@
     <ClInclude Include="Devices\InputDevice.h" />
     <ClInclude Include="Devices\Window.h" />
     <ClInclude Include="Devices\Mouse.h" />
+    <ClInclude Include="IptRecorder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Devices\Keyboard.cpp" />
