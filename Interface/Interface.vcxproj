@@ -23,7 +23,6 @@
     <ProjectGuid>{345012A3-6AA5-4790-9B70-99E924D922E4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Interface</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -131,14 +130,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractKeyMapper.h" />
     <ClInclude Include="BaseController.h" />
-    <ClInclude Include="InputeInterface.h" />
+    <ClInclude Include="InputInterface.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractKeyMapper.cpp" />
     <ClCompile Include="BaseController.cpp" />
-    <ClCompile Include="InputeInterface.cpp" />
+    <ClCompile Include="InputInterface.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
