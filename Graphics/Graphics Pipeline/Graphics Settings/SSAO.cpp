@@ -7,7 +7,9 @@ const int KERNEL_SIZE = 32;
 const int RESOLUTION_SCALE_X = 640;
 const int RESOLUTION_SCALE_Y = 360;
 
-SSAO::SSAO(Camera* cam, AmbientTextures* ambientTextures, GBufferData* SGBuffer)
+SSAO::SSAO(const std::string identifier, const Matrix4 projmatrix,
+	const Vector2 resolution, Camera* cam, AmbientTextures* ambientTextures, GBufferData* SGBuffer)
+	: GraphicsModule(identifier, projMatrix, resolution)
 {
 	this->ambientTextures = ambientTextures;
 	this->SGBuffer = SGBuffer;

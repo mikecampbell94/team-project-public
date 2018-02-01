@@ -417,27 +417,27 @@ DebugDrawData::DebugDrawData()
 
 void DebugDrawData::Draw()
 {
-	if (lines.empty())
-	{
-		return;
-	}
-	glBindVertexArray(array);
-	glGenBuffers(2, buffers);
+	//if (lines.empty())
+	//{
+	//	return;
+	//}
+	//glBindVertexArray(array);
+	//glGenBuffers(2, buffers);
 
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[VERTEX_BUFFER]);
-	glBufferData(GL_ARRAY_BUFFER, lines.size() * sizeof(Vector3), &lines[0], GL_DYNAMIC_DRAW);
-	glVertexAttribPointer(VERTEX_BUFFER, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(VERTEX_BUFFER);
+	//glBindBuffer(GL_ARRAY_BUFFER, buffers[VERTEX_BUFFER]);
+	//glBufferData(GL_ARRAY_BUFFER, lines.size() * sizeof(Vector3), &lines[0], GL_DYNAMIC_DRAW);
+	//glVertexAttribPointer(VERTEX_BUFFER, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	//glEnableVertexAttribArray(VERTEX_BUFFER);
 
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[COLOUR_BUFFER]);
-	glBufferData(GL_ARRAY_BUFFER, colours.size() * sizeof(Vector3), &colours[0], GL_DYNAMIC_DRAW);
-	glVertexAttribPointer(COLOUR_BUFFER, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(COLOUR_BUFFER);
+	//glBindBuffer(GL_ARRAY_BUFFER, buffers[COLOUR_BUFFER]);
+	//glBufferData(GL_ARRAY_BUFFER, colours.size() * sizeof(Vector3), &colours[0], GL_DYNAMIC_DRAW);
+	//glVertexAttribPointer(COLOUR_BUFFER, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	//glEnableVertexAttribArray(COLOUR_BUFFER);
 
-	glDrawArrays(GL_LINES, 0, lines.size());
+	//glDrawArrays(GL_LINES, 0, lines.size());
 
-	glBindVertexArray(0);
-	glDeleteBuffers(2, buffers);
+	//glBindVertexArray(0);
+	//glDeleteBuffers(2, buffers);
 
-	Clear();
+	//Clear();
 }

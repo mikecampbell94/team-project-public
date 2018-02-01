@@ -16,7 +16,6 @@
 #include "../Utilities/Maths/Matrix4.h"
 
 #include "../Shaders/Shader.h"		//Students make this file...
-#include "../NCLGL Legacy//LegacyMesh.h"		//And this one...
 
 using std::vector;
 

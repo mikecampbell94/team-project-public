@@ -4,8 +4,10 @@
 #include "../../GraphicsUtility.h"
 #include "../../GraphicsCommon.h"
 
-GBuffer::GBuffer(Window* window, Camera* camera, std::vector<ModelMesh*>* modelsInFrame,
-	vector<ModelMesh*>* transparentModelsInFrame, std::vector<Model*>** models)
+GBuffer::GBuffer(const std::string identifier, const Matrix4 projmatrix,
+	const Vector2 resolution, Window* window, Camera* camera, std::vector<SubMesh*>* modelsInFrame,
+	vector<SubMesh*>* transparentModelsInFrame, std::vector<Mesh*>** models)
+	: GraphicsModule(identifier, projMatrix, resolution)
 {
 	this->modelsInFrame = modelsInFrame;
 	this->transparentModelsInFrame = transparentModelsInFrame;
@@ -124,7 +126,7 @@ void GBuffer::initAttachments()
 	GraphicsUtility::VerifyBuffer("RBO Depth GBuffer", false);
 }
 
-void GBuffer::renderGeometry(vector<ModelMesh*>* meshes)
+void GBuffer::renderGeometry(vector<SubMesh*>* meshes)
 {
 	setCurrentShader(geometryPass);
 	viewMatrix = camera->BuildViewMatrix();

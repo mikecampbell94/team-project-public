@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../GraphicsModule.h"
-#include "../../Rendering/View/Camera.h"
+#include "../../Utility/Camera.h"
 
 #include <vector>
 

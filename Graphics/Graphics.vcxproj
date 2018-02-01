@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\Utilities\;..\SOIL;..\GLEW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Utilities\$(Configuration);..\GLEW\lib\$(Configuration);..\SOIL\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL;..\GLEW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ASSIMP\lib\$(Configuration);..Input\$(Configuration);..\Utilities\$(Configuration);..\GLEW\lib\$(Configuration);..\SOIL\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\Utilities\;..\SOIL;..\GLEW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Utilities\$(Configuration);..\GLEW\lib\$(Configuration);..\SOIL\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL;..\GLEW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ASSIMP\lib\$(Configuration);..Input\$(Configuration);..\Utilities\$(Configuration);..\GLEW\lib\$(Configuration);..\SOIL\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -138,15 +138,43 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NCLGL Legacy\LegacyMesh.h" />
+    <ClInclude Include="Utility\Camera.h" />
+    <ClInclude Include="Graphics Pipeline\Effects\ParticleSystem.h" />
+    <ClInclude Include="Graphics Pipeline\Effects\Skybox.h" />
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\Bloom.h" />
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\BPLighting.h" />
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\GBuffer.h" />
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\MotionBlur.h" />
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\Shadows.h" />
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\SSAO.h" />
     <ClInclude Include="GraphicsCommon.h" />
     <ClInclude Include="Graphics Pipeline\GraphicsModule.h" />
-    <ClInclude Include="NCLGL Legacy\Mesh.h" />
+    <ClInclude Include="GraphicsUtility.h" />
+    <ClInclude Include="Utility\Light.h" />
+    <ClInclude Include="Meshes\Mesh.h" />
+    <ClInclude Include="Meshes\SubMesh.h" />
     <ClInclude Include="Rendering\OGLRenderer.h" />
+    <ClInclude Include="RenderInterface.h" />
+    <ClInclude Include="Scene Management\SceneNode.h" />
     <ClInclude Include="Shaders\Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NCLGL Legacy\Mesh.cpp" />
+    <ClCompile Include="NCLGL Legacy\LegacyMesh.cpp" />
+    <ClCompile Include="Utility\Camera.cpp" />
+    <ClCompile Include="Graphics Pipeline\Effects\ParticleSystem.cpp" />
+    <ClCompile Include="Graphics Pipeline\Effects\Skybox.cpp" />
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\Bloom.cpp" />
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\BPLighting.cpp" />
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\GBuffer.cpp" />
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\MotionBlur.cpp" />
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\Shadows.cpp" />
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\SSAO.cpp" />
+    <ClCompile Include="Utility\Light.cpp" />
+    <ClCompile Include="Meshes\Mesh.cpp" />
+    <ClCompile Include="Meshes\SubMesh.cpp" />
     <ClCompile Include="Rendering\OGLRenderer.cpp" />
+    <ClCompile Include="Scene Management\SceneNode.cpp" />
     <ClCompile Include="Shaders\Shader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

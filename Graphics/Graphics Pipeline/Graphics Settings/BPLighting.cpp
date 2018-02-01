@@ -2,7 +2,8 @@
 
 #include "../../GraphicsCommon.h"
 
-BPLighting::BPLighting(Camera* cam, GBufferData* gBuffer,
+BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
+	const Vector2 resolution, Camera* cam, GBufferData* gBuffer,
 	AmbientTextures* ambientTextures, int numAmbTex)
 	: GraphicsModule(identifier, projMatrix, resolution)
 {

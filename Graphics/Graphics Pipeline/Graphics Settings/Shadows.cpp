@@ -6,7 +6,7 @@
 
 Shadows::Shadows(const std::string identifier, const Matrix4 projmatrix,
 	const Vector2 resolution, int numShadowCastingLights, Light** lights,
-	std::vector<Model*>** models)
+	std::vector<Mesh*>** models)
 	: GraphicsModule(identifier, projMatrix, resolution)
 {
 	shadowFBOs = new GLuint[numShadowCastingLights];
@@ -110,9 +110,9 @@ void Shadows::drawShadowScene()
 
 		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
 
-		for each (Model* m in **models)
+		for each (Mesh* m in **models)
 		{
-			for each (ModelMesh* mesh in m->meshes)
+			for each (SubMesh* mesh in m->meshes)
 			{
 				mesh->DrawShadow();
 			}

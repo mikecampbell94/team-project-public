@@ -1,6 +1,6 @@
 #include "ParticleSystem.h"
 
-#include "../ASSIMP/Model.h"
+#include "../../Meshes/Mesh.h"
 #include "../../GraphicsCommon.h"
 
 float vertices[] =

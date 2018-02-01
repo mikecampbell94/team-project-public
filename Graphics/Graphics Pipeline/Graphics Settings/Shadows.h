@@ -4,7 +4,8 @@
 
 #define SHADOWSIZE 4096
 
-#include "../../ASSIMP/Model.h"
+#include "../../Meshes/Mesh.h"
+#include "../../Utility/Light.h"
 
 #include <vector>
 
@@ -12,7 +13,7 @@ class Shadows : public GraphicsModule
 {
 public:
 	Shadows(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, int numShadowCastingLights, Light** lights, std::vector<Model*>** models);
+		const Vector2 resolution, int numShadowCastingLights, Light** lights, std::vector<Mesh*>** models);
 
 	~Shadows()
 	{
@@ -50,6 +51,6 @@ private:
 	Shader* shadowShader;
 
 	Light** lights;
-	std::vector<Model*>** models;
+	std::vector<Mesh*>** models;
 };
 

@@ -2,9 +2,9 @@
 
 #include "../GraphicsModule.h"
 
-#include "../../Rendering/View/Camera.h"
-#include "../../ASSIMP/ModelMesh.h"
-#include "../../ASSIMP/Model.h"
+#include "../../Utility/Camera.h"
+#include "../../Meshes/Mesh.h"
+#include "../../Meshes/SubMesh.h"
 
 #include <vector>
 #include "../Effects/Skybox.h"
@@ -15,8 +15,9 @@ class Window;
 class GBuffer : public GraphicsModule
 {
 public:
-	GBuffer(Window* window, Camera* camera, std::vector<ModelMesh*>* modelsInFrame,
-		vector<ModelMesh*>* transparentModelsInFrame, std::vector<Model*>** models);
+	GBuffer(const std::string identifier, const Matrix4 projmatrix,
+		const Vector2 resolution, Window* window, Camera* camera, std::vector<SubMesh*>* modelsInFrame,
+		vector<SubMesh*>* transparentModelsInFrame, std::vector<Mesh*>** models);
 	virtual ~GBuffer();
 
 	void linkShaders() override;
@@ -45,7 +46,7 @@ private:
 	void initGBuffer();
 	void initAttachments();
 
-	void renderGeometry(vector<ModelMesh*>* meshes);
+	void renderGeometry(vector<SubMesh*>* meshes);
 
 	GLuint gPosition;
 	GLuint gNormal;
@@ -58,9 +59,9 @@ private:
 	Camera* camera;
 	Window* window;
 
-	std::vector<ModelMesh*>* modelsInFrame;
-	std::vector<ModelMesh*>* transparentModelsInFrame;
-	std::vector<Model*>** models;
+	std::vector<SubMesh*>* modelsInFrame;
+	std::vector<SubMesh*>* transparentModelsInFrame;
+	std::vector<Mesh*>** models;
 	GBufferData* SGBuffer;
 
 	unsigned int textureID;
