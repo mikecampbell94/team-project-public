@@ -11,6 +11,25 @@
 #include "../Utilities/Maths/Matrix4.h"
 #include "../Utilities/Maths/Vector2.h"
 
+struct ShadowData
+{
+	int NUM_LIGHTS;
+	int* shadowIndexes;
+	Matrix4* textureMatrices;
+	GLuint* shadows;
+};
+
+struct GBufferData {
+	GLuint* gPosition;
+	GLuint* gNormal;
+	GLuint* gAlbedo;
+};
+
+struct AmbientTextures {
+	GLuint** textures;
+	int*	 texUnits;
+};
+
 class GraphicsModule
 {
 public:
