@@ -20,6 +20,7 @@ public:
 		this->projMatrix = projMatrix;
 		this->resolution = resolution;
 		this->identifier = identifier;
+		this->enabled = true;
 	}
 
 	virtual ~GraphicsModule() {}
@@ -29,6 +30,8 @@ public:
 
 	virtual void linkShaders() = 0;
 	virtual void regenerateShaders() = 0;
+
+	
 
 	void setCurrentShader(Shader*s)
 	{
@@ -54,6 +57,16 @@ public:
 	const std::string getIdentifier() const
 	{
 		return identifier;
+	}
+
+	const bool isEnabled() const
+	{
+		return enabled;
+	}
+
+	void toggleModule() 
+	{
+		enabled = !enabled;
 	}
 
 protected:
@@ -99,5 +112,8 @@ protected:
 	Matrix4 textureMatrix;
 
 	std::string identifier;
+
+	bool enabled;
+
 };
 
