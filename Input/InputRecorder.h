@@ -1,10 +1,15 @@
 #pragma once
 #include <vector>
+#include <unordered_map>
 
-enum keyState {
+enum state {
 	TRIGGERED,HELD,RELEASED
 };
 
+struct keyState {
+	state currentState;
+	int key;
+};
 
 
 
@@ -25,7 +30,8 @@ public:
 
 
 protected:
-	
+	std::unordered_map<int, keyState> currentInputs;
+
 
 	playerBase* player;
 
