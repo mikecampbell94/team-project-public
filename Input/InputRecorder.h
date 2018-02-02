@@ -6,6 +6,8 @@ enum state {
 	TRIGGERED,HELD,RELEASED
 };
 
+//remove initialiser lists. 
+//Move brackets to next line etc
 struct KeyState {
 	KeyState(state currentState, int key) : currentState(currentState), key(key) {};
 	state currentState;
@@ -13,12 +15,13 @@ struct KeyState {
 };
 
 
-
+//Remove playerbase from here
 class playerBase;
 
 class InputRecorder
 {
 public:
+	//take vector<int> instead
 	InputRecorder(playerBase* pb) : player(pb){};
 	~InputRecorder() {};
 
@@ -30,6 +33,7 @@ public:
 	std::vector<KeyState> const getInputs() { return currentInputs; };
 	std::vector<int> const getKeysToListen() { return keysToListen; };
 
+	//addKeyToListenTo and addKeysToListenTo
 	void setKeysToListen(std::vector<int> keysToListen) { this->keysToListen = keysToListen; };
 	void addKeyToListen(int key) { this->keysToListen.push_back(key); };
 
