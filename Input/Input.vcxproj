@@ -153,12 +153,14 @@
     <ClInclude Include="Devices\InputDevice.h" />
     <ClInclude Include="Devices\Window.h" />
     <ClInclude Include="Devices\Mouse.h" />
-    <ClInclude Include="IptRecorder.h" />
-  </ItemGroup>
+    <ClInclude Include="InputRecorder.h" />
+    <ClInclude Include="KeyboardRecorder.h" />  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Devices\Keyboard.cpp" />
     <ClCompile Include="Devices\Window.cpp" />
     <ClCompile Include="Devices\Mouse.cpp" />
+    <ClCompile Include="InputRecorder.cpp" />
+    <ClCompile Include="KeyboardRecorder.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

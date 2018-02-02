@@ -30,10 +30,11 @@
     <ClInclude Include="Devices\Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IptRecorder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
+    <ClInclude Include="KeyboardRecorder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Devices\Keyboard.cpp">
       <Filter>Source Files</Filter>
@@ -42,6 +43,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Devices\Mouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputRecorder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardRecorder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

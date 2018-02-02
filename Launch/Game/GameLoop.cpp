@@ -1,4 +1,5 @@
 #include "GameLoop.h"
+#include "../../Input/KeyboardRecorder.h"
 #include <iostream>
 
 GameLoop::GameLoop(System& gameSystem)
@@ -21,6 +22,7 @@ void GameLoop::executeGameLoop()
 		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
 		gameSystem.updateNextSystemFrame(deltaTime);
 
+		
 		std::cout << "Updated frame " << frameCount << ". Delta time = " << deltaTime << std::endl;
 		++frameCount;
 	}
