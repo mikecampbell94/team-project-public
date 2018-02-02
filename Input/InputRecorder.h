@@ -6,7 +6,8 @@ enum state {
 	TRIGGERED,HELD,RELEASED
 };
 
-struct keyState {
+struct KeyState {
+	KeyState(state currentState, int key) : currentState(currentState), key(key) {};
 	state currentState;
 	int key;
 };
@@ -23,15 +24,18 @@ public:
 
 
 	virtual void fillInputs() = 0;
-	virtual void cleanInputs() = 0;
+	virtual void clearInputs() = 0;
 
 
-	std::vector<int> keysToListen;
+	std::vector<KeyState> const getInputs() { return currentInputs; };
+	std::vector<int> const getKeysToListen() { return keysToListen; };
 
+	void setKeysToListen(std::vector<int> keysToListen) { this->keysToListen = keysToListen; };
+	void addKeyToListen(int key) { this->keysToListen.push_back(key); };
 
 protected:
-	std::unordered_map<int, keyState> currentInputs;
-
+	std::vector<KeyState> currentInputs;
+	std::vector<int> keysToListen;
 
 	playerBase* player;
 

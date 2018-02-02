@@ -165,6 +165,9 @@ public:
 	//Is this the first update the key has been pressed for?
 	bool keyTriggered(KeyboardKeys key);
 
+	//CSC 8506 Code
+	bool keyReleased(KeyboardKeys key);
+
 	//	CSC3224 NCODE [Kiyavash Kandar] [140245239]
 	void initialiseMapper()
 	{
