@@ -7,12 +7,12 @@ class KeyboardRecorder :
 public:
 	//TEST DATA
 
-	KeyboardRecorder(playerBase* pb) : InputRecorder(pb) { this->keysToListen.push_back(65); };
+	KeyboardRecorder() { this->keysToListen.push_back(65); };
 	~KeyboardRecorder() {};
 
-	virtual void fillInputs();
+	 void fillInputs() override;
 
-	virtual void clearInputs() { this->currentInputs.clear(); };
+	 void clearInputs() override { this->currentInputs.clear(); };
 
 	void setKeyboard(Keyboard* keyboard) { this->keyboard = keyboard; };
 

@@ -22,7 +22,7 @@ class InputRecorder
 {
 public:
 	//take vector<int> instead
-	InputRecorder(playerBase* pb) : player(pb){};
+	InputRecorder() {};
 	~InputRecorder() {};
 
 
@@ -34,7 +34,7 @@ public:
 	std::vector<int> const getKeysToListen() { return keysToListen; };
 
 	//addKeyToListenTo and addKeysToListenTo
-	void setKeysToListen(std::vector<int> keysToListen) { this->keysToListen = keysToListen; };
+	void addKeysToListen(std::vector<int> keysToListen) { this->keysToListen = keysToListen; };
 	void addKeyToListen(int key) { this->keysToListen.push_back(key); };
 
 protected:

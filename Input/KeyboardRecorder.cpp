@@ -15,5 +15,6 @@ void KeyboardRecorder::fillInputs()
 			std::cout << key;
 		}
 	}
+
 }
 

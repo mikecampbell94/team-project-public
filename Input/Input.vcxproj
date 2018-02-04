@@ -153,12 +153,17 @@
     <ClInclude Include="Devices\InputDevice.h" />
     <ClInclude Include="Devices\Window.h" />
     <ClInclude Include="Devices\Mouse.h" />
+    <ClInclude Include="Gamepad.h" />
+    <ClInclude Include="GamePadRecorder.h" />
     <ClInclude Include="InputRecorder.h" />
-    <ClInclude Include="KeyboardRecorder.h" />  </ItemGroup>
+    <ClInclude Include="KeyboardRecorder.h" />
+  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Devices\Keyboard.cpp" />
     <ClCompile Include="Devices\Window.cpp" />
     <ClCompile Include="Devices\Mouse.cpp" />
+    <ClCompile Include="Gamepad.cpp" />
+    <ClCompile Include="GamePadRecorder.cpp" />
     <ClCompile Include="InputRecorder.cpp" />
     <ClCompile Include="KeyboardRecorder.cpp" />
   </ItemGroup>
