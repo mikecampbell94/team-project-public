@@ -74,8 +74,7 @@ void PlayerBase::removePlayer(Player* playerRef)
 	}
 }
 
-//need optimalize
-int PlayerBase::generateNewID() 
+int PlayerBase::generateNewID()
 {
 	if (connectedPlayers.empty())
 	{
@@ -83,6 +82,16 @@ int PlayerBase::generateNewID()
 	}
 	else
 	{
-		return (*connectedPlayers.rbegin()).first + 1;
+		int newID = 0;
+
+		for (auto it = connectedPlayers.begin(); it != connectedPlayers.end();)
+		{
+			if (newID < (*it).first)
+				return newID;
+			else
+				newID = (*(it++)).first+1;
+		}
+
+		return newID;
 	}
 }
