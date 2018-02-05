@@ -70,7 +70,7 @@ protected:
 
 	std::vector<ButtonInputData> currentButtonInputs;
 	std::vector<LinearInputData> currentLinearInputs;
-	std::vector<PositionalInputData> currentLinearInputs;
+	std::vector<PositionalInputData> currentPositionalInputs;
 
 
 	std::vector<int> keysToListen;

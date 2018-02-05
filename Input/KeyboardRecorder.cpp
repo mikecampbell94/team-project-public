@@ -6,12 +6,14 @@
 void KeyboardRecorder::fillInputs()
 {
 	for (int key : keysToListen) {
-		if (keyboard->keyTriggered(static_cast<KeyboardKeys>(key))) {
-			currentInputs.push_back(KeyState(state::TRIGGERED,key));
+		if (keyboard->keyTriggered(static_cast<KeyboardKeys>(key))) 
+		{
+			currentInputs.push_back(ButtonInputData(InputType::TRIGGERED,key));
 			std::cout << key;
 		}
-		else if (keyboard->keyHeld(static_cast<KeyboardKeys>(key))) {
-			currentInputs.push_back(KeyState(state::HELD, key));
+		else if (keyboard->keyHeld(static_cast<KeyboardKeys>(key))) 
+		{
+			currentInputs.push_back(ButtonInputData(InputType::HELD, key));
 			std::cout << key;
 		}
 	}

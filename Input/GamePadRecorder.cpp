@@ -13,11 +13,11 @@ void GamePadRecorder::fillInputs()
 	gamepad->Update();
 	for (int key : keysToListen) {
 		if (gamepad->GetButtonPressed(key)) {
-			currentInputs.push_back(KeyState(state::TRIGGERED,key));
+			currentInputs.push_back(ButtonInputData(InputType::TRIGGERED,key));
 			std::cout << key << "PRESSED" << "\n";
 		}
 		if (gamepad->GetButtonDown(key)) {
-			currentInputs.push_back(KeyState(state::HELD,key));
+			currentInputs.push_back(ButtonInputData(InputType::HELD,key));
 			std::cout << key << "HELD" << "\n";
 		}
 		
