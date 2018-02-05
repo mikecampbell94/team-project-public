@@ -1,4 +1,5 @@
 #pragma once
+#include "../Utilities/Maths/Vector2.h"
 #include <vector>
 #include <unordered_map>
 
@@ -6,20 +7,45 @@ enum state {
 	TRIGGERED,HELD,RELEASED
 };
 
+//remove initialiser lists. 
+//Move brackets to next line etc
 struct KeyState {
-	KeyState(state currentState, int key) : currentState(currentState), key(key) {};
+	KeyState(state currentState, int key)
+	{
+		this->currentState = currentState;
+		this->key = key;
+	};
 	state currentState;
 	int key;
 };
 
+struct DynamicKeyState {
+	DynamicKeyState(float value, int key) 
+	{
+		this->value = value;
+		this->key = key;
+	}
+	float value;
+	int key;
+};
 
+struct VectorKeyState {
+	VectorKeyState(Vector2 value, int key)
+	{
+		this->value = value;
+		this->key = key;
+	}
+	Vector2 value;
+	int key;
+};
 
 class PlayerBase;
 
 class InputRecorder
 {
 public:
-	InputRecorder(PlayerBase* pb) : player(pb){};
+	//take vector<int> instead
+	InputRecorder() {};
 	~InputRecorder() {};
 
 
@@ -30,11 +56,14 @@ public:
 	std::vector<KeyState> const getInputs() { return currentInputs; };
 	std::vector<int> const getKeysToListen() { return keysToListen; };
 
-	void setKeysToListen(std::vector<int> keysToListen) { this->keysToListen = keysToListen; };
+	//addKeyToListenTo and addKeysToListenTo
+	void addKeysToListen(std::vector<int> keysToListen) { this->keysToListen = keysToListen; };
 	void addKeyToListen(int key) { this->keysToListen.push_back(key); };
 
 protected:
 	std::vector<KeyState> currentInputs;
+
+
 	std::vector<int> keysToListen;
 
 	PlayerBase* player;
