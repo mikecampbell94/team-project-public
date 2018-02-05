@@ -1,32 +1,31 @@
 #pragma once
 
 #include <string>
+#include "InputRecorder.h"
 
 class Player
 {
 
 public:
 	
-	Player();
+
+	Player() {}
+	Player(std::string playerID, InputRecorder *recorder);
 	
 	~Player();
 
 
-	void setPlayerID(std::string newID)
-	{
-		playerID = newID;
-	}
+	void setPlayerID(std::string newID);
+	const std::string getPlayerID();
 
-	const std::string getPlayerID()
-	{
-		return playerID;
-	}
+	void setInputRecorder(InputRecorder* newInputRecorder);
+	const InputRecorder* getInputRecorder();
 
 
 private:
 
 	std::string playerID;
-
+	InputRecorder *recorder;
 	
 
 
