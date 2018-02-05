@@ -157,6 +157,7 @@
     <ClInclude Include="GamePadRecorder.h" />
     <ClInclude Include="InputRecorder.h" />
     <ClInclude Include="KeyboardRecorder.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Devices\Keyboard.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="GamePadRecorder.cpp" />
     <ClCompile Include="InputRecorder.cpp" />
     <ClCompile Include="KeyboardRecorder.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
