@@ -129,14 +129,6 @@
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BaseController.h" />
-    <ClInclude Include="InputInterface.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BaseController.cpp" />
-    <ClCompile Include="InputInterface.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
