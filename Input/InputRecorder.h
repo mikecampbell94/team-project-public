@@ -3,40 +3,41 @@
 #include <vector>
 #include <unordered_map>
 
-enum state {
+enum InputType {
 	TRIGGERED,HELD,RELEASED
 };
 
 //remove initialiser lists. 
 //Move brackets to next line etc
-struct KeyState {
-	KeyState(state currentState, int key)
+struct ButtonInputData {
+	ButtonInputData(InputType currentState, unsigned int key)
 	{
 		this->currentState = currentState;
 		this->key = key;
 	};
-	state currentState;
-	int key;
+	InputType currentState;
+	unsigned int key;
 };
 
-struct DynamicKeyState {
-	DynamicKeyState(float value, int key) 
+struct LinearInputData {
+	LinearInputData(float value, unsigned int key)
 	{
 		this->value = value;
-		this->key = key;
+		this->key = key;	
 	}
 	float value;
-	int key;
+	unsigned int key;
+
 };
 
-struct VectorKeyState {
-	VectorKeyState(Vector2 value, int key)
+struct PositionalInputData {
+	PositionalInputData(Vector2 value, unsigned int key)
 	{
 		this->value = value;
 		this->key = key;
 	}
 	Vector2 value;
-	int key;
+	unsigned int key;
 };
 
 
@@ -55,15 +56,21 @@ public:
 	virtual void clearInputs() = 0;
 
 
-	std::vector<KeyState> const getInputs() { return currentInputs; };
-	std::vector<int> const getKeysToListen() { return keysToListen; };
+	std::vector<ButtonInputData> const getInputs();
+
+	std::vector<int> const getKeysToListen();
+	
 
 	//addKeyToListenTo and addKeysToListenTo
-	void addKeysToListen(std::vector<int> keysToListen) { this->keysToListen = keysToListen; };
-	void addKeyToListen(int key) { this->keysToListen.push_back(key); };
+	void addKeysToListen(std::vector<int> keysToListen);
+
+	void addKeyToListen(int key);
 
 protected:
-	std::vector<KeyState> currentInputs;
+
+	std::vector<ButtonInputData> currentButtonInputs;
+	std::vector<LinearInputData> currentLinearInputs;
+	std::vector<PositionalInputData> currentLinearInputs;
 
 
 	std::vector<int> keysToListen;
