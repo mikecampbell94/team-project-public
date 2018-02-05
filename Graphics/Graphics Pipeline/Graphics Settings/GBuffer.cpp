@@ -144,6 +144,6 @@ void GBuffer::renderGeometry(vector<SubMesh*>* meshes)
 		glUniform1f(loc_reflectionStrength, meshes->at(i)->reflectionStrength);
 		glUniform4fv(loc_baseColour, 1, (float*)&meshes->at(i)->baseColour);
 
-		meshes->at(i)->Draw(*currentShader);
+		//meshes->at(i)->Draw(*currentShader);
 	}
 }

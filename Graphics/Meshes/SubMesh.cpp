@@ -16,14 +16,6 @@ SubMesh::SubMesh(vector<Vertex> vertices, vector<unsigned int> indices,
 
 	SetupMesh();
 
-	transforms = vector<Matrix4>(numTransforms);
-
-	for each (Matrix4 transform in transforms)
-	{
-		transform.setPositionVector(Vector3(0, 0, 0));
-		transform.setScalingVector(Vector3(1, 1, 1));
-	}
-
 	CalculateBoundingRadius();
 }
 
@@ -73,6 +65,34 @@ void SubMesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
+void SubMesh::Draw(Shader& shader, Matrix4& worldTransform)
+{
+	//Bind all textures of the mesh
+	for (unsigned int i = 1; i <= textures.size(); i++)
+	{
+		//Activate proper texture unit before binding
+		glActiveTexture(GL_TEXTURE0 + i);
+		glUniform1i(glGetUniformLocation(shader.GetProgram(), textures[i - 1].type.c_str()), i);
+
+		glBindTexture(GL_TEXTURE_2D, textures[i - 1].id);
+	}
+
+	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
+	//glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4) * transforms.size(),
+	//	(float*)&transforms[0], GL_STATIC_COPY);
+	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
+	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false, (float*)&worldTransform);
+
+	glBindVertexArray(VAO);
+	//glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	glActiveTexture(GL_TEXTURE0);
+}
+
 void SubMesh::Draw(Shader& shader)
 {
 	//Bind all textures of the mesh
@@ -85,14 +105,17 @@ void SubMesh::Draw(Shader& shader)
 		glBindTexture(GL_TEXTURE_2D, textures[i - 1].id);
 	}
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4) * transforms.size(),
-		(float*)&transforms[0], GL_STATIC_COPY);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
+	//glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4) * transforms.size(),
+	//	(float*)&transforms[0], GL_STATIC_COPY);
+	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
+	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false, (float*)&transform);
 
 	glBindVertexArray(VAO);
-	glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
+	//glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
 	glActiveTexture(GL_TEXTURE0);
@@ -111,29 +134,32 @@ void SubMesh::DrawShadow()
 	//	glBindVertexArray(0);
 	//}
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4) * transforms.size(),
-		(float*)&transforms[0], GL_STATIC_COPY);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
-	glBindVertexArray(VAO);
-	glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
-	glBindVertexArray(0);
+	////////////////////////////
+
+	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
+	//glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4) * transforms.size(),
+	//	(float*)&transforms[0], GL_STATIC_COPY);
+	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
+	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	//glBindVertexArray(VAO);
+	//glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
+	//glBindVertexArray(0);
 }
 
 void SubMesh::BufferData()
 {
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4) * transforms.size(),
-		(float*)&transforms[0], GL_STATIC_COPY);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
+	//glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4),
+	//	(float*)&transform, GL_STATIC_COPY);
+	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
+	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void SubMesh::DrawOnly()
 {
-	glBindVertexArray(VAO);
-	glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
-	glBindVertexArray(0);
+	//glBindVertexArray(VAO);
+	//glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transform);
+	//glBindVertexArray(0);
 }

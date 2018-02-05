@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL;..\GLEW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ASSIMP\lib\$(Configuration);..Input\$(Configuration);..\Utilities\$(Configuration);..\GLEW\lib\$(Configuration);..\SOIL\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\SOIL\Debug\;..\GLEW\lib\Debug\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL;..\GLEW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ASSIMP\lib\$(Configuration);..Input\$(Configuration);..\Utilities\$(Configuration);..\GLEW\lib\$(Configuration);..\SOIL\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\SOIL\Debug\;..\GLEW\lib\Debug\;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,11 +84,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <Lib>
+      <AdditionalDependencies>SOIL.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -110,13 +113,16 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;GLEW_STATIC;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>SOIL.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -138,7 +144,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\BasicGeometry.h" />
+    <ClInclude Include="Graphics Pipeline\GraphicsPipeline.h" />
     <ClInclude Include="NCLGL Legacy\LegacyMesh.h" />
+    <ClInclude Include="Graphics Pipeline\PipelineConfiguration.h" />
+    <ClInclude Include="Rendering\Renderer.h" />
+    <ClInclude Include="Scene Management\SceneManager.h" />
     <ClInclude Include="Utility\Camera.h" />
     <ClInclude Include="Graphics Pipeline\Effects\ParticleSystem.h" />
     <ClInclude Include="Graphics Pipeline\Effects\Skybox.h" />
@@ -160,7 +171,12 @@
     <ClInclude Include="Shaders\Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\BasicGeometry.cpp" />
+    <ClCompile Include="Graphics Pipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="NCLGL Legacy\LegacyMesh.cpp" />
+    <ClCompile Include="Graphics Pipeline\PipelineConfiguration.cpp" />
+    <ClCompile Include="Rendering\Renderer.cpp" />
+    <ClCompile Include="Scene Management\SceneManager.cpp" />
     <ClCompile Include="Utility\Camera.cpp" />
     <ClCompile Include="Graphics Pipeline\Effects\ParticleSystem.cpp" />
     <ClCompile Include="Graphics Pipeline\Effects\Skybox.cpp" />

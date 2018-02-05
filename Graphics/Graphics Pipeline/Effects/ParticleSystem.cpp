@@ -40,45 +40,45 @@ void ParticleSystem::initialise()
 
 void ParticleSystem::apply()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, *motionBlurFBO);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glUseProgram(particleShader->GetProgram());
+	//glBindFramebuffer(GL_FRAMEBUFFER, *motionBlurFBO);
+	//glDisable(GL_DEPTH_TEST);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glUseProgram(particleShader->GetProgram());
 
-	glUniformMatrix4fv(glGetUniformLocation(particleShader->GetProgram(),
-		"viewMatrix"), 1, false, (float*)viewMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(particleShader->GetProgram(),
-		"projMatrix"), 1, false, (float*)&projMatrix);
+	//glUniformMatrix4fv(glGetUniformLocation(particleShader->GetProgram(),
+	//	"viewMatrix"), 1, false, (float*)viewMatrix);
+	//glUniformMatrix4fv(glGetUniformLocation(particleShader->GetProgram(),
+	//	"projMatrix"), 1, false, (float*)&projMatrix);
 
-	for (int i = 0; i < particles->size(); ++i)
-	{
-		(*particles)[i].modelMatrix = (*particles)[i].modelMatrix * Matrix4::translation((*particles)[i].frameTranslation);
+	//for (int i = 0; i < particles->size(); ++i)
+	//{
+	//	(*particles)[i].modelMatrix = (*particles)[i].modelMatrix * Matrix4::translation((*particles)[i].frameTranslation);
 
-		glUniformMatrix4fv(glGetUniformLocation(particleShader->GetProgram(),
-			"modelMatrix"), 1, false, (float*)&(*particles)[i].modelMatrix);
+	//	glUniformMatrix4fv(glGetUniformLocation(particleShader->GetProgram(),
+	//		"modelMatrix"), 1, false, (float*)&(*particles)[i].modelMatrix);
 
-		glUniform1f(glGetUniformLocation(particleShader->GetProgram(), "particleSize"), (*particles)[i].particleSize);
-		glUniform1f(glGetUniformLocation(particleShader->GetProgram(), "alphaDecay"), (*particles)[i].alphaDecay);
-		glUniform4fv(glGetUniformLocation(particleShader->GetProgram(), "colour"), 1, (float*)&(*particles)[i].colour);
+	//	glUniform1f(glGetUniformLocation(particleShader->GetProgram(), "particleSize"), (*particles)[i].particleSize);
+	//	glUniform1f(glGetUniformLocation(particleShader->GetProgram(), "alphaDecay"), (*particles)[i].alphaDecay);
+	//	glUniform4fv(glGetUniformLocation(particleShader->GetProgram(), "colour"), 1, (float*)&(*particles)[i].colour);
 
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_POINTS, 0, 1);
-		glBindVertexArray(0);
+	//	glBindVertexArray(VAO);
+	//	glDrawArrays(GL_POINTS, 0, 1);
+	//	glBindVertexArray(0);
 
-		(*particles)[i].alphaDecay += (*particles)[i].decayRate;
+	//	(*particles)[i].alphaDecay += (*particles)[i].decayRate;
 
-		if ((*particles)[i].alphaDecay >= 1.0f)
-		{
-			(*particles)[i].alphaDecay = 0.0f;
-			(*particles)[i].modelMatrix = Matrix4::translation((*particles)[i].originalPosition);
-		}
-	}
+	//	if ((*particles)[i].alphaDecay >= 1.0f)
+	//	{
+	//		(*particles)[i].alphaDecay = 0.0f;
+	//		(*particles)[i].modelMatrix = Matrix4::translation((*particles)[i].originalPosition);
+	//	}
+	//}
 
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
-	++frameCount;
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//glEnable(GL_DEPTH_TEST);
+	//glDisable(GL_BLEND);
+	//++frameCount;
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void ParticleSystem::initialiseMesh()

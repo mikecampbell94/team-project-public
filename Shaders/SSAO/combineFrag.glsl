@@ -17,9 +17,11 @@ void main(void){
 	vec3 albedo = texture(gAlbedo, IN.texCoord).xyz;
 	vec3 ssao = texture(ssaoColorBufferBlur, IN.texCoord).xyz;
 	
-	gl_FragColor.xyz = position; 
-	gl_FragColor.xyz += normal; 
-	gl_FragColor.xyz += albedo;
-	gl_FragColor.xyz += ssao;
-	gl_FragColor.a = 1.0f;// texture(gAlbedo, IN.texCoord).w;
+	//gl_FragColor.xyz = position; 
+	//gl_FragColor.xyz += normal; 
+	//gl_FragColor.xyz += albedo;
+	//gl_FragColor.xyz += ssao;
+	//gl_FragColor.a = 1.0f;// texture(gAlbedo, IN.texCoord).w;
+
+	gl_FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 }

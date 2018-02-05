@@ -1,6 +1,6 @@
 #pragma once
 
-#define SHADERDIR	"../Data/Shaders/"
+#define SHADERDIR	"../Shaders/"
 #define MESHDIR		"../Data/Meshes/"
 #define TEXTUREDIR  "../Data/Textures/"
 #define SOUNDSDIR	"../Data/Sounds/"

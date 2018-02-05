@@ -12,7 +12,7 @@
 #include <fstream>
 
 #include <GL/glew.h>
-#include "Maths/Vector3.h"
+#include "../Utilities/Maths/Vector3.h"
 
 using namespace std;
 

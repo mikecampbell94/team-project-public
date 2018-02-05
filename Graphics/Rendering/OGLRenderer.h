@@ -7,7 +7,7 @@
 #include "GL/glew.h"
 #include "GL/wglew.h"
 
-#include "SOIL.h"
+#include <SOIL.h>
 
 #include "../Utilities/Maths/Vector4.h"
 #include "../Utilities/Maths/Vector3.h"
@@ -87,8 +87,9 @@ public:
 	OGLRenderer(HWND windowHandle, Vector2 size);
 	virtual ~OGLRenderer(void);
 
-	virtual void	RenderScene() = 0;
-	void			SwapBuffers();
+	virtual void	renderScene() = 0;
+	virtual void	updateScene(const float& msec) {}
+	void			swapBuffers();
 
 	bool			HasInitialised() const;
 

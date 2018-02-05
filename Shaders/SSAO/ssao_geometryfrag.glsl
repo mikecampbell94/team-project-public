@@ -22,25 +22,26 @@ in vec3 ReflectionNormal;
 in vec3 reflectionPos;
 
 void main(void) {
-	gPosition = FragPos;
-	gNormal = normalize(Normal);
+	//gPosition = FragPos;
+	//gNormal = normalize(Normal);
 
-	vec4 col = baseColour;
-	float alpha = col.a;
+	//vec4 col = baseColour;
+	//float alpha = col.a;
 
-	if (hasTexture == 1) 
-	{
-		col = texture2D(texture_diffuse, TexCoords);
-	}
-	
-	if (isReflective == 1) 
-	{
-		vec3 I = normalize(reflectionPos - cameraPos);
-		vec3 R = reflect(I, normalize(ReflectionNormal));
-		vec4 reflectionColour = vec4(texture(skybox, R).rgb, 1.0);
-		col += reflectionColour * reflectionStrength;
-		col /= 2;
-	}
+	//if (hasTexture == 1) 
+	//{
+	//	col = texture2D(texture_diffuse, TexCoords);
+	//}
+	//
+	//if (isReflective == 1) 
+	//{
+	//	vec3 I = normalize(reflectionPos - cameraPos);
+	//	vec3 R = reflect(I, normalize(ReflectionNormal));
+	//	vec4 reflectionColour = vec4(texture(skybox, R).rgb, 1.0);
+	//	col += reflectionColour * reflectionStrength;
+	//	col /= 2;
+	//}
 
-	gAlbedo.rgba = vec4(col.rgb, alpha);
+	/*gAlbedo.rgba = vec4(col.rgb, alpha);*/
+	glAlbedo = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 }

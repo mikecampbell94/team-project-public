@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <string>
-#include <Simple OpenGL Image Library\src\stb_image_aug.h>
+//#include <Simple OpenGL Image Library\src\stb_image_aug.h>
 
 class Skybox : public GraphicsModule
 {

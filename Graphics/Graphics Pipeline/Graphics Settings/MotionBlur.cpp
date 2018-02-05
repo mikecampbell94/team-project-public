@@ -79,7 +79,8 @@ void MotionBlur::apply()
 	glUniformMatrix4fv(glGetUniformLocation(blurShader->GetProgram(), "transformEyeSpace"),
 		1, false, (float*)&transformEyeSpace);
 
-	glUniform1i(glGetUniformLocation(blurShader->GetProgram(), "fps"), static_cast<int>(*fps));
+	/*glUniform1i(glGetUniformLocation(blurShader->GetProgram(), "fps"), static_cast<int>(*fps));*/
+	glUniform1i(glGetUniformLocation(blurShader->GetProgram(), "fps"), 60);
 	glUniform1i(glGetUniformLocation(blurShader->GetProgram(), "gPosition"), CommonGraphicsData::GPOSITION);
 
 	currentShader->ApplyTexture(CommonGraphicsData::GPOSITION, *gBuffer->gPosition);
