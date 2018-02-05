@@ -148,6 +148,11 @@ const std::map<std::string, int> InputFliter::keyValue =
 	{ "KEYBOARD_MAX", 0xFF }
 };
 
+InputFliter::InputFliter()
+{
+
+}
+
 InputFliter::~InputFliter() 
 {
 
