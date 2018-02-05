@@ -45,6 +45,9 @@
     <ClInclude Include="Gamepad.h">
       <Filter>Input Devices</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Devices\Window.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="Gamepad.cpp">
       <Filter>Input Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
