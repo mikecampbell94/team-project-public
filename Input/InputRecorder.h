@@ -14,12 +14,12 @@ struct KeyState {
 
 
 
-class playerBase;
+class PlayerBase;
 
 class InputRecorder
 {
 public:
-	InputRecorder(playerBase* pb) : player(pb){};
+	InputRecorder(PlayerBase* pb) : player(pb){};
 	~InputRecorder() {};
 
 
@@ -37,7 +37,7 @@ protected:
 	std::vector<KeyState> currentInputs;
 	std::vector<int> keysToListen;
 
-	playerBase* player;
+	PlayerBase* player;
 
 };
 
