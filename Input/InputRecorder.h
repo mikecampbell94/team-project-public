@@ -1,5 +1,6 @@
 #pragma once
 #include "../Utilities/Maths/Vector2.h"
+#include "PlayerBase.h"
 #include <vector>
 #include <unordered_map>
 
@@ -40,15 +41,10 @@ struct PositionalInputData {
 	unsigned int key;
 };
 
-
-//Remove playerbase from here
-class playerBase;
-
 class InputRecorder
 {
 public:
-	//take vector<int> instead
-	InputRecorder() {};
+	InputRecorder(std::vector<int> keysToListen) {};
 	~InputRecorder() {};
 
 
@@ -75,7 +71,6 @@ protected:
 
 	std::vector<int> keysToListen;
 
-	playerBase* player;
-
+	PlayerBase* player;
 };
 
