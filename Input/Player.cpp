@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(std::string playerID, InputRecorder *recorder)
+Player::Player(int playerID, InputRecorder *recorder)
 {
 	this->playerID = playerID;
 	this->recorder = recorder;
@@ -8,15 +8,15 @@ Player::Player(std::string playerID, InputRecorder *recorder)
 
 Player::~Player()
 {
-
+	delete recorder;
 }
 
-void Player::setPlayerID(std::string newID)
+void Player::setPlayerID(int newID)
 {
 	playerID = newID;
 }
 
-const std::string Player::getPlayerID()
+const int Player::getPlayerID()
 {
 	return playerID;
 }

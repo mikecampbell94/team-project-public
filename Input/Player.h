@@ -10,13 +10,13 @@ public:
 	
 
 	Player() {}
-	Player(std::string playerID, InputRecorder *recorder);
+	Player(int playerID, InputRecorder *recorder);
 	
 	~Player();
 
 
-	void setPlayerID(std::string newID);
-	const std::string getPlayerID();
+	void setPlayerID(int newID);
+	const int getPlayerID();
 
 	void setInputRecorder(InputRecorder* newInputRecorder);
 	const InputRecorder* getInputRecorder();
@@ -24,7 +24,7 @@ public:
 
 private:
 
-	std::string playerID;
+	int playerID;
 	InputRecorder *recorder;
 	
 

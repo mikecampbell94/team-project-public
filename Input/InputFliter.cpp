@@ -158,7 +158,7 @@ InputFliter::~InputFliter()
 
 }
 
-std::vector<int> InputFliter::GetListenedKeys(std::string &configInfo, std::string &separator) 
+std::vector<int> InputFliter::getListenedKeys(std::string &configInfo, std::string &separator) 
 {
 	std::vector<int> listenedKeys;
 	
@@ -175,7 +175,7 @@ std::vector<int> InputFliter::GetListenedKeys(std::string &configInfo, std::stri
 	while (pos != std::string::npos) 
 	{
 		std::string t = appendStr.substr(0, pos);
-		listenedKeys.push_back(GetKeyID(t));
+		listenedKeys.push_back(getKeyID(t));
 		appendStr = appendStr.substr(pos + 1, size);
 		pos = appendStr.find(separator);
 	}

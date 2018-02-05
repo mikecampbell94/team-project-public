@@ -9,12 +9,12 @@ public:
 	InputFliter();
 	~InputFliter();
 
-	std::string LoadConfigFile();
+	std::string loadConfigFile();
 
-	std::vector<int> GetListenedKeys(std::string &configInfo, std::string &separator);
+	std::vector<int> getListenedKeys(std::string &configInfo, std::string &separator);
 
 private:
-	static inline int GetKeyID(std::string key) { return keyValue.at(key); }
+	static inline int getKeyID(std::string key) { return keyValue.at(key); }
 
 	static const std::map<std::string, int> keyValue;
 };
