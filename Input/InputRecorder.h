@@ -1,4 +1,5 @@
 #pragma once
+#include "../Utilities/Maths/Vector2.h"
 #include <vector>
 #include <unordered_map>
 
@@ -9,8 +10,32 @@ enum state {
 //remove initialiser lists. 
 //Move brackets to next line etc
 struct KeyState {
-	KeyState(state currentState, int key) : currentState(currentState), key(key) {};
+	KeyState(state currentState, int key)
+	{
+		this->currentState = currentState;
+		this->key = key;
+	};
 	state currentState;
+	int key;
+};
+
+struct DynamicKeyState {
+	DynamicKeyState(float value, int key) 
+	{
+		this->value = value;
+		this->key = key;
+	}
+	float value;
+	int key;
+};
+
+struct VectorKeyState {
+	VectorKeyState(Vector2 value, int key)
+	{
+		this->value = value;
+		this->key = key;
+	}
+	Vector2 value;
 	int key;
 };
 
@@ -39,6 +64,8 @@ public:
 
 protected:
 	std::vector<KeyState> currentInputs;
+
+
 	std::vector<int> keysToListen;
 
 	playerBase* player;

@@ -5,7 +5,7 @@
 class GamePadRecorder : public InputRecorder
 {
 public:
-	GamePadRecorder() { gamepad = new Gamepad(); this->keysToListen.push_back(1); };
+	GamePadRecorder() { gamepad = new Gamepad(2); this->keysToListen.push_back(1); };
 	~GamePadRecorder();
 
 	void  fillInputs() override;
