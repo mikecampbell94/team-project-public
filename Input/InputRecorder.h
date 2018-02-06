@@ -45,6 +45,7 @@ class InputRecorder
 {
 public:
 	InputRecorder(std::vector<int> keysToListen) {};
+	InputRecorder() {};
 	~InputRecorder() {};
 
 

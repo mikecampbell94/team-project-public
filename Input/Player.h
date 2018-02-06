@@ -1,7 +1,11 @@
 #pragma once
 
 #include <string>
-#include "InputRecorder.h"
+
+
+
+class InputRecorder;
+
 
 class Player
 {

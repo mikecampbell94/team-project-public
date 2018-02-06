@@ -2,7 +2,7 @@
 
 std::vector<ButtonInputData> const InputRecorder::getInputs()
 {
-	return currentInputs;
+	return currentButtonInputs;
 }
 
 std::vector<int> const InputRecorder::getKeysToListen()

@@ -12,7 +12,7 @@ public:
 
 	 void fillInputs() override;
 
-	 void clearInputs() override { this->currentInputs.clear(); };
+	 void clearInputs() override { };
 
 	void setKeyboard(Keyboard* keyboard) { this->keyboard = keyboard; };
 
