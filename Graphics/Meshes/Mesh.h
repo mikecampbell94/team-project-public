@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-#include <Simple OpenGL Image Library\src\stb_image_aug.h>
+//#include <Simple OpenGL Image Library\src\stb_image_aug.h>
 #include <unordered_map>
 
 class Mesh
@@ -40,6 +40,8 @@ public:
 
 	void LoadModel(std::string path);
 
+	void SetTransformForAllSubMeshes(Matrix4 transform);
+
 	void ProcessNode(aiNode *node, const aiScene *scene);
 	SubMesh* ProcessMesh(aiMesh *mesh, const aiScene *scene);
 
@@ -47,16 +49,6 @@ public:
 		string typeName);
 
 	static unsigned int TextureFromFile(const char *path, const string &directory);
-
-	//Modifiers
-	void Translate(Vector3 translation, int matrixNum = 0) const;
-	void Scale(Vector3 scale, int matrixNum = 0) const;
-	void Rotate(Vector3 axis, float degrees, int matrixNum = 0) const;
-
-	Vector3 GetPosition(int matrixNum)
-	{
-		return meshes[0]->GetTransform(matrixNum)->getPositionVector();
-	}
 
 	void SetReflectionAttributesForAllSubMeshes(int isReflective, float strength);
 	void SetbackupColourAttributeForAllSubMeshes(Vector4 colour);

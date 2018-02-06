@@ -5,6 +5,8 @@
 #include "../../Input/Devices/Window.h"
 
 #include <memory>
+#include "Scene Management/SceneManager.h"
+#include "Rendering/RenderingSystem.h"
 
 class GameLoop
 {
@@ -15,8 +17,16 @@ public:
 	void executeGameLoop();
 
 private:
-	System gameSystem;
+	SceneManager* scene;
+	RenderingSystem* rendering;
+
+	System engine;
 	GameTimer loopTimer;
 	Window* window;
+
+	Camera* camera;
+
+	float pitch = 0.0f;
+	float yaw   = 0.0f;
 };
 

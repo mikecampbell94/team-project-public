@@ -1,9 +1,20 @@
 #include "Shader.h"
 
+#include <vector>
+#include <sstream>
+#include <iterator>
+
+const int SHADER_MAX = 3;
+
 Shader::Shader(string vFile, string fFile,
 	string gFile, bool isVerbose)
 {
 	verbose = isVerbose;
+
+	//Store them in case regen/linking is needed.
+	this->vFile = vFile;
+	this->fFile = fFile;
+	this->gFile = gFile;
 
 	program = glCreateProgram();
 	objects[SHADER_VERTEX] = GenerateShader(vFile, GL_VERTEX_SHADER);
@@ -12,11 +23,15 @@ Shader::Shader(string vFile, string fFile,
 
 	if (!gFile.empty()) {
 		objects[SHADER_GEOMETRY] = GenerateShader(gFile, GL_GEOMETRY_SHADER);
-		glAttachShader(program, objects[SHADER_GEOMETRY]);
 	}
 
-	glAttachShader(program, objects[SHADER_VERTEX]);
-	glAttachShader(program, objects[SHADER_FRAGMENT]);
+	for (int i = 0; i < SHADER_MAX; ++i)
+	{
+		if (objects[i])
+		{
+			glAttachShader(program, objects[i]);
+		}
+	}
 
 	SetDefaultAttributes();
 }
@@ -24,11 +39,33 @@ Shader::Shader(string vFile, string fFile,
 
 Shader::~Shader(void)
 {
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < 3; ++i)
+	{
 		glDetachShader(program, objects[i]);
 		glDeleteShader(objects[i]);
 	}
 	glDeleteProgram(program);
+}
+
+void Shader::Regenerate() {
+	program = glCreateProgram();
+	objects[SHADER_VERTEX] = GenerateShader(vFile, GL_VERTEX_SHADER);
+	objects[SHADER_FRAGMENT] = GenerateShader(fFile, GL_FRAGMENT_SHADER);
+	objects[SHADER_GEOMETRY] = 0;
+
+	if (!gFile.empty()) {
+		objects[SHADER_GEOMETRY] = GenerateShader(gFile, GL_GEOMETRY_SHADER);
+	}
+
+	for (int i = 0; i < SHADER_MAX; ++i)
+	{
+		if (objects[i])
+		{
+			glAttachShader(program, objects[i]);
+		}
+	}
+
+	SetDefaultAttributes();
 }
 
 GLuint Shader::GenerateShader(string from, GLenum type) {
@@ -76,7 +113,15 @@ bool Shader::LoadShaderFile(string from, string & into) {
 	}
 	while (!file.eof()) {
 		getline(file, temp);
-		into += temp + "\n";
+
+		if (temp.find("#include") != std::string::npos)
+		{
+			into += IncludeShader(temp) + "\n";
+		}
+		else
+		{
+			into += temp + "\n";
+		}
 	}
 
 	file.close();
@@ -85,9 +130,25 @@ bool Shader::LoadShaderFile(string from, string & into) {
 	return true;
 }
 
+string Shader::IncludeShader(string includeLine)
+{
+	std::istringstream iss(includeLine);
+
+	vector<string> tokens{ istream_iterator<string>{iss},
+		istream_iterator<string>{} };
+
+	string glslToAppend;
+	LoadShaderFile(tokens.at(1), glslToAppend);
+
+	return glslToAppend;
+}
+
 void Shader::SetDefaultAttributes() {
-	glBindAttribLocation(program, POSITION_BUFFER, "position");
-	glBindAttribLocation(program, TEX_COORD_BUFFER, "texCoord");
+	glBindAttribLocation(program, 0, "position");
+	//glBindAttribLocation(program, COLOUR_BUFFER, "colour");
+	//glBindAttribLocation(program, NORMAL_BUFFER, "normal");
+	//glBindAttribLocation(program, TANGENT_BUFFER, "tangent");
+	glBindAttribLocation(program, 2, "texCoord");
 }
 
 bool Shader::LinkProgram() {

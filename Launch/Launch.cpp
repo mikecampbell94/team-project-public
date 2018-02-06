@@ -1,8 +1,12 @@
+
 #pragma comment(lib, "Utilities.lib")
 #pragma comment(lib, "Input.lib")
+#pragma comment(lib, "Graphics.lib")
 
 #include "Systems\System.h"
 #include "Game/GameLoop.h"
+
+#include "Graphics/Rendering/RenderingSystem.h"
 
 int main()
 {
