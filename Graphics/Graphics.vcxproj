@@ -166,11 +166,12 @@
     <ClInclude Include="Meshes\Mesh.h" />
     <ClInclude Include="Meshes\SubMesh.h" />
     <ClInclude Include="Rendering\OGLRenderer.h" />
-    <ClInclude Include="RenderInterface.h" />
+    <ClInclude Include="Rendering\RenderingSystem.h" />
     <ClInclude Include="Scene Management\SceneNode.h" />
     <ClInclude Include="Shaders\Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Rendering\RenderingSystem.cpp" />
     <ClCompile Include="Utility\Frustum.cpp" />
     <ClCompile Include="Graphics Pipeline\Graphics Settings\BasicGeometry.cpp" />
     <ClCompile Include="Graphics Pipeline\GraphicsPipeline.cpp" />

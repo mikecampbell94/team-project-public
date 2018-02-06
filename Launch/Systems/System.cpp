@@ -10,13 +10,13 @@ System::~System()
 
 void System::updateNextSystemFrame(const float& deltaTime)
 {
-	for each (std::shared_ptr<Subsystem> subsystem in subsystems)
+	for each (Subsystem* subsystem in subsystems)
 	{
 		subsystem->updateSubsystem(deltaTime);
 	}
 }
 
-void System::addSubsystem(std::shared_ptr<Subsystem> subsystem)
+void System::addSubsystem(Subsystem* subsystem)
 {
 	subsystems.push_back(subsystem);
 }

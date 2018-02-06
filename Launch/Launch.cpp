@@ -6,6 +6,8 @@
 #include "Systems\System.h"
 #include "Game/GameLoop.h"
 
+#include "Graphics/Rendering/RenderingSystem.h"
+
 int main()
 {
 	System engine;

@@ -10,20 +10,20 @@ class Window;
 class Camera;
 class Matrix4;
 
-class Renderer : OGLRenderer, Subsystem
+class Renderer : OGLRenderer
 {
 public:
+	Renderer();
 	Renderer(Window* window, Camera* camera, Vector2 resolution);
 	~Renderer();
 
 	void initialise(SceneManager* sceneManager);
-
-	void updateSubsystem(const float& deltaTime) override {}
 	void update(const float& deltatime);
+
+private:
 	void updateScene(const float& msec) override;
 	void renderScene() override;
 
-private:
 	GraphicsPipeline pipeline;
 	PipelineConfiguration graphicsConfig;
 

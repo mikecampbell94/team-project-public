@@ -5,7 +5,8 @@
 #include "../../Input/Devices/Window.h"
 
 #include <memory>
-#include "Graphics/Rendering/Renderer.h"
+#include "Scene Management/SceneManager.h"
+#include "Rendering/RenderingSystem.h"
 
 class GameLoop
 {
@@ -16,15 +17,12 @@ public:
 	void executeGameLoop();
 
 private:
-
 	SceneManager* scene;
-	Renderer* renderer;
+	RenderingSystem* rendering;
 
-
-	System gameSystem;
+	System engine;
 	GameTimer loopTimer;
 	Window* window;
-
 
 	Camera* camera;
 

@@ -5,6 +5,13 @@
 #include "../Utility/Camera.h"
 #include "../Utilities/Maths/Matrix4.h"
 
+Renderer::Renderer() : OGLRenderer(0, Vector2())
+{
+	window = nullptr;
+	camera = nullptr;
+	resolution = Vector2();
+}
+
 Renderer::Renderer(Window* window, Camera* camera, Vector2 resolution)
 	: OGLRenderer(window->getHandle(), resolution)
 {

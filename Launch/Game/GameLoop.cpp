@@ -3,14 +3,14 @@
 
 GameLoop::GameLoop(System& gameSystem)
 {
-	this->gameSystem = gameSystem;
+	engine = gameSystem;
 	window = new Window("Game Window", 1280, 720);
 	window->lockMouseToWindow(true);
 
 	//MUST BE REMOVED
 	camera = new Camera(0, 0, Vector3(0, 0, 0));
 
-	renderer = new Renderer(window, camera, Vector2(1280, 720));
+	rendering = new RenderingSystem(window, camera, Vector2(1280, 720));
 
 	SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
 	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
@@ -18,7 +18,8 @@ GameLoop::GameLoop(System& gameSystem)
 	nodes->push_back(node);
 	scene = new SceneManager(camera, nodes);
 
-	renderer->initialise(scene);
+	rendering->SetSceneToRender(scene);
+	engine.addSubsystem(rendering);
 	/////
 }
 
@@ -35,9 +36,7 @@ void GameLoop::executeGameLoop()
 	{
 		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
 
-		renderer->update(deltaTime);
-
-		gameSystem.updateNextSystemFrame(deltaTime);
+		engine.updateNextSystemFrame(deltaTime);
 
 		std::cout << "Updated frame " << frameCount << ". Delta time = " << deltaTime << std::endl;
 		++frameCount;
