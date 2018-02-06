@@ -31,22 +31,13 @@ public:
 	void buildPipeline(GraphicsPipeline* pipeline);
 
 private:
+	bool initialised;
+
 	Vector2	resolution;
 	Camera*	camera;
 	Window* window;
 	GraphicsPipeline* pipeline;
 	SceneManager* sceneManager;
-
-	//Settings
-	Shadows* shadows;
-	GBuffer* SGBuffer;
-	SSAO* ssao;
-	BPLighting* lighting;
-	Bloom* bloom;
-	AmbientTextures* ambTex;
-	MotionBlur* motionBlur;
-	Skybox* skybox;
-	ParticleSystem* particles;
 
 	BasicGeometry* basicGeom;
 };

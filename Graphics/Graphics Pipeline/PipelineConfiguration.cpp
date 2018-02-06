@@ -23,14 +23,6 @@ PipelineConfiguration::PipelineConfiguration(SceneManager* sceneManager, Window*
 
 PipelineConfiguration::~PipelineConfiguration()
 {
-	delete ambTex;
-	delete SGBuffer;
-	delete ssao;
-	delete lighting;
-	delete bloom;
-	delete motionBlur;
-	delete skybox;
-	delete particles;
 }
 
 void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
