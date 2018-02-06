@@ -1,7 +1,7 @@
 #include "PlayerBase.h"
 
-//remove these later
-std::vector<InputRecorder*> getAllConnectedControllers() {};
+
+
 
 
 PlayerBase::PlayerBase() 
@@ -17,7 +17,7 @@ PlayerBase::PlayerBase(std::vector<InputRecorder*> allRecorders)
 PlayerBase::~PlayerBase()
 {
 	//delete all players
-	if (!connectedPlayers.empty)
+	if (!connectedPlayers.empty())
 		for each (auto it in connectedPlayers)
 		{
 			delete it.second;
@@ -26,7 +26,7 @@ PlayerBase::~PlayerBase()
 
 void PlayerBase::initializePlayers(std::vector<InputRecorder*> allRecorders)
 {
-	if (!connectedPlayers.empty)
+	if (!connectedPlayers.empty())
 	{
 		for each (auto it in connectedPlayers)
 		{
