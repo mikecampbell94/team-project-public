@@ -32,6 +32,21 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interface", "Interface\Inte
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities", "Utilities\Utilities.vcxproj", "{378E5B61-6D97-4499-B575-32387992D0C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EEFB863-1C17-4835-9F4C-FEF6403278AD}"
+	ProjectSection(SolutionItems) = preProject
+		Debug\assimp-vc140-mt.dll = Debug\assimp-vc140-mt.dll
+		Release\assimp-vc140-mt.dll = Release\assimp-vc140-mt.dll
+		Data\Meshes\centeredcube.obj = Data\Meshes\centeredcube.obj
+		Debug\glew32.lib = Debug\glew32.lib
+		GLEW\lib\Debug\glew32.lib = GLEW\lib\Debug\glew32.lib
+		GLEW\lib\Release\glew32.lib = GLEW\lib\Release\glew32.lib
+		Release\glew32.lib = Release\glew32.lib
+		Debug\SOIL.lib = Debug\SOIL.lib
+		SOIL\Debug\SOIL.lib = SOIL\Debug\SOIL.lib
+		SOIL\Release\SOIL.lib = SOIL\Release\SOIL.lib
+		Release\SOIL.lib = Release\SOIL.lib
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

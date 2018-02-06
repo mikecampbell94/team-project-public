@@ -8,7 +8,6 @@ class GraphicsPipeline
 {
 public:
 	GraphicsPipeline();
-
 	~GraphicsPipeline();
 
 	void toggleModule(std::string moduleIdentifier);

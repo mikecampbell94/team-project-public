@@ -159,7 +159,7 @@ void SSAO::generateSSAOTex()
 
 	glUniform3fv(loc_kernel, KERNEL_SIZE, (float*)&ssaoKernel[0]);
 
-	viewMatrix = camera->BuildViewMatrix();
+	viewMatrix = camera->buildViewMatrix();
 
 	//Basic uniforms
 	updateShaderMatrices();

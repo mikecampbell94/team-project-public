@@ -1,8 +1,17 @@
 #include "PipelineConfiguration.h"
 #include "Graphics Settings/BasicGeometry.h"
 
+PipelineConfiguration::PipelineConfiguration()
+{
+	this->sceneManager = nullptr;
+	this->window = nullptr;
+	this->resolution = Vector2();
+	this->camera = nullptr;
+	this->pipeline = nullptr;
+}
+
 PipelineConfiguration::PipelineConfiguration(SceneManager* sceneManager, Window* window, 
-	GraphicsPipeline* pipeline, Camera* camera, Vector2 resolution)
+	Camera* camera, Vector2 resolution)
 {
 	this->sceneManager = sceneManager;
 	this->window = window;
@@ -30,7 +39,7 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 	basicGeom->linkShaders();
 }
 
-void PipelineConfiguration::buildPipeline()
+void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 {
 	pipeline->addModule(basicGeom);
 }

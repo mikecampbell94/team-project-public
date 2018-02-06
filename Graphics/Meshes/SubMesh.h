@@ -48,9 +48,19 @@ public:
 
 	float previousradius = 0;
 
-	void SetTransform(Matrix4 transform)
+	void SetTransform(Matrix4 newTransform)
 	{
-		this->transform = transform;
+		if (newTransform.getScalingVector() != transform.getScalingVector())
+		{
+			previousradius = boundingRadius;
+
+			Vector3 scale = newTransform.getScalingVector();
+			box.max = box.max * (scale);
+			box.min = box.min * (scale);
+			CalculateBoundingRadius();
+		}
+
+		this->transform = newTransform;
 	}
 
 	Matrix4 GetTransform()

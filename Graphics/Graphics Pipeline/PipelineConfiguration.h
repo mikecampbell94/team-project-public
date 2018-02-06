@@ -22,12 +22,13 @@ class Window;
 class PipelineConfiguration
 {
 public:
+	PipelineConfiguration();
 	PipelineConfiguration(SceneManager* sceneManager, Window* window, 
-		GraphicsPipeline* pipeline, Camera* camera, Vector2 resolution);
+		Camera* camera, Vector2 resolution);
 	~PipelineConfiguration();
 
 	void initialiseModules(Matrix4 projmatrix);
-	void buildPipeline();
+	void buildPipeline(GraphicsPipeline* pipeline);
 
 private:
 	Vector2	resolution;

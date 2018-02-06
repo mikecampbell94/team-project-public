@@ -129,13 +129,13 @@ void GBuffer::initAttachments()
 void GBuffer::renderGeometry(vector<SubMesh*>* meshes)
 {
 	setCurrentShader(geometryPass);
-	viewMatrix = camera->BuildViewMatrix();
+	viewMatrix = camera->buildViewMatrix();
 	updateShaderMatrices();
 
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(loc_skybox, 0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-	glUniform3fv(loc_cameraPos, 1, (float*)&camera->GetPosition());
+	glUniform3fv(loc_cameraPos, 1, (float*)&camera->getPosition());
 
 	for (int i = 0; i < meshes->size(); ++i)
 	{

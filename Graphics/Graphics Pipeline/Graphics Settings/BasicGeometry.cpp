@@ -43,7 +43,7 @@ void BasicGeometry::apply()
 		modelsInFrame->at(i)->Draw(*currentShader);
 	}
 
-	viewMatrix = camera->BuildViewMatrix();
+	viewMatrix = camera->buildViewMatrix();
 }
 
 void BasicGeometry::locateUniforms()

@@ -69,7 +69,7 @@ void BPLighting::lightingPass()
 
 	glUniformMatrix4fv(loc_texMatrices, shadowData->NUM_LIGHTS, false, (float*)shadowData->textureMatrices);
 
-	viewMatrix = camera->BuildViewMatrix();
+	viewMatrix = camera->buildViewMatrix();
 	glUniformMatrix4fv(loc_camMatrix, 1, false, (float*)&viewMatrix);
 
 	updateShaderMatrices();

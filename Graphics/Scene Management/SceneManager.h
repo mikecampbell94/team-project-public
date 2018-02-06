@@ -8,20 +8,26 @@
 
 #include <vector>
 
+class Camera;
+
 class SceneManager
 {
 public:
-	explicit SceneManager(std::vector<SceneNode*>* sceneNodes);
+	explicit SceneManager(Camera* camera, std::vector<SceneNode*>* sceneNodes);
 	~SceneManager();
 
-	void ClearMeshLists();
-	void BuildMeshLists();
+	void clearMeshLists();
+	void buildMeshLists();
 
 	std::vector<SubMesh*>* getSubMeshesInFrustum();
 	std::vector<SubMesh*>* getTransparentSubMeshesInFrustum();
 	std::vector<Mesh*>** getAllMeshes();
 
 private:
+	void allocateSubMeshesToMeshLists(SceneNode* node);
+
+	Camera* camera;
+
 	std::vector<Mesh*>* meshes;
 	std::vector<SceneNode*>* sceneNodes;
 	std::vector<SubMesh*>* subMeshesInFrustum;

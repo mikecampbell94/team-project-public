@@ -8,6 +8,7 @@
 
 class Window;
 class Camera;
+class Matrix4;
 
 class Renderer : OGLRenderer, Subsystem
 {
@@ -23,12 +24,13 @@ public:
 	void renderScene() override;
 
 private:
-	GraphicsPipeline* pipeline;
-	PipelineConfiguration* graphicsConfig;
+	GraphicsPipeline pipeline;
+	PipelineConfiguration graphicsConfig;
 
 	SceneManager* sceneManager; 
 	Window* window; 
 	Camera* camera; 
 	Vector2 resolution;
+	Matrix4 globalProjectionMatrix;
 };
 
