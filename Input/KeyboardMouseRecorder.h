@@ -1,14 +1,17 @@
 #pragma once
 #include "InputRecorder.h"
 #include "Devices\Keyboard.h"
-class KeyboardRecorder :
+#include "Devices\Mouse.h"
+
+
+class KeyboardMouseRecorder :
 	public InputRecorder
 {
 public:
 	//TEST DATA
 
-	KeyboardRecorder() { this->keysToListen.push_back(65); };
-	~KeyboardRecorder() {};
+	KeyboardMouseRecorder() { this->keysToListen.push_back(65); };
+	~KeyboardMouseRecorder() {};
 
 	 void fillInputs() override;
 
@@ -18,6 +21,6 @@ public:
 
 private:
 	Keyboard* keyboard;
-
+	Mouse* mouse;
 };
 

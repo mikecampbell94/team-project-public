@@ -157,7 +157,7 @@
     <ClInclude Include="GamePadRecorder.h" />
     <ClInclude Include="InputFliter.h" />
     <ClInclude Include="InputRecorder.h" />
-    <ClInclude Include="KeyboardRecorder.h" />
+    <ClInclude Include="KeyboardMouseRecorder.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBase.h" />
   </ItemGroup>
@@ -169,7 +169,7 @@
     <ClCompile Include="GamePadRecorder.cpp" />
     <ClCompile Include="InputFliter.cpp" />
     <ClCompile Include="InputRecorder.cpp" />
-    <ClCompile Include="KeyboardRecorder.cpp" />
+    <ClCompile Include="KeyboardMouseRecorder.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
   </ItemGroup>

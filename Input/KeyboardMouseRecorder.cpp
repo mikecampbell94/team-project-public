@@ -1,9 +1,9 @@
-#include "KeyboardRecorder.h"
+#include "KeyboardMouseRecorder.h"
 //TEST PURPOSES
 #include <iostream>
 
 
-void KeyboardRecorder::fillInputs()
+void KeyboardMouseRecorder::fillInputs()
 {
 	for (int key : keysToListen) {
 		if (keyboard->keyTriggered(static_cast<KeyboardKeys>(key))) 
@@ -17,6 +17,9 @@ void KeyboardRecorder::fillInputs()
 			std::cout << key;
 		}
 	}
+
+	currentPositionalInputs.push_back(PositionalInputData(mouse->getRelativePosition(),"relativePosition"));
+	currentPositionalInputs.push_back(PositionalInputData(mouse->getAbsolutePosition(),"absolutePosition"));
 
 }
 

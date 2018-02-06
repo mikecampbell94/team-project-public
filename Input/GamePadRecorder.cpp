@@ -23,5 +23,9 @@ void GamePadRecorder::fillInputs()
 		
 	}
 
+	currentLinearInputs.push_back(LinearInputData(gamepad->LeftTrigger(),"leftTrigger"));
+	currentLinearInputs.push_back(LinearInputData(gamepad->RightTrigger(),"rightTrigger"));
 	
+	currentPositionalInputs.push_back(PositionalInputData(Vector2(gamepad->LeftStick_X(),gamepad->LeftStick_Y()),"leftStick"));
+	currentPositionalInputs.push_back(PositionalInputData(Vector2(gamepad->RightStick_X(), gamepad->RightStick_Y()), "rightStick"));
 }
