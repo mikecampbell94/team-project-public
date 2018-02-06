@@ -129,6 +129,13 @@
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PhysicsResource.h" />
+    <ClInclude Include="ResourceClass.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ResourceClass.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
