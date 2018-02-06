@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launch", "Launch\Launch.vcxproj", "{D1AB7213-2193-4CF2-9A00-EBFA1D8E85ED}"
 	ProjectSection(ProjectDependencies) = postProject
-		{378E5B61-6D97-4499-B575-32387992D0C2} = {378E5B61-6D97-4499-B575-32387992D0C2}
+		{35E4FFAF-7F11-4748-9631-089315C908D8} = {35E4FFAF-7F11-4748-9631-089315C908D8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gameplay", "Gameplay\Gameplay.vcxproj", "{FB9A3D53-0833-4832-8EB7-CAA20091E6B5}"
@@ -127,5 +127,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5A40BEF3-2F60-4119-A977-892D28E512D0}
 	EndGlobalSection
 EndGlobal

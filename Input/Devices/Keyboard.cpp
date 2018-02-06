@@ -60,6 +60,11 @@ bool Keyboard::keyTriggered(KeyboardKeys key) {
 	return (keyDown(key) && !keyHeld(key));
 }
 
+bool Keyboard::keyReleased(KeyboardKeys key)
+{
+	return false;
+}
+
 /*
 Updates the keyboard state with data received from the OS.
 */
