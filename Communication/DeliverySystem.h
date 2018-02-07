@@ -5,13 +5,16 @@
 class DeliverySystem
 {
 public:
-	static Postman* getPostman() { return postman_; }
+	static Postman* getPostman() 
+	{ 
+		return postman; 
+	}
 
-	static void provide(Postman* postman)
+	static void provide(Postman* newPostman)
 	{
-		postman_ = postman;
+		postman = newPostman;
 	}
 
 private:
-	static Postman* postman_;
+	static Postman* postman;
 };
