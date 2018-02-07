@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Subsystem.h"
+#include "../Communication/MessageStorage.h"
 
 #include <vector>
 #include <memory>
@@ -16,5 +17,6 @@ public:
 
 private:
 	std::vector<Subsystem*> subsystems;
+	MessageStorage messageBuffers;
 };
 

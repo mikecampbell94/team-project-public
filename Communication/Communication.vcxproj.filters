@@ -18,9 +18,21 @@
     <ClInclude Include="Message.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MessageProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
