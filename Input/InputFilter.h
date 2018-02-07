@@ -3,11 +3,11 @@
 #include <string>
 #include <map>
 
-class InputFliter
+class InputFilter
 {
 public:
-	InputFliter();
-	~InputFliter();
+	InputFilter();
+	~InputFilter();
 
 	std::string loadConfigFile();
 
