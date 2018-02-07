@@ -27,6 +27,14 @@ void Mesh::LoadModel(std::string path)
 
 }
 
+void Mesh::SetTransformForAllSubMeshes(Matrix4 transform)
+{
+	for each (SubMesh* submesh in meshes)
+	{
+		submesh->SetTransform(transform);
+	}
+}
+
 void Mesh::ProcessNode(aiNode *node, const aiScene *scene)
 {
 	//Process all the node's meshes (if any)
@@ -196,82 +204,60 @@ vector<Texture> Mesh::LoadMaterialTextures(aiMaterial *mat, aiTextureType type, 
 
 unsigned int Mesh::TextureFromFile(const char *path, const string &directory)
 {
-	string filename = string(path);
-	filename = directory + '/' + filename;
+	//string filename = string(path);
+	//filename = directory + '/' + filename;
 
-	unsigned int textureID;
-	glGenTextures(1, &textureID);
+	//unsigned int textureID;
+	//glGenTextures(1, &textureID);
 
-	int width, height, nrComponents;
-	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+	//int width, height, nrComponents;
+	//unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
 
-	if (!data)
-	{
-		//Try another location... ARRHHHA
-		string spath = string(path);
-		spath = spath.substr((spath.find_last_of(("\\/") + 1)), string::npos);
+	//if (!data)
+	//{
+	//	//Try another location... ARRHHHA
+	//	string spath = string(path);
+	//	spath = spath.substr((spath.find_last_of(("\\/") + 1)), string::npos);
 
-		filename = directory + '/' + spath;
-		data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+	//	filename = directory + '/' + spath;
+	//	data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
 
-		if (!data)
-		{
-			std::cout << "Texture failed to load at path: " << spath << std::endl;
-		}
-	}
+	//	if (!data)
+	//	{
+	//		std::cout << "Texture failed to load at path: " << spath << std::endl;
+	//	}
+	//}
 
-	if (data)
-	{
-		GLenum format;
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents == 4)
-			format = GL_RGBA;
+	//if (data)
+	//{
+	//	GLenum format;
+	//	if (nrComponents == 1)
+	//		format = GL_RED;
+	//	else if (nrComponents == 3)
+	//		format = GL_RGB;
+	//	else if (nrComponents == 4)
+	//		format = GL_RGBA;
 
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
+	//	glBindTexture(GL_TEXTURE_2D, textureID);
+	//	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+	//	glGenerateMipmap(GL_TEXTURE_2D);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		stbi_image_free(data);
-	}
-	else
-	{
-		std::cout << "Texture failed to load at path: " << path << std::endl;
-		stbi_image_free(data);
-	}
+	//	stbi_image_free(data);
+	//}
+	//else
+	//{
+	//	std::cout << "Texture failed to load at path: " << path << std::endl;
+	//	stbi_image_free(data);
+	//}
 
-	return textureID;
-}
+	//return textureID;
 
-void Mesh::Translate(Vector3 translation, int matrixNum) const
-{
-	for each (SubMesh* mesh in meshes)
-	{
-		mesh->SetPosition(translation, matrixNum);
-	}
-}
-
-void Mesh::Scale(Vector3 scale, int matrixNum) const
-{
-	for each (SubMesh* mesh in meshes)
-	{
-		mesh->SetScale(scale, matrixNum);
-	}
-}
-
-void Mesh::Rotate(Vector3 axis, float degrees, int matrixNum) const
-{
-	for each (SubMesh* mesh in meshes)
-	{
-		mesh->Rotate(axis, degrees, matrixNum);
-	}
+	return 0;
 }
 
 void Mesh::SetReflectionAttributesForAllSubMeshes(int isReflective, float strength)
