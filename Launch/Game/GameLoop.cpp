@@ -47,8 +47,8 @@ void GameLoop::executeGameLoop()
 
 		engine.updateNextSystemFrame(deltaTime);
 
-		
-		std::cout << "Updated frame " << frameCount << ". Delta time = " << deltaTime << std::endl;
+		rendering->processMessages();
+		//std::cout << "Updated frame " << frameCount << ". Delta time = " << deltaTime << std::endl;
 		++frameCount;
 
 

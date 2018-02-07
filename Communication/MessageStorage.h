@@ -10,18 +10,18 @@ public:
 	MessageStorage();
 	~MessageStorage();
 
-	void addMessageBuffer(std::string id);
+	void addMessageBuffer(std::string bufferName);
 
-	bool removeMessageBuffer(std::string id);
+	void removeMessageBuffer(std::string bufferName);
 
-	bool pushMessage(Message* message, std::string id);
+	void sendMessage(Message* message, std::string bufferName);
 
-	std::queue<Message*>* getMessageBufferByID(std::string id);
+	std::queue<Message*>* getMessageBufferByName(std::string bufferName);
 
 	void clearMessageStorage();
 
 private:
-	void clearMessageBuffer(std::string id);
+	void clearMessageBuffer(std::string bufferName);
 	void clearMessageBuffer(std::map<std::string, std::queue<Message*>>::iterator iter);
 
 	std::map<std::string, std::queue<Message*>> activeMessageBuffers;

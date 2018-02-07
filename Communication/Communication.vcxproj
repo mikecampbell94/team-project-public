@@ -119,9 +119,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Message.h" />
+    <ClInclude Include="MessageProcessor.h" />
+    <ClInclude Include="MessageStorage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MessageProcessor.cpp" />
+    <ClCompile Include="MessageStorage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

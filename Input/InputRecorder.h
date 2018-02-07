@@ -21,30 +21,31 @@ struct ButtonInputData {
 };
 
 struct LinearInputData {
-	LinearInputData(float value, unsigned int key)
+	LinearInputData(float value, std::string key)
 	{
 		this->value = value;
 		this->key = key;	
 	}
 	float value;
-	unsigned int key;
+	std::string key;
 
 };
 
 struct PositionalInputData {
-	PositionalInputData(Vector2 value, unsigned int key)
+	PositionalInputData(Vector2 value, std::string key)
 	{
 		this->value = value;
 		this->key = key;
 	}
 	Vector2 value;
-	unsigned int key;
+	std::string key;
 };
 
 class InputRecorder
 {
 public:
 	InputRecorder(std::vector<int> keysToListen) {};
+	InputRecorder() {};
 	~InputRecorder() {};
 
 

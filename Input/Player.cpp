@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "InputRecorder.h"
+
 
 Player::Player(int playerID, InputRecorder *recorder)
 {

@@ -9,7 +9,7 @@ public:
 	~GamePadRecorder();
 
 	void  fillInputs() override;
-	void clearInputs() override { this->currentInputs.clear(); };
+	void clearInputs() override {  };
 
 
 private:

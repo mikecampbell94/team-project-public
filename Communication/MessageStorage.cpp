@@ -7,52 +7,29 @@ MessageStorage::MessageStorage()
 
 MessageStorage::~MessageStorage() 
 {
-	for (auto iter = activeMessageBuffers.begin(); iter != activeMessageBuffers.end(); iter++) 
-	{
-		clearMessageBuffer(iter);
-	}
+	clearMessageStorage();
 	activeMessageBuffers.clear();
 }
 
-void MessageStorage::addMessageBuffer(std::string id) 
+void MessageStorage::addMessageBuffer(std::string bufferName) 
 {
-	std::queue<Message*> mq;
-	activeMessageBuffers.insert(std::pair<std::string, std::queue<Message*>>(id, mq));
+	activeMessageBuffers.insert(std::pair<std::string, std::queue<Message*>>(bufferName, std::queue<Message*> ()));
 }
 
-bool MessageStorage::removeMessageBuffer(std::string id)
+void MessageStorage::removeMessageBuffer(std::string bufferName)
 {
-	auto iter = activeMessageBuffers.find(id);
-	if (iter != activeMessageBuffers.end())
-	{
-		clearMessageBuffer(iter);
-		activeMessageBuffers.erase(iter);
-	}
-	else
-		return false;
+	clearMessageBuffer(bufferName);
+	activeMessageBuffers.erase(bufferName);
 }
 
-bool MessageStorage::pushMessage(Message* message, std::string id)
+void MessageStorage::sendMessage(Message* message, std::string bufferName)
 {
-	auto iter = activeMessageBuffers.find(id);
-	if (iter != activeMessageBuffers.end()) 
-	{
-		iter->second.push(message);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	activeMessageBuffers.at(bufferName).push(message);
 }
 
-std::queue<Message*>* MessageStorage::getMessageBufferByID(std::string id)
+std::queue<Message*>* MessageStorage::getMessageBufferByName(std::string bufferName)
 {
-	auto iter = activeMessageBuffers.find(id);
-	if (iter != activeMessageBuffers.end())
-		return &(iter->second);
-	else
-		return nullptr;
+	return &activeMessageBuffers.at(bufferName);
 }
 
 void MessageStorage::clearMessageStorage()
@@ -63,11 +40,14 @@ void MessageStorage::clearMessageStorage()
 	}
 }
 
-void MessageStorage::clearMessageBuffer(std::string id)
+void MessageStorage::clearMessageBuffer(std::string bufferName)
 {
-	auto iter = activeMessageBuffers.find(id);
-	if (iter != activeMessageBuffers.end())
-		clearMessageBuffer(iter);
+	std::queue<Message*> buffer = activeMessageBuffers.at(bufferName);
+	while (!buffer.empty())
+	{
+		delete buffer.front();
+		buffer.pop();
+	}
 }
 
 void MessageStorage::clearMessageBuffer(std::map<std::string, std::queue<Message*>>::iterator iter)

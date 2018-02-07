@@ -6,7 +6,7 @@ enum DestinationSubsystem
 	COMMUNICATION,
 	GAMEPLAY,
 	GRPAHICS,
-	INPUT,
+	INPUT_SYSTEM,
 	INTERFACE,
 	LAUNCH,
 	PHYSICS,
@@ -17,8 +17,7 @@ enum DestinationSubsystem
 
 enum MessageType
 {
-	//List to be determined...
-	//e.g. AUDIO_PLAY_SOUND, etc
+	DUMMY_TYPE
 };
 
 class Message

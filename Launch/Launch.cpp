@@ -2,6 +2,7 @@
 #pragma comment(lib, "Utilities.lib")
 #pragma comment(lib, "Input.lib")
 #pragma comment(lib, "Graphics.lib")
+#pragma comment(lib, "Communication.lib")
 
 #include "Systems\System.h"
 #include "Game/GameLoop.h"
