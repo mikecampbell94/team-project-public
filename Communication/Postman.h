@@ -6,5 +6,5 @@
 class Postman 
 {
 public:
-	virtual void sendMessage(Message* message, std::string bufferID) = 0;
+	virtual void sendMessage(Message* message, std::string bufferName) = 0;
 };
