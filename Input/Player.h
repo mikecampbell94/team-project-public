@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include "InputFilter.h"
 
 
 class InputRecorder;
@@ -23,14 +23,19 @@ public:
 	const int getPlayerID();
 
 	void setInputRecorder(InputRecorder* newInputRecorder);
-	const InputRecorder* getInputRecorder();
+	InputRecorder* getInputRecorder();
+
+	void setPlayerControls(InputFilter* newControls);
+	InputFilter* getInputFilter();
+
+
 
 
 private:
 
 	int playerID;
 	InputRecorder *recorder;
-	
+	InputFilter playerControls;
 
 
 };

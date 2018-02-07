@@ -3,8 +3,7 @@
 
 
 
-
-PlayerBase::PlayerBase() 
+PlayerBase::PlayerBase()
 {
 
 }
@@ -17,25 +16,25 @@ PlayerBase::PlayerBase(std::vector<InputRecorder*> allRecorders)
 PlayerBase::~PlayerBase()
 {
 	//delete all players
-	if (!connectedPlayers.empty())
-		for each (auto it in connectedPlayers)
+	if (!players.empty())
+		for each (auto player in players)
 		{
-			delete it.second;
+			delete player;
 		}
 }
 
 void PlayerBase::initializePlayers(std::vector<InputRecorder*> allRecorders)
 {
-	if (!connectedPlayers.empty())
+	if (!players.empty())
 	{
-		for each (auto it in connectedPlayers)
+		for each (auto player in players)
 		{
-			delete it.second;
+			delete player;
 		}
 
-		connectedPlayers.clear();
+		players.clear();
 	}
-	
+
 	for each (InputRecorder* i in allRecorders)
 	{
 		addNewPlayer(i);
@@ -46,52 +45,37 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 {
 	int playerID = generateNewID();
 	Player* playerRef = new Player(playerID, recorder);
-
-	connectedPlayers.insert(std::pair<int,Player*>(playerID, playerRef));
+	players.push_back(playerRef);
 
 	return playerRef;
 }
 
 void PlayerBase::removePlayer(int playerID)
 {
-	if (connectedPlayers.count(playerID) > 0)
-	{
-		delete connectedPlayers.at(playerID);
-		connectedPlayers.erase(playerID);
-	}
-}
 
-void PlayerBase::removePlayer(Player* playerRef) 
-{
-	for each (auto it in connectedPlayers)
+	for (unsigned int i = 0; i < players.size(); ++i)
 	{
-		if (it.second == playerRef)
+		if (players[i]->getPlayerID() == playerID)
 		{
-			delete it.second;
-			connectedPlayers.erase(it.first);
-			break;
+			delete players[i];
+			players.erase(players.begin() + i);
 		}
 	}
 }
 
+void PlayerBase::removePlayer(Player* playerRef)
+{
+	//todo 
+}
+
 int PlayerBase::generateNewID()
 {
-	if (connectedPlayers.empty())
+	if (players.empty())
 	{
 		return 0;
 	}
 	else
 	{
-		int newID = 0;
-
-		for (auto it = connectedPlayers.begin(); it != connectedPlayers.end();)
-		{
-			if (newID < (*it).first)
-				return newID;
-			else
-				newID = (*(it++)).first+1;
-		}
-
-		return newID;
+		return players.size();
 	}
 }

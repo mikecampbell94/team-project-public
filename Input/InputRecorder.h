@@ -50,7 +50,7 @@ public:
 
 
 	virtual void fillInputs() = 0;
-	virtual void clearInputs() = 0;
+	virtual void clearInputs();
 
 
 	std::vector<ButtonInputData> const getInputs();

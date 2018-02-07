@@ -1,5 +1,7 @@
 #include "GameLoop.h"
+#include "../../Input/InputManager.h"
 #include "../../Input/GamePadRecorder.h"
+#include "../../Input/KeyboardMouseRecorder.h"
 #include <iostream>
 
 GameLoop::GameLoop(System& gameSystem)
@@ -33,16 +35,13 @@ void GameLoop::executeGameLoop()
 {
 	int frameCount = 0;
 
+	
 
-	GamePadRecorder controllerRecorder;
 
 	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE))
 	{
 		DeliverySystem::getPostman()->sendMessage(Message("RenderingSystem", DUMMY_TYPE));
 
-		controllerRecorder.fillInputs();
-		 
-		controllerRecorder.clearInputs();
 
 		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
 

@@ -3,15 +3,18 @@
 #include <string>
 #include <map>
 
-class InputFliter
+class InputFilter
 {
 public:
-	InputFliter();
-	~InputFliter();
+	InputFilter();
+	~InputFilter();
 
 	std::string loadConfigFile();
 
 	std::vector<int> getListenedKeys(std::string &configInfo, std::string &separator);
+
+
+
 
 private:
 	static inline int getKeyID(std::string key) { return keyValue.at(key); }

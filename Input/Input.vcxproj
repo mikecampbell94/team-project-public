@@ -155,7 +155,8 @@
     <ClInclude Include="Devices\Mouse.h" />
     <ClInclude Include="Gamepad.h" />
     <ClInclude Include="GamePadRecorder.h" />
-    <ClInclude Include="InputFliter.h" />
+    <ClInclude Include="InputFilter.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputRecorder.h" />
     <ClInclude Include="KeyboardMouseRecorder.h" />
     <ClInclude Include="Player.h" />
@@ -167,7 +168,8 @@
     <ClCompile Include="Devices\Mouse.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="GamePadRecorder.cpp" />
-    <ClCompile Include="InputFliter.cpp" />
+    <ClCompile Include="InputFilter.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputRecorder.cpp" />
     <ClCompile Include="KeyboardMouseRecorder.cpp" />
     <ClCompile Include="Player.cpp" />
