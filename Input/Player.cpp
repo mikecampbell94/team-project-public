@@ -8,6 +8,7 @@ Player::Player(int playerID, InputRecorder *recorder)
 	this->recorder = recorder;
 }
 
+
 Player::~Player()
 {
 	delete recorder;
@@ -28,7 +29,16 @@ void Player::setInputRecorder(InputRecorder* newInputRecorder)
 	recorder = newInputRecorder;
 }
 
-const InputRecorder* Player::getInputRecorder()
+ InputRecorder* Player::getInputRecorder()
 {
 	return recorder;
 }
+
+ void Player::setPlayerControls(InputFilter * newControls)
+ {
+ }
+
+ InputFilter * Player::getInputFilter()
+ {
+	 return &playerControls;
+ }

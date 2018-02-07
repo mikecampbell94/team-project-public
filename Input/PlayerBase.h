@@ -14,16 +14,13 @@ public:
 
 	void initializePlayers(std::vector<InputRecorder*> allRecorders);
 
+
+
 	Player* addNewPlayer(InputRecorder* recorder);
 	void removePlayer(int playerID);
 	void removePlayer(Player* playerRef);
 
 
-
-	std::map<Player*, InputRecorder*>& getPlayerInputMap()
-	{
-		return connectedPlayers;
-	}
 
 	std::vector<Player*>& getPlayers()
 	{
@@ -33,8 +30,8 @@ public:
 
 
 private:
+	std::vector<InputRecorder*> inputRecorders;
 	std::vector<Player*> players;
-	std::map<Player*, InputRecorder*> connectedPlayers;
 
 
 	int generateNewID();

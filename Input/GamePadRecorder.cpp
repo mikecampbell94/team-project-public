@@ -4,6 +4,11 @@
 
 
 
+GamePadRecorder::GamePadRecorder(Gamepad * gamePad)
+{
+	this->gamepad = gamePad;
+}
+
 GamePadRecorder::~GamePadRecorder()
 {
 }

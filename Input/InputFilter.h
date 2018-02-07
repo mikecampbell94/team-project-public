@@ -13,6 +13,9 @@ public:
 
 	std::vector<int> getListenedKeys(std::string &configInfo, std::string &separator);
 
+
+
+
 private:
 	static inline int getKeyID(std::string key) { return keyValue.at(key); }
 

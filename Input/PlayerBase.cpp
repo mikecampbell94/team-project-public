@@ -16,23 +16,23 @@ PlayerBase::PlayerBase(std::vector<InputRecorder*> allRecorders)
 PlayerBase::~PlayerBase()
 {
 	//delete all players
-	if (!connectedPlayers.empty())
-		for each (auto it in connectedPlayers)
+	if (!players.empty())
+		for each (auto player in players)
 		{
-			delete it.second;
+			delete player;
 		}
 }
 
 void PlayerBase::initializePlayers(std::vector<InputRecorder*> allRecorders)
 {
-	if (!connectedPlayers.empty())
+	if (!players.empty())
 	{
-		for each (auto it in connectedPlayers)
+		for each (auto player in players)
 		{
-			delete it.second;
+			delete player;
 		}
 
-		connectedPlayers.clear();
+		players.clear();
 	}
 
 	for each (InputRecorder* i in allRecorders)
@@ -45,7 +45,6 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 {
 	int playerID = generateNewID();
 	Player* playerRef = new Player(playerID, recorder);
-	connectedPlayers.emplace(std::make_pair<>(playerRef, recorder));
 	players.push_back(playerRef);
 
 	return playerRef;
@@ -71,12 +70,12 @@ void PlayerBase::removePlayer(Player* playerRef)
 
 int PlayerBase::generateNewID()
 {
-	if (connectedPlayers.empty())
+	if (players.empty())
 	{
 		return 0;
 	}
 	else
 	{
-		return players.size() + 1;
+		return players.size();
 	}
 }

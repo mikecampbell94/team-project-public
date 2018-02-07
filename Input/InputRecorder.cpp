@@ -1,5 +1,12 @@
 #include "InputRecorder.h"
 
+void InputRecorder::clearInputs()
+{
+	currentButtonInputs.clear();
+	currentLinearInputs.clear();
+	currentPositionalInputs.clear();
+}
+
 std::vector<ButtonInputData> const InputRecorder::getInputs()
 {
 	return currentButtonInputs;

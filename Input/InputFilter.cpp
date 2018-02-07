@@ -2,6 +2,7 @@
 
 const std::map<std::string, int> InputFilter::keyValue =
 {
+	/*-------WINDOWS KEYS----------*/
 	{ "KEYBOARD_LBUTTON", 0x01 },  // Left mouse button  
 	{ "KEYBOARD_RBUTTON", 0x02 },  // Right mouse button  
 	{ "KEYBOARD_CANCEL", 0x03 },  // Control-break processing  
@@ -145,7 +146,24 @@ const std::map<std::string, int> InputFilter::keyValue =
 	{ "KEYBOARD_ZOOM", 0xFB },  // Zoom key 
 	{ "KEYBOARD_PA1", 0xFD },  // PA1 key 
 	{ "KEYBOARD_OEM_CLEAR", 0xFE },   // Clear key 
-	{ "KEYBOARD_MAX", 0xFF }
+	{ "KEYBOARD_MAX", 0xFF },
+	/*------XBOX KEYS------*/
+	{ "XBOX_A", 0},
+	{ "XBOX_B", 1 },
+	{ "XBOX_X", 2 },
+	{ "XBOX_Y", 3 },
+	{ "XBOX_DPadUp", 4 },
+	{ "XBOX_DPadDown", 5 },
+	{ "XBOX_DPadLeft", 6 },
+	{ "XBOX_DPadRight", 7 },
+	{ "XBOX_LShoulder", 8 },
+	{ "XBOX_RShoulder", 9 },
+	{ "XBOX_LThumbstick", 10 },
+	{ "XBOX_RThumbstick", 11 },
+	{ "XBOX_Start", 12 },
+	{ "XBOX_Back", 13 },
+
+
 };
 
 InputFilter::InputFilter()
@@ -156,6 +174,11 @@ InputFilter::InputFilter()
 InputFilter::~InputFilter()
 {
 
+}
+
+std::string InputFilter::loadConfigFile()
+{
+	return std::string();
 }
 
 std::vector<int> InputFilter::getListenedKeys(std::string &configInfo, std::string &separator)

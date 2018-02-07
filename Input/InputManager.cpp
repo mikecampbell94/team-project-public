@@ -1,11 +1,9 @@
 #include "InputManager.h"
 #include "InputRecorder.h"
 
-InputManager::InputManager(PlayerBase* playerbase, Window* window)
+InputManager::InputManager(PlayerBase* playerbase)
 {
-	this->window = window;
 	this->playerbase = playerbase;
-
 }
 
 InputManager::~InputManager()
@@ -19,9 +17,9 @@ void InputManager::updateSubsystem(const float& deltatime)
 
 	for (Player* player : playerbase->getPlayers())
 	{
-
-		playerbase->getPlayerInputMap().at(player)->clearInputs();
-		playerbase->getPlayerInputMap().at(player)->fillInputs();
+		std::cout << "-------PLAYER " << player->getPlayerID() << " INPUTS-------- \n";
+		player->getInputRecorder()->clearInputs();
+		player->getInputRecorder()->fillInputs();
 	}
 }
 
