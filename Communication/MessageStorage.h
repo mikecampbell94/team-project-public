@@ -15,7 +15,7 @@ public:
 
 	void removeMessageBuffer(std::string bufferName);
 
-	virtual void sendMessage(Message* message, std::string bufferName);
+	void sendMessage(Message* message, std::string bufferName) override;
 
 	std::queue<Message*>* getMessageBufferByName(std::string bufferName);
 
