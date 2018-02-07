@@ -1,6 +1,6 @@
-#include "InputFliter.h"
+#include "InputFilter.h"
 
-const std::map<std::string, int> InputFliter::keyValue = 
+const std::map<std::string, int> InputFilter::keyValue =
 {
 	{ "KEYBOARD_LBUTTON", 0x01 },  // Left mouse button  
 	{ "KEYBOARD_RBUTTON", 0x02 },  // Right mouse button  
@@ -148,21 +148,21 @@ const std::map<std::string, int> InputFliter::keyValue =
 	{ "KEYBOARD_MAX", 0xFF }
 };
 
-InputFliter::InputFliter()
+InputFilter::InputFilter()
 {
 
 }
 
-InputFliter::~InputFliter() 
+InputFilter::~InputFilter()
 {
 
 }
 
-std::vector<int> InputFliter::getListenedKeys(std::string &configInfo, std::string &separator) 
+std::vector<int> InputFilter::getListenedKeys(std::string &configInfo, std::string &separator)
 {
 	std::vector<int> listenedKeys;
-	
-	if (configInfo == "") 
+
+	if (configInfo == "")
 	{
 		return listenedKeys;
 	}
@@ -172,7 +172,7 @@ std::vector<int> InputFliter::getListenedKeys(std::string &configInfo, std::stri
 	size_t pos = appendStr.find(separator);
 	size_t size = appendStr.size();
 
-	while (pos != std::string::npos) 
+	while (pos != std::string::npos)
 	{
 		std::string t = appendStr.substr(0, pos);
 		listenedKeys.push_back(getKeyID(t));
