@@ -118,11 +118,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DeliverySystem.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageProcessor.h" />
     <ClInclude Include="MessageStorage.h" />
+    <ClInclude Include="Postman.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DeliverySystem.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageProcessor.cpp" />
     <ClCompile Include="MessageStorage.cpp" />

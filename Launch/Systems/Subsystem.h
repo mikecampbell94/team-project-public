@@ -1,13 +1,16 @@
 #pragma once
 
 #include "../Communication/MessageProcessor.h"
+#include "../Communication/DeliverySystem.h"
 
 class Subsystem
 {
 public:
 
-	Subsystem()
+	Subsystem(std::string subsystemName)
 	{
+		this->subsystemName = subsystemName;
+		DeliverySystem::getPostman()->addMessageBuffer(subsystemName);
 	}
 
 	virtual ~Subsystem()
@@ -22,6 +25,7 @@ public:
 	}
 
 protected:
+	std::string subsystemName;
 	MessageProcessor incomingMessages;
 };
 

@@ -1,7 +1,10 @@
 #include "System.h"
 
+#include "Communication/DeliverySystem.h"
+
 System::System()
 {
+	DeliverySystem::provide(new MessageStorage());
 }
 
 System::~System()

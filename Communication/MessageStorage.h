@@ -11,19 +11,16 @@ public:
 	MessageStorage();
 	~MessageStorage();
 
-	void addMessageBuffer(std::string bufferName);
+	void addMessageBuffer(const std::string& bufferName) override;
+	void removeMessageBuffer(const std::string& bufferName);
+	std::queue<Message>* getMessageBufferByName(const std::string& bufferName) override;
 
-	void removeMessageBuffer(std::string bufferName);
-
-	void sendMessage(Message* message, std::string bufferName) override;
-
-	std::queue<Message*>* getMessageBufferByName(std::string bufferName);
-
-	void clearMessageStorage();
+	void sendMessage(const Message& message) override;
+	void clearMessageStorage() override;
 
 private:
-	void clearMessageBuffer(std::string bufferName);
-	void clearMessageBuffer(std::map<std::string, std::queue<Message*>>::iterator iter);
+	void clearMessageBuffer(const std::string& bufferName);
+	void clearMessageBuffer(std::map<std::string, std::queue<Message>>::iterator iter);
 
-	std::map<std::string, std::queue<Message*>> activeMessageBuffers;
+	std::map<std::string, std::queue<Message>> activeMessageBuffers;
 };

@@ -38,6 +38,7 @@ void GameLoop::executeGameLoop()
 
 	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE))
 	{
+		DeliverySystem::getPostman()->sendMessage(Message("RenderingSystem", DUMMY_TYPE));
 
 		controllerRecorder.fillInputs();
 		 
@@ -50,7 +51,7 @@ void GameLoop::executeGameLoop()
 		rendering->processMessages();
 		//std::cout << "Updated frame " << frameCount << ". Delta time = " << deltaTime << std::endl;
 		++frameCount;
-
+		DeliverySystem::getPostman()->clearMessageStorage();
 
 		pitch -= (window->getMouse()->getRelativePosition().y);
 		yaw -= (window->getMouse()->getRelativePosition().x);

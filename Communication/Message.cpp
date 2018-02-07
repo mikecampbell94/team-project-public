@@ -1,8 +1,8 @@
 #include "Message.h"
 
-Message::Message(DestinationSubsystem destination,  MessageType type)
+Message::Message(const std::string& destinationName,  MessageType type)
 {
-	this->destination = destination;
+	this->destination = destinationName;
 	this->type = type;
 }
 

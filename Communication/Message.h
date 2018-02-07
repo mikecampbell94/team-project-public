@@ -1,19 +1,6 @@
 #pragma once
 
-enum DestinationSubsystem
-{
-	AUDIO,
-	COMMUNICATION,
-	GAMEPLAY,
-	GRPAHICS,
-	INPUT_SYSTEM,
-	INTERFACE,
-	LAUNCH,
-	PHYSICS,
-	PROFILER,
-	RESOURCE_MANAGEMENT,
-	UTILITIES
-};
+#include <string>
 
 enum MessageType
 {
@@ -24,11 +11,11 @@ class Message
 {
 
 public:
-	Message(DestinationSubsystem destination, MessageType type);
+	Message(const std::string& destinationName, MessageType type);
 	
 	virtual ~Message() {}
 
-	const DestinationSubsystem getDestination() const
+	const std::string getDestination() const
 	{ 
 		return destination;
 	}
@@ -39,7 +26,7 @@ public:
 	}
 	
 protected:
-	DestinationSubsystem destination;
+	std::string destination;
 	MessageType type;
 };
 

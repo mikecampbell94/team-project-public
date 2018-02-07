@@ -5,22 +5,21 @@
 #include <functional>
 #include <unordered_map>
 
-typedef std::queue<Message*> MessageBuffer;
-typedef std::function<void(Message*)> Action;
+typedef std::function<void(Message)> Action;
 
 class MessageProcessor
 {
 public:
 	MessageProcessor() {}
 	MessageProcessor(std::vector<MessageType> typeOfMessagesToListenFor, 
-		MessageBuffer* subsystemBuffer);
+		std::queue<Message>* subsystemBuffer);
 	~MessageProcessor();
 
 	void addActionToExecuteOnMessage(const MessageType& typeOfMessageToPerformOn, const Action& action);
 	void processMessagesInBuffer();
 
 private:
-	MessageBuffer* subsystemMessageBuffer;
+	std::queue<Message>* subsystemMessageBuffer;
 	std::unordered_map<MessageType, std::vector<Action>> actionsToExecute;
 };
 

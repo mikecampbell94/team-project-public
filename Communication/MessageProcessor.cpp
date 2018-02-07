@@ -1,7 +1,8 @@
 #include "MessageProcessor.h"
+#include "MessageStorage.h"
 
 MessageProcessor::MessageProcessor(std::vector<MessageType> typeOfMessagesToListenFor, 
-	MessageBuffer* subsystemBuffer)
+	std::queue<Message>* subsystemBuffer)
 {
 	subsystemMessageBuffer = subsystemBuffer;
 
@@ -25,9 +26,9 @@ void MessageProcessor::processMessagesInBuffer()
 {
 	while (!subsystemMessageBuffer->empty())
 	{
-		Message* message = subsystemMessageBuffer->front();
+		Message message = subsystemMessageBuffer->front();
 
-		for each (Action action in actionsToExecute.at(message->getMessageType()))
+		for each (Action action in actionsToExecute.at(message.getMessageType()))
 		{
 			action(message);
 		}
