@@ -15,9 +15,10 @@ public:
 	T* getResource(std::string identifier);
 
 	void deleteResource(std::string identifier, T * resource);
-	
+
 protected:
 	unordered_map<std::string,T*> resourceBuffer;
 	size_t maxSize;
 	size_t currentSize;
+	std::string StringUtility(std::string identifier);
 };
