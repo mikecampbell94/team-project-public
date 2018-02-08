@@ -1,5 +1,7 @@
 #pragma once
 #include <map>
+#include <algorithm>
+
 
 template<class T>
 class ResourceManager
@@ -13,9 +15,9 @@ public:
 	T* getResource(std::string identifier);
 
 	void deleteResource(std::string identifier, T * resource);
-
+	
 protected:
-	map<std::string,T*> resourceBuffer;
+	unordered_map<std::string,T*> resourceBuffer;
 	size_t maxSize;
 	size_t currentSize;
 };

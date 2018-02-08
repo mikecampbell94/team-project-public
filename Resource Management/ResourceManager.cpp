@@ -1,5 +1,5 @@
 #include "ResourceManager.h"
-#include <iostream>
+
 template<class T>
 ResourceManager<T>::ResourceManager(unsigned int upperbound)
 {
@@ -19,7 +19,9 @@ ResourceManager<T>::~ResourceManager()
 template<class T>
 bool ResourceManager<T>::addResource(std::string identifier, T * resource)
 {
-	resourceBuffer.insert(std::pair<std::string,T*>(identifier,resource));
+	std::string formattedid = StringUtility(identifier);
+	
+	resourceBuffer.insert(std::pair<std::string,T*>(formattedid,resource));
 	if ((currentSize + sizeof(resource)) <= maxSize) {
 		currentSize += sizeof(resource);
 		return true;
@@ -31,9 +33,10 @@ bool ResourceManager<T>::addResource(std::string identifier, T * resource)
 template<class T>
 T * ResourceManager<T>::getResource(std::string identifier)
 {
+	std::string formattedid = StringUtility(identifier);
 	try
 	{
-		return resourceBuffer.at(identifier);
+		return resourceBuffer.at(formattedid);
 	}
 	catch (const std::out_of_range)
 	{
@@ -44,7 +47,24 @@ T * ResourceManager<T>::getResource(std::string identifier)
 template<class T>
 void ResourceManager<T>::deleteResource(std::string identifier, T * resource)
 {
-	delete resourceBuffer.at(identifier);
-	resourceBuffer.erase(identifier);
+	std::string formattedid = StringUtility(identifier);
+	delete resourceBuffer.at(formattedid);
+	resourceBuffer.erase(formattedid);
 	currentSize -= sizeof(resource);
+}
+
+template<class T>
+std::string ResourceManager<T>::StringUtility(std::string identifier)
+{
+	std::string finalIdentifier = identifier;
+
+	//Remove spaces
+	finalIdentifier.erase(remove_if(finalIdentifier.begin(), finalIdentifier.end(),
+		isspace), finalIdentifier.end());
+
+	//Make lowercase
+	transform(finalIdentifier.begin(), finalIdentifier.end(),
+		finalIdentifier.begin(), ::tolower);
+
+	return finalIdentifier;
 }
