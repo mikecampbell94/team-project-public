@@ -13,6 +13,8 @@ public:
 	~System();
 
 	void updateNextSystemFrame(const float& deltaTime);
+	void processMessagesForAllSubsystems();
+
 	void addSubsystem(Subsystem* subsystem);
 
 private:

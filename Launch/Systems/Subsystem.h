@@ -10,7 +10,7 @@ public:
 	Subsystem(std::string subsystemName)
 	{
 		this->subsystemName = subsystemName;
-		DeliverySystem::getPostman()->addMessageBuffer(subsystemName);
+		DeliverySystem::getPostman()->addDeliveryPoint(subsystemName);
 	}
 
 	virtual ~Subsystem()

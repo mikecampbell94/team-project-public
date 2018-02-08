@@ -1,20 +1,20 @@
 #pragma once
-#include "Postman.h"
+#include "MessagingService.h"
 
 //service locator
 class DeliverySystem
 {
 public:
-	static Postman* getPostman() 
+	static MessagingService* getPostman() 
 	{ 
-		return postman; 
+		return service; 
 	}
 
-	static void provide(Postman* newPostman)
+	static void provide(MessagingService* newService)
 	{
-		postman = newPostman;
+		service = newService;
 	}
 
 private:
-	static Postman* postman;
+	static MessagingService* service;
 };
