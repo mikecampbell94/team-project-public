@@ -1,7 +1,7 @@
 #include "ResourceManager.h"
 
 template<class T>
-ResourceManager<T>::ResourceManager(unsigned int upperbound)
+ResourceManager<T>::ResourceManager(size_t upperbound)
 {
 	maxSize = upperbound;
 	currentSize = 0;
