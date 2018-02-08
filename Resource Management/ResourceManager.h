@@ -16,9 +16,8 @@ public:
 
 	void deleteResource(std::string identifier);
 
-protected:
+private:
 	unordered_map<std::string,T*> resourceBuffer;
 	size_t maxSize;
 	size_t currentSize;
-
 };
