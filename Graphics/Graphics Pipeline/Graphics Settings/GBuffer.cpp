@@ -120,7 +120,7 @@ void GBuffer::initAttachments()
 	//Create and attach depth buffer (renderbuffer)
 	glGenRenderbuffers(1, &rboDepth);
 	glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, resolution.x, resolution.y);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, (GLsizei)resolution.x, (GLsizei)resolution.y);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
 
 	GraphicsUtility::VerifyBuffer("RBO Depth GBuffer", false);
@@ -137,7 +137,7 @@ void GBuffer::renderGeometry(vector<SubMesh*>* meshes)
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 	glUniform3fv(loc_cameraPos, 1, (float*)&camera->getPosition());
 
-	for (int i = 0; i < meshes->size(); ++i)
+	for (unsigned int i = 0; i < meshes->size(); ++i)
 	{
 		glUniform1i(loc_hasTexture, meshes->at(i)->hasTexture);
 		glUniform1i(loc_isReflective, meshes->at(i)->isReflective);

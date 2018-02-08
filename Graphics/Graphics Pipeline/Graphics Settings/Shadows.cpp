@@ -120,7 +120,7 @@ void Shadows::drawShadowScene()
 	}
 
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-	glViewport(0, 0, resolution.x, resolution.y);
+	glViewport(0, 0, (GLsizei)resolution.x, (GLsizei)resolution.y);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glCullFace(GL_BACK);

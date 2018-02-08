@@ -68,8 +68,8 @@ public:
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "textureMatrix"), 1, false, (float*)&textureMatrix);
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "camMatrix"), 1, false, (float*)&viewMatrix);
-			glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "resolutionY"), resolution.y);
-			glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "resolutionX"), resolution.x);
+			glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "resolutionY"), (GLint)resolution.y);
+			glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "resolutionX"), (GLint)resolution.x);
 		}
 	}
 
