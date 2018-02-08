@@ -1,9 +1,10 @@
 #include "ResourceManager.h"
-
+#include <iostream>
 template<class T>
-ResourceManager<T>::ResourceManager()
+ResourceManager<T>::ResourceManager(unsigned int upperbound)
 {
-
+	maxSize = upperbound;
+	currentSize = 0;
 }
 
 template<class T>
@@ -16,9 +17,15 @@ ResourceManager<T>::~ResourceManager()
 }
 
 template<class T>
-void ResourceManager<T>::addResource(std::string identifier, T * resource)
+bool ResourceManager<T>::addResource(std::string identifier, T * resource)
 {
 	resourceBuffer.insert(std::pair<std::string,T*>(identifier,resource));
+	if ((currentSize + sizeof(resource)) <= maxSize) {
+		currentSize += sizeof(resource);
+		return true;
+	}
+	else
+		return false;
 }
 
 template<class T>
@@ -35,8 +42,9 @@ T * ResourceManager<T>::getResource(std::string identifier)
 }
 
 template<class T>
-void ResourceManager<T>::deleteResource(std::string identifier)
+void ResourceManager<T>::deleteResource(std::string identifier, T * resource)
 {
 	delete resourceBuffer.at(identifier);
 	resourceBuffer.erase(identifier);
+	currentSize -= sizeof(resource);
 }
