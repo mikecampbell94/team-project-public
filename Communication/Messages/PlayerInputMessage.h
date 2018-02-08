@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Message.h"
-#include "../Input/InputRecorder.h"
+#include "../../Input/InputRecorder.h"
 
 class Player;
 

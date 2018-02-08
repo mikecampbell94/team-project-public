@@ -70,7 +70,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>..\ASSIMP\include\assimp;..\GLEW\include;..\Utilities\;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\GLEW\lib\Debug\;..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>..\ASSIMP\include\assimp;..\GLEW\include;..\Utilities\;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\GLEW\lib\Debug\;..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -131,13 +138,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameActionGenerator.h" />
-    <ClInclude Include="GameplayInputBridge.h" />
+    <ClInclude Include="InputGameplay\InputActionMap.h" />
+    <ClInclude Include="InputGameplay\GameplayInputBridge.h" />
     <ClInclude Include="GameplaySystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameActionGenerator.cpp" />
-    <ClCompile Include="GameplayInputBridge.cpp" />
+    <ClCompile Include="InputGameplay\InputActionMap.cpp" />
+    <ClCompile Include="InputGameplay\GameplayInputBridge.cpp" />
     <ClCompile Include="GameplaySystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

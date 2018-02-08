@@ -28,6 +28,7 @@ GameLoop::GameLoop(System& gameSystem)
 
 	PlayerBase* playerbase = new PlayerBase();
 	playerbase->addNewPlayer(keyboardAndMouse);
+	playerbase->getPlayers()[0]->setSceneNode(node);
 
 	std::string seperator = "|";
 	std::string keyboard = "KEYBOARD_W|KEYBOARD_A";
@@ -37,7 +38,7 @@ GameLoop::GameLoop(System& gameSystem)
 	playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
 
 	inputManager = new InputManager(playerbase);
-	gameplay = new GameplaySystem();
+	gameplay = new GameplaySystem(playerbase->getPlayers().size());
 
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);
@@ -70,10 +71,10 @@ void GameLoop::executeGameLoop()
 		pitch -= (window->getMouse()->getRelativePosition().y);
 		yaw -= (window->getMouse()->getRelativePosition().x);
 
-		if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
-			camera->setPosition(camera->getPosition() +
-				Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, -1) * 1);
-		}
+		//if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
+		//	camera->setPosition(camera->getPosition() +
+		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, -1) * 1);
+		//}
 
 		if (window->getKeyboard()->keyDown(KEYBOARD_S)) {
 			camera->setPosition(camera->getPosition() +

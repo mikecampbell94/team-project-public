@@ -31,8 +31,7 @@ void InputManager::updateSubsystem(const float& deltatime)
 		
 		for each (ButtonInputData singleInput in inputData)
 		{
-			//DeliverySystem::getPostman()->sendMessage(new PlayerInputMessage("Gameplay", player, singleInput));
-			DeliverySystem::getPostman()->insertMessage(PlayerInputMessage("RenderingSystem", player, singleInput));
+			DeliverySystem::getPostman()->insertMessage(PlayerInputMessage("Gameplay", player, singleInput));
 		}
 	}
 }
