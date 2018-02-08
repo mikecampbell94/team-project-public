@@ -4,6 +4,7 @@
 
 enum MessageType
 {
+	PLAYER_INPUT,
 	DUMMY_TYPE
 };
 

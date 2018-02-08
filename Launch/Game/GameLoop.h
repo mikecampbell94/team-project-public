@@ -10,6 +10,8 @@
 #include <memory>
 #include "Scene Management/SceneManager.h"
 #include "Rendering/RenderingSystem.h"
+#include "../Input/InputManager.h"
+#include "GameplaySystem.h"
 
 class GameLoop
 {
@@ -21,7 +23,10 @@ public:
 
 private:
 	SceneManager* scene;
+
 	RenderingSystem* rendering;
+	InputManager* inputManager;
+	GameplaySystem* gameplay;
 
 	System engine;
 	GameTimer loopTimer;

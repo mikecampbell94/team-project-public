@@ -2,13 +2,13 @@
 #include "MessageStorage.h"
 
 MessageProcessor::MessageProcessor(std::vector<MessageType> typeOfMessagesToListenFor, 
-	std::queue<Message>* subsystemBuffer)
+	std::queue<Message*>* subsystemBuffer)
 {
 	subsystemMessageBuffer = subsystemBuffer;
 
 	for each (MessageType messageType in typeOfMessagesToListenFor)
 	{
-		actionsToExecute.insert({ messageType, std::vector<Action>() });
+		actionsToExecute[messageType] = std::vector<Action>();
 	}
 }
 
@@ -26,9 +26,9 @@ void MessageProcessor::processMessagesInBuffer()
 {
 	while (!subsystemMessageBuffer->empty())
 	{
-		Message message = subsystemMessageBuffer->front();
+		Message* message = subsystemMessageBuffer->front();
 
-		for each (Action action in actionsToExecute.at(message.getMessageType()))
+		for each (Action action in actionsToExecute.at(message->getMessageType()))
 		{
 			action(message);
 		}

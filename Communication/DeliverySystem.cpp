@@ -1,3 +1,3 @@
 #include "DeliverySystem.h"
 
-Postman*  DeliverySystem::postman = nullptr;
+MessagingService*  DeliverySystem::service = nullptr;

@@ -119,16 +119,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DeliverySystem.h" />
+    <ClInclude Include="LetterBox.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageProcessor.h" />
     <ClInclude Include="MessageStorage.h" />
-    <ClInclude Include="Postman.h" />
+    <ClInclude Include="Messages\PlayerInputMessage.h" />
+    <ClInclude Include="MessagingService.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeliverySystem.cpp" />
+    <ClCompile Include="LetterBox.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageProcessor.cpp" />
     <ClCompile Include="MessageStorage.cpp" />
+    <ClCompile Include="Messages\PlayerInputMessage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

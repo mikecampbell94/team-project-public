@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 enum InputType {
-	TRIGGERED,HELD,RELEASED
+	TRIGGERED,HELD,RELEASED, NONE
 };
 
 //remove initialiser lists. 
@@ -15,7 +15,14 @@ struct ButtonInputData {
 	{
 		this->currentState = currentState;
 		this->key = key;
-	};
+	}
+
+	ButtonInputData()
+	{
+		this->currentState = NONE;
+		this->key = 0;
+	}
+
 	InputType currentState;
 	unsigned int key;
 };

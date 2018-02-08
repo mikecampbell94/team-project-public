@@ -3,6 +3,7 @@
 #include "../../Input/GamePadRecorder.h"
 #include "../../Input/KeyboardMouseRecorder.h"
 #include <iostream>
+#include "Communication/LetterBox.h"
 
 GameLoop::GameLoop(System& gameSystem)
 {
@@ -22,6 +23,24 @@ GameLoop::GameLoop(System& gameSystem)
 	scene = new SceneManager(camera, nodes);
 
 	rendering->SetSceneToRender(scene);
+
+	InputRecorder* keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
+
+	PlayerBase* playerbase = new PlayerBase();
+	playerbase->addNewPlayer(keyboardAndMouse);
+
+	std::string seperator = "|";
+	std::string keyboard = "KEYBOARD_W|KEYBOARD_A";
+	std::string xbox = "XBOX_A|XBOX_B";
+	std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
+
+	playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
+
+	inputManager = new InputManager(playerbase);
+	gameplay = new GameplaySystem();
+
+	engine.addSubsystem(gameplay);
+	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
 	/////
 }
@@ -29,28 +48,24 @@ GameLoop::GameLoop(System& gameSystem)
 GameLoop::~GameLoop()
 {
 	delete window;
+	delete rendering;
+	delete inputManager;
 }
 
 void GameLoop::executeGameLoop()
 {
 	int frameCount = 0;
 
-	
-
-
 	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE))
 	{
-		DeliverySystem::getPostman()->sendMessage(Message("RenderingSystem", DUMMY_TYPE));
-
-
 		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
 
 		engine.updateNextSystemFrame(deltaTime);
 
-		rendering->processMessages();
-		//std::cout << "Updated frame " << frameCount << ". Delta time = " << deltaTime << std::endl;
-		++frameCount;
-		DeliverySystem::getPostman()->clearMessageStorage();
+		DeliverySystem::getPostman()->deliverAllMessages();
+		engine.processMessagesForAllSubsystems();
+
+		DeliverySystem::getPostman()->clearAllMessages();
 
 		pitch -= (window->getMouse()->getRelativePosition().y);
 		yaw -= (window->getMouse()->getRelativePosition().x);

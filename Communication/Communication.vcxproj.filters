@@ -24,10 +24,16 @@
     <ClInclude Include="MessageStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Postman.h">
+    <ClInclude Include="DeliverySystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DeliverySystem.h">
+    <ClInclude Include="Messages\PlayerInputMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LetterBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MessagingService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -42,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DeliverySystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\PlayerInputMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LetterBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
