@@ -32,12 +32,12 @@ void LetterBox::insertMessage(PlayerInputMessage message)
 
 void LetterBox::deliverAllMessages()
 {
-	for (int i = 0; i < messages.size(); ++i)
+	for (unsigned int i = 0; i < messages.size(); ++i)
 	{
 		messageStorage.sendMessage(&messages[i]);
 	}
 
-	for (int i = 0; i < playerInputMessages.size(); ++i)
+	for (unsigned int i = 0; i < playerInputMessages.size(); ++i)
 	{
 		messageStorage.sendMessage(&playerInputMessages[i]);
 	}

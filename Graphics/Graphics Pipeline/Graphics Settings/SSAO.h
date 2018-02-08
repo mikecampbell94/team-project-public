@@ -84,8 +84,8 @@ private:
 	std::vector<Vector3> ssaoNoise;
 
 	//SSAO Uniforms
-	float ssaoRadius = 0.4;
-	float ssaoBias = 0.020;
+	float ssaoRadius = 0.4f;
+	float ssaoBias = 0.020f;
 
 	//SSAO Shaders
 	Shader* SSAOCol;

@@ -38,7 +38,7 @@ void BasicGeometry::apply()
 	setCurrentShader(basicShader);
 
 	updateShaderMatrices();
-	for (int i = 0; i < modelsInFrame->size(); ++i)
+	for (unsigned int i = 0; i < modelsInFrame->size(); ++i)
 	{
 		modelsInFrame->at(i)->Draw(*currentShader);
 	}
