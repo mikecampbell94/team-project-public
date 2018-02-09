@@ -1,11 +1,10 @@
 #include "SceneNode.h"
 
-SceneNode::SceneNode(Mesh* mesh, Vector4 colour)
+SceneNode::SceneNode(string meshFile, Vector4 colour)
 {
-	this->mesh = mesh;
+	this->mesh = new Mesh(meshFile, 1);
 	this->colour = colour;
 	parent = NULL;
-	modelScale = Vector3(1, 1, 1);
 
 	boundingRadius = 10.0f;
 	distanceFromCamera = 0.0f;
@@ -36,7 +35,7 @@ void SceneNode::Draw(Shader& shader) {
 	if (mesh) {
 		for each (SubMesh* submesh in mesh->meshes)
 		{
-			submesh->Draw(shader);
+			submesh->Draw(shader, worldTransform);
 		}
 	}
 }
@@ -58,6 +57,9 @@ void SceneNode::Update(float msec) {
 	else {
 		worldTransform = transform;
 	}
+
+	mesh->SetTransformForAllSubMeshes(worldTransform);
+
 	for (vector<SceneNode*>::iterator i = children.begin(); i != children.end(); ++i) {
 		(*i)->Update(msec);
 	}

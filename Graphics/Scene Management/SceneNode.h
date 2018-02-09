@@ -9,44 +9,55 @@
 class SceneNode
 {
 public:
-	SceneNode(Mesh* m = NULL, Vector4 colour = Vector4(1, 1, 1, 1));
+	SceneNode(string meshFile, Vector4 colour = Vector4(1, 1, 1, 1));
 	virtual ~SceneNode(void);
 
-	void  SetTransform(const Matrix4 &matrix) { transform = matrix; }
-	void	SetTransform(Vector3 pos) {
+	void  SetTransform(const Matrix4 &matrix)
+	{
+		transform = matrix;
+	}
+
+	void	SetTransform(Vector3 pos) 
+	{
 		transform.setPositionVector(pos);
 	}
 
-	const Matrix4&	GetTransform()		const { return transform; }
-	Matrix4			GetWorldTransform() const { return worldTransform; }
-
-	Vector4			GetColour()			const { return colour; }
-	void			SetColour(Vector4 c) { colour = c; }
-
-	Vector3			GetModelScale()		const { return modelScale; }
-	void			SetModelScale(Vector3 s) { modelScale = s; }
-
-	Mesh*			GetMesh()			const { return mesh; }
-	void			SetMesh(Mesh* m) { mesh = m; }
-
-	float	GetBoundingRadius()			const { return boundingRadius; }
-	void	SetBoundingRadius(float f) { boundingRadius = f; }
-	void	AutoSetBoundingRadius() {
-		float a = max(modelScale.x, modelScale.y);
-		float b = max(a, modelScale.z);
-
-		boundingRadius = b;
+	Mesh* GetMesh()
+	{
+		return mesh;
 	}
 
-	float	GetCameraDistance()			const { return distanceFromCamera; }
+	const Matrix4& GetTransform() const
+	{
+		return transform;
+	}
+	Matrix4 GetWorldTransform() const
+	{
+		return worldTransform;
+	}
+
+	void SetColour(Vector4 c)
+	{
+		mesh->SetbackupColourAttributeForAllSubMeshes(c);
+	}
+
+	void SetModelScale(Vector3 s)
+	{
+		transform.setScalingVector(s);
+	}
+
+	float GetCameraDistance() const
+	{
+		return distanceFromCamera;
+	}
 	void	SetCameraDistance(float f) { distanceFromCamera = f; }
 
-	void			AddChild(SceneNode* s);
-	void			RemoveChild(SceneNode* s);
+	void AddChild(SceneNode* s);
+	void RemoveChild(SceneNode* s);
 
-	virtual void	Update(float msec);
-	virtual void	Draw(Shader& shader);
-	virtual void	DrawShadow();
+	virtual void Update(float msec);
+	virtual void Draw(Shader& shader);
+	virtual void DrawShadow();
 
 	std::vector<SceneNode*>::const_iterator GetChildIteratorStart() {
 		return children.begin();
@@ -66,7 +77,6 @@ protected:
 	Mesh*		mesh;
 	Matrix4		worldTransform;
 	Matrix4		transform;
-	Vector3		modelScale;
 	Vector4		colour;
 
 	float		distanceFromCamera;

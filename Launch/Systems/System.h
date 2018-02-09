@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Subsystem.h"
+#include "../Communication/MessageStorage.h"
 
 #include <vector>
 #include <memory>
@@ -12,9 +13,12 @@ public:
 	~System();
 
 	void updateNextSystemFrame(const float& deltaTime);
-	void addSubsystem(std::shared_ptr<Subsystem> subsystem);
+	void processMessagesForAllSubsystems();
+
+	void addSubsystem(Subsystem* subsystem);
 
 private:
-	std::vector<std::shared_ptr<Subsystem>> subsystems;
+	std::vector<Subsystem*> subsystems;
+	MessageStorage messageBuffers;
 };
 
