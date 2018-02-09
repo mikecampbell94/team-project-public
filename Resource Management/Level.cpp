@@ -27,7 +27,7 @@ void Level::loadLevelFile(std::string levelFilePath)
 	std::string line;
 	while (std::getline(levelFile, line))
 	{
-		parser.loadFile(line);
+		listOfObjectTypesInLevel.push_back(parser.loadFile(line));
 	}
 
 	levelFile.close();
