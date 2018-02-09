@@ -1,7 +1,7 @@
 #include "GameLoop.h"
 #include "../../Input/InputManager.h"
-#include "../../Input/GamePadRecorder.h"
-#include "../../Input/KeyboardMouseRecorder.h"
+#include "../../Input/Recorders/GamePadRecorder.h"
+#include "../../Input/Recorders/KeyboardMouseRecorder.h"
 #include <iostream>
 #include "Communication/LetterBox.h"
 

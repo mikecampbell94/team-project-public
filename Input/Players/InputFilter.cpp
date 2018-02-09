@@ -1,5 +1,6 @@
 #include "InputFilter.h"
-#include "InputUtility.h"
+
+#include "../InputUtility.h"
 
 InputFilter::InputFilter()
 {
@@ -27,15 +28,16 @@ std::vector<int> InputFilter::getListenedKeys(std::string &configInfo, std::stri
 
 	std::string appendStr = configInfo + separator;
 
-	size_t pos = appendStr.find(separator);
+	size_t position = appendStr.find(separator);
 	size_t size = appendStr.size();
 
-	while (pos != std::string::npos)
+	while (position != std::string::npos)
 	{
-		std::string t = appendStr.substr(0, pos);
-		listenedKeys.push_back(InputUtility::getKeyID(t));
-		appendStr = appendStr.substr(pos + 1, size);
-		pos = appendStr.find(separator);
+		std::string token = appendStr.substr(0, position);
+		listenedKeys.push_back(InputUtility::getKeyID(token));
+
+		appendStr = appendStr.substr(position + 1, size);
+		position = appendStr.find(separator);
 	}
 
 	return listenedKeys;

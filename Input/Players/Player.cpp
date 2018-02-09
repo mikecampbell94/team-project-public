@@ -1,6 +1,6 @@
 #include "Player.h"
 
-#include "InputRecorder.h"
+#include "../Recorders/InputRecorder.h"
 
 Player::Player(int playerID, InputRecorder *recorder/*, SceneNode* playerNode*/)
 {

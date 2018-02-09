@@ -1,7 +1,7 @@
 #pragma once
 #include "InputRecorder.h"
-#include "Devices\Keyboard.h"
-#include "Devices\Mouse.h"
+#include "../Devices\Keyboard.h"
+#include "../Devices\Mouse.h"
 
 
 class KeyboardMouseRecorder :
@@ -9,11 +9,14 @@ class KeyboardMouseRecorder :
 {
 public:
 	KeyboardMouseRecorder(Keyboard* keyboard, Mouse* mouse);
-	~KeyboardMouseRecorder() {};
+	~KeyboardMouseRecorder() {}
 
 	 void fillInputs() override;
 
-	 void setKeyboard(Keyboard* keyboard) { this->keyboard = keyboard; };
+	 void setKeyboard(Keyboard* keyboard)
+	 {
+		 this->keyboard = keyboard;
+	 }
 
 private:
 	Keyboard* keyboard;

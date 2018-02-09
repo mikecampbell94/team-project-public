@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "../Communication/Messages/PlayerInputMessage.h"
-#include "../Input/Player.h"
+#include "../Input/Players/Player.h"
 #include "../Graphics/Scene Management/SceneNode.h"
 #include "Input/InputUtility.h"
 

@@ -1,6 +1,6 @@
 #include "InputManager.h"
 
-#include "InputRecorder.h"
+#include "Recorders/InputRecorder.h"
 #include "../Communication/DeliverySystem.h"
 #include "Communication/Messages/PlayerInputMessage.h"
 #include "Communication/LetterBox.h"

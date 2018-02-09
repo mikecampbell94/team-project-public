@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Input/Player.h"
+#include "../../Input/Players/Player.h"
 
 #include <functional>
 #include <unordered_map>
