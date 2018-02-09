@@ -1,23 +1,24 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include <algorithm>
-
+#include "Resource.h"
 
 template<class T>
 class ResourceManager
 {
 public:
-	ResourceManager(size_t upperbound);
+	ResourceManager(std::string id,size_t upperbound);
 	~ResourceManager();
 
-	bool addResource(std::string identifier,T* resource);
+	bool addResource(std::string identifier, Resource<T>* resource);
 
-	T* getResource(std::string identifier);
+	Resource<T>* getResource(std::string identifier);
 
 	void deleteResource(std::string identifier);
 
 private:
-	unordered_map<std::string,T*> resourceBuffer;
+	std::string ResourceManagerID;
 	size_t maxSize;
 	size_t currentSize;
+	unordered_map<std::string, Resource<T>*> resourceBuffer;
 };

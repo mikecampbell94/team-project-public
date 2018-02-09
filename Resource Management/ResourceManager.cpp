@@ -1,8 +1,9 @@
 #include "ResourceManager.h"
 
 template<class T>
-ResourceManager<T>::ResourceManager(size_t upperbound)
+ResourceManager<T>::ResourceManager(std::string id, size_t upperbound)
 {
+	ResourceManagerID = id;
 	maxSize = upperbound;
 	currentSize = 0;
 }
@@ -14,46 +15,40 @@ ResourceManager<T>::~ResourceManager()
 	{
 		delete iter->second;
 	}
+	resourceBuffer.clear();
 }
 
 template<class T>
-bool ResourceManager<T>::addResource(std::string identifier, T * resource)
+bool ResourceManager<T>::addResource(std::string identifier, Resource<T>* resource)
 {	
-	if ((currentSize + sizeof(resource)) <= maxSize) {
+	if ((currentSize + resource->GetSize()) <= maxSize)
+	{
 		resourceBuffer.insert(std::pair<std::string,T*>(identifier,resource));
-		currentSize += sizeof(resource);
-		return true;
+		currentSize += resource->GetSize();
 	}
 	else
 		return false;
 }
 
 template<class T>
-T * ResourceManager<T>::getResource(std::string identifier)
-{	
-	try
-	{
-		return resourceBuffer.at(identifier);
-	}
-	catch (const std::out_of_range)
-	{
+Resource<T>* ResourceManager<T>::getResource(std::string identifier)
+{			
+	if ((Resource<T>* resource = resourceBuffer.find(identifier)) != resourceBuffer.end())
 		return nullptr;
-	}
+	else
+		return resource;
 }
 
 template<class T>
 void ResourceManager<T>::deleteResource(std::string identifier)
-{	
-	try
-	{
-		T* resource = resourceBuffer.at(identifier);
-		currentSize -= sizeof(resource);
+{				
+	if ((Resource<T>* resource = resourceBuffer.find(identifier)) != resourceBuffer.end())
+	{	
+		currentSize -= resource->GetSize();	//getSize() is the memberfunction of the Resource.h
 		delete resource;
 		resourceBuffer.erase(identifier);
-	}
-	catch (const std::out_of_range)
-	{
-
-	}
+	}	
+	else
+		return nullptr;
 }
 
