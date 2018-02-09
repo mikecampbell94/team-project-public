@@ -33,7 +33,7 @@ public:
 		GLenum type, GLint minMagParam, int attachment, bool clamp)
 	{
 		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, resolution.x, resolution.y, 0, format, type, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, (GLsizei)resolution.x, (GLsizei)resolution.y, 0, format, type, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minMagParam);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, minMagParam);
 

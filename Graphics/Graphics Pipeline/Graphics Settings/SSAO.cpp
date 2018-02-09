@@ -101,13 +101,13 @@ void SSAO::initSSAOBuffers()
 
 void SSAO::generateSampleKernel()
 {
-	const std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0);
+	const std::uniform_real_distribution<GLfloat> randomFloats(0.0f, 1.0f);
 	std::default_random_engine generator;
 
 	for (unsigned int i = 0; i < KERNEL_SIZE; ++i)
 	{
-		Vector3 sample(randomFloats(generator) * 2.0 - 1.0,
-			randomFloats(generator) * 2.0 - 1.0, randomFloats(generator));
+		Vector3 sample(randomFloats(generator) * 2.0f - 1.0f,
+			randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator));
 
 		sample.normalise();
 		sample = sample * randomFloats(generator);
@@ -134,8 +134,8 @@ void SSAO::generateNoiseTexture()
 	for (unsigned int i = 0; i < noiseSize; i++)
 	{
 		Vector3 noise(
-			randomFloats(generator) * 2.0 - 1.0,
-			randomFloats(generator) * 2.0 - 1.0,
+			randomFloats(generator) * 2.0f - 1.0f,
+			randomFloats(generator) * 2.0f - 1.0f,
 			0.0f); // rotate around z-axis (in tangent space)
 
 		ssaoNoise.push_back(noise);
@@ -164,8 +164,8 @@ void SSAO::generateSSAOTex()
 	//Basic uniforms
 	updateShaderMatrices();
 
-	glUniform1i(loc_ssaoRadius, ssaoRadius);
-	glUniform1i(loc_ssaoBias, ssaoBias);
+	glUniform1i(loc_ssaoRadius, (GLint)ssaoRadius);
+	glUniform1i(loc_ssaoBias, (GLint)ssaoBias);
 
 	//Texture units
 	glUniform1i(loc_gPosition, CommonGraphicsData::GPOSITION);
