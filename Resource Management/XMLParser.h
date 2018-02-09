@@ -5,12 +5,12 @@
 #include <string>
 #include <vector>
 
-struct node
+struct Node
 {
 	std::string nodeType;
 	std::string name;
 	std::string value;
-	std::vector<node*> children;
+	std::vector<Node*> children;
 };
 
 class XMLParser
@@ -21,9 +21,9 @@ public:
 
 	std::string loadFile(std::string filename);
 
-	void recursivelyParse(rapidxml::xml_node<>* unParsedXml, node** parsedNode);
-	void deleteAllNodes(node* currentNode);
+	void recursivelyParse(rapidxml::xml_node<>* unParsedXml, Node** parsedNode);
+	void deleteAllNodes(Node* currentNode);
 
-	node* parsedXml;
+	Node* parsedXml;
 };
 

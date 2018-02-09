@@ -133,10 +133,14 @@
     <ClInclude Include="Database\Database.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Database\Table.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Database\TableCreation.h" />
     <ClInclude Include="XMLParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Database\Database.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Database\TableCreation.cpp" />
     <ClCompile Include="XMLParser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,5 +1,13 @@
 #include "ResourceManager.h"
 
+template <class T>
+ResourceManager<T>::ResourceManager()
+{
+	resourceManagerID = "";
+	maxSize = 0;
+	currentSize = 0;
+}
+
 template<class T>
 ResourceManager<T>::ResourceManager(std::string id, size_t upperbound)
 {

@@ -1,13 +1,17 @@
 #pragma once
 
+#include "../ResourceManager.h"
+#include "../XMLParser.h"
+
 #include <string>
+#include <functional>
 
 struct TableConfiguration
 {
 	std::string name;
 	size_t maxSize;
 
-	TableConfiguration()
+	TableConfiguration(std::string name, size_t maxSize)
 	{
 		this->name = name;
 		this->maxSize = maxSize;
@@ -18,9 +22,13 @@ template <class ResourceType>
 class Table
 {
 public:
-	Table(const std::string name, const size_t maxSize)
+	Table(const std::string name, const size_t maxSize, std::function<ResourceType*(Node*)> builder)
 	{
+		this->name = name;
+		this->maxSize = maxSize;
+		this->builder = builder;
 
+		storage = new ResourceManager<ResourceType>(name, maxSize);
 	}
 
 	~Table()
@@ -28,22 +36,26 @@ public:
 		
 	}
 
-	void addResource(ResourceType* resource)
+	void addNewResource(Node* resource)
 	{
-		
+		storage.addResource(builder(resource));
 	}
 
-	void deleteResource(ResourceType* resource)
+	void deleteResource(std::string identifier)
 	{
-		
+		storage.deleteResource(identifier);
 	}
 
-//	ResourceManager<ResourceType>* getAllEntries
-//	{
-//		return &storage;
-//	}
-//
-//private:
-//	ResourceManager<ResourceType>* storage;
+	ResourceManager<ResourceType>* getAllResources()
+	{
+		return &storage;
+	}
+
+private:
+	std::string name;
+	size_t maxSize;
+
+	ResourceManager<ResourceType> storage;
+	std::function<ResourceType*(Node*)> builder;
 };
 

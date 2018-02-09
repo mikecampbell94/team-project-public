@@ -7,6 +7,7 @@ template<class T>
 class ResourceManager
 {
 public:
+	ResourceManager();
 	ResourceManager(std::string id, size_t upperbound);
 	~ResourceManager();
 
