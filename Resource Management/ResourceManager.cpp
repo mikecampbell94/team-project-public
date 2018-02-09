@@ -3,7 +3,7 @@
 template<class T>
 ResourceManager<T>::ResourceManager(std::string id, size_t upperbound)
 {
-	ResourceManagerID = id;
+	resourceManagerID = id;
 	maxSize = upperbound;
 	currentSize = 0;
 }
@@ -15,28 +15,31 @@ ResourceManager<T>::~ResourceManager()
 	{
 		delete iter->second;
 	}
+
 	resourceBuffer.clear();
 }
 
 template<class T>
-bool ResourceManager<T>::addResource(std::string identifier, Resource<T>* resource)
+void ResourceManager<T>::addResource(std::string identifier, Resource<T>* resource)
 {	
 	if ((currentSize + resource->GetSize()) <= maxSize)
 	{
 		resourceBuffer.insert(std::pair<std::string,T*>(identifier,resource));
 		currentSize += resource->GetSize();
 	}
-	else
-		return false;
 }
 
 template<class T>
 Resource<T>* ResourceManager<T>::getResource(std::string identifier)
 {			
-	if ((Resource<T>* resource = resourceBuffer.find(identifier)) != resourceBuffer.end())
+	if (resourceBuffer.find(identifier) == resourceBuffer.end())
+	{
 		return nullptr;
+	}
 	else
-		return resource;
+	{
+		return resourceBuffer.at(identifier);
+	}
 }
 
 template<class T>
@@ -48,7 +51,5 @@ void ResourceManager<T>::deleteResource(std::string identifier)
 		delete resource;
 		resourceBuffer.erase(identifier);
 	}	
-	else
-		return nullptr;
 }
 

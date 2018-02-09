@@ -7,17 +7,15 @@ template<class T>
 class ResourceManager
 {
 public:
-	ResourceManager(std::string id,size_t upperbound);
+	ResourceManager(std::string id, size_t upperbound);
 	~ResourceManager();
 
-	bool addResource(std::string identifier, Resource<T>* resource);
-
+	void addResource(std::string identifier, Resource<T>* resource);
 	Resource<T>* getResource(std::string identifier);
-
 	void deleteResource(std::string identifier);
 
 private:
-	std::string ResourceManagerID;
+	std::string resourceManagerID;
 	size_t maxSize;
 	size_t currentSize;
 	unordered_map<std::string, Resource<T>*> resourceBuffer;
