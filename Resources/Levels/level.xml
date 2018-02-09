@@ -1,7 +1,7 @@
 <Level name="levelName" >
 	<GameObject id ="gameObjectName" >
 		<Enabled>True/False</Enabled>
-		<Postion>
+		<Position>
 			<X>000</X>
 			<Y>000</Y>
 			<Z>000</Z>

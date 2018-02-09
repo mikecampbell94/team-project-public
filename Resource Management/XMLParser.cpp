@@ -1,19 +1,19 @@
 #include "XMLParser.h"
-#include <fstream>
 
+#include <fstream>
+#include <iostream>
+
+const int XML_DATA_START = 0;
 
 XMLParser::XMLParser()
 {
 }
 
-
 XMLParser::~XMLParser()
 {
 }
 
-
-
-void XMLParser::loadFile(std::string filename)
+std::string XMLParser::loadFile(std::string filename)
 {
 	std::ifstream inFile(filename);
 
@@ -33,39 +33,46 @@ void XMLParser::loadFile(std::string filename)
 	xmlData = std::vector<char>(xmlDump.begin(), xmlDump.end());
 	xmlData.push_back('\0');
 	rapidxml::xml_document<> doc;
-	doc.parse<rapidxml::parse_no_data_nodes>(&xmlData[0]);
+	
+	doc.parse<rapidxml::parse_no_data_nodes>(&xmlData[XML_DATA_START]);
 	rapidxml::xml_node<>* firstNode = doc.first_node();
-	
 
-
+	parsedXml = new node();
 	recursivelyParse(firstNode, &parsedXml);
-	
-	
 
+	return parsedXml->nodeType;
 }
 
-//PLEASE DO NOT TOUCH
+//PLEASE DO NOT TOUCH, CRITICAL MAGIC RECURSION HAPPENS HERE
 void XMLParser::recursivelyParse(rapidxml::xml_node<>* unParsedNode, node** parsedNode)
 {
 	if (unParsedNode) 
 	{
 		//store name, type, value if any
 		(*parsedNode)->nodeType = unParsedNode->name();
-		(*parsedNode)->name = unParsedNode->first_attribute()->value();
-		(*parsedNode)->value = unParsedNode->value();
-		for(unParsedNode = unParsedNode->first_node(); unParsedNode != nullptr; unParsedNode = unParsedNode->next_sibling())
-		{
-			node* child = NULL;
-			(*parsedNode)->children.push_back(child);
-			recursivelyParse(unParsedNode, &child);
-		}
-			
-			//(*parsedNode)->children.push_back(recursivelyParse(currentNode->first_node()));
-	}
-	else 
-	{
-		
-		
 
+		if (unParsedNode->first_attribute())
+		{
+			(*parsedNode)->name = unParsedNode->first_attribute()->value();
+		}
+		(*parsedNode)->value = unParsedNode->value();
+
+		//recursively iterate through children, and then sibling's children
+		unsigned int i = 0;
+		for(unParsedNode = unParsedNode->first_node(); unParsedNode != nullptr; unParsedNode = unParsedNode->next_sibling(), ++i)
+		{
+			(*parsedNode)->children.push_back(new node());
+			recursivelyParse(unParsedNode, &(*parsedNode)->children[i]);
+		}
 	}
+}
+
+void XMLParser::deleteAllNodes(node* currentNode)
+{
+	for each (node* node in currentNode->children)
+	{
+		deleteAllNodes(node);
+	}
+	delete currentNode;
+	currentNode = nullptr;
 }
