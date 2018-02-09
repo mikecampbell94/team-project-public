@@ -42,33 +42,30 @@ public:
 		BoundingBox AABB, int numTransforms);
 	~SubMesh();
 
+	void Draw(Shader& shader, Matrix4& transform);
 	void Draw(Shader& shader);
 	void DrawShadow(); //Dont bother binding textures.
 
 	float previousradius = 0;
-	void SetScale(const Vector3& scale, int matrixNum)
+
+	void SetTransform(Matrix4 newTransform)
 	{
-		transforms[matrixNum].setScalingVector(scale);
-		previousradius = boundingRadius;
-		box.max = box.max * (scale);
-		box.min = box.min * (scale);
-		CalculateBoundingRadius();
-		//box.min = box.min * scale;
+		if (newTransform.getScalingVector() != transform.getScalingVector())
+		{
+			previousradius = boundingRadius;
+
+			Vector3 scale = newTransform.getScalingVector();
+			box.max = box.max * (scale);
+			box.min = box.min * (scale);
+			CalculateBoundingRadius();
+		}
+
+		this->transform = newTransform;
 	}
 
-	void SetPosition(const Vector3& position, int matrixNum)
+	Matrix4 GetTransform()
 	{
-		transforms[matrixNum].setPositionVector(position);
-	}
-
-	void Rotate(const Vector3& axis, const float& degrees, int matrixNum)
-	{
-		transforms[matrixNum] = transforms[matrixNum] * Matrix4::rotation(degrees, axis);
-	}
-
-	Matrix4* GetTransform(int matrixNum)
-	{
-		return &transforms[matrixNum];
+		return transform;
 	}
 
 	float GetBoundingRadius() const
@@ -123,11 +120,11 @@ public:
 	GLuint modelMatricesSSBO;
 
 private:
+	Matrix4 transform;
+
 	void SetupMesh();
 
 	unsigned int VAO, VBO, EBO; //Render data
-
-	vector<Matrix4> transforms;
 
 	float boundingRadius;
 	float distanceFromCamera;
