@@ -2,6 +2,7 @@
 #include "../../Input/InputManager.h"
 #include "../../Input/GamePadRecorder.h"
 #include "../../Input/KeyboardMouseRecorder.h"
+#include "../../Resource Management/XMLParser.h"
 #include <iostream>
 #include "Communication/LetterBox.h"
 
@@ -43,6 +44,21 @@ GameLoop::GameLoop(System& gameSystem)
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
 	/////
+
+
+
+
+	//-------XML TESTING-------//
+	XMLParser testParser;
+	for (int i = 0; i < 100000; ++i)
+	{
+		testParser.loadFile("../Resources/Game Objects/gameObject.xml");
+
+		testParser.deleteAllNodes(testParser.parsedXml);
+	}
+	
+
+	int i = 0;
 }
 
 GameLoop::~GameLoop()

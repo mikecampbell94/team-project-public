@@ -96,7 +96,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>Graphics.lib;Input.lib;Utilities.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Graphics.lib;Input.lib;Utilities.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib;Resource Management.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
