@@ -31,7 +31,7 @@ GameLoop::GameLoop(System& gameSystem)
 	playerbase->getPlayers()[0]->setSceneNode(node);
 
 	std::string seperator = "|";
-	std::string keyboard = "KEYBOARD_W|KEYBOARD_A";
+	std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
 	std::string xbox = "XBOX_A|XBOX_B";
 	std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
 

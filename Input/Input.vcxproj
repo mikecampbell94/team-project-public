@@ -158,6 +158,7 @@
     <ClInclude Include="InputFilter.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputRecorder.h" />
+    <ClInclude Include="InputUtility.h" />
     <ClInclude Include="KeyboardMouseRecorder.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBase.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="InputFilter.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputRecorder.cpp" />
+    <ClCompile Include="InputUtility.cpp" />
     <ClCompile Include="KeyboardMouseRecorder.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
