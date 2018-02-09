@@ -4,7 +4,6 @@
 		<Mesh>MeshFileName</Mesh>
 		<Textures>
 			<Texture>TextureFileName</Texture>
-			...
 		</Textures>
 		<Colour>
 			<R>000</R>
@@ -13,10 +12,7 @@
 			<A>000</A>
 		</Colour>
 	</RenderObject>
-	
 	<PhysicsObject name="physicsObjectName" >
-		...
 	</PhysicsObject>
 	<GameObjectChild name="GameObjectChild"/>
-	...
 </GameObject>
