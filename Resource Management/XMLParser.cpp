@@ -37,14 +37,14 @@ std::string XMLParser::loadFile(std::string filename)
 	doc.parse<rapidxml::parse_no_data_nodes>(&xmlData[XML_DATA_START]);
 	rapidxml::xml_node<>* firstNode = doc.first_node();
 
-	parsedXml = new node();
+	parsedXml = new Node();
 	recursivelyParse(firstNode, &parsedXml);
 
 	return parsedXml->nodeType;
 }
 
 //PLEASE DO NOT TOUCH, CRITICAL MAGIC RECURSION HAPPENS HERE
-void XMLParser::recursivelyParse(rapidxml::xml_node<>* unParsedNode, node** parsedNode)
+void XMLParser::recursivelyParse(rapidxml::xml_node<>* unParsedNode, Node** parsedNode)
 {
 	if (unParsedNode) 
 	{
@@ -61,15 +61,15 @@ void XMLParser::recursivelyParse(rapidxml::xml_node<>* unParsedNode, node** pars
 		unsigned int i = 0;
 		for(unParsedNode = unParsedNode->first_node(); unParsedNode != nullptr; unParsedNode = unParsedNode->next_sibling(), ++i)
 		{
-			(*parsedNode)->children.push_back(new node());
+			(*parsedNode)->children.push_back(new Node());
 			recursivelyParse(unParsedNode, &(*parsedNode)->children[i]);
 		}
 	}
 }
 
-void XMLParser::deleteAllNodes(node* currentNode)
+void XMLParser::deleteAllNodes(Node* currentNode)
 {
-	for each (node* node in currentNode->children)
+	for each (Node* node in currentNode->children)
 	{
 		deleteAllNodes(node);
 	}
