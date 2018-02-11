@@ -73,6 +73,7 @@ public:
 	}
 
 protected:
+	bool		enabled;
 	SceneNode*	parent;
 	Mesh*		mesh;
 	Matrix4		worldTransform;

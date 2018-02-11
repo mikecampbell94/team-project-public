@@ -70,7 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>..\SOIL\Debug\;..\GLEW\lib\Debug\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -132,11 +135,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameActionGenerator.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameplayInputBridge.h" />
     <ClInclude Include="GameplaySystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameActionGenerator.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameplayInputBridge.cpp" />
     <ClCompile Include="GameplaySystem.cpp" />
   </ItemGroup>

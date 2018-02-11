@@ -2,9 +2,6 @@
 	<RenderObject name="renderObjectName">
 		<Enabled>True/false</Enabled>
 		<Mesh>MeshFileName</Mesh>
-		<Textures>
-			<Texture>TextureFileName</Texture>
-		</Textures>
 		<Colour>
 			<R>000</R>
 			<G>000</G>
@@ -14,5 +11,4 @@
 	</RenderObject>
 	<PhysicsObject name="physicsObjectName" >
 	</PhysicsObject>
-	<GameObjectChild name="GameObjectChild"/>
 </GameObject>

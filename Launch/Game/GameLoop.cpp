@@ -50,15 +50,8 @@ GameLoop::GameLoop(System& gameSystem)
 
 	//-------XML TESTING-------//
 	XMLParser testParser;
-	for (int i = 0; i < 100000; ++i)
-	{
-		testParser.loadFile("../Resources/Game Objects/gameObject.xml");
-
-		testParser.deleteAllNodes(testParser.parsedXml);
-	}
 	
-
-	int i = 0;
+	testParser.loadFile("../Resources/Game Objects/gameObject.xml");
 }
 
 GameLoop::~GameLoop()
