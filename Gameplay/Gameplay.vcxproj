@@ -136,10 +136,14 @@
   <ItemGroup>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameplaySystem.h" />
+    <ClInclude Include="InputGameplay\GameplayInputBridge.h" />
+    <ClInclude Include="InputGameplay\InputActionMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameplaySystem.cpp" />
+    <ClCompile Include="InputGameplay\GameplayInputBridge.cpp" />
+    <ClCompile Include="InputGameplay\InputActionMap.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
