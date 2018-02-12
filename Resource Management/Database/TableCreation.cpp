@@ -1,11 +1,11 @@
 #include "TableCreation.h"
 
 #include "Table.h"
-#include "../Resource.h"
+#include "../Resources/Resource.h"
 
 const size_t MAX_MEMORY_PER_TABLE = 5000;
 
-TableCreation::TableCreation(DataBase* database)
+TableCreation::TableCreation(Database* database)
 {
 	this->database = database;
 
@@ -20,26 +20,35 @@ TableCreation::~TableCreation()
 
 void TableCreation::addTablesToDatabase() const
 {
-	for each (auto additionFunction in tableAdditions)
+	for each (auto addTableToDatabase in tableAdditions)
 	{
-		additionFunction();
+		addTableToDatabase();
 	}
 }
 
 void TableCreation::addGameObject() const
 {
-	database->AddTable("GameObject", new Table<Resource>(false, false, [](Node* node)
+	database->addTable("GameObjects", new Table<Resource>("GameObjects", MAX_MEMORY_PER_TABLE, [](Node* node)
 	{
 		//Build object from node
-		//Return it
 		return nullptr;
-	}, TableConfiguration("GProfiler", MAX_MEMORY_PER_TABLE)));
+	}));
 }
 
 void TableCreation::addSceneNode() const
 {
+	database->addTable("SceneNodes", new Table<Resource>("SceneNodes", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		//Build object from node
+		return nullptr;
+	}));
 }
 
 void TableCreation::addPhysicsObject() const
 {
+	database->addTable("PhysicsObjects", new Table<Resource>("PhysicsObjects", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		//Build object from node
+		return nullptr;
+	}));
 }

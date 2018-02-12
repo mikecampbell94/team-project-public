@@ -5,7 +5,7 @@
 ObjectBuilder::ObjectBuilder()
 {
 
-	addBuilder("RenderObject", [](node* node, Database* database) {
+	addBuilder("RenderObject", [](Node* node, Database* database) {
 		//break node down
 		string iD = node->name;
 		//dont forget extract enabled/disabled
@@ -15,25 +15,25 @@ ObjectBuilder::ObjectBuilder()
 
 
 		SceneNode* sceneNode;
-		Resource<SceneNode>* resource = new Resource<SceneNode>(*sceneNode);
+		//Resource<SceneNode>* resource = new Resource<SceneNode>(*sceneNode);
 		//database.addResource(resource);
 	});
 
-	addBuilder("GameObject", [](node* node, Database* database) {
+	addBuilder("GameObject", [](Node* node, Database* database) {
 		GameObject* gameObject;
-		Resource<GameObject>* resource = new Resource<GameObject>(*gameObject);
+		//Resource<GameObject>* resource = new Resource<GameObject>(*gameObject);
 		//database.addResource(resource);
 	});
 
-	addBuilder("PhysicsObject", [](node* node, Database* database) {
+	addBuilder("PhysicsObject", [](Node* node, Database* database) {
 		GameObject* gameObject;
-		Resource<GameObject>* resource = new Resource<GameObject>(*gameObject);
+		//Resource<GameObject>* resource = new Resource<GameObject>(*gameObject);
 		//database.addResource(resource);
 	});
 
-	addBuilder("Mesh", [](node* node, Database* database) {
+	addBuilder("Mesh", [](Node* node, Database* database) {
 		Mesh* mesh;
-		Resource<Mesh>* resource = new Resource<Mesh>(*mesh);
+		//Resource<Mesh>* resource = new Resource<Mesh>(*mesh);
 		//database.addResource(resource);
 	});
 
