@@ -1,7 +1,7 @@
 #include "TableCreation.h"
 
 #include "Table.h"
-#include "../Resource.h"
+#include "../Resources/Resource.h"
 
 const size_t MAX_MEMORY_PER_TABLE = 5000;
 

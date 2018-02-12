@@ -22,12 +22,7 @@ public:
 
 	~ResourceManager()
 	{
-		for (auto iter = resourceBuffer.begin(); iter != resourceBuffer.end(); iter++)
-		{
-			delete iter->second;
-		}
-
-		resourceBuffer.clear();
+		deleteAllResources();
 	}
 
 	void addResource(T* resource)
@@ -59,6 +54,16 @@ public:
 			delete resource;
 			resourceBuffer.erase(identifier);
 		}
+	}
+
+	void deleteAllResources()
+	{
+		for (auto iter = resourceBuffer.begin(); iter != resourceBuffer.end(); iter++)
+		{
+			delete iter->second;
+		}
+
+		resourceBuffer.clear();
 	}
 
 private:
