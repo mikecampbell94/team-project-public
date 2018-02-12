@@ -10,6 +10,16 @@ SceneNode::SceneNode(string meshFile, Vector4 colour)
 	distanceFromCamera = 0.0f;
 }
 
+SceneNode::SceneNode(Mesh * mesh, Vector4 colour)
+{
+	this->mesh = mesh;
+	this->colour = colour;
+	parent = NULL;
+
+	boundingRadius = 10.0f;
+	distanceFromCamera = 0.0f;
+}
+
 SceneNode::~SceneNode(void)
 {
 	for (unsigned int i = 0; i < children.size(); ++i) {

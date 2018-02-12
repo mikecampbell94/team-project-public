@@ -18,19 +18,25 @@ void Level::loadLevelFile(std::string levelFilePath)
 
 	levelFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
-	levelFile.open(levelFilePath);
+
+	levelFile.open(LEVELDIR + levelFilePath);
 
 	if (levelFile.fail())
 	{
-		throw std::runtime_error("Error: File " + levelFilePath + " not found");
+		throw std::runtime_error("Error: File " +  levelFilePath + " not found");
 	}
 
 	std::string line;
-	while (std::getline(levelFile, line))
+	
+	while (!levelFile.eof() && std::getline(levelFile, line))
 	{
-		listOfObjectTypesInLevel.push_back(parser.loadFile(line));
+		listOfObjectTypesInLevel.push_back(parser.loadFile(DATADIR + line));
+		//have our object in XML format, add to database :)
+		for (Node * child : parser.parsedXml->children) {
+			database->addResourceToTable(child->nodeType, child);
+		}
+		
 	}
-
 	levelFile.close();
 }
 

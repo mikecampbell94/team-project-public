@@ -134,20 +134,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database\Database.h" />
+    <ClInclude Include="Database\TableCreation.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="ObjectBuilder.h" />
     <ClInclude Include="Database\Table.h" />
     <ClInclude Include="Resources\ResourceManager.h" />
-    <ClInclude Include="Database\TableCreation.h" />
     <ClInclude Include="XMLParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Database\Database.cpp" />
+    <ClCompile Include="Database\TableCreation.cpp" />
     <ClCompile Include="ObjectBuilder.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Resources\Resource.cpp" />
-	<ClInclude Include="XMLParser.cpp" />
+    <ClCompile Include="XMLParser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

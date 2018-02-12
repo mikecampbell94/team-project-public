@@ -2,10 +2,10 @@
 #include "../../Input/InputManager.h"
 #include "../../Input/GamePadRecorder.h"
 #include "../../Input/KeyboardMouseRecorder.h"
-#include "../../Resource Management/ObjectBuilder.h"
 #include "../../Resource Management/Level.h"
 #include <iostream>
 #include "Communication/LetterBox.h"
+#include "../../Gameplay/GameObject.h"
 
 GameLoop::GameLoop(System& gameSystem)
 {
@@ -45,12 +45,15 @@ GameLoop::GameLoop(System& gameSystem)
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
 	
+	Database database;
 
+	TableCreation tableCreation(&database);
 
-	//-------XML TESTING-------//	
-	//XMLParser pars;
-	ObjectBuilder blah;
-	Level lvl();
+	Level level(&database);
+	level.loadLevelFile("TestLevel.txt");
+
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("wall1"))->getSceneNode());
+	
 }
 
 GameLoop::~GameLoop()

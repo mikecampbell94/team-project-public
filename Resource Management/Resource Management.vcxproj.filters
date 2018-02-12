@@ -18,16 +18,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="XMLParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Database\Database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Database\Table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Database\TableCreation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resources\Resource.h">
@@ -40,6 +34,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\TableCreation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,7 +56,10 @@
     <ClCompile Include="ObjectBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="XMLParser.cpp">
+    <ClCompile Include="XMLParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\TableCreation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

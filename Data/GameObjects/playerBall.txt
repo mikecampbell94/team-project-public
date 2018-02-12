@@ -1,4 +1,4 @@
 <GameObject>
 	<Mesh> sphere.obj </Mesh>
-	<Physics>	true	  </Physics>
+	<Physics>true</Physics>
 </GameObject>

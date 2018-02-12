@@ -11,6 +11,9 @@ public:
 	RenderingSystem(Window* window, Camera* camera, Vector2 resolution);
 	~RenderingSystem();
 
+
+
+
 	void loadingScreen() {}
 
 	void SetSceneToRender(SceneManager* scene);

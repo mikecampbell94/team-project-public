@@ -1,0 +1,4 @@
+<LevelMeshes>
+<Meshes name="SphereMesh" >../Data/Meshes/sphere.obj</Mesh>
+<Meshes name="CubeMesh" >../Data/Meshes/cube.obj</Mesh>
+</LevelMeshes>

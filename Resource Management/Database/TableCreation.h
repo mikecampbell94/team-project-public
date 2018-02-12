@@ -16,6 +16,8 @@ private:
 	void addGameObject() const;
 	void addSceneNode() const;
 	void addPhysicsObject() const;
+	void addMesh() const;
+
 
 	std::vector<std::function<void()>> tableAdditions;
 	Database* database;

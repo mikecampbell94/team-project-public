@@ -3,6 +3,7 @@
 #pragma comment(lib, "assimp-vc140-mt.lib")
 
 #include "SubMesh.h"
+#include "../../Resource Management/Resources/Resource.h"
 
 #include <Importer.hpp>
 #include <scene.h>
@@ -15,7 +16,7 @@
 //#include <Simple OpenGL Image Library\src\stb_image_aug.h>
 #include <unordered_map>
 
-class Mesh
+class Mesh : public Resource
 {
 public:
 	Mesh(char *path, int numModels)
