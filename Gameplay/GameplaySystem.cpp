@@ -4,7 +4,7 @@
 #include "../Communication/Messages/PlayerInputMessage.h"
 #include "../Input/Players/Player.h"
 #include "../Graphics/Scene Management/SceneNode.h"
-#include "Input/InputUtility.h"
+#include "../Input/InputUtility.h"
 
 GameplaySystem::GameplaySystem(const int playersInGame)
 	: Subsystem("Gameplay")

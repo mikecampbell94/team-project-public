@@ -21,24 +21,12 @@
     <ClInclude Include="GameplaySystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputGameplay\GameplayInputBridge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputGameplay\InputActionMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameplaySystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputGameplay\GameplayInputBridge.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputGameplay\InputActionMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
