@@ -130,12 +130,17 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Level.h" />
-    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Database\Database.h" />
+    <ClInclude Include="Resources\Resource.h" />
+    <ClInclude Include="Database\Table.h" />
+    <ClInclude Include="Resources\ResourceManager.h" />
+    <ClInclude Include="Database\TableCreation.h" />
     <ClInclude Include="XMLParser.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Database\Database.cpp" />
+    <ClCompile Include="Database\TableCreation.cpp" />
+    <ClCompile Include="Resources\Resource.cpp" />
     <ClCompile Include="XMLParser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
