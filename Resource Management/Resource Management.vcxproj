@@ -139,7 +139,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Database\Database.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Database\TableCreation.cpp" />
     <ClCompile Include="XMLParser.cpp" />
   </ItemGroup>

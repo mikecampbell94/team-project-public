@@ -4,6 +4,7 @@
 #include "Table.h"
 
 #include <string>
+#include <map>
 
 class Database
 {
@@ -11,11 +12,12 @@ public:
 	Database();
 	~Database();
 
-	void AddTable(const std::string tableName, Table<Resource>* table)
-	{
-		tables[tableName] = table;
-	}
+	void addTable(const std::string tableName, Table<Resource>* table);
+	Table<Resource>* getTable(const std::string tableName);
 
-	unordered_map <string, Table<Resource>*> tables;
+	void addResourceToTable(const std::string tableName, Resource* resource);
+	void addResourceToTable(const std::string tableName, Node* node);
+
+	std::map<std::string, Table<Resource>*> tables;
 };
 

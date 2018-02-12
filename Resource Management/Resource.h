@@ -1,26 +1,45 @@
 #pragma once
 #include <string>
 
-using namespace std;
-template <class T>
 class Resource
 
 {
 public:
-	Resource(T p)
+	Resource()
 	{
 		name = "";
-		size = 0;
+		size = size_t(0);
 	}
+
+	Resource(std::string name, size_t size)
+	{
+		this->name = name;
+		this->size = size;
+	}
+
 	~Resource() {}
 
-	virtual string GetID() { return name; }
-	virtual size_t GetSize() { return size; }
-	virtual void SetID(std::string id) { name = id; }
-	virtual void SetSize(T p) { size = sizeof(p); }
+	std::string getName() 
+	{ 
+		return name; 
+	}
+
+	void setName(std::string newName) 
+	{ 
+		name = newName;
+	}
+
+	size_t getSize() 
+	{ 
+		return size; 
+	}
+
+	void setSize(size_t newSize) 
+	{ 
+		size = newSize; 
+	}
 
 protected:
-	string name;
+	std::string name;
 	size_t size;
-
 };

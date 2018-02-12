@@ -2,21 +2,10 @@
 
 #include "../ResourceManager.h"
 #include "../XMLParser.h"
+#include "../Resource.h"
 
 #include <string>
 #include <functional>
-
-struct TableConfiguration
-{
-	std::string name;
-	size_t maxSize;
-
-	TableConfiguration(std::string name, size_t maxSize)
-	{
-		this->name = name;
-		this->maxSize = maxSize;
-	}
-};
 
 template <class ResourceType>
 class Table
@@ -39,6 +28,11 @@ public:
 	void addNewResource(Node* resource)
 	{
 		storage.addResource(builder(resource));
+	}
+
+	void addNewResource(Resource* resource)
+	{
+		storage.addResource(resource);
 	}
 
 	void deleteResource(std::string identifier)
