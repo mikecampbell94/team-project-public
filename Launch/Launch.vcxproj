@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\Gameplay\;..\Graphics\;..\Input\;..\Utilities\;..\ASSIMP\include\assimp;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>..\Gameplay\$(Configuration);..\Graphics\$(Configuration);..\Input\$(Configuration);..\Utilities\$(Configuration);..\ASSIMP\lib;..\GLEW\lib;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Gameplay\;..\Graphics\;..\Input\;..\Utilities\;..\Resource Management\;..\ASSIMP\include\assimp;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\Resource Management\$(Configuration);..\Gameplay\$(Configuration);..\Graphics\$(Configuration);..\Input\$(Configuration);..\Utilities\$(Configuration);..\ASSIMP\lib;..\GLEW\lib;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -96,7 +96,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>Graphics.lib;Input.lib;Utilities.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Graphics.lib;Input.lib;Utilities.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib;Resource Management.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

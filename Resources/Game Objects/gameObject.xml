@@ -1,0 +1,14 @@
+<GameObject name="gameObjectName">
+	<RenderObject name="renderObjectName">
+		<Enabled>True/false</Enabled>
+		<Mesh>MeshFileName</Mesh>
+		<Colour>
+			<R>000</R>
+			<G>000</G>
+			<B>000</B>
+			<A>000</A>
+		</Colour>
+	</RenderObject>
+	<PhysicsObject name="physicsObjectName" >
+	</PhysicsObject>
+</GameObject>
