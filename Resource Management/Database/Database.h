@@ -18,6 +18,7 @@ public:
 	void addResourceToTable(const std::string tableName, Resource* resource);
 	void addResourceToTable(const std::string tableName, Node* node);
 
+private:
 	std::map<std::string, Table<Resource>*> tables;
 };
 
