@@ -5,6 +5,7 @@
 #include "../Input/Players/Player.h"
 #include "../Graphics/Scene Management/SceneNode.h"
 #include "../Input/InputUtility.h"
+#include "../Resource Management/XMLParser.h"
 
 GameplaySystem::GameplaySystem(const int playersInGame)
 	: Subsystem("Gameplay")
@@ -36,8 +37,14 @@ GameplaySystem::GameplaySystem(const int playersInGame)
 	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT }, 
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&inputBridge = inputBridge](Message* message)
+	XMLParser xmlParser;
+	xmlParser.loadFile("../Resources/Gameplay/gameplay.xml");
+	gameLogic = GameLogic(&incomingMessages);
+	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge](Message* message)
 	{
+		gameLogic.notifyMessageActions("PlayerInputMessage", message);
 		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
 	});
 }
@@ -48,4 +55,6 @@ GameplaySystem::~GameplaySystem()
 
 void GameplaySystem::updateSubsystem(const float& deltaTime)
 {
+	gameLogic.executeMessageBasedActions();
+	gameLogic.clearNotifications();
 }

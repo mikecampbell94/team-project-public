@@ -1,0 +1,10 @@
+<ReceiveMessage type="PlayerInputMessage">
+	<Action>
+		<Condition>
+			<playerID>0</playerID>
+		</Condition>
+		<SendMessage type="DUMMY_TYPE">
+			<destination>RenderingSystem</destination>
+		</SendMessage>
+	</Action>
+</ReceiveMessage>

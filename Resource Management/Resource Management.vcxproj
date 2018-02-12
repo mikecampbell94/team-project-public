@@ -147,7 +147,7 @@
     <ClCompile Include="ObjectBuilder.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Resources\Resource.cpp" />
-	<ClInclude Include="XMLParser.cpp" />
+    <ClCompile Include="XMLParser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
