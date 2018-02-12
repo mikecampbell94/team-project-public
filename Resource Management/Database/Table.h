@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../ResourceManager.h"
+#include "../Resources/ResourceManager.h"
 #include "../XMLParser.h"
-#include "../Resource.h"
+#include "../Resources/Resource.h"
 
 #include <string>
 #include <functional>
@@ -27,29 +27,29 @@ public:
 
 	void addNewResource(Node* resource)
 	{
-		storage.addResource(builder(resource));
+		storage->addResource(builder(resource));
 	}
 
 	void addNewResource(Resource* resource)
 	{
-		storage.addResource(resource);
+		storage->addResource(resource);
 	}
 
 	void deleteResource(std::string identifier)
 	{
-		storage.deleteResource(identifier);
+		storage->deleteResource(identifier);
 	}
 
 	ResourceManager<ResourceType>* getAllResources()
 	{
-		return &storage;
+		return storage;
 	}
 
 private:
 	std::string name;
 	size_t maxSize;
 
-	ResourceManager<ResourceType> storage;
+	ResourceManager<ResourceType>* storage;
 	std::function<ResourceType*(Node*)> builder;
 };
 

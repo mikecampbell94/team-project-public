@@ -3,8 +3,9 @@
 #include <fstream>
 #include <stdexcept>
 
-Level::Level()
+Level::Level(Database *database)
 {
+	this->database = database;
 }
 
 Level::~Level()
@@ -37,6 +38,6 @@ void Level::unloadLevel()
 {
 	for (std::vector<std::string>::const_iterator it = listOfObjectTypesInLevel.begin(); it != listOfObjectTypesInLevel.end(); ++it)
 	{
-		//db->findTable(*it)->clearTable();
+		database->getTable(*it)->getAllResources()->deleteAllResources();
 	}
 }
