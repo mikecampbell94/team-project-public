@@ -134,6 +134,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scripting\ConditionalStatementBuilder.h" />
     <ClInclude Include="Scripting\ActionBuilder.h" />
     <ClInclude Include="Scripting\GameLogic.h" />
     <ClInclude Include="GameObject.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="InputGameplay\InputActionMap.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Scripting\ConditionalStatementBuilder.cpp" />
     <ClCompile Include="Scripting\ActionBuilder.cpp" />
     <ClCompile Include="Scripting\GameLogic.cpp" />
     <ClCompile Include="GameObject.cpp" />

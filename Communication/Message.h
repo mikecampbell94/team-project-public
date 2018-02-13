@@ -37,7 +37,7 @@ public:
 		{
 			return messageTypeData.at(type);
 		}
-		else if (name == "playerID")
+		else
 		{
 			return integerInformation.at(name);
 		}

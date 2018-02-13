@@ -1,61 +1,84 @@
 #include "ActionBuilder.h"
 
+#include "ConditionalStatementBuilder.h"
 #include "../Resource Management/XMLParser.h"
 #include "../Communication/Message.h"
 #include "../../Communication/MessagingService.h"
 #include "../../Communication/DeliverySystem.h"
 
-const std::string CONDITION_TYPE = "Condition";
-const std::string SEND_MESSAGE_TYPE = "SendMessage";
+const std::string CONDITIONAL_STATEMENT = "Condition";
+const std::string SEND_MESSAGE_STATEMENT = "SendMessage";
 
 GameplayAction ActionBuilder::buildAction(Node* node)
 {
-	bool containsCondition = false;
 	Condition condition;
 	std::vector<Executable> executables;
 
 	for each (Node* section in node->children)
 	{
-		if (section->nodeType == CONDITION_TYPE)
-		{
-			condition = [section](Message message)
-			{
-				return message.getDataField(section->children[0]->nodeType) == section->children[0]->value;
-			};
-
-			containsCondition = true;
-		}
-		else
-		{
-			if (section->nodeType == SEND_MESSAGE_TYPE)
-			{
-				executables.push_back(buildSendMessageExecutable(section));
-			}
-		}
+		compileActionSection(section, condition, executables);
 	}
 
-	if (containsCondition)
+	if (condition)
 	{
-		return [condition, executables](Message message)
-		{
-			if (condition(message))
-			{
-				for each (Executable executable in executables)
-				{
-					executable();
-				}
-			}
-		};
+		return buildFinalActionWithCondition(condition, executables);
 	}
 	else
 	{
-		return [executables](Message message)
+		buildFinalAction(executables);
+	}
+}
+
+GameplayAction ActionBuilder::buildFinalActionWithCondition(Condition& condition, std::vector<Executable>& executables)
+{
+	return [condition, executables](Message message)
+	{
+		if (condition(message))
 		{
 			for each (Executable executable in executables)
 			{
 				executable();
 			}
-		};
+		}
+	};
+}
+
+GameplayAction ActionBuilder::buildFinalAction(std::vector<Executable>& executables)
+{
+	return [executables](Message message)
+	{
+		for each (Executable executable in executables)
+		{
+			executable();
+		}
+	};
+}
+
+void ActionBuilder::compileActionSection(Node* section, Condition& condition, std::vector<Executable>& executables)
+{
+	if (section->nodeType == CONDITIONAL_STATEMENT)
+	{
+		condition = buildIfStatement(section);
+	}
+	else if (section->nodeType == SEND_MESSAGE_STATEMENT)
+	{
+		executables.push_back(buildSendMessageExecutable(section));
+	}
+}
+
+Condition ActionBuilder::buildIfStatement(Node* node)
+{
+	if (node->name == "OR")
+	{
+		return ConditionalStatementBuilder::buildOrCondition(node);
+	}
+	else if (node->name == "AND")
+	{
+		return ConditionalStatementBuilder::buildAndCondition(node);
+	}
+	else
+	{
+		return ConditionalStatementBuilder::buildSingleIfCondition(node);
 	}
 }
 
@@ -63,10 +86,10 @@ Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 {
 	if (node->name == "DUMMY_TYPE")
 	{
-		return [node]()
+		Node* destination = node->children[0];
+		return [destination]()
 		{
-			//DeliverySystem::getPostman()->insertMessage(Message(node->children[0]->value, DUMMY_TYPE));
-			DeliverySystem::getPostman()->insertMessage(Message("RenderingSystem", DUMMY_TYPE));
+			DeliverySystem::getPostman()->insertMessage(Message(destination->value, DUMMY_TYPE));
 		};
 	}
 }

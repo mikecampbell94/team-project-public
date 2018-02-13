@@ -1,7 +1,8 @@
 <ReceiveMessage type="PlayerInputMessage">
 	<Action>
-		<Condition>
+		<Condition bool ="OR">
 			<playerID>0</playerID>
+			<playerID>1</playerID>
 		</Condition>
 		<SendMessage type="DUMMY_TYPE">
 			<destination>RenderingSystem</destination>
