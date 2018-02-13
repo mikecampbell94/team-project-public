@@ -4,7 +4,7 @@
 		<Enabled>True/False</Enabled>
 		<Position>
 			<X>005</X>
-			<Y>000</Y>
+			<Y>005</Y>
 			<Z>005</Z>
 		</Position>
 		<Rotation>
@@ -19,13 +19,14 @@
 			<Z>001</Z>
 		</Scale>
 </GameObjects>
+
 <GameObjects name="wall1" >
 		<Mesh>CubeMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>010</X>
-			<Y>000</Y>
-			<Z>010</Z>
+			<X>050</X>
+			<Y>050</Y>
+			<Z>050</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -118,9 +119,9 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>000</X>
+			<X>030</X>
 			<Y>000</Y>
-			<Z>000</Z>
+			<Z>030</Z>
 		</Scale>
 </GameObjects>
 </LevelDetails>

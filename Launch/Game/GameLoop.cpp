@@ -21,7 +21,7 @@ GameLoop::GameLoop(System& gameSystem)
 	SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
 	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
 	std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
-	nodes->push_back(node);
+	//nodes->push_back(node);
 	scene = new SceneManager(camera, nodes);
 
 	rendering->SetSceneToRender(scene);
@@ -52,8 +52,12 @@ GameLoop::GameLoop(System& gameSystem)
 	Level level(&database);
 	level.loadLevelFile("TestLevel.txt");
 
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("playerBall"))->getSceneNode());
 	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("wall1"))->getSceneNode());
-	
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("wall2"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("wall3"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("wall4"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("floor"))->getSceneNode());
 }
 
 GameLoop::~GameLoop()

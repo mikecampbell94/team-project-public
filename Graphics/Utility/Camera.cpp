@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-#include "../Meshes/SubMesh.h"
+#include "../Scene Management/SceneNode.h"
 
 /*
 Polls the camera for keyboard / mouse movement.
@@ -27,6 +27,14 @@ bool Camera::subMeshIsInCameraView(SubMesh* submesh)
 {
 	const Vector3 position = submesh->GetTransform().getPositionVector();
 	const float radius = submesh->GetBoundingRadius();
+
+	return viewFrustum.insideFrustum(position, radius);
+}
+
+bool Camera::sceneNodeIsInCameraView(SceneNode * sceneNode)
+{
+	const Vector3 position = sceneNode->GetWorldTransform().getPositionVector();
+	const float radius = sceneNode->getRadius();
 
 	return viewFrustum.insideFrustum(position, radius);
 }

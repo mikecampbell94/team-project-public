@@ -54,6 +54,12 @@ public:
 	void SetReflectionAttributesForAllSubMeshes(int isReflective, float strength);
 	void SetbackupColourAttributeForAllSubMeshes(Vector4 colour);
 
+	float getRadius()
+	{
+		return this->meshes[0]->GetBoundingRadius();
+	}
+
+
 	//Model Data 
 	std::vector<SubMesh*> meshes;
 	unordered_map<string, SubMesh*> meshesByName;
@@ -64,5 +70,8 @@ public:
 	const aiScene* scene;
 
 	int numModels;
+
+	float radius;
+
 };
 

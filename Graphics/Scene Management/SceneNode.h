@@ -42,6 +42,8 @@ public:
 		mesh->SetbackupColourAttributeForAllSubMeshes(c);
 	}
 
+	Vector4 getColour();
+
 	void SetModelScale(Vector3 s)
 	{
 		transform.setScalingVector(s);
@@ -72,6 +74,11 @@ public:
 		return (a->distanceFromCamera < b->distanceFromCamera)
 			? true : false;
 	}
+
+	std::vector<SceneNode*> getChildren();
+
+
+	const float getRadius();
 
 protected:
 	bool		enabled;

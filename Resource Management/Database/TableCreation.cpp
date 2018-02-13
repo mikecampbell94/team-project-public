@@ -34,10 +34,28 @@ void TableCreation::addGameObject() const
 {
 	database->addTable("GameObjects", new Table<Resource>("GameObjects", MAX_MEMORY_PER_TABLE, [&](Node* node)
 	{
-		SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getAllResources()->getResource("SphereMesh")));
+		std::string meshName = node->children[0]->value;
+		Vector3 position;
+		position.x = std::stof(node->children[2]->children[0]->value);
+		position.y = std::stof(node->children[2]->children[1]->value);
+		position.z = std::stof(node->children[2]->children[2]->value);
+		Vector4 rotation;
+		rotation.x = std::stof(node->children[3]->children[0]->value);
+		rotation.y = std::stof(node->children[3]->children[1]->value);
+		rotation.z = std::stof(node->children[3]->children[2]->value);
+		rotation.w = std::stof(node->children[3]->children[3]->value);
+		Vector3 scale;
+		scale.x = std::stof(node->children[4]->children[0]->value);
+		scale.y = std::stof(node->children[4]->children[1]->value);
+		scale.z = std::stof(node->children[4]->children[2]->value);
+
+
+		SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getAllResources()->getResource(meshName)));
 		GameObject* gameObject = new GameObject();
 		gameObject->setName(node->name);
 		gameObject->setSceneNode(sceneNode);
+		gameObject->setPosition(position);
+		gameObject->setScale(scale);
 		return gameObject;
 	}));
 }
