@@ -5,6 +5,7 @@
 #include "../Communication/Message.h"
 #include "../../Communication/MessagingService.h"
 #include "../../Communication/DeliverySystem.h"
+#include "../../Communication/Messages/TextMessage.h"
 
 const std::string CONDITIONAL_STATEMENT = "Condition";
 const std::string SEND_MESSAGE_STATEMENT = "SendMessage";
@@ -27,6 +28,30 @@ GameplayAction ActionBuilder::buildAction(Node* node)
 	{
 		buildFinalAction(executables);
 	}
+}
+
+TimedGameplayAction ActionBuilder::buildTimedAction(Node* node)
+{
+	std::vector<Executable> executables;
+
+	for each (Node* section in node->children)
+	{
+		executables.push_back(compileActionSectionWithoutCondition(section));
+	}
+
+	float interval = std::stof(node->name);
+
+	return [interval, executables](float time, float deltaTime)
+	{
+		float timeDifference = fmod(time, interval);
+		if (timeDifference <= deltaTime)
+		{
+			for each (Executable executable in executables)
+			{
+				executable();
+			}
+		}
+	};
 }
 
 GameplayAction ActionBuilder::buildFinalActionWithCondition(Condition& condition, std::vector<Executable>& executables)
@@ -60,9 +85,21 @@ void ActionBuilder::compileActionSection(Node* section, Condition& condition, st
 	{
 		condition = buildIfStatement(section);
 	}
-	else if (section->nodeType == SEND_MESSAGE_STATEMENT)
+	else
 	{
-		executables.push_back(buildSendMessageExecutable(section));
+		executables.push_back(compileActionSectionWithoutCondition(section));
+	}
+}
+
+Executable ActionBuilder::compileActionSectionWithoutCondition(Node* section)
+{
+	if (section->nodeType == SEND_MESSAGE_STATEMENT)
+	{
+		return buildSendMessageExecutable(section);
+	}
+	else
+	{
+		//TO-DO
 	}
 }
 
@@ -90,6 +127,16 @@ Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 		return [destination]()
 		{
 			DeliverySystem::getPostman()->insertMessage(Message(destination->value, DUMMY_TYPE));
+		};
+	}
+	else if (node->name == "TEXT")
+	{
+		Node* destination = node->children[0];
+		Node* data = node->children[1];
+
+		return [destination = destination->value, text = data->value]()
+		{
+			DeliverySystem::getPostman()->insertMessage(TextMessage(destination, text));
 		};
 	}
 }

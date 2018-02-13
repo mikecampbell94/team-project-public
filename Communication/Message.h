@@ -6,7 +6,9 @@
 enum MessageType
 {
 	PLAYER_INPUT,
-	DUMMY_TYPE
+	DUMMY_TYPE,
+	TRANSLATE_SCENE_NODE,
+	TEXT
 };
 
 class Message

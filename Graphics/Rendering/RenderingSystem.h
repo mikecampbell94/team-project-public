@@ -5,10 +5,12 @@
 #include "Renderer.h"
 #include <memory>
 
+class Database;
+
 class RenderingSystem : public Subsystem
 {
 public:
-	RenderingSystem(Window* window, Camera* camera, Vector2 resolution);
+	RenderingSystem(Database* database, Window* window, Camera* camera, Vector2 resolution);
 	~RenderingSystem();
 
 	void loadingScreen() {}

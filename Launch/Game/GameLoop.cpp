@@ -14,7 +14,7 @@ GameLoop::GameLoop(System& gameSystem)
 	//MUST BE REMOVED
 	camera = new Camera(0, 0, Vector3(0, 0, 0));
 
-	rendering = new RenderingSystem(window, camera, Vector2(1280, 720));
+	rendering = new RenderingSystem(nullptr, window, camera, Vector2(1280, 720));
 
 	SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
 	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));

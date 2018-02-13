@@ -30,6 +30,11 @@ void LetterBox::insertMessage(PlayerInputMessage message)
 	playerInputMessages.push_back(message);
 }
 
+void LetterBox::insertMessage(TextMessage message)
+{
+	textMessages.push_back(message);
+}
+
 void LetterBox::deliverAllMessages()
 {
 	for (unsigned int i = 0; i < messages.size(); ++i)
@@ -41,6 +46,11 @@ void LetterBox::deliverAllMessages()
 	{
 		messageStorage.sendMessage(&playerInputMessages[i]);
 	}
+
+	for (unsigned int i = 0; i < textMessages.size(); ++i)
+	{
+		messageStorage.sendMessage(&textMessages[i]);
+	}
 }
 
 void LetterBox::clearAllMessages()
@@ -49,4 +59,5 @@ void LetterBox::clearAllMessages()
 
 	messages.clear();
 	playerInputMessages.clear();
+	textMessages.clear();
 }

@@ -3,6 +3,7 @@
 #include "../Launch/Systems/Subsystem.h"
 #include "InputGameplay/GameplayInputBridge.h"
 #include "Scripting/GameLogic.h"
+#include "GameTimer.h"
 
 class GameplaySystem : public Subsystem
 {
@@ -13,6 +14,7 @@ public:
 	void updateSubsystem(const float& deltaTime) override;
 
 private:
+	GameTimer gameplayTimer;
 	GameLogic gameLogic;
 	GameplayInputBridge inputBridge;
 };

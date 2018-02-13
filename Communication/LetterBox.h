@@ -2,6 +2,7 @@
 
 #include "Message.h"
 #include "Messages/PlayerInputMessage.h"
+#include "Messages/TextMessage.h"
 #include "MessagingService.h"
 #include "MessageStorage.h"
 
@@ -16,6 +17,7 @@ public:
 
 	void insertMessage(Message message) override;
 	void insertMessage(PlayerInputMessage message) override;
+	void insertMessage(TextMessage message) override;
 
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
@@ -25,5 +27,6 @@ private:
 
 	std::vector<Message> messages;
 	std::vector<PlayerInputMessage> playerInputMessages;
+	std::vector<TextMessage> textMessages;
 };
 

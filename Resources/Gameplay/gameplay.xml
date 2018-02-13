@@ -1,11 +1,30 @@
-<ReceiveMessage type="PlayerInputMessage">
-	<Action>
-		<Condition bool ="OR">
-			<playerID>0</playerID>
-			<playerID>1</playerID>
-		</Condition>
-		<SendMessage type="DUMMY_TYPE">
+<GameplayScript>
+	<ReceiveMessage type="PlayerInputMessage">
+		<Action>
+			<Condition bool ="OR">
+				<playerID>0</playerID>
+				<playerID>1</playerID>
+			</Condition>
+			<SendMessage type="TEXT">
+				<destination>RenderingSystem</destination>
+				<text>Renderer recieved dummy message</text>
+			</SendMessage>
+		</Action>
+	</ReceiveMessage>
+	<Timed interval="1.0">
+		<SendMessage type="TEXT">
 			<destination>RenderingSystem</destination>
+			<text>every second</text>
 		</SendMessage>
-	</Action>
-</ReceiveMessage>
+		<SendMessage type="TEXT">
+			<destination>RenderingSystem</destination>
+			<text>another every second</text>
+		</SendMessage>
+	</Timed>
+	<Timed interval="2.0">
+		<SendMessage type="TEXT">
+			<destination>RenderingSystem</destination>
+			<text>every 2 seconds</text>
+		</SendMessage>
+	</Timed>
+</GameplayScript>

@@ -15,22 +15,24 @@ GameLogic::~GameLogic()
 
 void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
 {
-	if (xmlNode->nodeType == "ReceiveMessage")
+	for each (Node* gameplayAction in xmlNode->children)
 	{
-		for each (Node* action in xmlNode->children)
+		if (gameplayAction->nodeType == "ReceiveMessage")
 		{
-			messageBasedActions[xmlNode->name].push_back(ActionBuilder::buildAction(action));
+			for each (Node* action in gameplayAction->children)
+			{
+				messageBasedActions[gameplayAction->name].push_back(ActionBuilder::buildAction(action));
+			}
 		}
-	}
-	else if (xmlNode->nodeType == "Timed")
-	{
-		
+		else if (gameplayAction->nodeType == "Timed")
+		{
+			timedActions.push_back(ActionBuilder::buildTimedAction(gameplayAction));
+		}
 	}
 }
 
 void GameLogic::executeMessageBasedActions()
 {
-	//for each (std::pair<std::string, Message> publisher in publishers)
 	for (int i = 0; i < publishers.size(); ++i)
 	{
 		std::vector<GameplayAction>* executables = &messageBasedActions.at(publishers[i].first);
@@ -42,8 +44,12 @@ void GameLogic::executeMessageBasedActions()
 	}
 }
 
-void GameLogic::executeDeltaTimeBasedActions(const float& deltaTime)
+void GameLogic::executeTimeBasedActions(const float& time, const float& deltaTime)
 {
+	for each (TimedGameplayAction timedAction in timedActions)
+	{
+		timedAction(time, deltaTime);
+	}
 }
 
 void GameLogic::notifyMessageActions(const std::string& messageType, Message* message)
