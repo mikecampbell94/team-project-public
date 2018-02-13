@@ -11,25 +11,19 @@ GameplaySystem::GameplaySystem(const int playersInGame)
 	: Subsystem("Gameplay")
 {
 	InputActionMap actions(0);
-	actions.attachKeyToAction(InputUtility::getKeyID("KEYBOARD_W"), [](Player* player)
-	{
-		player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(Vector3(0, 0, 1)));
-	}); 
+	inputParser.loadFile("../Data/Resources/Input/configXML.xml");
+	Node* node = inputParser.parsedXml;
 
-	actions.attachKeyToAction(InputUtility::getKeyID("KEYBOARD_A"), [](Player* player)
-	{
-		player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(Vector3(-1, 0, 0)));
-	});
-
-	actions.attachKeyToAction(InputUtility::getKeyID("KEYBOARD_S"), [](Player* player)
-	{
-		player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(Vector3(0, 0, -1)));
-	});
-
-	actions.attachKeyToAction(InputUtility::getKeyID("KEYBOARD_D"), [](Player* player)
-	{
-		player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(Vector3(1, 0, 0)));
-	});
+	//NEED TO FUCK ABOUT WITH THIS TO ADD ANYTHING OTHER THAN WASD MOVEMENT
+	for (int i = 0; i < inputParser.parsedXml->children.size(); i++) {
+		actions.attachKeyToAction(InputUtility::getKeyID(inputParser.parsedXml->children[i]->children[0]->value), [node, i](Player* player)
+		{
+			player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(Vector3(
+				stoi(node->children[i]->children[1]->children[0]->children[0]->value),
+				stoi(node->children[i]->children[1]->children[0]->children[1]->value),
+				stoi(node->children[i]->children[1]->children[0]->children[2]->value))));
+		});
+	}
 
 	inputBridge = GameplayInputBridge(playersInGame);
 	inputBridge.addInputActionMapForPlayer(actions);
