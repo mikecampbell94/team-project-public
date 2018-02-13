@@ -73,7 +73,8 @@ void TableCreation::addMesh() const
 {
 	database->addTable("Meshes", new Table<Resource>("Meshes", MAX_MEMORY_PER_TABLE, [](Node* node)
 	{
-		Mesh* mesh = new Mesh(node->value,1);
+		Mesh* mesh = new Mesh(node->children[0]->value,1);
+		mesh->loadTexture(node->children[1]->value);
 		mesh->setName(node->name);
 		return mesh;
 	}));

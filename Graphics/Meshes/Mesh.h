@@ -2,6 +2,7 @@
 
 #pragma comment(lib, "assimp-vc140-mt.lib")
 
+#include "SOIL.h"
 #include "SubMesh.h"
 #include "../../Resource Management/Resources/Resource.h"
 
@@ -58,7 +59,9 @@ public:
 	{
 		return this->meshes[0]->GetBoundingRadius();
 	}
+	
 
+	void loadTexture(std::string filepath);
 
 	//Model Data 
 	std::vector<SubMesh*> meshes;
