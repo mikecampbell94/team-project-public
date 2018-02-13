@@ -142,6 +142,14 @@
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundSource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SoundSource.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
