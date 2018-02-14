@@ -3,9 +3,10 @@
 #include <fstream>
 #include <stdexcept>
 
-Level::Level(Database *database)
+Level::Level(Database *database,SceneManager* sceneManager)
 {
 	this->database = database;
+	this->sceneManager = sceneManager;
 }
 
 Level::~Level()
@@ -38,6 +39,8 @@ void Level::loadLevelFile(std::string levelFilePath)
 		
 	}
 	levelFile.close();
+
+	addObjectsToGame();
 }
 
 void Level::unloadLevel()
@@ -45,5 +48,14 @@ void Level::unloadLevel()
 	for (std::vector<std::string>::const_iterator it = listOfObjectTypesInLevel.begin(); it != listOfObjectTypesInLevel.end(); ++it)
 	{
 		database->getTable(*it)->getAllResources()->deleteAllResources();
+	}
+}
+
+void Level::addObjectsToGame()
+{
+	for (auto gameObjectIterator = database->getTable("GameObjects")->getAllResources()->getResourceBuffer().begin(); gameObjectIterator != database->getTable("GameObjects")->getAllResources()->getResourceBuffer().end(); gameObjectIterator++)
+	{
+		(*gameObjectIterator).second;
+		(*sceneManager->getAllNodes())->push_back(static_cast<GameObject*>((*gameObjectIterator).second)->getSceneNode());
 	}
 }

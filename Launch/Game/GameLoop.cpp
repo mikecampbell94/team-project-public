@@ -1,11 +1,10 @@
 #include "GameLoop.h"
 #include "../../Input/InputManager.h"
-#include "../../Input/GamePadRecorder.h"
-#include "../../Input/KeyboardMouseRecorder.h"
 #include "../../Resource Management/Level.h"
 #include <iostream>
 #include "Communication/LetterBox.h"
 #include "../../Gameplay/GameObject.h"
+#include "../../Input/Recorders/KeyboardMouseRecorder.h"
 
 GameLoop::GameLoop(System& gameSystem)
 {
@@ -16,7 +15,7 @@ GameLoop::GameLoop(System& gameSystem)
 	//MUST BE REMOVED
 	camera = new Camera(0, 0, Vector3(0, 0, 0));
 
-	rendering = new RenderingSystem(window, camera, Vector2(1280, 720));
+	rendering = new RenderingSystem(nullptr, window, camera, Vector2(1280, 720));
 
 	SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
 	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
@@ -30,34 +29,35 @@ GameLoop::GameLoop(System& gameSystem)
 
 	PlayerBase* playerbase = new PlayerBase();
 	playerbase->addNewPlayer(keyboardAndMouse);
+	playerbase->getPlayers()[0]->setSceneNode(node);
 
 	std::string seperator = "|";
-	std::string keyboard = "KEYBOARD_W|KEYBOARD_A";
+	std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
 	std::string xbox = "XBOX_A|XBOX_B";
 	std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
 
 	playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
 
 	inputManager = new InputManager(playerbase);
-	gameplay = new GameplaySystem();
+	gameplay = new GameplaySystem(playerbase->getPlayers().size());
 
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
-	
+
 	Database database;
 
 	TableCreation tableCreation(&database);
 
-	Level level(&database);
+	Level level(&database,scene);
 	level.loadLevelFile("TestLevel.txt");
 
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("playerBall"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("wall1"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("wall2"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("wall3"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("wall4"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getAllResources()->getResource("floor"))->getSceneNode());
+	/*nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("playerBall"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall1"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall2"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall3"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall4"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("floor"))->getSceneNode());*/
 }
 
 GameLoop::~GameLoop()

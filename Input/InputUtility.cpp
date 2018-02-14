@@ -1,6 +1,7 @@
-#include "InputFilter.h"
+#include "InputUtility.h"
 
-const std::map<std::string, int> InputFilter::keyValue =
+
+const std::map<std::string, int> InputUtility::keyIDs =
 {
 	/*-------WINDOWS KEYS----------*/
 	{ "KEYBOARD_LBUTTON", 0x01 },  // Left mouse button  
@@ -148,7 +149,7 @@ const std::map<std::string, int> InputFilter::keyValue =
 	{ "KEYBOARD_OEM_CLEAR", 0xFE },   // Clear key 
 	{ "KEYBOARD_MAX", 0xFF },
 	/*------XBOX KEYS------*/
-	{ "XBOX_A", 0},
+	{ "XBOX_A", 0 },
 	{ "XBOX_B", 1 },
 	{ "XBOX_X", 2 },
 	{ "XBOX_Y", 3 },
@@ -161,47 +162,10 @@ const std::map<std::string, int> InputFilter::keyValue =
 	{ "XBOX_LThumbstick", 10 },
 	{ "XBOX_RThumbstick", 11 },
 	{ "XBOX_Start", 12 },
-	{ "XBOX_Back", 13 },
-
-
+	{ "XBOX_Back", 13 }
 };
 
-InputFilter::InputFilter()
+int InputUtility::getKeyID(std::string keyName)
 {
-
-}
-
-InputFilter::~InputFilter()
-{
-
-}
-
-std::string InputFilter::loadConfigFile()
-{
-	return std::string();
-}
-
-std::vector<int> InputFilter::getListenedKeys(std::string &configInfo, std::string &separator)
-{
-	std::vector<int> listenedKeys;
-
-	if (configInfo == "")
-	{
-		return listenedKeys;
-	}
-
-	std::string appendStr = configInfo + separator;
-
-	size_t pos = appendStr.find(separator);
-	size_t size = appendStr.size();
-
-	while (pos != std::string::npos)
-	{
-		std::string t = appendStr.substr(0, pos);
-		listenedKeys.push_back(getKeyID(t));
-		appendStr = appendStr.substr(pos + 1, size);
-		pos = appendStr.find(separator);
-	}
-
-	return listenedKeys;
+	return keyIDs.at(keyName);
 }

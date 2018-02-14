@@ -1,0 +1,24 @@
+<ReceiveMessage type="PlayerInputMessage">
+	<Action>
+		<Condition bool ="OR">
+			<playerID>0</playerID>
+			<playerID>1</playerID>
+		</Condition>
+		<SendMessage type="DUMMY_TYPE">
+			<destination>RenderingSystem</destination>
+		</SendMessage>
+	</Action>
+</ReceiveMessage>
+<Timed interval=5.0>
+	<Action>
+		<SendMessage type="DUMMY_TYPE">
+			<destination>RenderingSystem</destination>
+		</SendMessage>
+	</Action>
+</Timed>
+	<Action>
+		<SendMessage type="TRANSLATE_SCENE_NODE">
+			<destination>RenderingSystem</destination>
+		
+		</SendMessage>
+	</Action>

@@ -32,6 +32,7 @@ void TableCreation::addTablesToDatabase() const
 
 void TableCreation::addGameObject() const
 {
+	
 	database->addTable("GameObjects", new Table<Resource>("GameObjects", MAX_MEMORY_PER_TABLE, [&](Node* node)
 	{
 		std::string meshName = node->children[0]->value;

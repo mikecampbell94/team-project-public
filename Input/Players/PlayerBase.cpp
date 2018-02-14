@@ -1,8 +1,5 @@
 #include "PlayerBase.h"
 
-
-
-
 PlayerBase::PlayerBase()
 {
 
@@ -15,35 +12,22 @@ PlayerBase::PlayerBase(std::vector<InputRecorder*> allRecorders)
 
 PlayerBase::~PlayerBase()
 {
-	//delete all players
-	if (!players.empty())
-		for each (auto player in players)
-		{
-			delete player;
-		}
+	wipeStoredPlayers();
 }
 
 void PlayerBase::initializePlayers(std::vector<InputRecorder*> allRecorders)
 {
-	if (!players.empty())
-	{
-		for each (auto player in players)
-		{
-			delete player;
-		}
+	wipeStoredPlayers();
 
-		players.clear();
-	}
-
-	for each (InputRecorder* i in allRecorders)
+	for each (InputRecorder* recorder in allRecorders)
 	{
-		addNewPlayer(i);
+		addNewPlayer(recorder);
 	}
 }
 
 Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 {
-	int playerID = generateNewID();
+	int playerID = players.size();
 	Player* playerRef = new Player(playerID, recorder);
 	players.push_back(playerRef);
 
@@ -52,7 +36,6 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 
 void PlayerBase::removePlayer(int playerID)
 {
-
 	for (unsigned int i = 0; i < players.size(); ++i)
 	{
 		if (players[i]->getPlayerID() == playerID)
@@ -68,14 +51,12 @@ void PlayerBase::removePlayer(Player* playerRef)
 	//todo 
 }
 
-int PlayerBase::generateNewID()
+void PlayerBase::wipeStoredPlayers()
 {
-	if (players.empty())
+	for each (auto player in players)
 	{
-		return 0;
+		delete player;
 	}
-	else
-	{
-		return players.size();
-	}
+
+	players.clear();
 }

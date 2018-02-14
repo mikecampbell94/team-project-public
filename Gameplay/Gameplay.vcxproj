@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\SOIL\Debug\;..\GLEW\lib\Debug\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -134,16 +134,22 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameActionGenerator.h" />
+    <ClInclude Include="Scripting\ConditionalStatementBuilder.h" />
+    <ClInclude Include="Scripting\ActionBuilder.h" />
+    <ClInclude Include="Scripting\GameLogic.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameplayInputBridge.h" />
     <ClInclude Include="GameplaySystem.h" />
+    <ClInclude Include="InputGameplay\GameplayInputBridge.h" />
+    <ClInclude Include="InputGameplay\InputActionMap.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameActionGenerator.cpp" />
+    <ClCompile Include="Scripting\ConditionalStatementBuilder.cpp" />
+    <ClCompile Include="Scripting\ActionBuilder.cpp" />
+    <ClCompile Include="Scripting\GameLogic.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameplayInputBridge.cpp" />
     <ClCompile Include="GameplaySystem.cpp" />
+    <ClCompile Include="InputGameplay\GameplayInputBridge.cpp" />
+    <ClCompile Include="InputGameplay\InputActionMap.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

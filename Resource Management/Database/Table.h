@@ -45,6 +45,21 @@ public:
 		return storage;
 	}
 
+	ResourceType* getResource(std::string identifier)
+	{
+		if (storage->getResourceBuffer().find(identifier) == storage->getResourceBuffer().end())
+		{
+			return nullptr;
+		}
+		else
+		{
+			
+			return storage->getResource(identifier);
+		}
+	}
+
+
+
 private:
 	std::string name;
 	size_t maxSize;

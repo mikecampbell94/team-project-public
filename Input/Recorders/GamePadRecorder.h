@@ -1,17 +1,16 @@
 #pragma once
 #include "InputRecorder.h"
-#include "Gamepad.h"
+#include "../Devices/Gamepad.h"
 
 class GamePadRecorder : public InputRecorder
 {
 public:
-	GamePadRecorder(Gamepad* gamePad);
+	explicit GamePadRecorder(Gamepad* gamePad);
 	~GamePadRecorder();
 
 	void  fillInputs() override;
 
-
 private:
-	Gamepad * gamepad;
+	Gamepad* gamepad;
 };
 
