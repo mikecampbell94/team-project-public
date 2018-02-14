@@ -32,11 +32,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities", "Utilities\Util
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Communication", "Communication\Communication.vcxproj", "{943EEB77-34B1-4B1A-BC4C-F04ADD4D2094}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{00E758E5-5E21-41A6-94E2-89F5C2EED046}"
-	ProjectSection(SolutionItems) = preProject
-		Resources\Gameplay\gameplay.xml = Resources\Gameplay\gameplay.xml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
