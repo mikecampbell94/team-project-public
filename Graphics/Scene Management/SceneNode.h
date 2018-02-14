@@ -39,6 +39,7 @@ public:
 
 	void SetColour(Vector4 c)
 	{
+		this->colour = c;
 		mesh->SetbackupColourAttributeForAllSubMeshes(c);
 	}
 

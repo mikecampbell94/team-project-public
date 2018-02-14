@@ -49,9 +49,14 @@ void TableCreation::addGameObject() const
 		scale.x = std::stof(node->children[4]->children[0]->value);
 		scale.y = std::stof(node->children[4]->children[1]->value);
 		scale.z = std::stof(node->children[4]->children[2]->value);
-
+		Vector4 colour;
+		colour.x = std::stof(node->children[5]->children[0]->value);
+		colour.y = std::stof(node->children[5]->children[1]->value);
+		colour.z = std::stof(node->children[5]->children[2]->value);
+		colour.w = std::stof(node->children[5]->children[3]->value);
 
 		SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getAllResources()->getResource(meshName)));
+		sceneNode->SetColour(colour);
 		GameObject* gameObject = new GameObject();
 		gameObject->setName(node->name);
 		gameObject->setSceneNode(sceneNode);
