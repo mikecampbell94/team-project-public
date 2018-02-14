@@ -13,11 +13,6 @@
 #include "../Input/InputManager.h"
 #include "GameplaySystem.h"
 
-///////////////////////////////////
-#include "../../Audio/Sound.h"
-#include "../../Audio/SoundSource.h"
-//////////////////////////////////////
-
 class GameLoop
 {
 public:
@@ -25,8 +20,6 @@ public:
 	~GameLoop();
 
 	void executeGameLoop();
-
-	void updateListener();
 
 private:
 	SceneManager* scene;
@@ -43,9 +36,5 @@ private:
 
 	float pitch = 0.0f;
 	float yaw   = 0.0f;
-
-	/////////////////////////////
-	SoundSource* ss;
-	/////////////////////////////
 };
 

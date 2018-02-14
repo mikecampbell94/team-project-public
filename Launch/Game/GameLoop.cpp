@@ -6,34 +6,6 @@
 #include <iostream>
 #include "Communication/LetterBox.h"
 
-/////////////////////////
-#include "../../Audio/Sound.h"
-#include "../../Audio/SoundSource.h"
-////////////////////////////
-////////////////////////////////////////
-void GameLoop::updateListener()
-{
-	Matrix4 worldMat = camera->viewMatrix;
-	Vector3 worldPos = camera->getPosition();
-
-	Vector3 dirup[2];
-	//forward
-	dirup[0].x = -worldMat.values[2];
-	dirup[0].y = -worldMat.values[6];
-	dirup[0].z = -worldMat.values[10];
-	//Up
-	dirup[1].x = worldMat.values[1];
-	dirup[1].y = worldMat.values[5];
-	dirup[1].z = worldMat.values[9];
-
-	ALfloat listenerPos[] = { worldPos.x, worldPos.y, worldPos.z };
-	ALfloat listenerOri[] = { dirup[0].x, dirup[0].y, dirup[0].z, dirup[1].x, dirup[1].y, dirup[1].z };
-
-	alListenerfv(AL_POSITION, listenerPos);
-	alListenerfv(AL_ORIENTATION, listenerOri);
-}
-//////////////////////////////////////////////
-
 GameLoop::GameLoop(System& gameSystem)
 {
 	engine = gameSystem;
@@ -72,38 +44,7 @@ GameLoop::GameLoop(System& gameSystem)
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
 	/////
-
-
-	//////////////////////////////////////
-	ALCdevice *device = alcOpenDevice(NULL);
-	ALCcontext *context = alcCreateContext(device, NULL);
-	alcMakeContextCurrent(context);
-	alDistanceModel(AL_LINEAR_DISTANCE_CLAMPED);
-
-	ALuint source;
-	alGenSources(1, &source);
-	OALSource *oal = new OALSource(source);
-
-	Sound *sound = new Sound("../Data/SoundFiles/bounce.wav");
-
-	ss = new SoundSource();
-	ss->setSound(sound);
-	ss->setPosition(Vector3(0.0f, 0.0f, 0.0f));
-	ss->attachSource(oal);
-	ss->setLooping(true);
-	///////////////////////////////////////
-
-
-
-
 	
-
-	
-
-
-
-
-
 
 	//-------XML TESTING-------//
 	/*XMLParser testParser;
@@ -173,12 +114,6 @@ void GameLoop::executeGameLoop()
 
 		camera->setPitch(pitch);
 		camera->setYaw(yaw);
-
-		updateListener();
-
-		//////////////////
-		ss->update(deltaTime);
-		//////////////////
 	}
 
 }
