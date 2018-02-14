@@ -2,7 +2,9 @@
 
 #pragma comment(lib, "assimp-vc140-mt.lib")
 
+#include "SOIL.h"
 #include "SubMesh.h"
+#include "../../Resource Management/Resources/Resource.h"
 
 #include <Importer.hpp>
 #include <scene.h>
@@ -15,7 +17,7 @@
 //#include <Simple OpenGL Image Library\src\stb_image_aug.h>
 #include <unordered_map>
 
-class Mesh
+class Mesh : public Resource
 {
 public:
 	Mesh(char *path, int numModels)
@@ -53,6 +55,14 @@ public:
 	void SetReflectionAttributesForAllSubMeshes(int isReflective, float strength);
 	void SetbackupColourAttributeForAllSubMeshes(Vector4 colour);
 
+	float getRadius()
+	{
+		return this->meshes[0]->GetBoundingRadius();
+	}
+	
+
+	void loadTexture(std::string filepath);
+
 	//Model Data 
 	std::vector<SubMesh*> meshes;
 	unordered_map<string, SubMesh*> meshesByName;
@@ -63,5 +73,8 @@ public:
 	const aiScene* scene;
 
 	int numModels;
+
+	float radius;
+
 };
 

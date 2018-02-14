@@ -1,9 +1,10 @@
 #include "GameLoop.h"
 #include "../../Input/InputManager.h"
-#include "../../Input/Recorders/GamePadRecorder.h"
-#include "../../Input/Recorders/KeyboardMouseRecorder.h"
+#include "../../Resource Management/Level.h"
 #include <iostream>
 #include "Communication/LetterBox.h"
+#include "../../Gameplay/GameObject.h"
+#include "../../Input/Recorders/KeyboardMouseRecorder.h"
 
 GameLoop::GameLoop(System& gameSystem)
 {
@@ -19,7 +20,7 @@ GameLoop::GameLoop(System& gameSystem)
 	SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
 	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
 	std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
-	nodes->push_back(node);
+	//nodes->push_back(node);
 	scene = new SceneManager(camera, nodes);
 
 	rendering->SetSceneToRender(scene);
@@ -43,7 +44,20 @@ GameLoop::GameLoop(System& gameSystem)
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
-	/////
+
+	Database database;
+
+	TableCreation tableCreation(&database);
+
+	Level level(&database,scene);
+	level.loadLevelFile("TestLevel.txt");
+
+	/*nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("playerBall"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall1"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall2"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall3"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall4"))->getSceneNode());
+	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("floor"))->getSceneNode());*/
 }
 
 GameLoop::~GameLoop()
@@ -71,33 +85,33 @@ void GameLoop::executeGameLoop()
 		pitch -= (window->getMouse()->getRelativePosition().y);
 		yaw -= (window->getMouse()->getRelativePosition().x);
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
-		//	camera->setPosition(camera->getPosition() +
-		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, -1) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
+			camera->setPosition(camera->getPosition() +
+				Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, -1) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_S)) {
-		//	camera->setPosition(camera->getPosition() +
-		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, 1) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_S)) {
+			camera->setPosition(camera->getPosition() +
+				Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, 1) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_A)) {
-		//	camera->setPosition(camera->getPosition() +
-		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(-1, 0, 0) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_A)) {
+			camera->setPosition(camera->getPosition() +
+				Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(-1, 0, 0) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_D)) {
-		//	camera->setPosition(camera->getPosition() +
-		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(1, 0, 0) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_D)) {
+			camera->setPosition(camera->getPosition() +
+				Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(1, 0, 0) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_SPACE)) {
-		//	camera->setPosition(camera->getPosition() + Vector3(0, 1, 0) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_SPACE)) {
+			camera->setPosition(camera->getPosition() + Vector3(0, 1, 0) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_C)) {
-		//	camera->setPosition(camera->getPosition() + Vector3(0, -1, 0) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_C)) {
+			camera->setPosition(camera->getPosition() + Vector3(0, -1, 0) * 1);
+		}
 
 		camera->setPitch(pitch);
 		camera->setYaw(yaw);

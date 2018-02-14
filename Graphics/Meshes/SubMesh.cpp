@@ -148,6 +148,14 @@ void SubMesh::DrawShadow()
 	//glBindVertexArray(0);
 }
 
+void SubMesh::addTexture(unsigned int texture)
+{
+	Texture text;
+	text.type = "diffuseTex";
+	text.id = texture;
+	textures.push_back(text);
+}
+
 void SubMesh::BufferData()
 {
 	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
