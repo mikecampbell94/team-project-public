@@ -35,6 +35,11 @@ void LetterBox::insertMessage(TextMessage message)
 	textMessages.push_back(message);
 }
 
+void LetterBox::insertMessage(SceneNodeTranslationMessage message)
+{
+	sceneNodeTranslationMessages.push_back(message);
+}
+
 void LetterBox::deliverAllMessages()
 {
 	for (unsigned int i = 0; i < messages.size(); ++i)
@@ -51,6 +56,11 @@ void LetterBox::deliverAllMessages()
 	{
 		messageStorage.sendMessage(&textMessages[i]);
 	}
+
+	for (unsigned int i = 0; i < sceneNodeTranslationMessages.size(); ++i)
+	{
+		messageStorage.sendMessage(&sceneNodeTranslationMessages[i]);
+	}
 }
 
 void LetterBox::clearAllMessages()
@@ -60,4 +70,5 @@ void LetterBox::clearAllMessages()
 	messages.clear();
 	playerInputMessages.clear();
 	textMessages.clear();
+	sceneNodeTranslationMessages.clear();
 }

@@ -13,10 +13,18 @@
 #include "../../Gameplay/GameObject.h"
 #include "../../Communication/Messages/TextMessage.h"
 
-RenderingSystem::RenderingSystem(Database* database, Window* window, Camera* camera, Vector2 resolution)
+RenderingSystem::RenderingSystem(Window* window, Camera* camera, Vector2 resolution)
 	: Subsystem("RenderingSystem")
 {
 	renderer = std::make_unique<Renderer>(window, camera, resolution);
+}
+
+RenderingSystem::~RenderingSystem()
+{
+}
+
+void RenderingSystem::initialise(Database* database)
+{
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::TRANSLATE_SCENE_NODE };
 
@@ -36,18 +44,26 @@ RenderingSystem::RenderingSystem(Database* database, Window* window, Camera* cam
 		std::cout << "State : " << playerMessage->data.currentState << std::endl;
 	});
 
-	//incomingMessages.addActionToExecuteOnMessage(MessageType::TRANSLATE_SCENE_NODE, [database](Message* message)
-	//{
-	//	SceneNodeTranslationMessage* translationMessage = static_cast<SceneNodeTranslationMessage*>(message);
-	//	GameObject* gameObject = static_cast<GameObject*>(
-	//		database->getTable("GameObjects")->getAllResources()->getResource(translationMessage->resourceName));
-	//	gameObject->
+	GameObject* gameObject = static_cast<GameObject*>(
+		database->getTable("GameObjects")->getAllResources()->getResource("playerBall"));
 
-	//});
-}
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TRANSLATE_SCENE_NODE, [database = database](Message* message)
+	{
+		SceneNodeTranslationMessage* translationMessage = static_cast<SceneNodeTranslationMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getAllResources()->getResource(translationMessage->resourceName));
 
-RenderingSystem::~RenderingSystem()
-{
+		if (translationMessage->relative)
+		{
+			gameObject->getSceneNode()->SetTransform(gameObject->getSceneNode()->GetTransform()
+				* Matrix4::translation(translationMessage->translation));
+		}
+		else
+		{
+			gameObject->getSceneNode()->setPosition(translationMessage->translation);
+		}
+
+	});
 }
 
 void RenderingSystem::SetSceneToRender(SceneManager* scene)

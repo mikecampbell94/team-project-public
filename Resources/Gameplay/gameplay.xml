@@ -11,14 +11,16 @@
 			</SendMessage>
 		</Action>
 	</ReceiveMessage>
-	<Timed interval="1.0">
-		<SendMessage type="TEXT">
+	<Timed interval="0.1">
+		<SendMessage type="TRANSLATE_SCENE_NODE">
 			<destination>RenderingSystem</destination>
-			<text>every second</text>
-		</SendMessage>
-		<SendMessage type="TEXT">
-			<destination>RenderingSystem</destination>
-			<text>another every second</text>
+			<translation>
+				<x>1</x>
+				<y>0</y>
+				<z>0</z>
+			</translation>
+			<relative>1</relative>
+			<resource>playerBall</resource>
 		</SendMessage>
 	</Timed>
 	<Timed interval="2.0">

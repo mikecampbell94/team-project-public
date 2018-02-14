@@ -22,6 +22,7 @@ public:
 	void executeGameLoop();
 
 private:
+	Database* database;
 	SceneManager* scene;
 
 	RenderingSystem* rendering;

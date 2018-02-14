@@ -10,10 +10,10 @@ class Database;
 class RenderingSystem : public Subsystem
 {
 public:
-	RenderingSystem(Database* database, Window* window, Camera* camera, Vector2 resolution);
+	RenderingSystem(Window* window, Camera* camera, Vector2 resolution);
 	~RenderingSystem();
 
-
+	void initialise(Database* database);
 
 
 	void loadingScreen() {}
