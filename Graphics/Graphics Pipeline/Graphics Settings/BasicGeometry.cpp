@@ -40,7 +40,9 @@ void BasicGeometry::apply()
 	updateShaderMatrices();
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
+		
 		nodesInFrame->at(i)->Draw(*currentShader);
+		
 	}
 
 	viewMatrix = camera->buildViewMatrix();
