@@ -10,6 +10,7 @@ class SceneNode
 {
 public:
 	SceneNode(string meshFile, Vector4 colour = Vector4(1, 1, 1, 1));
+	SceneNode(Mesh* mesh, Vector4 colour = Vector4(1, 1, 1, 1));
 	virtual ~SceneNode(void);
 
 	void  SetTransform(const Matrix4 &matrix)
@@ -41,8 +42,11 @@ public:
 		mesh->SetbackupColourAttributeForAllSubMeshes(c);
 	}
 
+	Vector4 getColour();
+
 	void SetModelScale(Vector3 s)
 	{
+		boundingRadius *= s.length();
 		transform.setScalingVector(s);
 	}
 
@@ -71,6 +75,11 @@ public:
 		return (a->distanceFromCamera < b->distanceFromCamera)
 			? true : false;
 	}
+
+	std::vector<SceneNode*> getChildren();
+
+
+	const float getRadius();
 
 protected:
 	bool		enabled;

@@ -276,3 +276,12 @@ void Mesh::SetbackupColourAttributeForAllSubMeshes(Vector4 colour)
 		mesh->baseColour = colour;
 	}
 }
+
+void Mesh::loadTexture(std::string filepath)
+{
+	unsigned int texId = SOIL_load_OGL_texture(filepath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_MIPMAPS);
+	for (SubMesh *subMesh : this->meshes) {
+		subMesh->addTexture(texId);
+	}
+
+}

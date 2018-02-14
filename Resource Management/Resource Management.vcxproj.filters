@@ -24,9 +24,6 @@
     <ClInclude Include="Database\Table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Database\TableCreation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resources\Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -39,10 +36,12 @@
     <ClInclude Include="ObjectBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XMLParser.h">
+<ClInclude Include="XMLParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
+    <ClInclude Include="Database\TableCreation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Database\Database.cpp">
       <Filter>Source Files</Filter>
@@ -57,6 +56,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XMLParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\TableCreation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
