@@ -60,7 +60,7 @@ public:
 
 	OALSource* getSource() { return oalSource; }
 
-	static bool compareSourcesByPriority(SoundSource *a, SoundSource *b);
+	static bool compareSourcesByPriority(SoundSource &a, SoundSource &b);
 
 	void attachSource(OALSource* s);
 	void detachSource();
@@ -69,7 +69,6 @@ public:
 
 	Vector3 getPosition() { return position; }
 	void setPosition(Vector3 position) { this->position = position; }
-
 
 private:
 	Sound* sound;

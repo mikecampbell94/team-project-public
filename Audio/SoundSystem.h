@@ -20,35 +20,32 @@
 
 #include "../Communication/AudioMessage.h"
 
-#include "../Graphics/Scene Management/SceneNode.h"
-
 class SoundSystem : public Subsystem
 {
 public:
-	SoundSystem(Database *database, unsigned int channels = 128);
+	SoundSystem(Database *database, Camera *camera, unsigned int channels = 128);
 	~SoundSystem();
 
 	void initOpenAl();
 	void cleanupOpenAl();
-
-	void UpdateListener();
-
-	void Update(float msec);
+	void update(float msec);
 	
 protected:
-	ALCcontext * Context;
-	ALCdevice * Device;
+	ALCcontext *Context;
+	ALCdevice *Device;
 	std::vector<MessageType> types = { MessageType::AUDIO_MESSAGE };	
-	std::vector<SoundSource> AudioSources;
-	std::vector<SoundSource> FrameSources;
+	std::vector<SoundSource> audioSources;
+	std::vector<SoundSource> frameSources;
 	Camera* camera;
 	Database *database;
-	SceneNode* listener;
-	//Matrix4 listenerTransform;
 	Matrix4 cameraWorldMatrix;
 	std::vector<OALSource*> sources;
-		void CullNodes();	void detachSources(std::vector<SoundSource>::iterator from,
-		std::vector<SoundSource>::iterator to);
-	void attachSources(std::vector<SoundSource>::iterator from,		std::vector<SoundSource>::iterator to);	OALSource* getSource();
+	
+	void updateListener();
+	void cullNodes();
+	void detachSources(std::vector<SoundSource>::iterator from, std::vector<SoundSource>::iterator to);
+	void attachSources(std::vector<SoundSource>::iterator from, std::vector<SoundSource>::iterator to);
+	OALSource* getSource();
+
 };
 

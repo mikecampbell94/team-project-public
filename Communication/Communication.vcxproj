@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AudioMessage.h" />
     <ClInclude Include="DeliverySystem.h" />
     <ClInclude Include="LetterBox.h" />
     <ClInclude Include="Message.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="MessagingService.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioMessage.cpp" />
     <ClCompile Include="DeliverySystem.cpp" />
     <ClCompile Include="LetterBox.cpp" />
     <ClCompile Include="Message.cpp" />

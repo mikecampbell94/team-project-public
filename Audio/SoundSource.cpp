@@ -27,15 +27,12 @@ void SoundSource::reset()
 	isLooping = false;
 	oalSource = NULL;
 	sound = NULL;
-
-
 }
 
-bool SoundSource::compareSourcesByPriority(SoundSource *a, SoundSource *b) 
+bool SoundSource::compareSourcesByPriority(SoundSource &a, SoundSource &b) 
 {
-	return (a->priority > b->priority) ? true : false;
+	return (a.priority > b.priority) ? true : false;
 }
-
 
 void SoundSource::setSound(Sound * s)
 {

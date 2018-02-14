@@ -1,16 +1,9 @@
 #pragma once
 
-//#pragma comment(lib, "Resource Management.lib")
-
 #include "OpenAL 1.1 SDK\include\al.h"
 #include "..\Resource Management\Resources\Resource.h"
 
-///////////////////////////////////////
-#include "OpenAL 1.1 SDK/include/alc.h"
-////////////////////////////////////
-
 #include <string>
-#include <map>
 #include <iostream>
 #include <fstream>
 

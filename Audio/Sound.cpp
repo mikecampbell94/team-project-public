@@ -8,7 +8,6 @@ Sound::Sound(std::string filePath)
 	data = NULL;
 	buffer = 0;
 
-	/////////////////////////////////////////////////////////
 	string extension = filePath.substr(filePath.length()-3, 3);
 	if (extension == "wav") 
 	{
@@ -20,7 +19,6 @@ Sound::Sound(std::string filePath)
 	{
 		cout << "Invalid sound file extension!" << endl;
 	}
-	///////////////////////////////////////////////////////////
 }
 
 Sound::~Sound(void) 
