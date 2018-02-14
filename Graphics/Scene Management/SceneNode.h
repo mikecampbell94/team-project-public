@@ -46,6 +46,7 @@ public:
 
 	void SetModelScale(Vector3 s)
 	{
+		boundingRadius *= s.length();
 		transform.setScalingVector(s);
 	}
 
