@@ -41,11 +41,12 @@ TimedGameplayAction ActionBuilder::buildTimedAction(Node* node)
 
 	float interval = std::stof(node->name);
 
-	return [interval, executables](float time, float deltaTime)
+	return [interval, executables](float& timer)
 	{
-		float timeDifference = fmod(time, interval);
-		if (timeDifference <= deltaTime)
+		if (timer >= interval)
 		{
+			timer = 0.0f;
+
 			for each (Executable executable in executables)
 			{
 				executable();

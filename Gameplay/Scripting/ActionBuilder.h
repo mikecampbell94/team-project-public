@@ -7,7 +7,7 @@ class Message;
 struct Node;
 
 typedef std::function<void(Message)> GameplayAction;
-typedef std::function<void(float, float)> TimedGameplayAction;
+typedef std::function<void(float&)> TimedGameplayAction;
 typedef std::function<bool(Message)> Condition;
 typedef std::function<void()> Executable;
 

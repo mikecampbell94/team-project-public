@@ -26,6 +26,7 @@ void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
 		}
 		else if (gameplayAction->nodeType == "Timed")
 		{
+			timers.push_back(float(0.0f));
 			timedActions.push_back(ActionBuilder::buildTimedAction(gameplayAction));
 		}
 	}
@@ -44,11 +45,12 @@ void GameLogic::executeMessageBasedActions()
 	}
 }
 
-void GameLogic::executeTimeBasedActions(const float& time, const float& deltaTime)
+void GameLogic::executeTimeBasedActions(const float& deltaTime)
 {
-	for each (TimedGameplayAction timedAction in timedActions)
+	for (int i = 0; i < timedActions.size(); ++i)
 	{
-		timedAction(time, deltaTime);
+		timers[i] += deltaTime;
+		timedActions[i](timers[i]);
 	}
 }
 
