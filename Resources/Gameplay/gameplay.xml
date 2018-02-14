@@ -7,7 +7,7 @@
 			</Condition>
 			<SendMessage type="TEXT">
 				<destination>RenderingSystem</destination>
-				<text>Renderer recieved dummy message</text>
+				<text>Renderer recieved input message for some reason</text>
 			</SendMessage>
 		</Action>
 	</ReceiveMessage>
