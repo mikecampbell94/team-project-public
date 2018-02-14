@@ -5,8 +5,10 @@
 enum MessageType
 {
 	PLAYER_INPUT,
-	DUMMY_TYPE
+	DUMMY_TYPE,
+	AUDIO_MESSAGE
 };
+
 
 class Message
 {
