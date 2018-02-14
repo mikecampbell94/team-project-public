@@ -24,14 +24,18 @@ void SoundSource::reset()
 	volume = 1.0f;
 	radius = 500.0f;
 	timeLeft = 0.0f;
-	isLooping = true;
+	isLooping = false;
 	oalSource = NULL;
 	sound = NULL;
+
+
 }
 
 bool SoundSource::compareSourcesByPriority(SoundSource *a, SoundSource *b) 
 {
-	return (a->priority > b->priority) ? true : false;}
+	return (a->priority > b->priority) ? true : false;
+}
+
 
 void SoundSource::setSound(Sound * s)
 {
@@ -85,9 +89,12 @@ void SoundSource::update(float msec)
 	
 	if (oalSource) 
 	{
-		alSourcefv(oalSource->source, AL_POSITION, (float*)&position);
+		ALfloat listenerPos[] = { position.x, position.y, position.z };
+
+		alSourcefv(oalSource->source, AL_POSITION, listenerPos);
 		alSourcef(oalSource->source, AL_GAIN, volume);
 		alSourcei(oalSource->source, AL_LOOPING, isLooping ? 1 : 0);
 		alSourcef(oalSource->source, AL_MAX_DISTANCE, radius);
 		alSourcef(oalSource->source, AL_REFERENCE_DISTANCE, radius * 0.2f);
-	}}
+	}
+}

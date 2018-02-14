@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Utilities/Maths/Vector3.h"
+#include "../Utilities/Maths/Matrix4.h"
 #include "Sound.h"
 
 #include <algorithm>
@@ -21,7 +22,8 @@ struct OALSource
 	OALSource(ALuint src) 
 	{
 		source = src;
-		inUse = false;	}
+		inUse = false;
+	}
 };
 
 class SoundSource
@@ -64,6 +66,10 @@ public:
 	void detachSource();
 
 	void update(float msec);
+
+	Vector3 getPosition() { return position; }
+	void setPosition(Vector3 position) { this->position = position; }
+
 
 private:
 	Sound* sound;

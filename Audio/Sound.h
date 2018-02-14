@@ -5,6 +5,10 @@
 #include "OpenAL 1.1 SDK\include\al.h"
 #include "..\Resource Management\Resources\Resource.h"
 
+///////////////////////////////////////
+#include "OpenAL 1.1 SDK/include/alc.h"
+////////////////////////////////////
+
 #include <string>
 #include <map>
 #include <iostream>
@@ -26,10 +30,9 @@ struct FMTCHUNK
 
 class Sound : public Resource
 {
-	friend class SoundManager;
 public:
 
-	Sound();
+	Sound(std::string filePath);
 	~Sound();
 
 	char* getData() { return data; }
@@ -41,8 +44,8 @@ public:
 	ALenum getOALFormat();
 	double getLength();
 
-	//void loadFromWAV(string filename);
-	//void loadWAVChunkInfo(ifstream &file, string &name, unsigned int &size);
+	void loadFromWAV(string filename);
+	void loadWAVChunkInfo(ifstream &file, string &name, unsigned int &size);
 
 private:
 	ALuint buffer;
