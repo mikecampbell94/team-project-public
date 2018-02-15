@@ -6,23 +6,15 @@ layout (location = 2) in vec2 aTexCoords;
 
 uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
-unifrom mat4 modelMatrix;
+uniform mat4 modelMatrix;
 
-out vec3 FragPos;/*
-out vec3 reflectionPos;*/
+out vec3 FragPos;
 out vec2 TexCoords;
-out vec3 Normal;/*
-out vec3 ReflectionNormal;*/
-//
-//layout(std430, binding = 8) buffer modelmatricesbuffer
-//{
-//	mat4 modelmatrices[];
-//};
+out vec3 Normal;
 
 void main(void) 
 {
-	vec4 viewPos = viewMatrix * modelMatrix * vec4(aPos, 1.0);/*
-	reflectionPos = vec3(modelMatrix * vec4(aPos, 1.0));*/
+	vec4 viewPos = viewMatrix * modelMatrix * vec4(aPos, 1.0);
 	FragPos = viewPos.xyz;
 	TexCoords = aTexCoords;
 	

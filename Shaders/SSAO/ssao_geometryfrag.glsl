@@ -10,26 +10,17 @@ uniform int hasTexture;
 uniform vec3 cameraPos;
 uniform vec4 baseColour;
 uniform mat4 viewMatrix;
-uniform mat4 projMatrix;/*
-uniform int isReflective;
-uniform float reflectionStrength;
-uniform samplerCube skybox;*/
+uniform mat4 projMatrix;
 
 in vec3 FragPos;
 in vec2 TexCoords;
-in vec3 Normal;/*
-in vec3 ReflectionNormal;
-in vec3 reflectionPos;*/
-
-out vec4 gAlbedo;
-out vec3 gPosition;
-out vec3 gNormal;
+in vec3 Normal;
 
 void main(void) {
 	gPosition = FragPos;
 	gNormal = normalize(Normal);
 
-	vec4 col = basecolour;
+	vec4 col = baseColour;
 	float alpha = col.a;
 
 	//if (hastexture == 1) 
@@ -46,6 +37,6 @@ void main(void) {
 	//	col /= 2;
 	//}
 
-	gAlbedo.rgba = vec4(col.rgb, 1.0);
+	gAlbedo = vec4(col.rgb, 1.0);
 	//glAlbedo = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 }
