@@ -25,13 +25,16 @@ PipelineConfiguration::~PipelineConfiguration()
 {
 }
 
-void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
+void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthographicMatrix)
 {
 	basicGeom = new BasicGeometry("Basic Geometry Renderer", projmatrix, resolution, camera, sceneManager->getSceneNodesInFrustum());
 	basicGeom->linkShaders();
+	uiModule = new UIModule("UI Renderer",orthographicMatrix,resolution);
+	uiModule->linkShaders();
 }
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 {
 	pipeline->addModule(basicGeom);
+	pipeline->addModule(uiModule);
 }

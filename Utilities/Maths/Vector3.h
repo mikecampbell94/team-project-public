@@ -14,6 +14,7 @@ _-_-_-_-_-_-_-""  ""
 #include <cmath>
 #include <iostream>
 #include "../../Resource Management/XMLParser.h"
+#include "Vector2.h"
 
 class Vector3	{
 public:
@@ -25,6 +26,13 @@ public:
 		this->x = x;
 		this->y = y;
 		this->z = z;
+	}
+
+	Vector3(Vector2 v)
+	{
+		this->x = v.x;
+		this->y = v.y;
+		this->z = 10;
 	}
 
 	~Vector3(void){}

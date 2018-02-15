@@ -55,6 +55,8 @@ public:
 	void SetReflectionAttributesForAllSubMeshes(int isReflective, float strength);
 	void SetbackupColourAttributeForAllSubMeshes(Vector4 colour);
 
+	virtual void Draw(Shader& shader,Matrix4 worldTransform);
+
 	float getRadius()
 	{
 		return this->meshes[0]->GetBoundingRadius();
@@ -65,6 +67,7 @@ public:
 
 	//Model Data 
 	std::vector<SubMesh*> meshes;
+	Mesh* mesh;
 	unordered_map<string, SubMesh*> meshesByName;
 	std::string directory;
 	std::vector<Texture> loadedTextures;

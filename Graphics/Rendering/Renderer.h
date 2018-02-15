@@ -32,5 +32,6 @@ private:
 	Camera* camera; 
 	Vector2 resolution;
 	Matrix4 globalProjectionMatrix;
+	Matrix4 globalOrthographicMatrix;
 };
 

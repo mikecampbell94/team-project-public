@@ -277,6 +277,16 @@ void Mesh::SetbackupColourAttributeForAllSubMeshes(Vector4 colour)
 	}
 }
 
+void Mesh::Draw(Shader& shader, Matrix4 worldTransform)
+{
+	if (mesh) {
+		for each (SubMesh* submesh in mesh->meshes)
+		{
+			submesh->Draw(shader, worldTransform);
+		}
+	}
+}
+
 void Mesh::loadTexture(std::string filepath)
 {
 	unsigned int texId = SOIL_load_OGL_texture(filepath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_MIPMAPS);

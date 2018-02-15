@@ -20,6 +20,7 @@ Renderer::Renderer(Window* window, Camera* camera, Vector2 resolution)
 	this->resolution = resolution;
 
 	globalProjectionMatrix = Matrix4::perspective(1.0f, 150000.0f, resolution.x / resolution.y, 60.0f);
+	globalOrthographicMatrix = Matrix4::orthographic(1.0f,1000.0f,resolution.x,0,resolution.y,0);
 
 	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 	GraphicsUtility::CheckGLError("Renderer Initialisation");
@@ -32,7 +33,7 @@ Renderer::~Renderer()
 void Renderer::initialise(SceneManager* sceneManager)
 {
 	graphicsConfig = PipelineConfiguration(sceneManager, window, camera, resolution);
-	graphicsConfig.initialiseModules(globalProjectionMatrix);
+	graphicsConfig.initialiseModules(globalProjectionMatrix,globalOrthographicMatrix);
 	graphicsConfig.buildPipeline(&pipeline);
 
 	this->sceneManager = sceneManager;
