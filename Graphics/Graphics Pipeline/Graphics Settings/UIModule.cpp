@@ -33,7 +33,7 @@ void UIModule::apply()
 
 	for (UIObject * uiObject : UIObjects)
 	{
-		uiObject->UiMesh->Draw(*currentShader,Matrix4::translation(uiObject->position) * Matrix4::translation(uiObject->scale));
+		//uiObject->UiMesh->Draw(*currentShader,Matrix4::translation(uiObject->position) * Matrix4::translation(uiObject->scale));
 	}
 
 }
