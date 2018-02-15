@@ -18,6 +18,12 @@
 			<Y>001</Y>
 			<Z>001</Z>
 		</Scale>
+		<Colour>
+		  <R>1</R>
+		  <G>0</G>
+		  <B>0</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects name="wall1" >
@@ -39,6 +45,12 @@
 			<Y>001</Y>
 			<Z>001</Z>
 		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects name="wall2" >
@@ -60,6 +72,12 @@
 			<Y>001</Y>
 			<Z>001</Z>
 		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects name="wall3" >
@@ -81,6 +99,12 @@
 			<Y>001</Y>
 			<Z>001</Z>
 		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects name="wall4" >
@@ -102,6 +126,12 @@
 			<Y>001</Y>
 			<Z>001</Z>
 		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects id ="floor" >
@@ -123,5 +153,11 @@
 			<Y>000</Y>
 			<Z>030</Z>
 		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 </LevelDetails>

@@ -37,9 +37,10 @@ void BasicGeometry::apply()
 {
 	setCurrentShader(basicShader);
 
-	updateShaderMatrices();
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
+		colour = nodesInFrame->at(i)->getColour();
+		updateShaderMatrices();
 		nodesInFrame->at(i)->Draw(*currentShader);
 	}
 
