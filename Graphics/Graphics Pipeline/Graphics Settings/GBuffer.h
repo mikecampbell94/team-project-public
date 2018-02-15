@@ -10,14 +10,15 @@
 #include "../Effects/Skybox.h"
 #include "../Effects/ParticleSystem.h"
 
+#include "../../Scene Management/SceneManager.h"
+
 class Window;
 
 class GBuffer : public GraphicsModule
 {
 public:
 	GBuffer(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Window* window, Camera* camera, std::vector<SubMesh*>* modelsInFrame,
-		vector<SubMesh*>* transparentModelsInFrame, std::vector<Mesh*>** models);
+		const Vector2 resolution, Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame);
 	virtual ~GBuffer();
 
 	void linkShaders() override;
@@ -46,7 +47,7 @@ private:
 	void initGBuffer();
 	void initAttachments();
 
-	void renderGeometry(vector<SubMesh*>* meshes);
+	void renderGeometry(std::vector<SceneNode*>* nodesInFrame);
 
 	GLuint gPosition;
 	GLuint gNormal;
@@ -59,9 +60,8 @@ private:
 	Camera* camera;
 	Window* window;
 
-	std::vector<SubMesh*>* modelsInFrame;
-	std::vector<SubMesh*>* transparentModelsInFrame;
-	std::vector<Mesh*>** models;
+	std::vector<SceneNode*>* nodesInFrame;
+
 	GBufferData* SGBuffer;
 
 	unsigned int textureID;
