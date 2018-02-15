@@ -35,7 +35,7 @@ void LetterBox::insertMessage(TextMessage message)
 	textMessages.push_back(message);
 }
 
-void LetterBox::insertMessage(SceneNodeTranslationMessage message)
+void LetterBox::insertMessage(RelativeTransformMessage message)
 {
 	sceneNodeTranslationMessages.push_back(message);
 }

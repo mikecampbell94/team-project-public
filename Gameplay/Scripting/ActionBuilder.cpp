@@ -6,7 +6,7 @@
 #include "../../Communication/MessagingService.h"
 #include "../../Communication/DeliverySystem.h"
 #include "../../Communication/Messages/TextMessage.h"
-#include "../../Communication/Messages/SceneNodeTranslationMessage.h"
+#include "../../Communication/Messages/RelativeTransformMessage.h"
 
 const std::string CONDITIONAL_STATEMENT = "Condition";
 const std::string SEND_MESSAGE_STATEMENT = "SendMessage";
@@ -141,23 +141,13 @@ Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 			DeliverySystem::getPostman()->insertMessage(TextMessage(destination, text));
 		};
 	}
-	else if (node->name == "TRANSLATE_SCENE_NODE")
+	else if (node->name == "RELATIVE_TRANSFORM")
 	{
-		Node* destination = node->children[0];
-		Node* translationNode = node->children[1];
+		RelativeTransformMessage message = RelativeTransformMessage::builder(node);
 
-		const float x = stof(translationNode->children[0]->value);
-		const float y = stof(translationNode->children[1]->value);
-		const float z = stof(translationNode->children[2]->value);
-		const Vector3 translation(x, y, z);
-
-		const bool relative = stoi(node->children[2]->value);
-		const std::string resource = node->children[3]->value;
-
-		return[destination = destination->value, translation, relative, resource]()
+		return [message = message]()
 		{
-			DeliverySystem::getPostman()->insertMessage(
-				SceneNodeTranslationMessage(destination, resource, translation, relative));
+				DeliverySystem::getPostman()->insertMessage(message);
 		};
 	}
 }

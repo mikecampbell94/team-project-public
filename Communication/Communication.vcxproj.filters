@@ -36,10 +36,10 @@
     <ClInclude Include="MessagingService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Messages\SceneNodeTranslationMessage.h">
+    <ClInclude Include="Messages\TextMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Messages\TextMessage.h">
+    <ClInclude Include="Messages\RelativeTransformMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,10 +62,10 @@
     <ClCompile Include="LetterBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Messages\SceneNodeTranslationMessage.cpp">
+    <ClCompile Include="Messages\TextMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Messages\TextMessage.cpp">
+    <ClCompile Include="Messages\RelativeTransformMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

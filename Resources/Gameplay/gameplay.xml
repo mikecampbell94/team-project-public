@@ -11,17 +11,27 @@
 			</SendMessage>
 		</Action>
 	</ReceiveMessage>
-	<Timed interval="0.1">
-		<SendMessage type="TRANSLATE_SCENE_NODE">
-			<destination>RenderingSystem</destination>
-			<translation>
-				<x>1</x>
-				<y>0</y>
-				<z>0</z>
-			</translation>
-			<relative>1</relative>
-			<resource>playerBall</resource>
-		</SendMessage>
+	<Timed interval="0.01">
+    <SendMessage type="RELATIVE_TRANSFORM">
+      <destination>RenderingSystem</destination>
+      <translation>
+        <x>0</x>
+        <y>0.1</y>
+        <z>1</z>
+      </translation>
+      <rotation>
+        <x>0</x>
+        <y>1</y>
+        <z>0</z>
+        <degrees>5</degrees>
+      </rotation>
+      <scale>
+        <x>1</x>
+        <y>1</y>
+        <z>1</z>
+      </scale>
+      <resource>playerBall</resource>
+    </SendMessage>
 	</Timed>
 	<Timed interval="2.0">
 		<SendMessage type="TEXT">
