@@ -8,7 +8,7 @@
 class GameplaySystem : public Subsystem
 {
 public:
-	explicit GameplaySystem(const int playersInGame);
+	explicit GameplaySystem(const int playersInGame, PlayerBase &playerBase);
 	~GameplaySystem();
 
 	void updateSubsystem(const float& deltaTime) override;
@@ -17,5 +17,6 @@ private:
 	GameLogic gameLogic;
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
+	PlayerBase playerBase;
 };
 

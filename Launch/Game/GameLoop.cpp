@@ -38,7 +38,7 @@ GameLoop::GameLoop(System& gameSystem)
 	playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
 
 	inputManager = new InputManager(playerbase);
-	gameplay = new GameplaySystem(playerbase->getPlayers().size());
+	gameplay = new GameplaySystem(playerbase->getPlayers().size(),*playerbase);
 
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);

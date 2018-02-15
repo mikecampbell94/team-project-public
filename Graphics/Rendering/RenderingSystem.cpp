@@ -45,3 +45,30 @@ void RenderingSystem::updateSubsystem(const float& deltaTime)
 {
 	renderer->update(deltaTime);
 }
+
+bool RenderingSystem::stob(std::string string)
+{
+	std::transform(string.begin(), string.end(), string.begin(), ::tolower);
+	std::istringstream is(string);
+	bool b;
+	is >> std::boolalpha >> b;
+	return b;
+}
+
+void RenderingSystem::getGraphicsConfig()
+{
+	graphicsconfigParser.loadFile("../Data/Resources/Config/Graphics/graphicsConfigXML.xml");
+	Node* node = graphicsconfigParser.parsedXml;
+	graphicsConfig.resolution.x = stof(node->children[0]->children[0]->value);
+	graphicsConfig.resolution.y = stof(node->children[0]->children[1]->value);
+	graphicsConfig.basicgeometryEnabled = stob(node->children[1]->value);
+	graphicsConfig.bloomEnabled = stob(node->children[2]->value);
+	graphicsConfig.lightingEnabled = stob(node->children[3]->value);
+	graphicsConfig.bplightingEnabled = stob(node->children[4]->value);
+	graphicsConfig.gbufferEnabled = stob(node->children[5]->value);
+	graphicsConfig.motionblurEnabled = stob(node->children[6]->value);
+	graphicsConfig.particlesEnabled = stob(node->children[7]->value);
+	graphicsConfig.shadowmappingEnabled = stob(node->children[8]->value);
+	graphicsConfig.skyboxEnabled = stob(node->children[9]->value);
+	graphicsConfig.ssaoEnabled = stob(node->children[10]->value);
+}
