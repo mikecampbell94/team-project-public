@@ -54,7 +54,6 @@ void RenderingSystem::initialise(Database* database)
 			database->getTable("GameObjects")->getAllResources()->getResource(translationMessage->resourceName));
 
 		gameObject->getSceneNode()->SetTransform(gameObject->getSceneNode()->GetTransform()
-			/** Matrix4::translation(translationMessage->translation)*/
 			* translationMessage->transform);
 
 	});
