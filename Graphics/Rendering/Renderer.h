@@ -9,6 +9,7 @@
 class Window;
 class Camera;
 class Matrix4;
+class Database;
 
 class Renderer : OGLRenderer
 {
@@ -17,7 +18,7 @@ public:
 	Renderer(Window* window, Camera* camera, Vector2 resolution);
 	~Renderer();
 
-	void initialise(SceneManager* sceneManager);
+	void initialise(SceneManager* sceneManager, Database* database);
 	void update(const float& deltatime);
 
 private:

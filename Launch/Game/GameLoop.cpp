@@ -33,7 +33,7 @@ GameLoop::GameLoop(System& gameSystem)
 	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
 	//nodes->push_back(node);
 
-	rendering->SetSceneToRender(scene);
+	rendering->SetSceneToRender(scene, database);
 
 	InputRecorder* keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
 

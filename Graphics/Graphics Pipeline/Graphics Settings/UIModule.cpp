@@ -1,19 +1,13 @@
 #include "UIModule.h"
+
 #include "../../GraphicsCommon.h"
+#include "../Resource Management/Database/Database.h"
 
-
-
-
-
-UIModule::UIModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution) : GraphicsModule(identifier, projMatrix, resolution)
+UIModule::UIModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution,
+	Database* database) : GraphicsModule(identifier, projMatrix, resolution)
 {
-
 	UIShader = new Shader(SHADERDIR"/UIVertex.glsl", SHADERDIR"/UIFrag.glsl");
-	Button* uiTest = new Button();
-	uiTest->UiMesh = new Mesh("../Data/Meshes/cube.obj", 1);
-	uiTest->position = Vector2(0, 0);
-	uiTest->scale = Vector2(10, 10);
-	UIObjects.push_back(uiTest);
+	this->database = database;
 }
 
 UIModule::~UIModule()
@@ -22,6 +16,8 @@ UIModule::~UIModule()
 
 void UIModule::initialise()
 {
+	UIObjects = UserInterfaceBuilder::buildButtons("../Data/UserInterface/MainMenu.xml", database, resolution);
+	//UIObjects = UserInterfaceBuilder::buildButtons("", database);
 }
 
 void UIModule::apply()
@@ -31,9 +27,9 @@ void UIModule::apply()
 	viewMatrix.toIdentity();
 	updateShaderMatrices();
 
-	for (Button * uiObject : UIObjects)
+	for (Button& button : UIObjects)
 	{
-		uiObject->UiMesh->Draw(*currentShader,Matrix4::translation(uiObject->position) * Matrix4::scale(uiObject->scale));
+		button.UIMesh->Draw(*currentShader,Matrix4::translation(button.position) * Matrix4::scale(button.scale));
 	}
 	glEnable(GL_DEPTH_BUFFER);
 }
@@ -45,6 +41,7 @@ void UIModule::linkShaders()
 
 void UIModule::regenerateShaders()
 {
+	UIShader->Regenerate();
 }
 
 void UIModule::locateUniforms()

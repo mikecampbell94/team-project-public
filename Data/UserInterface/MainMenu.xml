@@ -1,0 +1,21 @@
+<MainMenu>
+  <Button>
+    <colour>
+      <r>1.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>1.0</a>
+    </colour>
+    <position>
+      <x>0.0</x>
+      <y>0.0</y>
+    </position>
+    <scale>
+      <x>10.0</x>
+      <y>10.0</y>
+    </scale>
+    <action>action</action>
+    <text>text</text>
+    <mesh>CubeMesh</mesh>
+  </Button>
+</MainMenu>

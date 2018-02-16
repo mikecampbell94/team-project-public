@@ -59,9 +59,9 @@ void RenderingSystem::initialise(Database* database)
 	});
 }
 
-void RenderingSystem::SetSceneToRender(SceneManager* scene)
+void RenderingSystem::SetSceneToRender(SceneManager* scene, Database* database)
 {
-	renderer->initialise(scene);
+	renderer->initialise(scene, database);
 }
 
 void RenderingSystem::updateSubsystem(const float& deltaTime)

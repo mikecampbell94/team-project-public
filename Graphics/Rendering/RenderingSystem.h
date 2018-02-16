@@ -18,7 +18,7 @@ public:
 
 	void loadingScreen() {}
 
-	void SetSceneToRender(SceneManager* scene);
+	void SetSceneToRender(SceneManager* scene, Database* database);
 	void updateSubsystem(const float& deltaTime) override;
 
 	void removeAsset() {}

@@ -1,5 +1,7 @@
 #include "PipelineConfiguration.h"
+
 #include "Graphics Settings/BasicGeometry.h"
+#include "../Resource Management/Database/Database.h"
 
 PipelineConfiguration::PipelineConfiguration()
 {
@@ -20,17 +22,17 @@ PipelineConfiguration::PipelineConfiguration(SceneManager* sceneManager, Window*
 	this->pipeline = pipeline;
 }
 
-
 PipelineConfiguration::~PipelineConfiguration()
 {
 }
 
-void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthographicMatrix)
+void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthographicMatrix, Database* database)
 {
 	basicGeom = new BasicGeometry("Basic Geometry Renderer", projmatrix, resolution, camera, sceneManager->getSceneNodesInFrustum());
 	basicGeom->linkShaders();
-	uiModule = new UIModule("UI Renderer",orthographicMatrix,resolution);
+	uiModule = new UIModule("UI Renderer",orthographicMatrix,resolution, database);
 	uiModule->linkShaders();
+	uiModule->initialise();
 }
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)

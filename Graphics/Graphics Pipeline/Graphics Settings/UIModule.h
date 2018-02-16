@@ -1,23 +1,16 @@
 #pragma once
+
 #include "../GraphicsModule.h"
 #include "../../Meshes/Mesh.h"
+#include "../Interface/UserInterfaceBuilder.h"
 
-
-struct Button 
-{
-	Vector4 colour;
-	Vector2 position;
-	Vector2 scale;
-	std::string action;
-	std::string text;
-	Mesh* UiMesh;
-};
-
+class Database;
 
 class UIModule : public GraphicsModule
 {
 public:
-	UIModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution);
+	UIModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution,
+		Database* database);
 	~UIModule();
 
 	void initialise() override;
@@ -26,13 +19,11 @@ public:
 	void linkShaders() override;
 	void regenerateShaders() override;
 
-
-
 protected:
 	void locateUniforms() override;
-
+	Database* database;
 	Shader* UIShader;
 	Matrix4 UIprojMatrix;
-	std::vector<Button*> UIObjects;
+	std::vector<Button> UIObjects;
 };
 

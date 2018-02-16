@@ -4,6 +4,7 @@
 #include "../GraphicsUtility.h"
 #include "../Utility/Camera.h"
 #include "../Utilities/Maths/Matrix4.h"
+#include "../Resource Management/Database/Database.h"
 
 Renderer::Renderer() : OGLRenderer(0, Vector2())
 {
@@ -30,10 +31,10 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::initialise(SceneManager* sceneManager)
+void Renderer::initialise(SceneManager* sceneManager, Database* database)
 {
 	graphicsConfig = PipelineConfiguration(sceneManager, window, camera, resolution);
-	graphicsConfig.initialiseModules(globalProjectionMatrix,globalOrthographicMatrix);
+	graphicsConfig.initialiseModules(globalProjectionMatrix, globalOrthographicMatrix, database);
 	graphicsConfig.buildPipeline(&pipeline);
 
 	this->sceneManager = sceneManager;

@@ -1,12 +1,12 @@
 <LevelMeshes>
-	<Meshes name="SphereMesh" >
+  <Meshes name="SphereMesh" >
 		<MeshFile>../Data/Meshes/sphere.obj</MeshFile>
 		<Texture>../Data/Textures/lava.png</Texture>
-	</Mesh>
-	
-	
-	<Meshes name="CubeMesh" >
+	</Meshes>
+
+
+  <Meshes name="CubeMesh" >
 		<MeshFile>../Data/Meshes/cube.obj</MeshFile>
 		<Texture>../Data/Textures/hell.jpg</Texture>
-	</Mesh>
+	</Meshes>
 </LevelMeshes>
