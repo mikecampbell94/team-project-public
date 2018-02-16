@@ -1,6 +1,10 @@
 #include "GameLoop.h"
 #include "../../Input/InputManager.h"
+
+
+#include "../../Resource Management/XMLParser.h"
 #include "../../Resource Management/Level.h"
+#include "../../Input/Recorders/KeyboardMouseRecorder.h"
 #include <iostream>
 #include "Communication/LetterBox.h"
 #include "../../Gameplay/GameObject.h"
@@ -19,6 +23,8 @@ GameLoop::GameLoop(System& gameSystem)
 	//Database database;
 	database = new Database();
 
+	//AUDIO MUST BE CREATED BEFORE TABLE CREATION AND AFTER DATABASE CREATION!!!!!!!!!!!!
+	audio = new AudioSystem(database, camera);
 
 	TableCreation tableCreation(database);
 
@@ -54,13 +60,7 @@ GameLoop::GameLoop(System& gameSystem)
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
-
-	/*nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("playerBall"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall1"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall2"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall3"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall4"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("floor"))->getSceneNode());*/
+	engine.addSubsystem(audio);
 }
 
 GameLoop::~GameLoop()

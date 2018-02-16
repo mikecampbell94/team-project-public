@@ -2,8 +2,8 @@
 
 #include "Message.h"
 #include "Messages/PlayerInputMessage.h"
-#include "Messages/TextMessage.h"
-
+#include "Messages/TextMessage.h"#include "Messages/PlaySoundMessage.h"
+#include "Messages/StopSoundMessage.h"
 #include <string>
 #include <queue>
 #include "Messages/RelativeTransformMessage.h"
@@ -19,8 +19,8 @@ public:
 	virtual void insertMessage(Message message) = 0;
 	virtual void insertMessage(PlayerInputMessage message) = 0;
 	virtual void insertMessage(TextMessage message) = 0;
-	virtual void insertMessage(RelativeTransformMessage message) = 0;
-
+	virtual void insertMessage(RelativeTransformMessage message) = 0;	virtual void insertMessage(PlaySoundMessage message) = 0;
+	virtual void insertMessage(StopSoundMessage message) = 0;
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;
 };
