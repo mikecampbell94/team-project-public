@@ -3,7 +3,7 @@
 #include "../../Meshes/Mesh.h"
 
 
-struct UIObject 
+struct Button 
 {
 	Vector4 colour;
 	Vector2 position;
@@ -33,6 +33,6 @@ protected:
 
 	Shader* UIShader;
 	Matrix4 UIprojMatrix;
-	std::vector<UIObject*> UIObjects;
+	std::vector<Button*> UIObjects;
 };
 

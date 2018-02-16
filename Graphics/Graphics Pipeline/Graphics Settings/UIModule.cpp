@@ -9,7 +9,7 @@ UIModule::UIModule(const std::string identifier, const Matrix4 projMatrix, const
 {
 
 	UIShader = new Shader(SHADERDIR"/UIVertex.glsl", SHADERDIR"/UIFrag.glsl");
-	UIObject* uiTest = new UIObject();
+	Button* uiTest = new Button();
 	uiTest->UiMesh = new Mesh("../Data/Meshes/cube.obj", 1);
 	uiTest->position = Vector2(0, 0);
 	uiTest->scale = Vector2(10, 10);
@@ -31,7 +31,7 @@ void UIModule::apply()
 	viewMatrix.toIdentity();
 	updateShaderMatrices();
 
-	for (UIObject * uiObject : UIObjects)
+	for (Button * uiObject : UIObjects)
 	{
 		uiObject->UiMesh->Draw(*currentShader,Matrix4::translation(uiObject->position) * Matrix4::scale(uiObject->scale));
 	}
