@@ -41,5 +41,14 @@ public:
 	{
 		return Vector4(x - a.x, y - a.y, z - a.z, w - a.w);
 	}
+
+	static Vector4 builder(Node* node)
+	{
+		const float x = std::stof(node->children[0]->value);
+		const float y = std::stof(node->children[1]->value);
+		const float z = std::stof(node->children[2]->value);
+		const float w = std::stof(node->children[3]->value);
+		return Vector4(x, y, z, w);
+	}
 };
 

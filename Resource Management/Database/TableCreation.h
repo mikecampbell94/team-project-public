@@ -16,7 +16,7 @@ private:
 	void addGameObject() const;
 	void addSceneNode() const;
 	void addPhysicsObject() const;
-	
+	void addMesh() const;
 	void addSounds() const;
 
 	std::vector<std::function<void()>> tableAdditions;

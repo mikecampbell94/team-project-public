@@ -40,5 +40,6 @@ private:
 	SceneManager* sceneManager;
 
 	BasicGeometry* basicGeom;
+	GBuffer *gBuffer;
 };
 

@@ -1,0 +1,3 @@
+LevelDetails/Level1Meshes.xml
+LevelDetails/Level1Details.xml
+LevelDetails/Level1Sounds.xml

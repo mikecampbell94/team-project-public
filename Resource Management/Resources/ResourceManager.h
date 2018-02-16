@@ -66,6 +66,12 @@ public:
 		resourceBuffer.clear();
 	}
 
+	std::unordered_map<std::string, T*> & getResourceBuffer()
+	{
+		return resourceBuffer;
+	}
+
+
 private:
 	std::string resourceManagerID;
 	size_t maxSize;

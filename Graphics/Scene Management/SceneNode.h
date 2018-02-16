@@ -10,7 +10,13 @@ class SceneNode
 {
 public:
 	SceneNode(string meshFile, Vector4 colour = Vector4(1, 1, 1, 1));
+	SceneNode(Mesh* mesh, Vector4 colour = Vector4(1, 1, 1, 1));
 	virtual ~SceneNode(void);
+
+	void setPosition(Vector3 position)
+	{
+		transform.setPositionVector(position);
+	}
 
 	void  SetTransform(const Matrix4 &matrix)
 	{
@@ -38,11 +44,15 @@ public:
 
 	void SetColour(Vector4 c)
 	{
+		this->colour = c;
 		mesh->SetbackupColourAttributeForAllSubMeshes(c);
 	}
 
+	Vector4 getColour();
+
 	void SetModelScale(Vector3 s)
 	{
+		boundingRadius *= s.length();
 		transform.setScalingVector(s);
 	}
 
@@ -72,7 +82,13 @@ public:
 			? true : false;
 	}
 
+	std::vector<SceneNode*> getChildren();
+
+
+	const float getRadius();
+
 protected:
+	bool		enabled;
 	SceneNode*	parent;
 	Mesh*		mesh;
 	Matrix4		worldTransform;

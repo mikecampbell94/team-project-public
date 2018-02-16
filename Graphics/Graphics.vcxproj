@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\SOIL\Debug\;..\GLEW\lib\Debug\;</LibraryPath>
+    <LibraryPath>..\SOIL\Release\;..\GLEW\lib\Release\</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

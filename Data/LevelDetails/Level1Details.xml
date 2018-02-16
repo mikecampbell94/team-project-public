@@ -1,0 +1,163 @@
+<LevelDetails>
+<GameObjects name="playerBall" >
+		<Mesh>SphereMesh</Mesh>
+		<Enabled>True/False</Enabled>
+		<Position>
+			<X>005</X>
+			<Y>005</Y>
+			<Z>005</Z>
+		</Position>
+		<Rotation>
+			<X>000</X>
+			<Y>000</Y>
+			<Z>000</Z>
+			<W>000</W>
+		</Rotation>
+		<Scale>
+			<X>001</X>
+			<Y>001</Y>
+			<Z>001</Z>
+		</Scale>
+		<Colour>
+		  <R>1</R>
+		  <G>0</G>
+		  <B>0</B>
+		  <A>1</A>
+		</Colour>
+</GameObjects>
+
+<GameObjects name="wall1" >
+		<Mesh>CubeMesh</Mesh>
+		<Enabled>True/False</Enabled>
+		<Position>
+			<X>050</X>
+			<Y>050</Y>
+			<Z>050</Z>
+		</Position>
+		<Rotation>
+			<X>000</X>
+			<Y>000</Y>
+			<Z>000</Z>
+			<W>000</W>
+		</Rotation>
+		<Scale>
+			<X>001</X>
+			<Y>001</Y>
+			<Z>001</Z>
+		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
+</GameObjects>
+
+<GameObjects name="wall2" >
+		<Mesh>CubeMesh</Mesh>
+		<Enabled>True/False</Enabled>
+		<Position>
+			<X>010</X>
+			<Y>0</Y>
+			<Z>010</Z>
+		</Position>
+		<Rotation>
+			<X>000</X>
+			<Y>000</Y>
+			<Z>000</Z>
+			<W>000</W>
+		</Rotation>
+		<Scale>
+			<X>001</X>
+			<Y>001</Y>
+			<Z>001</Z>
+		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
+</GameObjects>
+
+<GameObjects name="wall3" >
+		<Mesh>CubeMesh</Mesh>
+		<Enabled>True/False</Enabled>
+		<Position>
+			<X>030</X>
+			<Y>0</Y>
+			<Z>030</Z>
+		</Position>
+		<Rotation>
+			<X>000</X>
+			<Y>000</Y>
+			<Z>000</Z>
+			<W>000</W>
+		</Rotation>
+		<Scale>
+			<X>001</X>
+			<Y>001</Y>
+			<Z>001</Z>
+		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
+</GameObjects>
+
+<GameObjects name="wall4" >
+		<Mesh>CubeMesh</Mesh>
+		<Enabled>True/False</Enabled>
+		<Position>
+			<X>030</X>
+			<Y>0</Y>
+			<Z>030</Z>
+		</Position>
+		<Rotation>
+			<X>000</X>
+			<Y>000</Y>
+			<Z>000</Z>
+			<W>000</W>
+		</Rotation>
+		<Scale>
+			<X>001</X>
+			<Y>001</Y>
+			<Z>001</Z>
+		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
+</GameObjects>
+
+<GameObjects id ="floor" >
+		<Mesh>CubeMesh</Mesh>
+		<Enabled>True/False</Enabled>
+		<Position>
+			<X>000</X>
+			<Y>000</Y>
+			<Z>000</Z>
+		</Position>
+		<Rotation>
+			<X>000</X>
+			<Y>000</Y>
+			<Z>000</Z>
+			<W>000</W>
+		</Rotation>
+		<Scale>
+			<X>030</X>
+			<Y>000</Y>
+			<Z>030</Z>
+		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
+</GameObjects>
+</LevelDetails>

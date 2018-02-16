@@ -70,11 +70,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Audio\OpenAL 1.1 SDK\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Audio\OpenAL 1.1 SDK\libs\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Audio\OpenAL 1.1 SDK\include;$(IncludePath);..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;..\Communication\</IncludePath>
+    <LibraryPath>$(SolutionDir)Audio\OpenAL 1.1 SDK\libs\Win32;$(LibraryPath);..\SOIL\Debug\;..\GLEW\lib\Debug\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Audio\OpenAL 1.1 SDK\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Audio\OpenAL 1.1 SDK\include;..\SOIL\;..\GLEW\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Audio\OpenAL 1.1 SDK\libs\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

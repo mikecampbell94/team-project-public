@@ -101,6 +101,8 @@ public:
 		boundingRadius = max(minLength, maxLength);//(box.max - box.min).Length() / 2;//
 	}
 
+	void addTexture(unsigned int texture);
+
 	void BufferData();
 	void DrawOnly();
 

@@ -2,6 +2,7 @@
 
 #include "Message.h"
 #include "Messages/PlayerInputMessage.h"
+#include "Messages/TextMessage.h"
 #include "Messages/PlaySoundMessage.h"
 #include "Messages/StopSoundMessage.h"
 #include "Messages/PlayMovingSoundMessage.h"
@@ -19,9 +20,9 @@ public:
 
 	void insertMessage(Message message) override;
 	void insertMessage(PlayerInputMessage message) override;
-	void insertMessage(PlaySoundMessage message) override;
+	void insertMessage(TextMessage message) override;
+	void insertMessage(RelativeTransformMessage message) override;	void insertMessage(PlaySoundMessage message) override;
 	void insertMessage(StopSoundMessage message) override;
-
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
 
@@ -30,7 +31,7 @@ private:
 
 	std::vector<Message> messages;
 	std::vector<PlayerInputMessage> playerInputMessages;
-	std::vector<PlaySoundMessage> playSoundMessages;
-	std::vector<StopSoundMessage> stopSoundMessages;
-};
+	std::vector<TextMessage> textMessages;
+	std::vector<RelativeTransformMessage> sceneNodeTranslationMessages;	std::vector<PlaySoundMessage> playSoundMessages;
+	std::vector<StopSoundMessage> stopSoundMessages;};
 

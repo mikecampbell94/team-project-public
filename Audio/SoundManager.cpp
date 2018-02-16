@@ -68,10 +68,23 @@ void SoundManager::createOALSources()
 
 void SoundManager::AddNewSoundNode(PlaySoundMessage* message)
 {
-	PlaySoundMessage* soundMessage = static_cast<PlaySoundMessage*>(message);
-	Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getAllResources()->getResource(soundMessage->soundID));
-
-	soundNodes.push_back(SoundNode::builder(soundMessage, sound));
+	if(soundNodes.size() > 0)
+	{
+		for (unsigned int i = 0; i < soundNodes.size(); ++i)
+		{
+			if (soundNodes[i].identifier != message->soundNodeIdentifier)
+			{
+				Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getAllResources()->getResource(message->soundID));
+				soundNodes.push_back(SoundNode::builder(message, sound));
+			}
+		}
+	}
+	else
+	{
+		Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getAllResources()->getResource(message->soundID));
+		soundNodes.push_back(SoundNode::builder(message, sound));
+	}
+	
 }
 
 void SoundManager::stopSoundNode(StopSoundMessage* message)

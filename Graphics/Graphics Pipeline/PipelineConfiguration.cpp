@@ -20,18 +20,22 @@ PipelineConfiguration::PipelineConfiguration(SceneManager* sceneManager, Window*
 	this->pipeline = pipeline;
 }
 
-
 PipelineConfiguration::~PipelineConfiguration()
 {
 }
 
 void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 {
-	basicGeom = new BasicGeometry("Basic Geometry Renderer", projmatrix, resolution, camera, sceneManager->getSubMeshesInFrustum());
+	basicGeom = new BasicGeometry("Basic Geometry Renderer", projmatrix, resolution, camera, sceneManager->getSceneNodesInFrustum());
 	basicGeom->linkShaders();
+
+	gBuffer = new GBuffer("gbuffer", projmatrix, resolution,window,camera, sceneManager->getSceneNodesInFrustum());
+	gBuffer->initialise();
+	gBuffer->linkShaders();
 }
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 {
 	pipeline->addModule(basicGeom);
+	pipeline->addModule(gBuffer);
 }
