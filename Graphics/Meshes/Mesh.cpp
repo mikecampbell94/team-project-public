@@ -279,12 +279,10 @@ void Mesh::SetbackupColourAttributeForAllSubMeshes(Vector4 colour)
 
 void Mesh::Draw(Shader& shader, Matrix4 worldTransform)
 {
-	if (mesh) {
-		for each (SubMesh* submesh in mesh->meshes)
+		for each (SubMesh* submesh in meshes)
 		{
 			submesh->Draw(shader, worldTransform);
 		}
-	}
 }
 
 void Mesh::loadTexture(std::string filepath)

@@ -9,6 +9,7 @@ struct UIObject
 	Vector2 position;
 	Vector2 scale;
 	std::string action;
+	std::string text;
 	Mesh* UiMesh;
 };
 
@@ -30,6 +31,7 @@ public:
 protected:
 	void locateUniforms() override;
 
+	Shader* UIShader;
 	Matrix4 UIprojMatrix;
 	std::vector<UIObject*> UIObjects;
 };
