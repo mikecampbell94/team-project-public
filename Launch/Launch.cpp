@@ -5,6 +5,8 @@
 #pragma comment(lib, "Communication.lib")
 #pragma comment(lib, "Gameplay.lib")
 
+#pragma comment(lib, "Audio.lib")
+
 #include "Systems\System.h"
 #include "Game/GameLoop.h"
 

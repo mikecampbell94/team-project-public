@@ -143,14 +143,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="Sound.h" />
-    <ClInclude Include="SoundSource.h" />
-    <ClInclude Include="SoundSystem.h" />
+    <ClInclude Include="SoundNode.h" />
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="SoundSource.cpp" />
-    <ClCompile Include="SoundSystem.cpp" />
+    <ClCompile Include="SoundNode.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

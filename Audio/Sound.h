@@ -4,8 +4,6 @@
 #include "..\Resource Management\Resources\Resource.h"
 
 #include <string>
-#include <iostream>
-#include <fstream>
 
 using namespace std;
 
@@ -28,12 +26,36 @@ public:
 	Sound(std::string filePath);
 	~Sound();
 
-	char* getData() { return data; }
-	int getBitRate() { return bitRate; }
-	float getFrequency() { return freqRate; }
-	int getChannels() { return channels; }
-	int getSize() { return size; }
-	ALuint getBuffer() { return buffer; }
+	char* getData() const
+	{
+		return data;
+	}
+
+	int getBitRate() const
+	{
+		return bitRate;
+	}
+
+	float getFrequency() const
+	{
+		return freqRate;
+	}
+
+	int getChannels() const
+	{
+		return channels;
+	}
+
+	int getSize() const
+	{
+		return size;
+	}
+
+	ALuint getBuffer() const
+	{
+		return buffer;
+	}
+
 	ALenum getOALFormat();
 	double getLength();
 
@@ -42,9 +64,11 @@ public:
 
 private:
 	ALuint buffer;
+
 	char *data;
 	float freqRate;
 	double length;
+
 	unsigned int bitRate;
 	unsigned int size;
 	unsigned int channels;

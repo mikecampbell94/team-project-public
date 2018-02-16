@@ -118,7 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AudioMessage.h" />
+    <ClInclude Include="Messages\PlaySoundMessage.h" />
     <ClInclude Include="DeliverySystem.h" />
     <ClInclude Include="LetterBox.h" />
     <ClInclude Include="Message.h" />
@@ -126,15 +126,19 @@
     <ClInclude Include="MessageStorage.h" />
     <ClInclude Include="Messages\PlayerInputMessage.h" />
     <ClInclude Include="MessagingService.h" />
+    <ClInclude Include="Messages\StopSoundMessage.h" />
+    <ClInclude Include="Messages\PlayMovingSoundMessage.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AudioMessage.cpp" />
+    <ClCompile Include="Messages\PlaySoundMessage.cpp" />
     <ClCompile Include="DeliverySystem.cpp" />
     <ClCompile Include="LetterBox.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageProcessor.cpp" />
     <ClCompile Include="MessageStorage.cpp" />
     <ClCompile Include="Messages\PlayerInputMessage.cpp" />
+    <ClCompile Include="Messages\StopSoundMessage.cpp" />
+    <ClCompile Include="Messages\PlayMovingSoundMessage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,8 @@
 #include "Sound.h"
 
+#include <fstream>
+#include <iostream>
+
 Sound::Sound(std::string filePath)
 {
 	bitRate = 0;
@@ -9,6 +12,7 @@ Sound::Sound(std::string filePath)
 	buffer = 0;
 
 	string extension = filePath.substr(filePath.length()-3, 3);
+
 	if (extension == "wav") 
 	{
 		loadFromWAV(filePath);
@@ -42,6 +46,7 @@ ALenum Sound::getOALFormat()
 	{
 		return getChannels() == 2 ? AL_FORMAT_STEREO8 : AL_FORMAT_MONO8;
 	}
+
 	return AL_FORMAT_MONO8;
 }
 

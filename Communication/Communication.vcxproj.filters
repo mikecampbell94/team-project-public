@@ -36,7 +36,13 @@
     <ClInclude Include="MessagingService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AudioMessage.h">
+    <ClInclude Include="Messages\PlaySoundMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages\StopSoundMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages\PlayMovingSoundMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -59,7 +65,13 @@
     <ClCompile Include="LetterBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AudioMessage.cpp">
+    <ClCompile Include="Messages\PlaySoundMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\StopSoundMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\PlayMovingSoundMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

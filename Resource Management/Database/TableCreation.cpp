@@ -3,6 +3,8 @@
 #include "Table.h"
 #include "../Resources/Resource.h"
 
+#include "../../Audio/Sound.h"
+
 const size_t MAX_MEMORY_PER_TABLE = 5000;
 
 TableCreation::TableCreation(Database* database)
@@ -12,6 +14,7 @@ TableCreation::TableCreation(Database* database)
 	tableAdditions.push_back(std::bind(&TableCreation::addGameObject, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addSceneNode, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addPhysicsObject, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addSounds, this));
 }
 
 TableCreation::~TableCreation()
@@ -50,5 +53,15 @@ void TableCreation::addPhysicsObject() const
 	{
 		//Build object from node
 		return nullptr;
+	}));
+}
+
+void TableCreation::addSounds() const
+{
+	database->addTable("SoundObjects", new Table<Resource>("SoundObjectes", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		Sound *sound = new Sound(node->value);
+		sound->setName(node->name);
+		return sound;
 	}));
 }
