@@ -19,6 +19,10 @@ SubMesh::SubMesh(vector<Vertex> vertices, vector<unsigned int> indices,
 	CalculateBoundingRadius();
 }
 
+SubMesh::SubMesh()
+{
+}
+
 SubMesh::~SubMesh()
 {
 	glDeleteVertexArrays(1, &VAO);
@@ -39,8 +43,10 @@ void SubMesh::SetupMesh()
 
 	//Vertex positions
 	glEnableVertexAttribArray(0);
+	
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-
+	
+	
 	//Vertex normals
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
@@ -58,8 +64,10 @@ void SubMesh::SetupMesh()
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int),
-		&indices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int),
+			&indices[0], GL_STATIC_DRAW);
+
+	
 
 
 	glBindVertexArray(0);

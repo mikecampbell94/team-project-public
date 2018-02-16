@@ -254,12 +254,15 @@ Vector3 LegacyMesh::GenerateTangent(const Vector3 &a, const Vector3 &b,
 	return axis * factor;
 }
 
-void LegacyMesh::Draw() {
+void LegacyMesh::Draw(Shader& shader, Matrix4& worldTransform) {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, bumpTexture);
+
+	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false, (float*)&worldTransform);
+
 
 	glBindVertexArray(arrayObject);
 	if (bufferObject[INDEX_BUFFER]) {

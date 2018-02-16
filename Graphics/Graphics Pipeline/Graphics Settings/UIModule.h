@@ -1,7 +1,8 @@
 #pragma once
 #include "../GraphicsModule.h"
 #include "../../Meshes/Mesh.h"
-
+#include "../../Meshes/TextMesh.h"
+#include "../../Text.h"
 
 struct UIObject 
 {
@@ -9,7 +10,7 @@ struct UIObject
 	Vector2 position;
 	Vector2 scale;
 	std::string action;
-	std::string text;
+	Text text;
 	Mesh* UiMesh;
 };
 
@@ -32,7 +33,15 @@ protected:
 	void locateUniforms() override;
 
 	Shader* UIShader;
+	Shader* UITextShader;
+
 	Matrix4 UIprojMatrix;
 	std::vector<UIObject*> UIObjects;
+
+
+	//Perhaps have UIobjects stored in the database, each with their own textMesh?
+	TextMesh* textMesh;
+	//maybe text has a font object?
+	Font* font;
 };
 

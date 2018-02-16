@@ -69,6 +69,8 @@ void Shader::Regenerate() {
 }
 
 GLuint Shader::GenerateShader(string from, GLenum type) {
+	verbose = true;
+
 	if (verbose) cout << " Compiling Shader ... " << endl;
 
 	string load;
