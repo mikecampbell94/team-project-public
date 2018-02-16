@@ -24,12 +24,16 @@ public:
 	{
 		this->numModels = numModels;
 		LoadModel(path);
+
+		setSize(sizeof(*this));
 	}
 
 	Mesh(const string path, int numModels)
 	{
 		this->numModels = numModels;
 		LoadModel(path);
+		
+		setSize(sizeof(*this));
 	}
 
 	~Mesh()
