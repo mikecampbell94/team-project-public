@@ -73,8 +73,8 @@
     <LibraryPath>..\SOIL\Debug\;..\GLEW\lib\Debug\;..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\ASSIMP\include\assimp;..\GLEW\include;..\Utilities\;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>..\GLEW\lib\Debug\;..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ASSIMP\include\assimp;..\GLEW\include;..\Utilities\;..\SOIL\;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\SOIL\Release\;..\GLEW\lib\Release\;..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
