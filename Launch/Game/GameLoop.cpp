@@ -1,6 +1,10 @@
 #include "GameLoop.h"
 #include "../../Input/InputManager.h"
+
+
+#include "../../Resource Management/XMLParser.h"
 #include "../../Resource Management/Level.h"
+#include "../../Input/Recorders/KeyboardMouseRecorder.h"
 #include <iostream>
 #include "Communication/LetterBox.h"
 #include "../../Gameplay/GameObject.h"
@@ -15,13 +19,25 @@ GameLoop::GameLoop(System& gameSystem)
 	//MUST BE REMOVED
 	camera = new Camera(0, 0, Vector3(0, 0, 0));
 
-	rendering = new RenderingSystem(nullptr, window, camera, Vector2(1280, 720));
+	rendering = new RenderingSystem(window, camera, Vector2(1280, 720));
+	//Database database;
+	database = new Database();
+
+	//AUDIO MUST BE CREATED BEFORE TABLE CREATION AND AFTER DATABASE CREATION!!!!!!!!!!!!
+	audio = new AudioSystem(database, camera);
+
+	TableCreation tableCreation(database);
+
+	std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
+	scene = new SceneManager(camera, nodes);
+	Level level(database, scene);
+	level.loadLevelFile("TestLevel.txt");
+
+	rendering->initialise(database);
 
 	SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
 	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
-	std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
 	//nodes->push_back(node);
-	scene = new SceneManager(camera, nodes);
 
 	rendering->SetSceneToRender(scene);
 
@@ -44,20 +60,7 @@ GameLoop::GameLoop(System& gameSystem)
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
-
-	Database database;
-
-	TableCreation tableCreation(&database);
-
-	Level level(&database,scene);
-	level.loadLevelFile("TestLevel.txt");
-
-	/*nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("playerBall"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall1"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall2"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall3"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall4"))->getSceneNode());
-	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("floor"))->getSceneNode());*/
+	engine.addSubsystem(audio);
 }
 
 GameLoop::~GameLoop()

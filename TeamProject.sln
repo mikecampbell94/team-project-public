@@ -10,6 +10,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launch", "Launch\Launch.vcx
 		{AA235284-55FB-42C0-93CF-33CD401E9FF5} = {AA235284-55FB-42C0-93CF-33CD401E9FF5}
 		{35E4FFAF-7F11-4748-9631-089315C908D8} = {35E4FFAF-7F11-4748-9631-089315C908D8}
 		{FCCB8CB3-E889-4675-9CF2-7AD34F7952A7} = {FCCB8CB3-E889-4675-9CF2-7AD34F7952A7}
+		{8ABA32D8-BD8D-4FC7-838B-4052C811032A} = {8ABA32D8-BD8D-4FC7-838B-4052C811032A}
 		{726E69EE-B8C3-47F3-B672-98189A9F5C1D} = {726E69EE-B8C3-47F3-B672-98189A9F5C1D}
 	EndProjectSection
 EndProject
@@ -32,6 +33,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities", "Utilities\Utilities.vcxproj", "{378E5B61-6D97-4499-B575-32387992D0C2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Communication", "Communication\Communication.vcxproj", "{943EEB77-34B1-4B1A-BC4C-F04ADD4D2094}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{00E758E5-5E21-41A6-94E2-89F5C2EED046}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\Gameplay\gameplay.xml = Resources\Gameplay\gameplay.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

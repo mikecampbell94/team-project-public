@@ -15,7 +15,7 @@ public:
 	size_t getSize();
 	void setSize(size_t newSize);
 
-protected:
+private:
 	std::string name;
 	size_t size;
 };

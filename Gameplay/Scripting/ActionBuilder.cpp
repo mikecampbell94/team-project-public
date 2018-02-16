@@ -6,6 +6,7 @@
 #include "../../Communication/MessagingService.h"
 #include "../../Communication/DeliverySystem.h"
 #include "../../Communication/Messages/TextMessage.h"
+#include "../../Communication/Messages/RelativeTransformMessage.h"
 
 const std::string CONDITIONAL_STATEMENT = "Condition";
 const std::string SEND_MESSAGE_STATEMENT = "SendMessage";
@@ -138,6 +139,15 @@ Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 		return [destination = destination->value, text = data->value]()
 		{
 			DeliverySystem::getPostman()->insertMessage(TextMessage(destination, text));
+		};
+	}
+	else if (node->name == "RELATIVE_TRANSFORM")
+	{
+		RelativeTransformMessage message = RelativeTransformMessage::builder(node);
+
+		return [message = message]()
+		{
+				DeliverySystem::getPostman()->insertMessage(message);
 		};
 	}
 }

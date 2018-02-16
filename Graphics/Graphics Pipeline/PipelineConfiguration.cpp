@@ -28,6 +28,7 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 {
 	//basicGeom = new BasicGeometry("Basic Geometry Renderer", projmatrix, resolution, camera, sceneManager->getSceneNodesInFrustum());
 	//basicGeom->linkShaders();
+
 	gBuffer = new GBuffer("gbuffer", projmatrix, resolution,window,camera, sceneManager->getSceneNodesInFrustum());
 	gBuffer->linkShaders();
 	gBuffer->initialise();
