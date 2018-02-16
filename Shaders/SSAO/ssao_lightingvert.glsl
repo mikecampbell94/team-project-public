@@ -19,5 +19,4 @@ void main()
 	screenPos = vec2(aPos.x, aPos.y);
 
     gl_Position = vec4(aPos, 1.0);
-
 }
