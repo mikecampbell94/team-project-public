@@ -41,5 +41,6 @@ private:
 
 	BasicGeometry* basicGeom;
 	GBuffer *gBuffer;
+	BPLighting *bpLighting;
 };
 
