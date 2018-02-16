@@ -9,8 +9,5 @@ uniform mat4 projMatrix;
 uniform mat4 modelMatrix;
 
 void main(void) {
-	//gl_Position   = vec4(position, 1.0);
-	//OUT.worldPos = (modelMatrix * vec4(aPos, 1)).xyz;
 	gl_Position = (projMatrix * viewMatrix * modelMatrix) * vec4(aPos, 1.0);
-	//OUT.colour = vec4(1.0, 0, 0, 1.0); //colour;
 }

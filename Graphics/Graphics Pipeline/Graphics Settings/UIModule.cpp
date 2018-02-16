@@ -17,7 +17,6 @@ UIModule::~UIModule()
 void UIModule::initialise()
 {
 	UIObjects = UserInterfaceBuilder::buildButtons("../Data/UserInterface/MainMenu.xml", database, resolution);
-	//UIObjects = UserInterfaceBuilder::buildButtons("", database);
 }
 
 void UIModule::apply()
@@ -29,6 +28,7 @@ void UIModule::apply()
 
 	for (Button& button : UIObjects)
 	{
+		glUniform4fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&button.colour);
 		button.UIMesh->Draw(*currentShader,Matrix4::translation(button.position) * Matrix4::scale(button.scale));
 	}
 	glEnable(GL_DEPTH_BUFFER);
