@@ -6,9 +6,10 @@
 
 GBuffer::GBuffer(const std::string identifier, const Matrix4 projmatrix,
 	const Vector2 resolution, Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
-	: GraphicsModule(identifier, projMatrix, resolution)
+	: GraphicsModule(identifier, projmatrix, resolution)
 {
 	this->nodesInFrame = nodesInFrame;
+	this->projMatrix = projmatrix;
 	this->camera = camera;
 	this->window = window;
 
@@ -128,8 +129,8 @@ void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 	glUniform3fv(loc_cameraPos, 1, (float*)&camera->getPosition());
 
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
-	{		
-		glUniform4fv(loc_baseColour, 1, (float*)&nodesInFrame->at(i)->getColour());	
+	{
+		glUniform4fv(loc_baseColour, 1, (float*)&nodesInFrame->at(i)->getColour());
 		nodesInFrame->at(i)->Draw(*currentShader);
 	}
 }
