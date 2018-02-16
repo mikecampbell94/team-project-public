@@ -27,7 +27,7 @@ public:
 		return mesh;
 	}
 
-	const Matrix4& GetTransform() const
+	Matrix4 GetTransform()
 	{
 		return transform;
 	}

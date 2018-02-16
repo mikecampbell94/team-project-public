@@ -1,14 +1,9 @@
 #include "GameLoop.h"
 #include "../../Input/InputManager.h"
-#include "../../Input/GamePadRecorder.h"
-#include "../../Input/KeyboardMouseRecorder.h"
-#include "../../Resource Management/XMLParser.h"
+#include "../../Input/Recorders/GamePadRecorder.h"
+#include "../../Input/Recorders/KeyboardMouseRecorder.h"
 #include <iostream>
 #include "Communication/LetterBox.h"
-
-#include "../../Resource Management/Database/TableCreation.h"
-
-#include "../../Communication/Messages/PlaySoundMessage.h"
 
 GameLoop::GameLoop(System& gameSystem)
 {
@@ -33,50 +28,22 @@ GameLoop::GameLoop(System& gameSystem)
 
 	PlayerBase* playerbase = new PlayerBase();
 	playerbase->addNewPlayer(keyboardAndMouse);
+	playerbase->getPlayers()[0]->setSceneNode(node);
 
 	std::string seperator = "|";
-	std::string keyboard = "KEYBOARD_W|KEYBOARD_A";
+	std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
 	std::string xbox = "XBOX_A|XBOX_B";
 	std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
 
 	playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
 
 	inputManager = new InputManager(playerbase);
-	gameplay = new GameplaySystem();
+	gameplay = new GameplaySystem(playerbase->getPlayers().size());
 
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
 	/////
-	
-
-
-	Database *database = new Database();
-	TableCreation tableCreation(database);
-	tableCreation.addTablesToDatabase();
-
-	audio = new AudioSystem(database, camera);
-	engine.addSubsystem(audio);
-
-	XMLParser parser;
-	parser.loadFile("../Data/level1Sounds.xml");
-	database->getTable("SoundObjects")->addNewResource(parser.parsedXml->children[0]);
-	database->getTable("SoundObjects")->addNewResource(parser.parsedXml->children[1]);
-	database->getTable("SoundObjects")->addNewResource(parser.parsedXml->children[2]);
-	
-
-
-	//-------XML TESTING-------//
-	/*XMLParser testParser;
-	for (int i = 0; i < 100000; ++i)
-	{
-		testParser.loadFile("../Resources/Game Objects/gameObject.xml");
-
-		testParser.deleteAllNodes(testParser.parsedXml);
-	}*/
-	
-
-	int i = 0;
 }
 
 GameLoop::~GameLoop()
@@ -90,7 +57,7 @@ void GameLoop::executeGameLoop()
 {
 	int frameCount = 0;
 
-	while (window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE))
+	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE))
 	{
 		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
 
@@ -104,10 +71,10 @@ void GameLoop::executeGameLoop()
 		pitch -= (window->getMouse()->getRelativePosition().y);
 		yaw -= (window->getMouse()->getRelativePosition().x);
 
-		if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
-			camera->setPosition(camera->getPosition() +
-				Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, -1) * 1);
-		}
+		//if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
+		//	camera->setPosition(camera->getPosition() +
+		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, -1) * 1);
+		//}
 
 		if (window->getKeyboard()->keyDown(KEYBOARD_S)) {
 			camera->setPosition(camera->getPosition() +
@@ -132,31 +99,8 @@ void GameLoop::executeGameLoop()
 			camera->setPosition(camera->getPosition() + Vector3(0, -1, 0) * 1);
 		}
 
-		if (window->getKeyboard()->keyTriggered(KEYBOARD_K)) {
-			DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORTY_LOW, 1.0f, 200.0f, 1.0f, true, false, "bounce", "TestSoundNode"));
-		}
-
-		if (window->getKeyboard()->keyTriggered(KEYBOARD_O)) {
-			DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORTY_LOW, 1.0f, 200.0f, 1.0f, false, false, "strawberries", "TestSoundNode2"));
-		}
-
-		if (window->getKeyboard()->keyTriggered(KEYBOARD_M)) {
-			DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORTY_LOW, 1.0f, 200.0f, 1.0f, false, false, "bob", "TestSoundNode3"));
-		}
-
-		if (window->getKeyboard()->keyDown(KEYBOARD_J)) {
-			DeliverySystem::getPostman()->insertMessage(StopSoundMessage("AudioSystem", STOP_SOUND, "TestSoundNode"));
-		}
-
-		if (window->getKeyboard()->keyDown(KEYBOARD_I)) {
-			DeliverySystem::getPostman()->insertMessage(StopSoundMessage("AudioSystem", STOP_SOUND, "TestSoundNode2"));
-		}
-
-		if (window->getKeyboard()->keyDown(KEYBOARD_N)) {
-			DeliverySystem::getPostman()->insertMessage(StopSoundMessage("AudioSystem", STOP_SOUND, "TestSoundNode3"));
-		}
-
 		camera->setPitch(pitch);
 		camera->setYaw(yaw);
 	}
+
 }

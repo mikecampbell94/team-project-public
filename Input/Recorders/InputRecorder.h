@@ -1,6 +1,6 @@
 #pragma once
 #include "../Utilities/Maths/Vector2.h"
-#include "PlayerBase.h"
+#include "../Players/PlayerBase.h"
 #include <vector>
 #include <unordered_map>
 
@@ -11,7 +11,7 @@ enum InputType {
 //remove initialiser lists. 
 //Move brackets to next line etc
 struct ButtonInputData {
-	ButtonInputData(InputType currentState, unsigned int key)
+	ButtonInputData(const InputType currentState, const unsigned int key)
 	{
 		this->currentState = currentState;
 		this->key = key;
@@ -28,7 +28,7 @@ struct ButtonInputData {
 };
 
 struct LinearInputData {
-	LinearInputData(float value, std::string key)
+	LinearInputData(const float value, const std::string key)
 	{
 		this->value = value;
 		this->key = key;	
@@ -39,7 +39,7 @@ struct LinearInputData {
 };
 
 struct PositionalInputData {
-	PositionalInputData(Vector2 value, std::string key)
+	PositionalInputData(const Vector2 value, const std::string key)
 	{
 		this->value = value;
 		this->key = key;
@@ -51,34 +51,25 @@ struct PositionalInputData {
 class InputRecorder
 {
 public:
-	InputRecorder(std::vector<int> keysToListen) {};
-	InputRecorder() {};
-	~InputRecorder() {};
-
+	explicit InputRecorder(std::vector<int> keysToListen) {};
+	InputRecorder() {}
+	~InputRecorder() {}
 
 	virtual void fillInputs() = 0;
 	virtual void clearInputs();
 
-
 	std::vector<ButtonInputData> const getInputs();
-
 	std::vector<int> const getKeysToListen();
 	
-
-	//addKeyToListenTo and addKeysToListenTo
 	void addKeysToListen(std::vector<int> keysToListen);
-
 	void addKeyToListen(int key);
 
 protected:
-
 	std::vector<ButtonInputData> currentButtonInputs;
 	std::vector<LinearInputData> currentLinearInputs;
 	std::vector<PositionalInputData> currentPositionalInputs;
 
-
 	std::vector<int> keysToListen;
-
 	PlayerBase* player;
 };
 

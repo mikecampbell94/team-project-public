@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\Utilities\;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\Utilities\$(Configuration);..\SOIL\Debug\;..\GLEW\lib\Debug\;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\Utilities\;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\Utilities\$(Configuration);..\SOIL\Debug\;..\GLEW\lib\Debug\;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -153,27 +153,29 @@
     <ClInclude Include="Devices\InputDevice.h" />
     <ClInclude Include="Devices\Window.h" />
     <ClInclude Include="Devices\Mouse.h" />
-    <ClInclude Include="Gamepad.h" />
-    <ClInclude Include="GamePadRecorder.h" />
-    <ClInclude Include="InputFilter.h" />
+    <ClInclude Include="Devices\Gamepad.h" />
+    <ClInclude Include="Recorders\GamePadRecorder.h" />
+    <ClInclude Include="Players\InputFilter.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="InputRecorder.h" />
-    <ClInclude Include="KeyboardMouseRecorder.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerBase.h" />
+    <ClInclude Include="Recorders\InputRecorder.h" />
+    <ClInclude Include="InputUtility.h" />
+    <ClInclude Include="Recorders\KeyboardMouseRecorder.h" />
+    <ClInclude Include="Players\Player.h" />
+    <ClInclude Include="Players\PlayerBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Devices\Keyboard.cpp" />
     <ClCompile Include="Devices\Window.cpp" />
     <ClCompile Include="Devices\Mouse.cpp" />
-    <ClCompile Include="Gamepad.cpp" />
-    <ClCompile Include="GamePadRecorder.cpp" />
-    <ClCompile Include="InputFilter.cpp" />
+    <ClCompile Include="Devices\Gamepad.cpp" />
+    <ClCompile Include="Recorders\GamePadRecorder.cpp" />
+    <ClCompile Include="Players\InputFilter.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="InputRecorder.cpp" />
-    <ClCompile Include="KeyboardMouseRecorder.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerBase.cpp" />
+    <ClCompile Include="Recorders\InputRecorder.cpp" />
+    <ClCompile Include="InputUtility.cpp" />
+    <ClCompile Include="Recorders\KeyboardMouseRecorder.cpp" />
+    <ClCompile Include="Players\Player.cpp" />
+    <ClCompile Include="Players\PlayerBase.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

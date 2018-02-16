@@ -21,10 +21,10 @@
     <ClInclude Include="GameplaySystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameActionGenerator.h">
+    <ClInclude Include="InputGameplay\GameplayInputBridge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameplayInputBridge.h">
+    <ClInclude Include="InputGameplay\InputActionMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClCompile Include="GameplaySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameActionGenerator.cpp">
+    <ClCompile Include="InputGameplay\GameplayInputBridge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameplayInputBridge.cpp">
+    <ClCompile Include="InputGameplay\InputActionMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

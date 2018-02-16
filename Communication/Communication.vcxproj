@@ -22,7 +22,6 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{943EEB77-34B1-4B1A-BC4C-F04ADD4D2094}</ProjectGuid>
     <RootNamespace>Communication</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -70,12 +69,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\Utilities\;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ASSIMP\include\assimp;..\GLEW\include;..\Utilities\;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\GLEW\lib\Debug\;..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\Utilities\;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ASSIMP\include\assimp;..\GLEW\include;..\Utilities\;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\GLEW\lib\Debug\;..\Utilities\$(Configuration);$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

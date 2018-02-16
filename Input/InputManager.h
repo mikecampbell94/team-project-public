@@ -4,8 +4,8 @@
 #include "../Launch/Systems/Subsystem.h"
 //#include "../ResourceManagement/Resources/Resource.h" doesn't exist yet but may in future?
 
-#include "PlayerBase.h"
-#include "Player.h"
+#include "Players/PlayerBase.h"
+#include "Players/Player.h"
 #include "../Input/Devices/Window.h"
 
 
