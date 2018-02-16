@@ -4,7 +4,7 @@
 #include "../../Meshes/TextMesh.h"
 #include "../../Text.h"
 
-struct UIObject 
+struct Button 
 {
 	Vector4 colour;
 	Vector2 position;
@@ -36,7 +36,7 @@ protected:
 	Shader* UITextShader;
 
 	Matrix4 UIprojMatrix;
-	std::vector<UIObject*> UIObjects;
+	std::vector<Button*> UIObjects;
 
 
 	//Perhaps have UIobjects stored in the database, each with their own textMesh?
