@@ -3,6 +3,8 @@
 #include <fstream>
 #include <stdexcept>
 
+#include "../Graphics/Utility/Light.h"
+
 Level::Level(Database *database,SceneManager* sceneManager)
 {
 	this->database = database;
@@ -53,9 +55,15 @@ void Level::unloadLevel()
 
 void Level::addObjectsToGame()
 {
-	for (auto gameObjectIterator = database->getTable("GameObjects")->getAllResources()->getResourceBuffer().begin(); gameObjectIterator != database->getTable("GameObjects")->getAllResources()->getResourceBuffer().end(); gameObjectIterator++)
+	auto gameObjectResources = database->getTable("GameObjects")->getAllResources()->getResourceBuffer();
+	for (auto gameObjectIterator = gameObjectResources.begin(); gameObjectIterator != gameObjectResources.end(); gameObjectIterator++)
 	{
-		(*gameObjectIterator).second;
 		(*sceneManager->getAllNodes())->push_back(static_cast<GameObject*>((*gameObjectIterator).second)->getSceneNode());
+	}
+
+	auto lightsResources = database->getTable("Lights")->getAllResources()->getResourceBuffer();
+	for (auto lightsIterator = lightsResources.begin(); lightsIterator != lightsResources.end(); lightsIterator++)
+	{
+		(*sceneManager->getAllLights())->push_back(static_cast<Light*>((*lightsIterator).second));
 	}
 }

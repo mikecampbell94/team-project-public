@@ -33,11 +33,11 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 	gBuffer->linkShaders();
 	gBuffer->initialise();
 
-	vector<LightData> lights;
-	lights.push_back(Light(Vector3(-20, 10, -20), Vector4(1, 1, 1, 1), 400, 1).GetData());
-	lights.push_back(Light(Vector3(20, 10, 20), Vector4(1, 1, 1, 1), 400, 1).GetData());
+	//vector<LightData> lights;
+	//lights.push_back(Light(Vector3(-20, 10, -20), Vector4(1, 1, 1, 1), 400, 1).GetData());
+	//lights.push_back(Light(Vector3(20, 10, 20), Vector4(1, 1, 1, 1), 400, 1).GetData());
 
-	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), lights);
+	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), sceneManager->getAllLights());
 	bpLighting->linkShaders();
 	bpLighting->initialise();
 }

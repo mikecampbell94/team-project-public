@@ -18,14 +18,18 @@ BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
 }
 
 BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<LightData> lightDatas)
+	const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights)
 	: GraphicsModule(identifier, projMatrix, resolution)
 {
 	camera = cam;
 
 	this->gBuffer = gBuffer;
 	this->numAmbTex = 0;
-	this->lightDatas = lightDatas;
+
+	for each (Light* light in **lights)
+	{
+		lightDatas.push_back(light->GetData());
+	}
 
 	lightingPassShader = new Shader(SHADERDIR"/SSAO/ssao_lightingvert.glsl", SHADERDIR"/SSAO/ssao_lightingfrag.glsl", "", true);
 }

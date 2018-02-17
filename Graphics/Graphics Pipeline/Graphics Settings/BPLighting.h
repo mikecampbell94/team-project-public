@@ -12,8 +12,9 @@ public:
 	BPLighting(const std::string identifier, const Matrix4 projmatrix,
 		const Vector2 resolution, Camera* cam, GBufferData* gBuffer,
 		AmbientTextures* ambientTextures, int numAmbTex);
+
 	BPLighting(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<LightData> lightDatas);
+		const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights);
 
 	virtual ~BPLighting()
 	{

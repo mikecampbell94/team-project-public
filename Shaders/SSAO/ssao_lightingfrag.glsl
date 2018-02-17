@@ -1,6 +1,5 @@
 #version 430
 
-//layout(location = 0) out vec4 FragColor;
 out vec4 FragColor;
 
 uniform int numberOfLights;
@@ -37,40 +36,12 @@ struct LightData
 	float fpadding[2];
 };
 
-struct SpotLightData
-{
-	vec4 direction;
-};
-
-struct Tile
-{
-	float x;
-	float y;
-	float z;
-	float width;
-	float height;
-	float length;
-
-	float _padding[6];
-};
-
 layout (std430, binding = 1) buffer LightDataBuffer
 {
 	LightData lightData[];
 };
 
-//layout (std430, binding = 3) buffer TileLightsBuffer
-//{
-//	int lightIndexes[numTiles];
-//	int tileLights[numTiles][numLights];
-//};
-//
-//layout(std430, binding = 7) buffer SpotLightDataBuffer
-//{
-//	SpotLightData spotLightData[];
-//};
-
-void CalSpecularLight(int index, vec3 position, vec3 normal, vec4 albedoCol, inout vec4 specularLight)
+void CalSpecularLight(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 finalColour)
 {
 	vec3 lightPosition = lightData[index].pos.xyz;
 	vec3 lightPosView = vec3(camMatrix * vec4(lightPosition, 1.0));
@@ -82,7 +53,7 @@ void CalSpecularLight(int index, vec3 position, vec3 normal, vec4 albedoCol, ino
 		vec3 viewDir = normalize(-position);
 		vec3 lightDir = normalize(lightPosView - position);
 		vec3 diffuse = max(dot(normal, lightDir), 0.0) *
-			albedoCol.rgb * lightData[index].lightColour.rgb;
+			albedo.rgb * lightData[index].lightColour.rgb;
 
 		//Specular
 		vec3 halfDir = normalize(lightDir + viewDir);
@@ -97,21 +68,21 @@ void CalSpecularLight(int index, vec3 position, vec3 normal, vec4 albedoCol, ino
 		diffuse *= attenuation;
 		specular *= attenuation;
 
-		specularLight.rgb += diffuse.rgb + specular.rgb;
+		finalColour.rgb += diffuse.rgb + specular.rgb;
 	}
 }
 
 void main(void){
-	vec3 gPosData = texture(gPosition, TexCoords).xyz;
-	vec3 gNorData = texture(gNormal, TexCoords).xyz;
-	vec4 gAlbData = texture(gAlbedo, TexCoords);
+	vec3 position = texture(gPosition, TexCoords).xyz;
+	vec3 normal = texture(gNormal, TexCoords).xyz;
+	vec4 albedo = texture(gAlbedo, TexCoords);
 
-	vec4 specularLight = vec4(0, 0, 0, 1);
+	vec4 finalColour = vec4(0, 0, 0, 1);
 
 	for (int i = 0; i < numberOfLights; i++)
 	{
-		CalSpecularLight(i, gPosData, gNorData, gAlbData, specularLight);
+		CalSpecularLight(i, position, normal, albedo, finalColour);
 	}
 
-	FragColor = specularLight;
+	FragColor = finalColour;
 }
