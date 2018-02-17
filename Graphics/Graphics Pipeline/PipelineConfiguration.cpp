@@ -36,8 +36,16 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 	//vector<LightData> lights;
 	//lights.push_back(Light(Vector3(-20, 10, -20), Vector4(1, 1, 1, 1), 400, 1).GetData());
 	//lights.push_back(Light(Vector3(20, 10, 20), Vector4(1, 1, 1, 1), 400, 1).GetData());
+	skybox = new Skybox("Skybox", projmatrix, resolution, &camera->viewMatrix);
+	skybox->linkShaders();
+	skybox->initialise();
+	skybox->GBufferFBO = &gBuffer->gBuffer;
 
-	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), sceneManager->getAllLights());
+	//ssao = new SSAO("SSAO", projmatrix, resolution, camera, gBuffer->getGBuffer());
+	//ssao->linkShaders();
+	//ssao->initialise();
+
+	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), sceneManager->getAllLights(), nullptr);
 	bpLighting->linkShaders();
 	bpLighting->initialise();
 }
@@ -45,6 +53,7 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 {
 	pipeline->addModule(gBuffer);
+	pipeline->addModule(skybox);
 	pipeline->addModule(bpLighting);
 	//pipeline->addModule(basicGeom);
 }

@@ -8,10 +8,13 @@ const int RESOLUTION_SCALE_X = 640;
 const int RESOLUTION_SCALE_Y = 360;
 
 SSAO::SSAO(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Camera* cam, AmbientTextures* ambientTextures, GBufferData* SGBuffer)
+	const Vector2 resolution, Camera* cam, GBufferData* SGBuffer)
 	: GraphicsModule(identifier, projMatrix, resolution)
 {
-	this->ambientTextures = ambientTextures;
+	ambientTextures = new AmbientTextures();
+	ambientTextures->textures = new GLuint*[1];
+	ambientTextures->texUnits = new int[1];
+
 	this->SGBuffer = SGBuffer;
 	camera = cam;
 

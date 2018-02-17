@@ -15,7 +15,7 @@ class SSAO : public GraphicsModule
 {
 public:
 	SSAO(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Camera* cam, AmbientTextures* ambientTextures, GBufferData* SGBuffer);
+		const Vector2 resolution, Camera* cam, GBufferData* SGBuffer);
 
 	virtual ~SSAO()
 	{
@@ -41,6 +41,11 @@ public:
 	float lerp(float a, float b, float f)
 	{
 		return a + f * (b - a);
+	}
+
+	AmbientTextures* getSSAOTextures()
+	{
+		return ambientTextures;
 	}
 
 private:

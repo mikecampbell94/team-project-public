@@ -4,21 +4,8 @@
 #include "../../GraphicsUtility.h"
 
 BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Camera* cam, GBufferData* gBuffer,
-	AmbientTextures* ambientTextures, int numAmbTex)
-	: GraphicsModule(identifier, projMatrix, resolution)
-{
-	camera = cam;
-
-	this->gBuffer = gBuffer;
-	this->ambientTextures = ambientTextures;
-	this->numAmbTex = numAmbTex;
-
-	lightingPassShader = new Shader(SHADERDIR"/SSAO/ssao_lightingvert.glsl", SHADERDIR"/SSAO/ssao_lightingfrag.glsl", "", true);
-}
-
-BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights)
+	const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights,
+	AmbientTextures* ssaoTextures)
 	: GraphicsModule(identifier, projMatrix, resolution)
 {
 	camera = cam;

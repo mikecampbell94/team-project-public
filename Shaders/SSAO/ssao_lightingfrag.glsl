@@ -77,12 +77,20 @@ void main(void){
 	vec3 normal = texture(gNormal, TexCoords).xyz;
 	vec4 albedo = texture(gAlbedo, TexCoords);
 
-	vec4 finalColour = vec4(0, 0, 0, 1);
-
-	for (int i = 0; i < numberOfLights; i++)
+	if (position.z > 0.0f)
 	{
-		CalSpecularLight(i, position, normal, albedo, finalColour);
+		//Its the skybox, dont touch it...
+		FragColor = albedo;
 	}
+	else 
+	{
+		vec4 finalColour = vec4(0, 0, 0, 1);
 
-	FragColor = finalColour;
+		for (int i = 0; i < numberOfLights; i++)
+		{
+			CalSpecularLight(i, position, normal, albedo, finalColour);
+		}
+
+		FragColor = finalColour;
+	}
 }
