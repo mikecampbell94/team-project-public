@@ -3,9 +3,9 @@
 		<Mesh>SphereMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>005</X>
-			<Y>005</Y>
-			<Z>005</Z>
+			<X>250</X>
+			<Y>250</Y>
+			<Z>250</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -14,9 +14,9 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
 		<Colour>
 		  <R>1</R>
@@ -41,9 +41,9 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
 		<Colour>
 		  <R>0</R>
@@ -54,12 +54,12 @@
 </GameObjects>
 
 <GameObjects name="wall2" >
-		<Mesh>CubeMesh</Mesh>
+		<Mesh>SphereMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>010</X>
-			<Y>0</Y>
-			<Z>010</Z>
+			<X>500</X>
+			<Y>50</Y>
+			<Z>500</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -68,9 +68,9 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
 		<Colour>
 		  <R>0</R>
@@ -84,9 +84,9 @@
 		<Mesh>CubeMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>030</X>
+			<X>180</X>
 			<Y>0</Y>
-			<Z>030</Z>
+			<Z>180</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -95,9 +95,9 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
 		<Colour>
 		  <R>0</R>
@@ -111,9 +111,9 @@
 		<Mesh>CubeMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>030</X>
-			<Y>0</Y>
-			<Z>030</Z>
+			<X>180</X>
+			<Y>100</Y>
+			<Z>180</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -122,9 +122,9 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
 		<Colour>
 		  <R>0</R>
@@ -149,9 +149,9 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>030</X>
-			<Y>001</Y>
-			<Z>030</Z>
+			<X>180</X>
+			<Y>50</Y>
+			<Z>180</Z>
 		</Scale>
 		<Colour>
 		  <R>1</R>

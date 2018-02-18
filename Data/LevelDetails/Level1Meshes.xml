@@ -12,7 +12,7 @@
 	
 	
 	<Meshes name="CubeMesh" >
-		<MeshFile>../Data/Meshes/cube.obj</MeshFile>
+		<MeshFile>../Data/Meshes/centeredcube.obj</MeshFile>
 		<Texture>../Data/Textures/hell.jpg</Texture>
 		<Colour>
 		  <R>0</R>

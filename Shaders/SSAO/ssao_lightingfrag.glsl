@@ -91,6 +91,11 @@ void main(void){
 			CalSpecularLight(i, position, normal, albedo, finalColour);
 		}
 
+		float ambientComponent = 0.6f * texture(ambientTextures[0], TexCoords).r;
+		vec3 ambientColour = albedo.rgb * ambientComponent;
+
+		finalColour.rgb += ambientColour;
+
 		FragColor = finalColour;
 	}
 }

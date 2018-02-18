@@ -17,10 +17,12 @@ SSAO::SSAO(const std::string identifier, const Matrix4 projmatrix,
 
 	this->SGBuffer = SGBuffer;
 	camera = cam;
+	projMatrix = projmatrix;
+	this->resolution = resolution;
 
 	//SSAO Shaders
-	SSAOCol = new Shader(SHADERDIR"/SSAO/ssao_vert.glsl", SHADERDIR"/SSAO/ssao_frag.glsl");
-	SSAOBlur = new Shader(SHADERDIR"/SSAO/ssao_vert.glsl", SHADERDIR"/SSAO/ssao_blurfrag.glsl");
+	SSAOCol = new Shader(SHADERDIR"/SSAO/ssao_vert.glsl", SHADERDIR"/SSAO/ssao_frag.glsl", "", true);
+	SSAOBlur = new Shader(SHADERDIR"/SSAO/ssao_vert.glsl", SHADERDIR"/SSAO/ssao_blurfrag.glsl", "", true);
 
 	ambientTextures->textures[CommonGraphicsData::SSAO_INDEX] = &ssaoColorBufferBlur;
 	ambientTextures->texUnits[CommonGraphicsData::SSAO_INDEX] = 3;

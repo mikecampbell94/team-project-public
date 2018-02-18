@@ -53,7 +53,7 @@ Skybox::Skybox(const std::string identifier, const Matrix4 projmatrix,
 	const Vector2 resolution, Matrix4* viewMatrix)
 	: GraphicsModule(identifier, projMatrix, resolution)
 {
-	skyboxShader = new Shader(SHADERDIR"/Skybox/SkyboxVert.glsl", SHADERDIR"/Skybox/SkyboxFrag.glsl", "", true);
+	skyboxShader = new Shader(SHADERDIR"/Skybox/SkyboxVert.glsl", SHADERDIR"/Skybox/SkyboxFrag.glsl");
 	this->viewMatrix = viewMatrix;
 	this->projMatrix = projmatrix;
 }

@@ -41,11 +41,11 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 	skybox->initialise();
 	skybox->GBufferFBO = &gBuffer->gBuffer;
 
-	//ssao = new SSAO("SSAO", projmatrix, resolution, camera, gBuffer->getGBuffer());
-	//ssao->linkShaders();
-	//ssao->initialise();
+	ssao = new SSAO("SSAO", projmatrix, resolution, camera, gBuffer->getGBuffer());
+	ssao->linkShaders();
+	ssao->initialise();
 
-	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), sceneManager->getAllLights(), nullptr);
+	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), sceneManager->getAllLights(), ssao->getSSAOTextures());
 	bpLighting->linkShaders();
 	bpLighting->initialise();
 }
@@ -54,6 +54,7 @@ void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 {
 	pipeline->addModule(gBuffer);
 	pipeline->addModule(skybox);
+	pipeline->addModule(ssao);
 	pipeline->addModule(bpLighting);
 	//pipeline->addModule(basicGeom);
 }

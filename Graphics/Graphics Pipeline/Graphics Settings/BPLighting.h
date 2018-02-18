@@ -56,6 +56,5 @@ private:
 	ShadowData* shadowData;
 	GBufferData*	gBuffer;
 	AmbientTextures* ambientTextures;
-	int numAmbTex;
 };
 

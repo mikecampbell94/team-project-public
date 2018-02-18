@@ -11,7 +11,7 @@ BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
 	camera = cam;
 
 	this->gBuffer = gBuffer;
-	this->numAmbTex = 0;
+	this->ambientTextures = ssaoTextures;
 
 	for each (Light* light in **lights)
 	{
@@ -83,8 +83,7 @@ void BPLighting::lightingPass()
 	//glUniform1i(loc_numShadowCastingLights, shadowData->NUM_LIGHTS);
 
 	//glUniform1iv(loc_shadows, shadowData->NUM_LIGHTS, shadowData->shadowIndexes);
-	if (numAmbTex > 0)
-		glUniform1iv(loc_ambientTextures, numAmbTex, ambientTextures->texUnits);
+	glUniform1iv(loc_ambientTextures, 1, ambientTextures->texUnits);
 
 	//glUniformMatrix4fv(loc_texMatrices, shadowData->NUM_LIGHTS, false, (float*)shadowData->textureMatrices);
 
@@ -97,7 +96,7 @@ void BPLighting::lightingPass()
 	currentShader->ApplyTexture(CommonGraphicsData::GNORMAL, *gBuffer->gNormal);
 	currentShader->ApplyTexture(CommonGraphicsData::GALBEDO, *gBuffer->gAlbedo);
 
-	for (int a = 0; a < numAmbTex; ++a)
+	for (int a = 0; a < 1; ++a)
 	{
 		glActiveTexture(GL_TEXTURE3 + a);
 		glBindTexture(GL_TEXTURE_2D, *ambientTextures->textures[a]);
