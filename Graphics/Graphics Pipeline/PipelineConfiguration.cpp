@@ -7,7 +7,6 @@ PipelineConfiguration::PipelineConfiguration()
 	this->window = nullptr;
 	this->resolution = Vector2();
 	this->camera = nullptr;
-	this->pipeline = nullptr;
 }
 
 PipelineConfiguration::PipelineConfiguration(SceneManager* sceneManager, Window* window, 
@@ -17,7 +16,6 @@ PipelineConfiguration::PipelineConfiguration(SceneManager* sceneManager, Window*
 	this->window = window;
 	this->resolution = resolution;
 	this->camera = camera;
-	this->pipeline = pipeline;
 }
 
 PipelineConfiguration::~PipelineConfiguration()
@@ -26,16 +24,10 @@ PipelineConfiguration::~PipelineConfiguration()
 
 void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 {
-	//basicGeom = new BasicGeometry("Basic Geometry Renderer", projmatrix, resolution, camera, sceneManager->getSceneNodesInFrustum());
-	//basicGeom->linkShaders();
-
-	gBuffer = new GBuffer("gbuffer", projmatrix, resolution,window,camera, sceneManager->getSceneNodesInFrustum());
+	gBuffer = new GBuffer("gbuffer", projmatrix, resolution, window, camera, sceneManager->getSceneNodesInFrustum());
 	gBuffer->linkShaders();
 	gBuffer->initialise();
 
-	//vector<LightData> lights;
-	//lights.push_back(Light(Vector3(-20, 10, -20), Vector4(1, 1, 1, 1), 400, 1).GetData());
-	//lights.push_back(Light(Vector3(20, 10, 20), Vector4(1, 1, 1, 1), 400, 1).GetData());
 	skybox = new Skybox("Skybox", projmatrix, resolution, &camera->viewMatrix);
 	skybox->linkShaders();
 	skybox->initialise();
@@ -45,9 +37,11 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 	ssao->linkShaders();
 	ssao->initialise();
 
-	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), sceneManager->getAllLights(), ssao->getSSAOTextures());
+	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), 
+		sceneManager->getAllLights(), ssao->getSSAOTextures());
 	bpLighting->linkShaders();
 	bpLighting->initialise();
+	bpLighting->SSAOApplied = &ssao->applied;
 }
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
@@ -56,5 +50,4 @@ void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 	pipeline->addModule(skybox);
 	pipeline->addModule(ssao);
 	pipeline->addModule(bpLighting);
-	//pipeline->addModule(basicGeom);
 }

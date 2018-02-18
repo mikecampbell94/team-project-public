@@ -17,7 +17,8 @@ uniform mat4 texMatrices[5];
 uniform mat4 camMatrix;
 uniform mat4 viewMatrix;
 
-uniform sampler2D ambientTextures[1];
+uniform sampler2D ssaoTexture;
+uniform bool ssaoApplied;
 
 uniform int numXTiles;
 uniform int numYTiles;
@@ -41,7 +42,7 @@ layout (std430, binding = 1) buffer LightDataBuffer
 	LightData lightData[];
 };
 
-void CalSpecularLight(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 finalColour)
+void AddLighting(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 finalColour)
 {
 	vec3 lightPosition = lightData[index].pos.xyz;
 	vec3 lightPosView = vec3(camMatrix * vec4(lightPosition, 1.0));
@@ -57,7 +58,7 @@ void CalSpecularLight(int index, vec3 position, vec3 normal, vec4 albedo, inout 
 
 		//Specular
 		vec3 halfDir = normalize(lightDir + viewDir);
-		float specPower = pow(max(dot(normal, halfDir), 0.0), 500.0);
+		float specPower = pow(max(dot(normal, halfDir), 0.0), 300.0);
 		vec3 specular = lightData[index].lightColour.rgb * specPower;
 
 		//Attenuation
@@ -79,7 +80,7 @@ void main(void){
 
 	if (position.z > 0.0f)
 	{
-		//Its the skybox, dont touch it...
+		//It's the skybox, dont touch it...
 		FragColor = albedo;
 	}
 	else 
@@ -88,13 +89,20 @@ void main(void){
 
 		for (int i = 0; i < numberOfLights; i++)
 		{
-			CalSpecularLight(i, position, normal, albedo, finalColour);
+			AddLighting(i, position, normal, albedo, finalColour);
 		}
 
-		float ambientComponent = 0.6f * texture(ambientTextures[0], TexCoords).r;
-		vec3 ambientColour = albedo.rgb * ambientComponent;
+		if (ssaoApplied)
+		{
+			float ambientComponent = 0.6f * texture(ssaoTexture, TexCoords).r;
+			vec3 ambientColour = albedo.rgb * ambientComponent;
 
-		finalColour.rgb += ambientColour;
+			finalColour.rgb += ambientColour;
+		}
+		else
+		{
+			finalColour.rgb *= 0.9f;
+		}
 
 		FragColor = finalColour;
 	}

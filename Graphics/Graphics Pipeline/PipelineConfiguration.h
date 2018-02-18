@@ -36,7 +36,6 @@ private:
 	Vector2	resolution;
 	Camera*	camera;
 	Window* window;
-	GraphicsPipeline* pipeline;
 	SceneManager* sceneManager;
 
 	BasicGeometry* basicGeom;

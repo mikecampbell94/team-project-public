@@ -11,7 +11,7 @@ class BPLighting : public GraphicsModule
 public:
 	BPLighting(const std::string identifier, const Matrix4 projmatrix,
 		const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights,
-		AmbientTextures* ssaoTextures);
+		SSAOTextures* ssaoTextures);
 
 	virtual ~BPLighting()
 	{
@@ -31,6 +31,7 @@ public:
 
 	GLuint FBO;
 	float ambientLighting;
+	bool* SSAOApplied;
 
 private:
 	void locateUniforms() override;
@@ -55,6 +56,6 @@ private:
 	std::vector<LightData> lightDatas;
 	ShadowData* shadowData;
 	GBufferData*	gBuffer;
-	AmbientTextures* ambientTextures;
+	SSAOTextures* ambientTextures;
 };
 

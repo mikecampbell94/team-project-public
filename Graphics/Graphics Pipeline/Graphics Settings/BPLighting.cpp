@@ -5,7 +5,7 @@
 
 BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
 	const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights,
-	AmbientTextures* ssaoTextures)
+	SSAOTextures* ssaoTextures)
 	: GraphicsModule(identifier, projMatrix, resolution)
 {
 	camera = cam;
@@ -52,7 +52,7 @@ void BPLighting::locateUniforms()
 	loc_gNormal = glGetUniformLocation(lightingPassShader->GetProgram(), "gNormal");
 	loc_gAlbedo = glGetUniformLocation(lightingPassShader->GetProgram(), "gAlbedo");
 	//loc_shadows = glGetUniformLocation(lightingPassShader->GetProgram(), "shadows");
-	loc_ambientTextures = glGetUniformLocation(lightingPassShader->GetProgram(), "ambientTextures");
+	loc_ambientTextures = glGetUniformLocation(lightingPassShader->GetProgram(), "ssaoTexture");
 	loc_texMatrices = glGetUniformLocation(lightingPassShader->GetProgram(), "texMatrices");
 	loc_camMatrix = glGetUniformLocation(lightingPassShader->GetProgram(), "camMatrix");
 
@@ -83,7 +83,7 @@ void BPLighting::lightingPass()
 	//glUniform1i(loc_numShadowCastingLights, shadowData->NUM_LIGHTS);
 
 	//glUniform1iv(loc_shadows, shadowData->NUM_LIGHTS, shadowData->shadowIndexes);
-	glUniform1iv(loc_ambientTextures, 1, ambientTextures->texUnits);
+	glUniform1i(loc_ambientTextures, *ambientTextures->texUnit);
 
 	//glUniformMatrix4fv(loc_texMatrices, shadowData->NUM_LIGHTS, false, (float*)shadowData->textureMatrices);
 
@@ -95,6 +95,8 @@ void BPLighting::lightingPass()
 	currentShader->ApplyTexture(CommonGraphicsData::GPOSITION, *gBuffer->gPosition);
 	currentShader->ApplyTexture(CommonGraphicsData::GNORMAL, *gBuffer->gNormal);
 	currentShader->ApplyTexture(CommonGraphicsData::GALBEDO, *gBuffer->gAlbedo);
+
+	glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "ssaoApplied"), *SSAOApplied);
 
 	for (int a = 0; a < 1; ++a)
 	{
@@ -109,4 +111,5 @@ void BPLighting::lightingPass()
 	//}
 
 	renderScreenQuad();
+	*SSAOApplied = false;
 }

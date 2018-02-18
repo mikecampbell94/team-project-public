@@ -1,9 +1,9 @@
 <LevelLights>
   <Lights name="light1">
     <position>
-      <x>20</x>
-      <y>10</y>
-      <z>-20</z>
+      <x>300</x>
+      <y>500</y>
+      <z>100</z>
     </position>
     <colour>
       <r>1.0</r>
@@ -11,8 +11,8 @@
       <b>1.0</b>
       <a>1.0</a>
     </colour>
-    <radius>400</radius>
-    <intensity>1.0</intensity>
+    <radius>4000</radius>
+    <intensity>0.9</intensity>
   </Lights>
 
   <Lights name="light2">
@@ -27,7 +27,7 @@
       <b>0.0</b>
       <a>1.0</a>
     </colour>
-    <radius>400</radius>
+    <radius>40</radius>
     <intensity>1.0</intensity>
   </Lights>
   

@@ -11,9 +11,9 @@ SSAO::SSAO(const std::string identifier, const Matrix4 projmatrix,
 	const Vector2 resolution, Camera* cam, GBufferData* SGBuffer)
 	: GraphicsModule(identifier, projMatrix, resolution)
 {
-	ambientTextures = new AmbientTextures();
+	ambientTextures = new SSAOTextures();
 	ambientTextures->textures = new GLuint*[1];
-	ambientTextures->texUnits = new int[1];
+	//ambientTextures->texUnit = 0;
 
 	this->SGBuffer = SGBuffer;
 	camera = cam;
@@ -25,7 +25,7 @@ SSAO::SSAO(const std::string identifier, const Matrix4 projmatrix,
 	SSAOBlur = new Shader(SHADERDIR"/SSAO/ssao_vert.glsl", SHADERDIR"/SSAO/ssao_blurfrag.glsl", "", true);
 
 	ambientTextures->textures[CommonGraphicsData::SSAO_INDEX] = &ssaoColorBufferBlur;
-	ambientTextures->texUnits[CommonGraphicsData::SSAO_INDEX] = 3;
+	ambientTextures->texUnit = new int(3);
 
 	xSize = 2;// GLConfig::RESOLUTION.x / RESOLUTION_SCALE_X;
 	ySize = 2;//GLConfig::RESOLUTION.y / RESOLUTION_SCALE_Y;
@@ -72,6 +72,8 @@ void SSAO::apply()
 	//Blur the texture
 	SSAOBlurTex();
 	glDepthMask(GL_TRUE);
+
+	applied = true;
 }
 
 void SSAO::regenerateShaders()

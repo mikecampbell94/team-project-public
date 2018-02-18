@@ -22,6 +22,7 @@ public:
 		delete SSAOCol;
 		delete SSAOBlur;
 		delete SGBuffer;
+		delete ambientTextures;
 
 		glDeleteTextures(1, &ssaoColorBuffer);
 		glDeleteTextures(1, &ssaoColorBufferBlur);
@@ -43,16 +44,18 @@ public:
 		return a + f * (b - a);
 	}
 
-	AmbientTextures* getSSAOTextures()
+	SSAOTextures* getSSAOTextures()
 	{
 		return ambientTextures;
 	}
+
+	bool applied;
 
 private:
 	void locateUniforms() override;
 
 	Camera* camera;
-	AmbientTextures* ambientTextures;
+	SSAOTextures* ambientTextures;
 	GBufferData* SGBuffer;
 
 	//Init Functions
