@@ -2,6 +2,7 @@
 
 GameObject::GameObject()
 {
+	setSize(sizeof(*this));
 }
 
 GameObject::~GameObject()

@@ -3,9 +3,9 @@
 		<Mesh>SphereMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>005</X>
-			<Y>005</Y>
-			<Z>005</Z>
+			<X>250</X>
+			<Y>250</Y>
+			<Z>250</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -14,10 +14,16 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
+		<Colour>
+		  <R>1</R>
+		  <G>0</G>
+		  <B>0</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects name="wall1" >
@@ -35,19 +41,25 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
+		<Colour>
+		  <R>0</R>
+		  <G>1</G>
+		  <B>0</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects name="wall2" >
-		<Mesh>CubeMesh</Mesh>
+		<Mesh>SphereMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>010</X>
-			<Y>0</Y>
-			<Z>010</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>-40</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -56,19 +68,25 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
+		<Colour>
+		  <R>1</R>
+		  <G>0</G>
+		  <B>0</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects name="wall3" >
 		<Mesh>CubeMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>030</X>
+			<X>180</X>
 			<Y>0</Y>
-			<Z>030</Z>
+			<Z>180</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -77,19 +95,25 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
+		<Colour>
+		  <R>1</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects name="wall4" >
 		<Mesh>CubeMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>030</X>
-			<Y>0</Y>
-			<Z>030</Z>
+			<X>180</X>
+			<Y>100</Y>
+			<Z>180</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -98,10 +122,16 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>001</X>
-			<Y>001</Y>
-			<Z>001</Z>
+			<X>50</X>
+			<Y>50</Y>
+			<Z>50</Z>
 		</Scale>
+		<Colour>
+		  <R>1</R>
+		  <G>1</G>
+		  <B>0</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 
 <GameObjects id ="floor" >
@@ -119,9 +149,15 @@
 			<W>000</W>
 		</Rotation>
 		<Scale>
-			<X>030</X>
-			<Y>000</Y>
-			<Z>030</Z>
+			<X>180</X>
+			<Y>50</Y>
+			<Z>180</Z>
 		</Scale>
+		<Colour>
+		  <R>0.7</R>
+		  <G>0.7</G>
+		  <B>0.7</B>
+		  <A>1</A>
+		</Colour>
 </GameObjects>
 </LevelDetails>

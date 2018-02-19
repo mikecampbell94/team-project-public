@@ -16,7 +16,8 @@ public:
 private:
 	void addGameObject() const;
 	void addMesh() const;
-
+	void addSounds() const;
+	void addLightsTable() const;
 
 	std::vector<std::function<void()>> tableAdditions;
 	Database* database;

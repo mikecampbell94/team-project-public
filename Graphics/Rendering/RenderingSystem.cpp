@@ -8,17 +8,25 @@
 
 #include <queue>
 #include "../../Communication/Messages/PlayerInputMessage.h"
-#include "../../Communication/Messages/SceneNodeTranslationMessage.h"
+#include "../../Communication/Messages/RelativeTransformMessage.h"
 #include "../Resource Management/Database/Database.h"
 #include "../../Gameplay/GameObject.h"
 #include "../../Communication/Messages/TextMessage.h"
 
-RenderingSystem::RenderingSystem(Database* database, Window* window, Camera* camera, Vector2 resolution)
+RenderingSystem::RenderingSystem(Window* window, Camera* camera, Vector2 resolution)
 	: Subsystem("RenderingSystem")
 {
 	renderer = std::make_unique<Renderer>(window, camera, resolution);
+}
 
-	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::TRANSLATE_SCENE_NODE };
+RenderingSystem::~RenderingSystem()
+{
+}
+
+void RenderingSystem::initialise(Database* database)
+{
+
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -36,18 +44,19 @@ RenderingSystem::RenderingSystem(Database* database, Window* window, Camera* cam
 		std::cout << "State : " << playerMessage->data.currentState << std::endl;
 	});
 
-	//incomingMessages.addActionToExecuteOnMessage(MessageType::TRANSLATE_SCENE_NODE, [database](Message* message)
-	//{
-	//	SceneNodeTranslationMessage* translationMessage = static_cast<SceneNodeTranslationMessage*>(message);
-	//	GameObject* gameObject = static_cast<GameObject*>(
-	//		database->getTable("GameObjects")->getAllResources()->getResource(translationMessage->resourceName));
-	//	gameObject->
+	GameObject* gameObject = static_cast<GameObject*>(
+		database->getTable("GameObjects")->getAllResources()->getResource("playerBall"));
 
-	//});
-}
+	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)
+	{
+		RelativeTransformMessage* translationMessage = static_cast<RelativeTransformMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getAllResources()->getResource(translationMessage->resourceName));
 
-RenderingSystem::~RenderingSystem()
-{
+		gameObject->getSceneNode()->SetTransform(gameObject->getSceneNode()->GetTransform()
+			* translationMessage->transform);
+
+	});
 }
 
 void RenderingSystem::SetSceneToRender(SceneManager* scene)

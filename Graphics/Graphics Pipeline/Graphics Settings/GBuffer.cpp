@@ -5,18 +5,16 @@
 #include "../../GraphicsCommon.h"
 
 GBuffer::GBuffer(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Window* window, Camera* camera, std::vector<SubMesh*>* modelsInFrame,
-	vector<SubMesh*>* transparentModelsInFrame, std::vector<Mesh*>** models)
-	: GraphicsModule(identifier, projMatrix, resolution)
+	const Vector2 resolution, Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
+	: GraphicsModule(identifier, projmatrix, resolution)
 {
-	this->modelsInFrame = modelsInFrame;
-	this->transparentModelsInFrame = transparentModelsInFrame;
-	this->models = models;
+	this->nodesInFrame = nodesInFrame;
+	this->projMatrix = projmatrix;
 	this->camera = camera;
 	this->window = window;
 
 	geometryPass = new Shader(SHADERDIR"/SSAO/ssao_geometryvert.glsl",
-		SHADERDIR"/SSAO/ssao_geometryfrag.glsl", "", true);
+		SHADERDIR"/SSAO/ssao_geometryfrag.glsl");
 
 	SGBuffer = new GBufferData();
 	SGBuffer->gAlbedo = &gAlbedo;
@@ -57,15 +55,11 @@ void GBuffer::apply()
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	renderGeometry(modelsInFrame);
-
-	skybox->apply();
-
+	renderGeometry(nodesInFrame);
+	
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	renderGeometry(transparentModelsInFrame);
 
 	glDisable(GL_BLEND);
 
@@ -126,24 +120,18 @@ void GBuffer::initAttachments()
 	GraphicsUtility::VerifyBuffer("RBO Depth GBuffer", false);
 }
 
-void GBuffer::renderGeometry(vector<SubMesh*>* meshes)
+void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 {
 	setCurrentShader(geometryPass);
 	viewMatrix = camera->buildViewMatrix();
 	updateShaderMatrices();
 
-	glActiveTexture(GL_TEXTURE0);
-	glUniform1i(loc_skybox, 0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 	glUniform3fv(loc_cameraPos, 1, (float*)&camera->getPosition());
 
-	for (unsigned int i = 0; i < meshes->size(); ++i)
+	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
-		glUniform1i(loc_hasTexture, meshes->at(i)->hasTexture);
-		glUniform1i(loc_isReflective, meshes->at(i)->isReflective);
-		glUniform1f(loc_reflectionStrength, meshes->at(i)->reflectionStrength);
-		glUniform4fv(loc_baseColour, 1, (float*)&meshes->at(i)->baseColour);
-
-		//meshes->at(i)->Draw(*currentShader);
+		glUniform4fv(loc_baseColour, 1, (float*)&nodesInFrame->at(i)->getColour());
+		nodesInFrame->at(i)->Draw(*currentShader);
 	}
 }
+

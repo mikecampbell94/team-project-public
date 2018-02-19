@@ -13,6 +13,11 @@ public:
 	SceneNode(Mesh* mesh, Vector4 colour = Vector4(1, 1, 1, 1));
 	virtual ~SceneNode(void);
 
+	void setPosition(Vector3 position)
+	{
+		transform.setPositionVector(position);
+	}
+
 	void  SetTransform(const Matrix4 &matrix)
 	{
 		transform = matrix;
@@ -39,6 +44,7 @@ public:
 
 	void SetColour(Vector4 c)
 	{
+		this->colour = c;
 		mesh->SetbackupColourAttributeForAllSubMeshes(c);
 	}
 

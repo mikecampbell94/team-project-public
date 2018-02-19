@@ -7,9 +7,12 @@ enum MessageType
 {
 	PLAYER_INPUT,
 	DUMMY_TYPE,
-	TRANSLATE_SCENE_NODE,
-	TEXT
-};
+	RELATIVE_TRANSFORM,
+	TEXT,	
+	PLAY_SOUND,
+	STOP_SOUND,
+	MOVING_SOUND};
+
 
 class Message
 {

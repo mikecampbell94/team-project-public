@@ -2,11 +2,23 @@
 	<Meshes name="SphereMesh" >
 		<MeshFile>../Data/Meshes/sphere.obj</MeshFile>
 		<Texture>../Data/Textures/lava.png</Texture>
+		<Colour>
+		  <R>1</R>
+		  <G>0</G>
+		  <B>0</B>
+		  <A>1</A>
+		</Colour>
 	</Mesh>
 	
 	
 	<Meshes name="CubeMesh" >
-		<MeshFile>../Data/Meshes/cube.obj</MeshFile>
+		<MeshFile>../Data/Meshes/centeredcube.obj</MeshFile>
 		<Texture>../Data/Textures/hell.jpg</Texture>
+		<Colour>
+		  <R>0</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
 	</Mesh>
 </LevelMeshes>
