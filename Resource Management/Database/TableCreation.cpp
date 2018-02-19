@@ -121,7 +121,9 @@ void TableCreation::addLightsTable() const
 		float radius = std::stof(node->children[2]->value);
 		float intensity = std::stof(node->children[3]->value);
 
-		Light* light = new Light(position, colour, radius, intensity);
+		bool isShadowCasting = (node->children[4]->value == "enabled");
+
+		Light* light = new Light(position, colour, radius, intensity, isShadowCasting);
 		light->setName(resourceName);
 
 		return light;

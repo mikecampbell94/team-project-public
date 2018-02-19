@@ -37,8 +37,12 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 	ssao->linkShaders();
 	ssao->initialise();
 
+	shadowTex = new Shadows("Shadows", projmatrix, resolution, sceneManager->getAllLights(), sceneManager->getAllNodes());
+	shadowTex->linkShaders();
+	shadowTex->initialise();
+
 	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), 
-		sceneManager->getAllLights(), ssao->getSSAOTextures());
+		sceneManager->getAllLights(), ssao->getSSAOTextures(), shadowTex->getShadowData());
 	bpLighting->linkShaders();
 	bpLighting->initialise();
 	bpLighting->SSAOApplied = &ssao->applied;
@@ -48,6 +52,7 @@ void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 {
 	pipeline->addModule(gBuffer);
 	pipeline->addModule(skybox);
+	pipeline->addModule(shadowTex);
 	pipeline->addModule(ssao);
 	pipeline->addModule(bpLighting);
 }

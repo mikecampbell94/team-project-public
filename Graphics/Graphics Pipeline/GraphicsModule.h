@@ -13,10 +13,8 @@
 
 struct ShadowData
 {
-	int NUM_LIGHTS;
-	int* shadowIndexes;
-	Matrix4* textureMatrices;
-	GLuint* shadows;
+	Matrix4 textureMatrices;
+	GLuint shadowTex;
 };
 
 struct GBufferData {

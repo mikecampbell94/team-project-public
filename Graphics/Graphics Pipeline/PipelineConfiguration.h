@@ -8,6 +8,7 @@
 #include "Graphics Settings/MotionBlur.h"
 #include "../Utilities/Maths/Vector2.h"
 #include "Graphics Settings/Skybox.h"
+#include "Graphics Settings/Shadows.h"
 #include "Effects/ParticleSystem.h"
 
 #include "GraphicsPipeline.h"
@@ -42,6 +43,7 @@ private:
 	GBuffer *gBuffer;
 	Skybox* skybox;
 	SSAO* ssao;
+	Shadows* shadowTex;
 	BPLighting *bpLighting;
 };
 
