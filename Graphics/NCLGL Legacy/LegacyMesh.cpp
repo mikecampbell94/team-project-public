@@ -101,35 +101,37 @@ void LegacyMesh::SetColour(Vector4 newCol, LegacyMesh* m) {
 }
 
 void LegacyMesh::BufferData() {
+	//bind this meshes array object, now any vertex array functionality will be performed on the newly bund array object
 	glBindVertexArray(arrayObject);
+
+	//generate new VBO, store its name in first index of our bufferObject array
 	glGenBuffers(1, &bufferObject[VERTEX_BUFFER]);
-
+	//bind it, so all vertex buffer functions will be applied to our new VBO,  and also assigns new VBO to to currently bound VAO, which will tie all VBOs into our VAO
 	glBindBuffer(GL_ARRAY_BUFFER, bufferObject[VERTEX_BUFFER]);
-	glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(Vector3),
-		vertices, GL_STATIC_DRAW);
-
+	//now buffer the vertex position data, which copies data into graphics memory, second param tells how much memory we need in graphics memory to store this
+	//and the pointer to the data to pass, finally inform OpenGL how we expect data to be used, either dynamically updated, or loaded once as static data
+	glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(Vector3), vertices, GL_STATIC_DRAW);
+	//now VBO data copied into memory, set how to access it, by modifying VAO.
+	//tell OpenGL vertex attrib has 3 float components per vertex
 	glVertexAttribPointer(VERTEX_BUFFER, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	//next lines enables this
 	glEnableVertexAttribArray(VERTEX_BUFFER);
 
+	//now do same for textureCoords
 	if (textureCoords) {
 		glGenBuffers(1, &bufferObject[TEXTURE_BUFFER]);
 		glBindBuffer(GL_ARRAY_BUFFER, bufferObject[TEXTURE_BUFFER]);
-		glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(Vector2),
-			textureCoords, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(Vector2), textureCoords, GL_STATIC_DRAW);
 		glVertexAttribPointer(TEXTURE_BUFFER, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(TEXTURE_BUFFER);
 	}
-	if (colours) { // Just in case the data has no colour attribute ...
+	//now do the same for colours
+	if (colours) {
 		glGenBuffers(1, &bufferObject[COLOUR_BUFFER]);
 		glBindBuffer(GL_ARRAY_BUFFER, bufferObject[COLOUR_BUFFER]);
 		glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(Vector4), colours, GL_STATIC_DRAW);
 		glVertexAttribPointer(COLOUR_BUFFER, 4, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(COLOUR_BUFFER);
-	}
-	if (indices) {
-		glGenBuffers(1, &bufferObject[INDEX_BUFFER]);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferObject[INDEX_BUFFER]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(GLuint), indices, GL_STATIC_DRAW);
 	}
 	if (normals) {
 		glGenBuffers(1, &bufferObject[NORMAL_BUFFER]);
@@ -145,6 +147,13 @@ void LegacyMesh::BufferData() {
 		glVertexAttribPointer(TANGENT_BUFFER, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(TANGENT_BUFFER);
 	}
+	if (indices) {
+		glGenBuffers(1, &bufferObject[INDEX_BUFFER]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferObject[INDEX_BUFFER]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(GLuint), indices, GL_STATIC_DRAW);
+
+	}
+
 
 	glBindVertexArray(0);
 }
@@ -258,8 +267,8 @@ void LegacyMesh::Draw(Shader& shader, Matrix4& worldTransform) {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, bumpTexture);
+
+
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false, (float*)&worldTransform);
 
@@ -272,4 +281,5 @@ void LegacyMesh::Draw(Shader& shader, Matrix4& worldTransform) {
 		glDrawArrays(type, 0, numVertices);
 	}
 	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

@@ -9,9 +9,9 @@ UIModule::UIModule(const std::string identifier, const Matrix4 projMatrix, const
 {
 	font = new Font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
 	UIShader = new Shader(SHADERDIR"/UIVertex.glsl", SHADERDIR"/UIFrag.glsl");
-	Button* uiTest = new Button();
-UITextShader = new Shader(SHADERDIR"/TexturedVertex.glsl", SHADERDIR"/TexturedFrag.glsl");
-	UIObject* uiTest = new UIObject();	uiTest->UiMesh = new Mesh("../Data/Meshes/cube.obj", 1);
+	UITextShader = new Shader(SHADERDIR"/UITextVertex.glsl", SHADERDIR"/UITextFrag.glsl");
+	Button* uiTest = new Button();	
+	uiTest->UiMesh = new Mesh("../Data/Meshes/cube.obj", 1);
 	uiTest->position = Vector2(0, -200);
 	uiTest->scale = Vector2(30, 10);
 	uiTest->text = Text("TestUI",{0,0,0},10);
@@ -28,30 +28,44 @@ void UIModule::initialise()
 
 void UIModule::apply()
 {
-	setCurrentShader(UIShader);
-	glDisable(GL_DEPTH_BUFFER);
+	Vector3 pos = Vector3(0, 0, 0);
+	setCurrentShader(UITextShader);
+	glDisable(GL_DEPTH_TEST);
+
 	viewMatrix.toIdentity();
+	//projMatrix = Matrix4::orthographic(-1.0f, 1.0f, 1280.0f, 0.0f, 720.0f, 0.0f);
+
+	//modelMatrix = Matrix4::translation(Vector3(pos.x, 720.0f - pos.y, pos.z)) * Matrix4::scale(Vector3(16, 16, 1));
+
+
 	updateShaderMatrices();
+
+	Matrix4 exampleModel;
+	exampleModel.setScalingVector(Vector3(100, 100, 100));
 
 	for (Button * uiObject : UIObjects)
 	{
 		//uiObject->UiMesh->Draw(*currentShader,Matrix4::translation(uiObject->position) * Matrix4::scale(uiObject->scale));
 		if (uiObject->text.text != "")
 		{
-			TextMesh textmsh(uiObject->text.text, *font);
+			TextMesh* textmsh = new TextMesh("blah", *font);
+			LegacyMesh* test = LegacyMesh::GenerateQuad();
 			
-			textmsh.Draw();
+			
+			//test->Draw(*currentShader, exampleModel);
+
+			textmsh->Draw(*currentShader,Matrix4::translation(Vector3(0, 0, 0)) * Matrix4::scale(Vector3(16, 16, 1)));
+			
+			delete textmsh;
+			//delete test;
 		}
 	}
 
-	for (UIObject * uiObject : UIObjects)
-	{
-
-	}
 
 
 
-	glEnable(GL_DEPTH_BUFFER);
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 void UIModule::linkShaders()
