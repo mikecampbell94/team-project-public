@@ -1,4 +1,4 @@
-#include "PhysicseNode.h"
+#include "PhysicsNode.h"
 
 
 
@@ -11,12 +11,20 @@ PhysicsNode::~PhysicsNode()
 {
 }
 
-Vector3 PhysicsNode::getPosition()
+void PhysicsNode::integrateForVelocity(float dt)
 {
-	return position;
+	linVelocity += force * invMass * dt;
+
+	angVelocity += invInertia * torque * dt;
 }
 
-void PhysicsNode::setPosition(Vector3 pos)
+void PhysicsNode::integrateForPosition(float dt)
 {
-	this->position = pos;
+	position += linVelocity * dt;
+
+	orientation = orientation + Quaternion(angVelocity * dt * .5f, 0.f) * orientation;
+
+	orientation.normalise();
+
+	fireOnUpdateCallback();
 }

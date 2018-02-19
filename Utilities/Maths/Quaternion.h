@@ -29,6 +29,7 @@ class Matrix4;
 class Quaternion	{
 public:
 	Quaternion(void);
+	Quaternion(const Vector3& vec, float w);
 	Quaternion(float x, float y, float z, float w);
 
 	~Quaternion(void);
@@ -56,6 +57,11 @@ public:
 
 	Quaternion operator *(const Quaternion &a) const;
 	Quaternion operator *(const Vector3 &a) const;
+
+	Quaternion operator+(const Quaternion &a) const 
+	{
+		return Quaternion(x + a.x, y + a.y, z + a.z, w + a.w);
+	}
 
 	inline friend std::ostream& operator<<(std::ostream& o, const Quaternion& q){
 		o << "Quat(" << q.x << "," << q.y << "," << q.z <<  "," << q.w << ")" << std::endl;

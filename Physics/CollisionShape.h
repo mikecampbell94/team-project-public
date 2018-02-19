@@ -26,33 +26,33 @@ public:
 	CollisionShape() : m_Parent(NULL) {}
 	virtual ~CollisionShape() {}
 
-	virtual Matrix3 BuildInverseInertia(float invMass) const = 0;
+	virtual Matrix3 buildInverseInertia(float invMass) const = 0;
 
-	inline void SetParent(PhysicsNode* node) 
+	inline void setParent(PhysicsNode* node) 
 	{ 
 		m_Parent = node; 
 	}
-	inline		 PhysicsNode* Parent() 
+	inline		 PhysicsNode* parent() 
 	{ 
 		return m_Parent; 
 	}
-	inline const PhysicsNode* Parent() const 
+	inline const PhysicsNode* parent() const 
 	{ 
 		return m_Parent; 
 	}
 
-	virtual void GetCollisionAxes(
+	virtual void getCollisionAxes(
 		const PhysicsNode* otherObject,
 		std::vector<Vector3>& out_axes) const = 0;
 
-	virtual Vector3 GetClosestPoint(const Vector3& point) const = 0;
+	virtual Vector3 getClosestPoint(const Vector3& point) const = 0;
 
-	virtual void GetMinMaxVertexOnAxis(
+	virtual void getMinMaxVertexOnAxis(
 		const Vector3& axis,
 		Vector3& out_min,
 		Vector3& out_max) const = 0;
 
-	virtual void GetIncidentReferencePolygon(
+	virtual void getIncidentReferencePolygon(
 		const Vector3& axis,
 		std::list<Vector3>& out_face,
 		Vector3& out_normal,

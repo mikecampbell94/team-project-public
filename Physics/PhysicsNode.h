@@ -40,9 +40,138 @@ public:
 		collisionShape = nullptr;
 	};
 
+	void integrateForVelocity(float dt);
+	void integrateForPosition(float dt);
 
-	Vector3 getPosition();
-	void setPosition(Vector3 pos);
+	inline GameObject* getParent() const 
+	{ 
+		return parent; 
+	}
+	inline float getElasticity() const 
+	{ 
+		return elasticity; 
+	}
+	inline float getFriction() const 
+	{ 
+		return friction; 
+	}
+	inline const Vector3& getPosition() const 
+	{ 
+		return position; 
+	}
+	inline const Vector3& getLinearVelocity() const 
+	{ 
+		return linVelocity; 
+	}
+	inline const Vector3& getForce() const 
+	{ 
+		return force; 
+	}
+	inline float getInverseMass() const 
+	{ 
+		return invMass; 
+	}
+	inline const Quaternion& getOrientation() const 
+	{ 
+		return orientation; 
+	}
+	inline const Vector3& getAngularVelocity() const 
+	{ 
+		return angVelocity; 
+	}
+	inline const Vector3& getTorque() const 
+	{ 
+		return torque; 
+	}
+	inline const Matrix3& getInverseInertia() const 
+	{ 
+		return invInertia; 
+	}
+	inline CollisionShape* getCollisionShape() const 
+	{ 
+		return collisionShape; 
+	}
+	const Matrix4& getWorldSpaceTransform() const 
+	{ 
+		return worldTransform; 
+	}
+
+
+
+	inline void setParent(GameObject* obj) 
+	{ 
+		parent = obj; 
+	}
+	inline void setElasticity(float elasticityCoeff) 
+	{ 
+		elasticity = elasticityCoeff; 
+	}
+	inline void setFriction(float frictionCoeff) 
+	{ 
+		friction = frictionCoeff; 
+	}
+
+	inline void setPosition(const Vector3& v) 
+	{ 
+		position = v; 
+		fireOnUpdateCallback(); 
+	}
+	inline void setLinearVelocity(const Vector3& v) 
+	{ 
+		linVelocity = v; 
+	}
+	inline void setForce(const Vector3& v) { force = v; }
+	inline void setInverseMass(const float& v) 
+	{ 
+		invMass = v; 
+	}
+
+	inline void setOrientation(const Quaternion& v) 
+	{ 
+		orientation = v; 
+		fireOnUpdateCallback(); 
+	}
+	inline void setAngularVelocity(const Vector3& v) 
+	{ 
+		angVelocity = v; 
+	}
+	inline void setTorque(const Vector3& v) 
+	{ 
+		torque = v; 
+	}
+	inline void setInverseInertia(const Matrix3& v) 
+	{ 
+		invInertia = v; 
+	}
+
+	inline void setCollisionShape(CollisionShape* colShape)
+	{
+		if (collisionShape) collisionShape->setParent(NULL);
+		collisionShape = colShape;
+		if (collisionShape) collisionShape->setParent(this);
+	}
+
+
+	inline void setOnCollisionCallback(PhysicsCollisionCallback callback) 
+	{ 
+		onCollisionCallback = callback; 
+	}
+	inline bool fireOnCollisionEvent(PhysicsNode* obj_a, PhysicsNode* obj_b)
+	{
+		return (onCollisionCallback) ? onCollisionCallback(obj_a, obj_b) : true;
+	}
+
+	inline void setOnUpdateCallback(PhysicsUpdateCallback callback) 
+	{ 
+		onUpdateCallback = callback; 
+	}
+	inline void fireOnUpdateCallback()
+	{
+		worldTransform = orientation.toMatrix();
+		worldTransform.setPositionVector(position);
+
+		if (onUpdateCallback) onUpdateCallback(worldTransform);
+	}
 
 private:
 	GameObject*				parent;

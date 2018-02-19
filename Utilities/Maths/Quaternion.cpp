@@ -6,6 +6,14 @@ Quaternion::Quaternion(void)
 	w = 1.0f;
 }
 
+Quaternion::Quaternion(const Vector3 & vec, float w)
+{
+	this->x = vec.x;
+	this->y = vec.y;
+	this->z = vec.z;
+	this->w = w;
+}
+
 Quaternion::Quaternion(float x, float y, float z, float w)
 {
 	this->x = x;
