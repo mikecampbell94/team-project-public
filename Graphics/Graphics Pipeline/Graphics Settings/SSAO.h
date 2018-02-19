@@ -15,13 +15,14 @@ class SSAO : public GraphicsModule
 {
 public:
 	SSAO(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Camera* cam, AmbientTextures* ambientTextures, GBufferData* SGBuffer);
+		const Vector2 resolution, Camera* cam, GBufferData* SGBuffer);
 
 	virtual ~SSAO()
 	{
 		delete SSAOCol;
 		delete SSAOBlur;
 		delete SGBuffer;
+		delete ambientTextures;
 
 		glDeleteTextures(1, &ssaoColorBuffer);
 		glDeleteTextures(1, &ssaoColorBufferBlur);
@@ -43,11 +44,18 @@ public:
 		return a + f * (b - a);
 	}
 
+	SSAOTextures* getSSAOTextures()
+	{
+		return ambientTextures;
+	}
+
+	bool applied;
+
 private:
 	void locateUniforms() override;
 
 	Camera* camera;
-	AmbientTextures* ambientTextures;
+	SSAOTextures* ambientTextures;
 	GBufferData* SGBuffer;
 
 	//Init Functions

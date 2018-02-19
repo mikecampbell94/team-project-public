@@ -14,7 +14,7 @@ GBuffer::GBuffer(const std::string identifier, const Matrix4 projmatrix,
 	this->window = window;
 
 	geometryPass = new Shader(SHADERDIR"/SSAO/ssao_geometryvert.glsl",
-		SHADERDIR"/SSAO/ssao_geometryfrag.glsl", "", true);
+		SHADERDIR"/SSAO/ssao_geometryfrag.glsl");
 
 	SGBuffer = new GBufferData();
 	SGBuffer->gAlbedo = &gAlbedo;

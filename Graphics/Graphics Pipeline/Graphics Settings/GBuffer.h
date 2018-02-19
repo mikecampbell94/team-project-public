@@ -7,7 +7,7 @@
 #include "../../Meshes/SubMesh.h"
 
 #include <vector>
-#include "../Effects/Skybox.h"
+#include "Skybox.h"
 #include "../Effects/ParticleSystem.h"
 
 #include "../../Scene Management/SceneManager.h"
