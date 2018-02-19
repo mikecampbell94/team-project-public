@@ -19,9 +19,29 @@ class GameLoop
 {
 public:
 	GameLoop(System& gameSystem);
+	GameLoop();
 	~GameLoop();
 
 	void executeGameLoop();
+	void addSystem(System& system)
+	{
+		engine = system;
+	}
+
+	void addCameraToGameLoop(Camera* camera)
+	{
+		this->camera = camera;
+	}
+
+	void addWindowToGameLoop(Window* window)
+	{
+		this->window = window;
+	}
+
+	void addGameTimerToGameLoop(GameTimer& timer)
+	{
+		loopTimer = timer;
+	}
 
 private:
 	Database* database;

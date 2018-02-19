@@ -72,8 +72,6 @@ GameLoop::~GameLoop()
 
 void GameLoop::executeGameLoop()
 {
-	int frameCount = 0;
-
 	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE))
 	{
 		float deltaTime = loopTimer.getTimeSinceLastRetrieval();

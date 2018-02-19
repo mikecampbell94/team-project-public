@@ -19,10 +19,14 @@
     <ClCompile Include="Game\GameLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Startup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Systems\Subsystem.h" />
     <ClInclude Include="Systems\System.h" />
     <ClInclude Include="Game\GameLoop.h" />
+    <ClInclude Include="Startup.h" />
   </ItemGroup>
 </Project>
