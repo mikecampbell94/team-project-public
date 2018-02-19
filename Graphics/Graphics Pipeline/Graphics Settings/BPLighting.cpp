@@ -4,28 +4,19 @@
 #include "../../GraphicsUtility.h"
 
 BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Camera* cam, GBufferData* gBuffer,
-	AmbientTextures* ambientTextures, int numAmbTex)
+	const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights,
+	SSAOTextures* ssaoTextures)
 	: GraphicsModule(identifier, projMatrix, resolution)
 {
 	camera = cam;
 
 	this->gBuffer = gBuffer;
-	this->ambientTextures = ambientTextures;
-	this->numAmbTex = numAmbTex;
+	this->ambientTextures = ssaoTextures;
 
-	lightingPassShader = new Shader(SHADERDIR"/SSAO/ssao_lightingvert.glsl", SHADERDIR"/SSAO/ssao_lightingfrag.glsl", "", true);
-}
-
-BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<LightData> lightDatas)
-	: GraphicsModule(identifier, projMatrix, resolution)
-{
-	camera = cam;
-
-	this->gBuffer = gBuffer;
-	this->numAmbTex = 0;
-	this->lightDatas = lightDatas;
+	for each (Light* light in **lights)
+	{
+		lightDatas.push_back(light->GetData());
+	}
 
 	lightingPassShader = new Shader(SHADERDIR"/SSAO/ssao_lightingvert.glsl", SHADERDIR"/SSAO/ssao_lightingfrag.glsl", "", true);
 }
@@ -61,7 +52,7 @@ void BPLighting::locateUniforms()
 	loc_gNormal = glGetUniformLocation(lightingPassShader->GetProgram(), "gNormal");
 	loc_gAlbedo = glGetUniformLocation(lightingPassShader->GetProgram(), "gAlbedo");
 	//loc_shadows = glGetUniformLocation(lightingPassShader->GetProgram(), "shadows");
-	loc_ambientTextures = glGetUniformLocation(lightingPassShader->GetProgram(), "ambientTextures");
+	loc_ambientTextures = glGetUniformLocation(lightingPassShader->GetProgram(), "ssaoTexture");
 	loc_texMatrices = glGetUniformLocation(lightingPassShader->GetProgram(), "texMatrices");
 	loc_camMatrix = glGetUniformLocation(lightingPassShader->GetProgram(), "camMatrix");
 
@@ -92,8 +83,7 @@ void BPLighting::lightingPass()
 	//glUniform1i(loc_numShadowCastingLights, shadowData->NUM_LIGHTS);
 
 	//glUniform1iv(loc_shadows, shadowData->NUM_LIGHTS, shadowData->shadowIndexes);
-	if (numAmbTex > 0)
-		glUniform1iv(loc_ambientTextures, numAmbTex, ambientTextures->texUnits);
+	glUniform1i(loc_ambientTextures, *ambientTextures->texUnit);
 
 	//glUniformMatrix4fv(loc_texMatrices, shadowData->NUM_LIGHTS, false, (float*)shadowData->textureMatrices);
 
@@ -106,7 +96,9 @@ void BPLighting::lightingPass()
 	currentShader->ApplyTexture(CommonGraphicsData::GNORMAL, *gBuffer->gNormal);
 	currentShader->ApplyTexture(CommonGraphicsData::GALBEDO, *gBuffer->gAlbedo);
 
-	for (int a = 0; a < numAmbTex; ++a)
+	glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "ssaoApplied"), *SSAOApplied);
+
+	for (int a = 0; a < 1; ++a)
 	{
 		glActiveTexture(GL_TEXTURE3 + a);
 		glBindTexture(GL_TEXTURE_2D, *ambientTextures->textures[a]);
@@ -119,4 +111,5 @@ void BPLighting::lightingPass()
 	//}
 
 	renderScreenQuad();
+	*SSAOApplied = false;
 }
