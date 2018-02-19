@@ -20,10 +20,10 @@ uniform sampler2D texNoise;
 
 void main(void){
 	//Generate noise scale based on screen resolution
-	vec2 noiseScale = vec2(1280 / 4.0, 720 / 4.0);
+	vec2 noiseScale = vec2(1280 / 4.0f, 720 / 4.0f);
 
-	float b = 0.2;
-	float r = 150.0;
+	float b = 0.01f;
+	float r = 50.0f;
 
 	//Get input for SSAO algorithm
     vec3 fragPos = texture(gPosition, TexCoords).xyz;
@@ -36,7 +36,7 @@ void main(void){
     mat3 TBN = mat3(tangent, bitangent, normal);
 
     //Iterate over the sample kernel and calculate occlusion factor
-    float occlusion = 0.0;
+    float occlusion = 0.0f;
     for(int i = 0; i < kernelSize; ++i)
     {
         //Get sample position
@@ -53,11 +53,11 @@ void main(void){
         float sampleDepth = texture(gPosition, offset.xy).z; // get depth value of kernel sample
         
         //Range check & accumulate
-        float rangeCheck = smoothstep(0.0, 1.0, r / abs(fragPos.z - sampleDepth));
-		occlusion += (sampleDepth >= samplevec.z + b ? 1.0 : 0.0) * rangeCheck;
+        float rangeCheck = smoothstep(0.0f, 1.0f, r / abs(fragPos.z - sampleDepth));
+		occlusion += (sampleDepth >= samplevec.z + b ? 1.0f : 0.0f) * rangeCheck;
     }
 
-    occlusion = 1.0 - (occlusion / kernelSize);
+    occlusion = 1.0f - (occlusion / kernelSize);
     
-    gl_FragColor = pow(occlusion, 2.8f);
+    gl_FragColor = pow(occlusion, 1.4f);
 }

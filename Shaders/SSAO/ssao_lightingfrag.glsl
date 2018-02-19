@@ -58,7 +58,7 @@ void AddLighting(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 
 
 		//Specular
 		vec3 halfDir = normalize(lightDir + viewDir);
-		float specPower = pow(max(dot(normal, halfDir), 0.0), 300.0);
+		float specPower = pow(max(dot(normal, halfDir), 0.0), 500.0);
 		vec3 specular = lightData[index].lightColour.rgb * specPower;
 
 		//Attenuation
@@ -92,17 +92,17 @@ void main(void){
 			AddLighting(i, position, normal, albedo, finalColour);
 		}
 
-		if (ssaoApplied)
-		{
+		//if (ssaoApplied)
+		//{
 			float ambientComponent = 0.6f * texture(ssaoTexture, TexCoords).r;
 			vec3 ambientColour = albedo.rgb * ambientComponent;
 
 			finalColour.rgb += ambientColour;
-		}
-		else
-		{
-			finalColour.rgb *= 0.9f;
-		}
+		//}
+		//else
+		//{
+			//finalColour.rgb *= 0.9f;
+		//}
 
 		FragColor = finalColour;
 	}

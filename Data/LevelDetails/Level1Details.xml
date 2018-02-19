@@ -47,8 +47,8 @@
 		</Scale>
 		<Colour>
 		  <R>0</R>
-		  <G>0</G>
-		  <B>1</B>
+		  <G>1</G>
+		  <B>0</B>
 		  <A>1</A>
 		</Colour>
 </GameObjects>
@@ -57,9 +57,9 @@
 		<Mesh>SphereMesh</Mesh>
 		<Enabled>True/False</Enabled>
 		<Position>
-			<X>500</X>
+			<X>50</X>
 			<Y>50</Y>
-			<Z>500</Z>
+			<Z>-40</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -73,9 +73,9 @@
 			<Z>50</Z>
 		</Scale>
 		<Colour>
-		  <R>0</R>
+		  <R>1</R>
 		  <G>0</G>
-		  <B>1</B>
+		  <B>0</B>
 		  <A>1</A>
 		</Colour>
 </GameObjects>
@@ -100,7 +100,7 @@
 			<Z>50</Z>
 		</Scale>
 		<Colour>
-		  <R>0</R>
+		  <R>1</R>
 		  <G>0</G>
 		  <B>1</B>
 		  <A>1</A>
@@ -127,9 +127,9 @@
 			<Z>50</Z>
 		</Scale>
 		<Colour>
-		  <R>0</R>
-		  <G>0</G>
-		  <B>1</B>
+		  <R>1</R>
+		  <G>1</G>
+		  <B>0</B>
 		  <A>1</A>
 		</Colour>
 </GameObjects>
@@ -154,9 +154,9 @@
 			<Z>180</Z>
 		</Scale>
 		<Colour>
-		  <R>1</R>
-		  <G>1</G>
-		  <B>1</B>
+		  <R>0.7</R>
+		  <G>0.7</G>
+		  <B>0.7</B>
 		  <A>1</A>
 		</Colour>
 </GameObjects>
