@@ -30,6 +30,7 @@ RenderingSystem::RenderingSystem(Window* window, Camera* camera, Vector2 resolut
 		std::cout << "key : " << playerMessage->data.key << std::endl;
 		std::cout << "State : " << playerMessage->data.currentState << std::endl;
 	});
+	Initialise();
 }
 
 RenderingSystem::~RenderingSystem()
@@ -55,12 +56,21 @@ bool RenderingSystem::stob(std::string string)
 	return b;
 }
 
-void RenderingSystem::getGraphicsConfig()
+
+
+void RenderingSystem::Initialise()
 {
 	graphicsconfigParser.loadFile("../Data/Resources/Config/Graphics/graphicsConfigXML.xml");
 	Node* node = graphicsconfigParser.parsedXml;
-	graphicsConfig.resolution.x = stof(node->children[0]->children[0]->value);
-	graphicsConfig.resolution.y = stof(node->children[0]->children[1]->value);
+	pipeline.intialisePipeline();
+	for (int i = 0; i < node->children[1]->children.size(); i++) {
+		graphicsConfig.insert(std::pair<std::string, bool>(node->children[1]->children[i]->name, stob(node->children[1]->children[i]->value)));
+		pipeline.toggleModule(node->children[1]->children[i]->name);
+	}
+	//-then in the initialise function of renderin system, get the pipeline from the renderer, and enable / disable modules if they exist
+
+
+	/*graphicsConfig.resolution.y = stof(node->children[0]->children[1]->value);
 	graphicsConfig.basicgeometryEnabled = stob(node->children[1]->value);
 	graphicsConfig.bloomEnabled = stob(node->children[2]->value);
 	graphicsConfig.lightingEnabled = stob(node->children[3]->value);
@@ -70,5 +80,5 @@ void RenderingSystem::getGraphicsConfig()
 	graphicsConfig.particlesEnabled = stob(node->children[7]->value);
 	graphicsConfig.shadowmappingEnabled = stob(node->children[8]->value);
 	graphicsConfig.skyboxEnabled = stob(node->children[9]->value);
-	graphicsConfig.ssaoEnabled = stob(node->children[10]->value);
+	graphicsConfig.ssaoEnabled = stob(node->children[10]->value);*/
 }

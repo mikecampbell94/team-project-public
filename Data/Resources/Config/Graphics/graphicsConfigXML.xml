@@ -3,15 +3,17 @@
 		<X>1920</X>
 		<Y>1080</Y>
 	</Settings>
-	<Settings name="Fullscreen">True/False</Settings>
-	<Settings name="BasicGeometry">True/False</Settings>
-	<Settings name="Bloom">True/False</Settings>
-	<Settings name="Lighting">True/False</Settings>
-	<Settings name="BPLighting">True/False</Settings>
-	<Settings name="GBuffer">True/False</Settings>
-	<Settings name="MotionBlur">True/False</Settings>
-	<Settings name="Particles">True/False</Settings>
-	<Settings name="ShadowMapping">True/False</Settings>
-	<Settings name="Skybox">True/False</Settings>
-	<Settings name="SSAO">True/False</Settings>
+	<Modules>
+	<Settings name="Fullscreen">False</Settings>
+	<Settings name="BasicGeometry">True</Settings>
+	<Settings name="Bloom">False</Settings>
+	<Settings name="Lighting">False</Settings>
+	<Settings name="BPLighting">False</Settings>
+	<Settings name="GBuffer">False</Settings>
+	<Settings name="MotionBlur">False</Settings>
+	<Settings name="Particles">False</Settings>
+	<Settings name="ShadowMapping">False</Settings>
+	<Settings name="Skybox">False</Settings>
+	<Settings name="SSAO">False</Settings>
+	</Modules>
 </Config>

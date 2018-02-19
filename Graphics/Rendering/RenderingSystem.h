@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include <memory>
 #include "../Resource Management/XMLParser.h"
+#include "../Graphics Pipeline/GraphicsPipeline.h"
 
 class RenderingSystem : public Subsystem
 {
@@ -20,14 +21,19 @@ public:
 	void removeAsset() {}
 	void addAsset() {}
 	void changeColor(Vector4 c) {}
-	void getGraphicsConfig();
+	void Initialise();
 
 	bool stob(std::string string);
 
 private:
 	std::unique_ptr<Renderer> renderer;
 	XMLParser graphicsconfigParser;
-	struct GraphicsConfig {
+	std::map<std::string, bool> graphicsConfig;
+	GraphicsPipeline pipeline;
+
+
+
+	/*struct GraphicsConfig {
 		Vector2 resolution;
 		bool fullscreenEnabled;
 		bool shadowmappingEnabled;
@@ -40,5 +46,5 @@ private:
 		bool particlesEnabled;
 		bool skyboxEnabled;
 		bool ssaoEnabled;
-	} graphicsConfig;
+	} graphicsConfig;*/
 };
