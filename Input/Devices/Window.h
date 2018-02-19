@@ -37,6 +37,7 @@ public:
 	static Keyboard*	getKeyboard() { return keyboard; }
 	static Mouse*		getMouse() { return mouse; }
 
+
 protected:
 	void	checkMessages(MSG &msg);
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

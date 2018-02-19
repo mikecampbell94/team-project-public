@@ -1,19 +1,14 @@
 <Config inputType="GraphicsConfig">
-	<Settings name="Resolution">
-		<X>1920</X>
-		<Y>1080</Y>
-	</Settings>
 	<Modules>
-	<Settings name="Fullscreen">False</Settings>
-	<Settings name="BasicGeometry">True</Settings>
-	<Settings name="Bloom">False</Settings>
-	<Settings name="Lighting">False</Settings>
-	<Settings name="BPLighting">False</Settings>
-	<Settings name="GBuffer">False</Settings>
-	<Settings name="MotionBlur">False</Settings>
-	<Settings name="Particles">False</Settings>
-	<Settings name="ShadowMapping">False</Settings>
-	<Settings name="Skybox">False</Settings>
-	<Settings name="SSAO">False</Settings>
+	<Settings name="Fullscreen">Enabled</Settings>
+	<Settings name="BasicGeometry">Disabled</Settings>
+	<Settings name="Bloom">Disabled</Settings>
+	<Settings name="BPLighting">Enabled</Settings>
+	<Settings name="gbuffer">Enabled</Settings>
+	<Settings name="MotionBlur">Disabled</Settings>
+	<Settings name="Particles">Disabled</Settings>
+	<Settings name="ShadowMapping">Disabled</Settings>
+	<Settings name="Skybox">Enabled</Settings>
+	<Settings name="SSAO">Enabled</Settings>
 	</Modules>
 </Config>

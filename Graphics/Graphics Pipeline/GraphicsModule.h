@@ -89,6 +89,11 @@ public:
 		enabled = !enabled;
 	}
 
+	void setIsEnabled(bool newEnabled)
+	{
+		enabled = newEnabled;
+	}
+
 protected:
 	virtual void locateUniforms() = 0;
 
