@@ -133,9 +133,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonActionCreator.h" />
+    <ClInclude Include="UserInterface.h" />
     <ClInclude Include="UserInterfaceBuilder.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ButtonActionCreator.cpp" />
+    <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="UserInterfaceBuilder.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

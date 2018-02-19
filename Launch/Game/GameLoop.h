@@ -12,6 +12,7 @@
 #include "Rendering/RenderingSystem.h"
 #include "../Input/InputManager.h"
 #include "GameplaySystem.h"
+#include "../../Interface/UserInterface.h"
 
 class GameLoop
 {
@@ -28,6 +29,7 @@ private:
 	RenderingSystem* rendering;
 	InputManager* inputManager;
 	GameplaySystem* gameplay;
+	UserInterface* userInterface;
 
 	System engine;
 	GameTimer loopTimer;

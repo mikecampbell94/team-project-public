@@ -21,7 +21,7 @@ Renderer::Renderer(Window* window, Camera* camera, Vector2 resolution)
 	this->resolution = resolution;
 
 	globalProjectionMatrix = Matrix4::perspective(1.0f, 150000.0f, resolution.x / resolution.y, 60.0f);
-	globalOrthographicMatrix = Matrix4::orthographic(-1.0f,10000.0f,resolution.x / 2.0f,-width/2,resolution.y / 2.0f,-resolution.y /2);
+	globalOrthographicMatrix = Matrix4::orthographic(-1.0f,10000.0f, resolution.x, -resolution.x, resolution.y, -resolution.y);
 
 	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 	GraphicsUtility::CheckGLError("Renderer Initialisation");

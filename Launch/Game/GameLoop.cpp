@@ -50,10 +50,12 @@ GameLoop::GameLoop(System& gameSystem)
 
 	inputManager = new InputManager(playerbase);
 	gameplay = new GameplaySystem(playerbase->getPlayers().size());
+	userInterface = new UserInterface(window->getMouse(), Vector2(1280, 720));
 
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
+	engine.addSubsystem(userInterface);
 
 	/*nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("playerBall"))->getSceneNode());
 	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall1"))->getSceneNode());

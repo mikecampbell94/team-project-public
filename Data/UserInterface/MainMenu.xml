@@ -7,14 +7,14 @@
       <a>1.0</a>
     </colour>
     <position>
-      <x>0.0</x>
-      <y>0.0</y>
+      <x>100</x>
+      <y>100</y>
     </position>
     <scale>
-      <x>50.0</x>
-      <y>10.0</y>
+      <x>100.0</x>
+      <y>100.0</y>
     </scale>
-    <action>action</action>
+    <action>PrintText</action>
     <text>text</text>
     <mesh>CubeMesh</mesh>
   </Button>

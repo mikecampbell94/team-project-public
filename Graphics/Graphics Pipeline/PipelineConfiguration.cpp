@@ -30,7 +30,7 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthog
 {
 	basicGeom = new BasicGeometry("Basic Geometry Renderer", projmatrix, resolution, camera, sceneManager->getSceneNodesInFrustum());
 	basicGeom->linkShaders();
-	uiModule = new UIModule("UI Renderer",orthographicMatrix,resolution, database);
+	uiModule = new UIModule("UI Renderer", orthographicMatrix,resolution, database);
 	uiModule->linkShaders();
 	uiModule->initialise();
 }

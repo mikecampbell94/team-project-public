@@ -7,23 +7,25 @@ std::vector<Button> UserInterfaceBuilder::buildButtons(std::string UIFile, Datab
 	XMLParser xmlParser;
 	xmlParser.loadFile(UIFile);
 
+	ButtonActionCreator actionCreator;
+
 	std::vector<Button> buttons;
 
 	for each (Node* buttonNode in xmlParser.parsedXml->children)
 	{
-		buttons.push_back(buildButton(buttonNode, database, resolution));
+		buttons.push_back(buildButton(buttonNode, database, resolution, actionCreator));
 	}
 
 	return buttons;
 }
 
-Button UserInterfaceBuilder::buildButton(Node* node, Database* database, Vector2 resolution)
+Button UserInterfaceBuilder::buildButton(Node* node, Database* database, Vector2 resolution, ButtonActionCreator& actionCreator)
 {
 	const Vector4 colour = getColour(node->children[0]);
-	const Vector2 position = resolution * getTransformInformation(node->children[1]);
+	const Vector2 position = getTransformInformation(node->children[1]);
 	const Vector2 scale = getTransformInformation(node->children[2]);
 
-	const std::string action = node->children[3]->value;
+	const ButtonAction action = actionCreator.createButtonAction(node->children[3]->value);
 	const std::string text = node->children[4]->value;
 	const std::string meshName = node->children[5]->value;
 
