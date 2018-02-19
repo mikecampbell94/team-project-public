@@ -16,7 +16,5 @@ public:
 private:
 	Mouse* mouse;
 	Vector2 resolution;
-
-	Button* button;
 };
 

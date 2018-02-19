@@ -46,6 +46,8 @@ public:
 	//implement a 'MenuSensitivity' for absolute movement?
 	void	setMouseSensitivity(float amount);
 
+	Vector2 getAbsoluteBounds() { return absolutePositionBounds; };
+
 protected:
 	Mouse(HWND &hwnd);
 	~Mouse(void) {}

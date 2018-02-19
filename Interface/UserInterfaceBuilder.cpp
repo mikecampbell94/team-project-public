@@ -21,7 +21,7 @@ std::vector<Button> UserInterfaceBuilder::buildButtons(std::string UIFile, Datab
 
 Button UserInterfaceBuilder::buildButton(Node* node, Database* database, Vector2 resolution, ButtonActionCreator& actionCreator)
 {
-	const Vector4 colour = getColour(node->children[0]);
+	const Vector4 colour = getColour(node->children[0]);;
 	const Vector2 position = getTransformInformation(node->children[1]);
 	const Vector2 scale = getTransformInformation(node->children[2]);
 

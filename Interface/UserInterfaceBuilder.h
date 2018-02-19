@@ -19,11 +19,15 @@ struct Button
 		this->action = action;
 		this->text = text;
 		this->UIMesh = mesh;
+
+		selected = false;
 	}
 
 	Vector4 colour;
 	Vector2 position;
 	Vector2 scale;
+
+	bool selected;
 
 	ButtonAction action;
 	std::string text;

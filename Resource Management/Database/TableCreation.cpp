@@ -14,6 +14,7 @@ TableCreation::TableCreation(Database* database)
 	tableAdditions.push_back(std::bind(&TableCreation::addGameObject, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addPhysicsObject, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addMesh, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addUserInterfaceButtonsTable, this));
 
 	addTablesToDatabase();
 }
@@ -78,6 +79,14 @@ void TableCreation::addMesh() const
 		mesh->loadTexture(node->children[1]->value);
 		mesh->setName(node->name);
 		return mesh;
+	}));
+}
+
+void TableCreation::addUserInterfaceButtonsTable() const
+{
+	database->addTable("Buttons", new Table<Resource>("Buttons", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		return nullptr;
 	}));
 }
 
