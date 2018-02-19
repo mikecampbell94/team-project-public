@@ -41,8 +41,8 @@ void BasicGeometry::apply()
 
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
-		updateShaderMatrices();
-		nodesInFrame->at(i)->Draw(*currentShader);
+		updateShaderMatrices();		nodesInFrame->at(i)->Draw(*currentShader);
+		
 	}
 
 }

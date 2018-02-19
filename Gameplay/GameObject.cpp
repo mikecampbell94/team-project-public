@@ -35,6 +35,7 @@ void GameObject::updatePosition()
 
 void GameObject::setPosition(Vector3 position)
 {
+	this->position = position;
 	this->sceneNode->SetTransform(position);
 	//set physics position
 }
@@ -45,8 +46,8 @@ void GameObject::setRotation()
 
 void GameObject::setScale(Vector3 scale)
 {
+	this->scale = scale;
 	this->sceneNode->SetModelScale(scale);
-	//set physics scale
 }
 
 
