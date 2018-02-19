@@ -6,6 +6,8 @@
 
 class SubMesh;
 
+class SceneNode;
+
 class Camera
 {
 public:
@@ -26,6 +28,8 @@ public:
 	void updateCamera(float msec = 10.0f);
 
 	bool subMeshIsInCameraView(SubMesh* submesh);
+
+	bool sceneNodeIsInCameraView(SceneNode* sceneNode);
 
 	//Builds a view matrix for the current camera variables, suitable for sending straight
 	//to a vertex shader (i.e it's already an 'inverse camera matrix').

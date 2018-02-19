@@ -1,10 +1,43 @@
-<ReceiveMessage type="PlayerInputMessage">
-	<Action>
-		<Condition>
-			<playerID>0</playerID>
-		</Condition>
-		<SendMessage type="DUMMY_TYPE">
+<GameplayScript>
+	<ReceiveMessage type="PlayerInputMessage">
+		<Action>
+			<Condition bool ="OR">
+				<playerID>0</playerID>
+				<playerID>1</playerID>
+			</Condition>
+			<SendMessage type="TEXT">
+				<destination>RenderingSystem</destination>
+				<text>Renderer recieved input message for some reason</text>
+			</SendMessage>
+		</Action>
+	</ReceiveMessage>
+	<Timed interval="0.01">
+    <SendMessage type="RELATIVE_TRANSFORM">
+      <destination>RenderingSystem</destination>
+      <translation>
+        <x>0</x>
+        <y>0.1</y>
+        <z>1</z>
+      </translation>
+      <rotation>
+        <x>0</x>
+        <y>1</y>
+        <z>0</z>
+        <degrees>5</degrees>
+      </rotation>
+      <scale>
+        <x>1</x>
+        <y>1</y>
+        <z>1</z>
+      </scale>
+      <resource>playerBall</resource>
+    </SendMessage>
+	</Timed>
+	<Timed interval="2.0">
+		<SendMessage type="TEXT">
 			<destination>RenderingSystem</destination>
+			<text>every 2 seconds</text>
 		</SendMessage>
-	</Action>
-</ReceiveMessage>
+		
+	</Timed>
+</GameplayScript>

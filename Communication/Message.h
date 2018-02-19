@@ -6,8 +6,13 @@
 enum MessageType
 {
 	PLAYER_INPUT,
-	DUMMY_TYPE
-};
+	DUMMY_TYPE,
+	RELATIVE_TRANSFORM,
+	TEXT,	
+	PLAY_SOUND,
+	STOP_SOUND,
+	MOVING_SOUND};
+
 
 class Message
 {
@@ -37,7 +42,7 @@ public:
 		{
 			return messageTypeData.at(type);
 		}
-		else if (name == "playerID")
+		else
 		{
 			return integerInformation.at(name);
 		}

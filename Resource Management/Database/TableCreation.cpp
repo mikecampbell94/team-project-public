@@ -1,7 +1,12 @@
 #include "TableCreation.h"
-
 #include "Table.h"
 #include "../Resources/Resource.h"
+#include "../../Graphics/Meshes/Mesh.h"
+#include "../../Gameplay/GameObject.h"
+#include "../../Graphics/Scene Management/SceneNode.h"
+#include "../../Graphics/Utility/Light.h"
+
+#include "../../Audio/Sound.h"
 
 const size_t MAX_MEMORY_PER_TABLE = 5000;
 
@@ -10,9 +15,11 @@ TableCreation::TableCreation(Database* database)
 	this->database = database;
 
 	tableAdditions.push_back(std::bind(&TableCreation::addGameObject, this));
-	tableAdditions.push_back(std::bind(&TableCreation::addSceneNode, this));
-	tableAdditions.push_back(std::bind(&TableCreation::addPhysicsObject, this));
-}
+	tableAdditions.push_back(std::bind(&TableCreation::addMesh, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addSounds, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addLightsTable, this));
+
+	addTablesToDatabase();}
 
 TableCreation::~TableCreation()
 {
@@ -28,27 +35,58 @@ void TableCreation::addTablesToDatabase() const
 
 void TableCreation::addGameObject() const
 {
-	database->addTable("GameObjects", new Table<Resource>("GameObjects", MAX_MEMORY_PER_TABLE, [](Node* node)
+	
+	database->addTable("GameObjects", new Table<Resource>("GameObjects", MAX_MEMORY_PER_TABLE, [&](Node* node)
 	{
-		//Build object from node
-		return nullptr;
+		return GameObjectBuilder::buildGameObject(node,database);	}));
+}
+
+
+void TableCreation::addMesh() const
+{
+	database->addTable("Meshes", new Table<Resource>("Meshes", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		Mesh* mesh = new Mesh(node->children[0]->value,1);
+		//mesh->loadTexture(node->children[1]->value);
+		mesh->setName(node->name);
+		return mesh;
+	}));
+}
+void TableCreation::addSounds() const
+{
+	database->addTable("SoundObjects", new Table<Resource>("SoundObjects", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		Sound *sound = new Sound(node->value);
+		sound->setName(node->name);
+		return sound;
 	}));
 }
 
-void TableCreation::addSceneNode() const
+void TableCreation::addLightsTable() const
 {
-	database->addTable("SceneNodes", new Table<Resource>("SceneNodes", MAX_MEMORY_PER_TABLE, [](Node* node)
+	database->addTable("Lights", new Table<Resource>("Lights", MAX_MEMORY_PER_TABLE, [](Node* node)
 	{
-		//Build object from node
-		return nullptr;
-	}));
-}
+		std::string resourceName = node->name;
 
-void TableCreation::addPhysicsObject() const
-{
-	database->addTable("PhysicsObjects", new Table<Resource>("PhysicsObjects", MAX_MEMORY_PER_TABLE, [](Node* node)
-	{
-		//Build object from node
-		return nullptr;
+		Node* positionNode = node->children[0];
+		Vector3 position(
+			std::stof(positionNode->children[0]->value),
+			std::stof(positionNode->children[1]->value),
+			std::stof(positionNode->children[2]->value));
+
+		Node* colourNode = node->children[1];
+		Vector4 colour(
+			std::stof(colourNode->children[0]->value),
+			std::stof(colourNode->children[1]->value),
+			std::stof(colourNode->children[2]->value),
+			std::stof(colourNode->children[3]->value));
+
+		float radius = std::stof(node->children[2]->value);
+		float intensity = std::stof(node->children[3]->value);
+
+		Light* light = new Light(position, colour, radius, intensity);
+		light->setName(resourceName);
+
+		return light;
 	}));
 }

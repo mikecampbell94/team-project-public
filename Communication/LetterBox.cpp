@@ -30,7 +30,24 @@ void LetterBox::insertMessage(PlayerInputMessage message)
 	playerInputMessages.push_back(message);
 }
 
-void LetterBox::deliverAllMessages()
+void LetterBox::insertMessage(TextMessage message)
+{
+	textMessages.push_back(message);
+}
+
+void LetterBox::insertMessage(RelativeTransformMessage message)
+{
+	sceneNodeTranslationMessages.push_back(message);
+}
+void LetterBox::insertMessage(PlaySoundMessage message)
+{
+	playSoundMessages.push_back(message);
+}
+
+void LetterBox::insertMessage(StopSoundMessage message)
+{
+	stopSoundMessages.push_back(message);
+}void LetterBox::deliverAllMessages()
 {
 	for (unsigned int i = 0; i < messages.size(); ++i)
 	{
@@ -41,7 +58,23 @@ void LetterBox::deliverAllMessages()
 	{
 		messageStorage.sendMessage(&playerInputMessages[i]);
 	}
-}
+for (unsigned int i = 0; i < textMessages.size(); ++i)
+	{
+		messageStorage.sendMessage(&textMessages[i]);
+	}
+
+	for (unsigned int i = 0; i < sceneNodeTranslationMessages.size(); ++i)
+	{
+		messageStorage.sendMessage(&sceneNodeTranslationMessages[i]);
+	}for (unsigned int i = 0; i < playSoundMessages.size(); ++i)
+	{
+		messageStorage.sendMessage(&playSoundMessages[i]);
+	}
+
+	for (unsigned int i = 0; i < stopSoundMessages.size(); ++i)
+	{
+		messageStorage.sendMessage(&stopSoundMessages[i]);
+	}}
 
 void LetterBox::clearAllMessages()
 {
@@ -49,4 +82,6 @@ void LetterBox::clearAllMessages()
 
 	messages.clear();
 	playerInputMessages.clear();
-}
+	textMessages.clear();
+	sceneNodeTranslationMessages.clear();	playSoundMessages.clear();
+	stopSoundMessages.clear();}

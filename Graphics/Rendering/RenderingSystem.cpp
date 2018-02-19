@@ -8,19 +8,32 @@
 
 #include <queue>
 #include "../../Communication/Messages/PlayerInputMessage.h"
+#include "../../Communication/Messages/RelativeTransformMessage.h"
+#include "../Resource Management/Database/Database.h"
+#include "../../Gameplay/GameObject.h"
+#include "../../Communication/Messages/TextMessage.h"
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera, Vector2 resolution)
 	: Subsystem("RenderingSystem")
 {
 	renderer = std::make_unique<Renderer>(window, camera, resolution);
+}
 
-	std::vector<MessageType> types = { MessageType::DUMMY_TYPE, MessageType::PLAYER_INPUT };
+RenderingSystem::~RenderingSystem()
+{
+}
+
+void RenderingSystem::initialise(Database* database)
+{
+
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::DUMMY_TYPE, [](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [](Message* message)
 	{
-		std::cout << "Renderer recieved dummy message" << std::endl;
+		TextMessage* textMessage = static_cast<TextMessage*>(message);
+		std::cout << textMessage->text << std::endl;
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [](Message* message)
@@ -31,10 +44,20 @@ RenderingSystem::RenderingSystem(Window* window, Camera* camera, Vector2 resolut
 		std::cout << "State : " << playerMessage->data.currentState << std::endl;
 	});
 	Initialise();
-}
 
-RenderingSystem::~RenderingSystem()
-{
+	GameObject* gameObject = static_cast<GameObject*>(
+		database->getTable("GameObjects")->getAllResources()->getResource("playerBall"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)
+	{
+		RelativeTransformMessage* translationMessage = static_cast<RelativeTransformMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getAllResources()->getResource(translationMessage->resourceName));
+
+		gameObject->getSceneNode()->SetTransform(gameObject->getSceneNode()->GetTransform()
+			* translationMessage->transform);
+
+	});
 }
 
 void RenderingSystem::SetSceneToRender(SceneManager* scene)

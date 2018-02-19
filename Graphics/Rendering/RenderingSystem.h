@@ -7,11 +7,16 @@
 #include "../Resource Management/XMLParser.h"
 #include "../Graphics Pipeline/GraphicsPipeline.h"
 
+class Database;
+
 class RenderingSystem : public Subsystem
 {
 public:
 	RenderingSystem(Window* window, Camera* camera, Vector2 resolution);
 	~RenderingSystem();
+
+	void initialise(Database* database);
+
 
 	void loadingScreen() {}
 

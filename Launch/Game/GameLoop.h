@@ -13,6 +13,8 @@
 #include "../Input/InputManager.h"
 #include "GameplaySystem.h"
 
+#include "../../Audio/AudioSystem.h"
+
 class GameLoop
 {
 public:
@@ -22,17 +24,20 @@ public:
 	void executeGameLoop();
 
 private:
+	Database* database;
 	SceneManager* scene;
 
 	RenderingSystem* rendering;
 	InputManager* inputManager;
 	GameplaySystem* gameplay;
+	AudioSystem* audio;
 
 	System engine;
 	GameTimer loopTimer;
 	Window* window;
 
 	Camera* camera;
+
 
 	float pitch = 0.0f;
 	float yaw   = 0.0f;

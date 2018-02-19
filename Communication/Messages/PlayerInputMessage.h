@@ -11,8 +11,6 @@ public:
 	PlayerInputMessage(const std::string& destinationName, Player* player, ButtonInputData data);
 	~PlayerInputMessage();
 
-	//std::string getDataField(std::string name) override;
-
 	Player* player;
 	ButtonInputData data;
 };

@@ -9,6 +9,7 @@
 #include <vector>
 
 class Camera;
+class Light;
 
 class SceneManager
 {
@@ -19,18 +20,21 @@ public:
 	void clearMeshLists();
 	void buildMeshLists();
 
-	std::vector<SubMesh*>* getSubMeshesInFrustum();
-	std::vector<SubMesh*>* getTransparentSubMeshesInFrustum();
-	std::vector<Mesh*>** getAllMeshes();
+	std::vector<SceneNode*>* getSceneNodesInFrustum();
+	std::vector<SceneNode*>* getTransparentSceneNodesInFrustum();
+
+	std::vector<Light*>** getAllLights();
+	std::vector<SceneNode*>** getAllNodes();
 
 private:
-	void allocateSubMeshesToMeshLists(SceneNode* node);
+	void allocateSubNodesToNodeLists(SceneNode* node);
 
 	Camera* camera;
 
-	std::vector<Mesh*>* meshes;
+	std::vector<Light*>* lights;
 	std::vector<SceneNode*>* sceneNodes;
-	std::vector<SubMesh*>* subMeshesInFrustum;
-	std::vector<SubMesh*>* transparentSubMeshesInFrustum;
+	std::vector<SceneNode*>* sceneNodesInFrustum;
+	std::vector<SceneNode*>* transparentSceneNodesInFrustum;
+
 };
 

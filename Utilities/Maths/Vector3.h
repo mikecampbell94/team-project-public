@@ -13,6 +13,7 @@ _-_-_-_-_-_-_-""  ""
 */
 #include <cmath>
 #include <iostream>
+#include "../../Resource Management/XMLParser.h"
 
 class Vector3	{
 public:
@@ -121,5 +122,13 @@ public:
 
 	inline bool	operator==(const Vector3 &A)const {return (A.x == x && A.y == y && A.z == z) ? true : false;};
 	inline bool	operator!=(const Vector3 &A)const {return (A.x == x && A.y == y && A.z == z) ? false : true;};
+
+	static Vector3 builder(Node* node)
+	{
+		const float x = std::stof(node->children[0]->value);
+		const float y = std::stof(node->children[1]->value);
+		const float z = std::stof(node->children[2]->value);
+		return Vector3(x, y, z);
+	}
 };
 

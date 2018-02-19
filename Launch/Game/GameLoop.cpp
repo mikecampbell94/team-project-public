@@ -1,9 +1,14 @@
 #include "GameLoop.h"
 #include "../../Input/InputManager.h"
-#include "../../Input/Recorders/GamePadRecorder.h"
+
+
+#include "../../Resource Management/XMLParser.h"
+#include "../../Resource Management/Level.h"
 #include "../../Input/Recorders/KeyboardMouseRecorder.h"
 #include <iostream>
 #include "Communication/LetterBox.h"
+#include "../../Gameplay/GameObject.h"
+#include "../../Input/Recorders/KeyboardMouseRecorder.h"
 
 GameLoop::GameLoop(System& gameSystem)
 {
@@ -15,12 +20,24 @@ GameLoop::GameLoop(System& gameSystem)
 	camera = new Camera(0, 0, Vector3(0, 0, 0));
 
 	rendering = new RenderingSystem(window, camera, Vector2(1280, 720));
+	//Database database;
+	database = new Database();
+
+	//AUDIO MUST BE CREATED BEFORE TABLE CREATION AND AFTER DATABASE CREATION!!!!!!!!!!!!
+	audio = new AudioSystem(database, camera);
+
+	TableCreation tableCreation(database);
+
+	std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
+	scene = new SceneManager(camera, nodes);
+	Level level(database, scene);
+	level.loadLevelFile("TestLevel.txt");
+
+	rendering->initialise(database);
 
 	SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
 	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
-	std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
-	nodes->push_back(node);
-	scene = new SceneManager(camera, nodes);
+	//nodes->push_back(node);
 
 	rendering->SetSceneToRender(scene);
 
@@ -43,7 +60,7 @@ GameLoop::GameLoop(System& gameSystem)
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
-	/////
+	engine.addSubsystem(audio);
 }
 
 GameLoop::~GameLoop()
@@ -71,33 +88,33 @@ void GameLoop::executeGameLoop()
 		pitch -= (window->getMouse()->getRelativePosition().y);
 		yaw -= (window->getMouse()->getRelativePosition().x);
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
-		//	camera->setPosition(camera->getPosition() +
-		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, -1) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
+			camera->setPosition(camera->getPosition() +
+				Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, -1) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_S)) {
-		//	camera->setPosition(camera->getPosition() +
-		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, 1) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_S)) {
+			camera->setPosition(camera->getPosition() +
+				Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, 1) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_A)) {
-		//	camera->setPosition(camera->getPosition() +
-		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(-1, 0, 0) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_A)) {
+			camera->setPosition(camera->getPosition() +
+				Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(-1, 0, 0) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_D)) {
-		//	camera->setPosition(camera->getPosition() +
-		//		Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(1, 0, 0) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_D)) {
+			camera->setPosition(camera->getPosition() +
+				Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(1, 0, 0) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_SPACE)) {
-		//	camera->setPosition(camera->getPosition() + Vector3(0, 1, 0) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_SPACE)) {
+			camera->setPosition(camera->getPosition() + Vector3(0, 1, 0) * 1);
+		}
 
-		//if (window->getKeyboard()->keyDown(KEYBOARD_C)) {
-		//	camera->setPosition(camera->getPosition() + Vector3(0, -1, 0) * 1);
-		//}
+		if (window->getKeyboard()->keyDown(KEYBOARD_C)) {
+			camera->setPosition(camera->getPosition() + Vector3(0, -1, 0) * 1);
+		}
 
 		camera->setPitch(pitch);
 		camera->setYaw(yaw);

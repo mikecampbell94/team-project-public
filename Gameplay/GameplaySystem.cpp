@@ -40,5 +40,6 @@ GameplaySystem::~GameplaySystem()
 void GameplaySystem::updateSubsystem(const float& deltaTime)
 {
 	gameLogic.executeMessageBasedActions();
+	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
 	gameLogic.clearNotifications();
 }

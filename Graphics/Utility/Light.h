@@ -2,6 +2,7 @@
 
 #include "../../Utilities/Maths/Vector4.h"
 #include "../../Utilities/Maths/Vector3.h"
+#include "../../Resource Management/Resources/Resource.h"
 
 #include <algorithm>
 
@@ -20,10 +21,12 @@ struct SpotLightData
 	Vector4 direction;
 };
 
-class Light
+class Light : public Resource
 {
 public:
-	Light(Vector3 position, Vector4 colour, float radius, float intensity, Vector4 direction = Vector4(0, 0, 0, 0)) {
+	Light(Vector3 position, Vector4 colour, float radius, float intensity, Vector4 direction = Vector4(0, 0, 0, 0))
+		: Resource()
+	{
 		this->position = position;
 		this->colour = colour;
 		this->radius = radius;
@@ -41,7 +44,7 @@ public:
 		spotLightData.direction = direction;
 	}
 
-	Light() {
+	Light() : Resource() {
 		this->position = Vector3(0, 0, 0);
 		this->colour = Vector4(1, 1, 1, 1);
 		this->radius = 0.0f;

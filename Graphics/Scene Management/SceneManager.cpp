@@ -1,33 +1,35 @@
 #include "SceneManager.h"
 
 #include "../Utility/Camera.h"
+#include "../Utility/Light.h"
 
 SceneManager::SceneManager(Camera* camera, std::vector<SceneNode*>* sceneNodes)
 {
 	this->sceneNodes = sceneNodes;
 	this->camera = camera;
 
-	meshes = new vector<Mesh*>();
-	subMeshesInFrustum = new vector<SubMesh*>();
-	transparentSubMeshesInFrustum = new vector<SubMesh*>();
+	sceneNodes = new vector<SceneNode*>();
+	sceneNodesInFrustum = new vector<SceneNode*>();
+	transparentSceneNodesInFrustum = new vector<SceneNode*>();
+	lights = new vector<Light*>();
 
 	for each (SceneNode* node in *sceneNodes)
 	{
-		meshes->push_back(node->GetMesh());
+		sceneNodes->push_back(node);
 	}
 }
 
 SceneManager::~SceneManager()
 {
-	delete meshes;
-	delete subMeshesInFrustum;
-	delete transparentSubMeshesInFrustum;
+	delete sceneNodes;
+	delete sceneNodesInFrustum;
+	delete transparentSceneNodesInFrustum;
 }
 
 void SceneManager::clearMeshLists()
 {
-	subMeshesInFrustum->clear();
-	transparentSubMeshesInFrustum->clear();
+	sceneNodesInFrustum->clear();
+	transparentSceneNodesInFrustum->clear();
 }
 
 void SceneManager::buildMeshLists()
@@ -35,39 +37,41 @@ void SceneManager::buildMeshLists()
 	for each (SceneNode* node in *sceneNodes)
 	{
 		node->Update(0.0f);
-		allocateSubMeshesToMeshLists(node);
+		allocateSubNodesToNodeLists(node);
 	}
 }
 
-std::vector<SubMesh*>* SceneManager::getSubMeshesInFrustum()
+std::vector<SceneNode*>* SceneManager::getSceneNodesInFrustum()
 {
-	return subMeshesInFrustum;
+	return sceneNodesInFrustum;
 }
 
-std::vector<SubMesh*>* SceneManager::getTransparentSubMeshesInFrustum()
+std::vector<SceneNode*>* SceneManager::getTransparentSceneNodesInFrustum()
 {
-	return transparentSubMeshesInFrustum;
+	return transparentSceneNodesInFrustum;
 }
 
-std::vector<Mesh*>** SceneManager::getAllMeshes()
+std::vector<Light*>** SceneManager::getAllLights()
 {
-	return &meshes;
+	return &lights;
 }
 
-void SceneManager::allocateSubMeshesToMeshLists(SceneNode* node)
+std::vector<SceneNode*>** SceneManager::getAllNodes()
 {
-	for each (SubMesh* subMesh in node->GetMesh()->meshes)
+	return &sceneNodes;
+}
+
+void SceneManager::allocateSubNodesToNodeLists(SceneNode* node)
+{
+	if (camera->sceneNodeIsInCameraView(node))
 	{
-		if (camera->subMeshIsInCameraView(subMesh))
+		if (node->getColour().w < 1.0f)
 		{
-			if (subMesh->baseColour.w < 1.0f)
-			{
-				transparentSubMeshesInFrustum->push_back(subMesh);
-			}
-			else
-			{
-				subMeshesInFrustum->push_back(subMesh);
-			}
+			transparentSceneNodesInFrustum->push_back(node);
+		}
+		else
+		{
+			sceneNodesInFrustum->push_back(node);
 		}
 	}
 }

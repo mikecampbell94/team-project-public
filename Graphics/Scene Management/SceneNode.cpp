@@ -10,11 +10,26 @@ SceneNode::SceneNode(string meshFile, Vector4 colour)
 	distanceFromCamera = 0.0f;
 }
 
+SceneNode::SceneNode(Mesh * mesh, Vector4 colour)
+{
+	this->mesh = mesh;
+	this->colour = colour;
+	parent = NULL;
+
+	boundingRadius = mesh->getRadius();
+	distanceFromCamera = 0.0f;
+}
+
 SceneNode::~SceneNode(void)
 {
 	for (unsigned int i = 0; i < children.size(); ++i) {
 		delete children[i];
 	}
+}
+
+Vector4 SceneNode::getColour()
+{
+	return colour;
 }
 
 void SceneNode::AddChild(SceneNode* s) {
@@ -48,6 +63,16 @@ void SceneNode::DrawShadow()
 			submesh->DrawShadow();
 		}
 	}
+}
+
+std::vector<SceneNode*> SceneNode::getChildren()
+{
+	return children;
+}
+
+const float SceneNode::getRadius()
+{
+	return boundingRadius;
 }
 
 void SceneNode::Update(float msec) {

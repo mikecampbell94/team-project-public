@@ -4,12 +4,12 @@
 #include "../../Utility/Camera.h"
 
 BasicGeometry::BasicGeometry(const std::string identifier, 
-	const Matrix4 projmatrix, const Vector2 resolution, Camera* camera, std::vector<SubMesh*>* modelsInFrame)
+	const Matrix4 projmatrix, const Vector2 resolution, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
 	: GraphicsModule(identifier, projmatrix, resolution)
 {
-	this->modelsInFrame = modelsInFrame;
+	this->nodesInFrame = nodesInFrame;
 	basicShader = new Shader(SHADERDIR"/basicVertex.glsl", SHADERDIR"/basicFrag.glsl");
-
+	//basicShader = new Shader(SHADERDIR"/TexturedVertex.glsl", SHADERDIR"/TexturedFrag.glsl");
 	this->camera = camera;
 
 }
@@ -35,15 +35,16 @@ void BasicGeometry::initialise()
 
 void BasicGeometry::apply()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	setCurrentShader(basicShader);
+	viewMatrix = camera->buildViewMatrix();
 
-	updateShaderMatrices();
-	for (unsigned int i = 0; i < modelsInFrame->size(); ++i)
+	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
-		modelsInFrame->at(i)->Draw(*currentShader);
+		updateShaderMatrices();		nodesInFrame->at(i)->Draw(*currentShader);
+		
 	}
 
-	viewMatrix = camera->buildViewMatrix();
 }
 
 void BasicGeometry::locateUniforms()
