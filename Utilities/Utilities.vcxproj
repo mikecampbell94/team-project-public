@@ -145,12 +145,14 @@
     <ClInclude Include="Maths\Vector2.h" />
     <ClInclude Include="Maths\Vector3.h" />
     <ClInclude Include="Maths\Vector4.h" />
+    <ClInclude Include="Maths\Matrix3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Maths\Matrix4.cpp" />
     <ClCompile Include="Maths\Plane.cpp" />
     <ClCompile Include="Maths\Quaternion.cpp" />
+    <ClCompile Include="Maths\Matrix3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

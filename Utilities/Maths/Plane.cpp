@@ -54,3 +54,10 @@ bool Plane::sphereIntersecting(const Vector3 &position, float radius) const {
 	return (std::fabs(Vector3::dot(position, normal) + distance)) <= radius;
 }
 
+bool Plane::pointInPlane(const Vector3& position) const {
+	if (Vector3::dot(position, normal) + distance < 0.0f) {
+		return false;
+	}
+
+	return true;
+}

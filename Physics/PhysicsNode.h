@@ -6,6 +6,7 @@
 #include "../Utilities/Maths/Matrix4.h"
 #include "../Utilities/Maths/Matrix3.h"
 #include "../Utilities/Maths/Quaternion.h"
+#include "../Gameplay/GameObject.h"
 
 #include "CollisionShape.h"
 

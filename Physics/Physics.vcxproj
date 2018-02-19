@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>..\Input\;..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>..\SOIL\Debug\;..\GLEW\lib\Debug\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -130,10 +133,27 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PhysicseNode.h" />
+    <ClInclude Include="CollisionDetectionSAT.h" />
+    <ClInclude Include="CollisionShape.h" />
+    <ClInclude Include="Constraint.h" />
+    <ClInclude Include="CuboidCollisionShape.h" />
+    <ClInclude Include="DistanceConstraint.h" />
+    <ClInclude Include="GeometryUtils.h" />
+    <ClInclude Include="Hull.h" />
+    <ClInclude Include="Manifold.h" />
+    <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="PhysicsNode.h" />
+    <ClInclude Include="SphereCollisionShape.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionDetectionSAT.cpp" />
+    <ClCompile Include="CuboidCollisionShape.cpp" />
+    <ClCompile Include="GeometryUtils.cpp" />
+    <ClCompile Include="Hull.cpp" />
+    <ClCompile Include="Manifold.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PhysicsNode.cpp" />
+    <ClCompile Include="SphereCollisionShape.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

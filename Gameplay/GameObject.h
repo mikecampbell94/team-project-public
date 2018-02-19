@@ -1,9 +1,9 @@
 #pragma once
 #include "../Graphics/Scene Management/SceneNode.h"
-#include "../Physics/PhysicseNode.h"
 #include "../Resource Management/Resources/Resource.h"
 #include "../Utilities/Maths/Vector3.h"
 
+class PhysicsNode;
 
 class GameObject : public Resource
 {

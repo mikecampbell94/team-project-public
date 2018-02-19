@@ -23,6 +23,7 @@ _-_-_-_-_-_-_-""  ""
 #include <iostream>
 #include "MathsCommon.h"
 #include "Matrix4.h"
+#include "Matrix3.h"
 
 class Matrix4;
 
@@ -41,6 +42,7 @@ public:
 
 	void	normalise();
 	Matrix4 toMatrix() const;
+	Matrix3 toMatrix3() const;
 
 
 	Quaternion	conjugate() const;

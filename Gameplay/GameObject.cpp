@@ -1,5 +1,7 @@
 #include "GameObject.h"
 
+#include "../Physics/PhysicsNode.h"
+
 GameObject::GameObject()
 {
 	setSize(sizeof(*this));
