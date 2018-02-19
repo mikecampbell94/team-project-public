@@ -25,9 +25,10 @@ struct GBufferData {
 	GLuint* gAlbedo;
 };
 
-struct AmbientTextures {
+struct SSAOTextures {
+	bool* generated;
 	GLuint** textures;
-	int*	 texUnits;
+	int*	 texUnit;
 };
 
 class GraphicsModule

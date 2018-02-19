@@ -2,6 +2,7 @@
 
 #include "../../Shaders/Shader.h"
 #include "../../GraphicsCommon.h"
+#include "../../GraphicsUtility.h"
 
 float skyboxVertices[] = {
 	// positions          
@@ -54,11 +55,13 @@ Skybox::Skybox(const std::string identifier, const Matrix4 projmatrix,
 {
 	skyboxShader = new Shader(SHADERDIR"/Skybox/SkyboxVert.glsl", SHADERDIR"/Skybox/SkyboxFrag.glsl");
 	this->viewMatrix = viewMatrix;
+	this->projMatrix = projmatrix;
 }
 
 Skybox::~Skybox()
 {
 	delete skyboxShader;
+	glDeleteTextures(1, &textureID);
 }
 
 void Skybox::linkShaders()
@@ -74,10 +77,22 @@ void Skybox::regenerateShaders()
 void Skybox::initialise()
 {
 	initialiseMesh();
+
+	vector<string> faces =
+	{
+		"../Data/Resources/Skyboxes/Nice/right.jpg",
+		"../Data/Resources/Skyboxes/Nice/left.jpg",
+		"../Data/Resources/Skyboxes/Nice/top.jpg",
+		"../Data/Resources/Skyboxes/Nice/bottom.jpg",
+		"../Data/Resources/Skyboxes/Nice/back.jpg",
+		"../Data/Resources/Skyboxes/Nice/front.jpg",
+	};
+	GraphicsUtility::loadCubeMap(&textureID, faces);
 }
 
 void Skybox::apply()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, *GBufferFBO);
 	glDepthFunc(GL_LEQUAL);
 	glDisable(GL_CULL_FACE);
 
@@ -98,6 +113,7 @@ void Skybox::apply()
 
 	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Skybox::initialiseMesh()

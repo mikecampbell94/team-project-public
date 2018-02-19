@@ -4,6 +4,7 @@
 #include "../../Graphics/Meshes/Mesh.h"
 #include "../../Gameplay/GameObject.h"
 #include "../../Graphics/Scene Management/SceneNode.h"
+#include "../../Graphics/Utility/Light.h"
 
 #include "../../Audio/Sound.h"
 
@@ -17,6 +18,7 @@ TableCreation::TableCreation(Database* database)
 	tableAdditions.push_back(std::bind(&TableCreation::addPhysicsObject, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addMesh, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addSounds, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addLightsTable, this));
 
 	addTablesToDatabase();}
 
@@ -94,5 +96,34 @@ void TableCreation::addSounds() const
 		Sound *sound = new Sound(node->value);
 		sound->setName(node->name);
 		return sound;
+	}));
+}
+
+void TableCreation::addLightsTable() const
+{
+	database->addTable("Lights", new Table<Resource>("Lights", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		std::string resourceName = node->name;
+
+		Node* positionNode = node->children[0];
+		Vector3 position(
+			std::stof(positionNode->children[0]->value),
+			std::stof(positionNode->children[1]->value),
+			std::stof(positionNode->children[2]->value));
+
+		Node* colourNode = node->children[1];
+		Vector4 colour(
+			std::stof(colourNode->children[0]->value),
+			std::stof(colourNode->children[1]->value),
+			std::stof(colourNode->children[2]->value),
+			std::stof(colourNode->children[3]->value));
+
+		float radius = std::stof(node->children[2]->value);
+		float intensity = std::stof(node->children[3]->value);
+
+		Light* light = new Light(position, colour, radius, intensity);
+		light->setName(resourceName);
+
+		return light;
 	}));
 }

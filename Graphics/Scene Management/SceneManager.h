@@ -9,6 +9,7 @@
 #include <vector>
 
 class Camera;
+class Light;
 
 class SceneManager
 {
@@ -22,6 +23,7 @@ public:
 	std::vector<SceneNode*>* getSceneNodesInFrustum();
 	std::vector<SceneNode*>* getTransparentSceneNodesInFrustum();
 
+	std::vector<Light*>** getAllLights();
 	std::vector<SceneNode*>** getAllNodes();
 
 private:
@@ -29,10 +31,8 @@ private:
 
 	Camera* camera;
 
+	std::vector<Light*>* lights;
 	std::vector<SceneNode*>* sceneNodes;
-	//std::vector<SubMesh*>* subMeshesInFrustum;
-	//std::vector<SubMesh*>* transparentSubMeshesInFrustum;
-
 	std::vector<SceneNode*>* sceneNodesInFrustum;
 	std::vector<SceneNode*>* transparentSceneNodesInFrustum;
 
