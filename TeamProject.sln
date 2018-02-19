@@ -37,7 +37,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{00E758E5-5E21-41A6-94E2-89F5C2EED046}"
 	ProjectSection(SolutionItems) = preProject
 		Resources\Gameplay\gameplay.xml = Resources\Gameplay\gameplay.xml
-		Debug\OpenAL32.dll = Debug\OpenAL32.dll
 	EndProjectSection
 EndProject
 Global
