@@ -115,7 +115,10 @@ public:
 	inline void setPosition(const Vector3& v) 
 	{ 
 		position = v; 
-		fireOnUpdateCallback(); 
+		
+		worldTransform = orientation.toMatrix();
+
+		worldTransform.setPositionVector(position);
 	}
 	inline void setLinearVelocity(const Vector3& v) 
 	{ 
@@ -130,7 +133,10 @@ public:
 	inline void setOrientation(const Quaternion& v) 
 	{ 
 		orientation = v; 
-		fireOnUpdateCallback(); 
+		
+		worldTransform = orientation.toMatrix();
+
+		worldTransform.setPositionVector(position);
 	}
 	inline void setAngularVelocity(const Vector3& v) 
 	{ 
@@ -162,17 +168,6 @@ public:
 		return (onCollisionCallback) ? onCollisionCallback(obj_a, obj_b) : true;
 	}
 
-	inline void setOnUpdateCallback(PhysicsUpdateCallback callback) 
-	{ 
-		onUpdateCallback = callback; 
-	}
-	inline void fireOnUpdateCallback()
-	{
-		worldTransform = orientation.toMatrix();
-		worldTransform.setPositionVector(position);
-
-		if (onUpdateCallback) onUpdateCallback(worldTransform);
-	}
 
 private:
 	GameObject*				parent;

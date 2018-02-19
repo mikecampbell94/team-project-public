@@ -27,5 +27,7 @@ void PhysicsNode::integrateForPosition(float dt)
 
 	orientation.normalise();
 
-	fireOnUpdateCallback();
+	worldTransform = orientation.toMatrix();
+
+	worldTransform.setPositionVector(position);
 }

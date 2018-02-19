@@ -1,7 +1,6 @@
 #pragma once
 
-#include "PhysicsNode.h";
-#include "../Utilities/Maths/Vector3.h"
+#include "PhysicsNode.h"
 
 class Constraint
 {

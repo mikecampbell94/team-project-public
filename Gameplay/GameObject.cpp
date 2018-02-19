@@ -33,6 +33,7 @@ PhysicsNode * GameObject::getPhysicsNode()
 
 void GameObject::updatePosition()
 {
+	this->sceneNode->SetTransform(this->physicsNode->getWorldSpaceTransform());
 }
 
 void GameObject::setPosition(Vector3 position)
