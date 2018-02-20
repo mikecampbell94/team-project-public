@@ -32,6 +32,8 @@ private:
 	std::vector<Message> messages;
 	std::vector<PlayerInputMessage> playerInputMessages;
 	std::vector<TextMessage> textMessages;
-	std::vector<RelativeTransformMessage> sceneNodeTranslationMessages;	std::vector<PlaySoundMessage> playSoundMessages;
-	std::vector<StopSoundMessage> stopSoundMessages;};
+	std::vector<RelativeTransformMessage> sceneNodeTranslationMessages;	
+	std::vector<PlaySoundMessage> playSoundMessages;
+	std::vector<StopSoundMessage> stopSoundMessages;
+};
 

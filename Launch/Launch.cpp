@@ -12,14 +12,24 @@
 
 #include "Graphics/Rendering/RenderingSystem.h"
 
+#include "Launch/Startup.h"
+
 int main()
 {
-	System engine;
-	GameLoop game(engine);
 
-	game.executeGameLoop();
+	Startup startup;
+	startup.initialiseSubsystems();
+	startup.loadLevel("TestLevel.txt");
+	startup.startGameLoop();
 
-	//testing branch
+	//ShutdownClass here
+	//shutdown.clearAllSubsystems();
+	//shutdown.close(); ?
+
+
+	//System engine;
+	//GameLoop game(engine);
+	//game.executeGameLoop();
 
     return 0;
 }

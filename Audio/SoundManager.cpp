@@ -74,14 +74,14 @@ void SoundManager::AddNewSoundNode(PlaySoundMessage* message)
 		{
 			if (soundNodes[i].identifier != message->soundNodeIdentifier)
 			{
-				Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getAllResources()->getResource(message->soundID));
+				Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
 				soundNodes.push_back(SoundNode::builder(message, sound));
 			}
 		}
 	}
 	else
 	{
-		Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getAllResources()->getResource(message->soundID));
+		Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
 		soundNodes.push_back(SoundNode::builder(message, sound));
 	}
 	
