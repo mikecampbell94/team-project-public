@@ -24,6 +24,6 @@ protected:
 	Database* database;
 	Shader* UIShader;
 	Matrix4 UIprojMatrix;
-	std::vector<Button> UIObjects;
+	std::vector<Button*> UIObjects;
 };
 

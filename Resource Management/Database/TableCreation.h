@@ -17,7 +17,6 @@ private:
 	void addSceneNode() const;
 	void addPhysicsObject() const;
 	void addMesh() const;
-	void addUserInterfaceButtonsTable() const;
 
 
 	std::vector<std::function<void()>> tableAdditions;

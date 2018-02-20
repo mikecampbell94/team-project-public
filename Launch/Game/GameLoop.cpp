@@ -27,6 +27,9 @@ GameLoop::GameLoop(System& gameSystem)
 	Level level(database, scene);
 	level.loadLevelFile("TestLevel.txt");
 
+
+	userInterface = new UserInterface(window->getMouse(), Vector2(1280, 720), database);
+
 	rendering->initialise(database);
 
 	SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
@@ -50,7 +53,6 @@ GameLoop::GameLoop(System& gameSystem)
 
 	inputManager = new InputManager(playerbase);
 	gameplay = new GameplaySystem(playerbase->getPlayers().size());
-	userInterface = new UserInterface(window->getMouse(), Vector2(1280, 720));
 
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);

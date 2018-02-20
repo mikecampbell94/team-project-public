@@ -134,13 +134,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonActionCreator.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="UserInterface.h" />
     <ClInclude Include="UserInterfaceBuilder.h" />
+    <ClInclude Include="UserInterfaceDisplay.h" />
+    <ClInclude Include="UserInterfaceService.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ButtonActionCreator.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="UserInterfaceBuilder.cpp" />
+    <ClCompile Include="UserInterfaceDisplay.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

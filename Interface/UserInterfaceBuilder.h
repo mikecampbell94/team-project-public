@@ -38,10 +38,10 @@ struct Button
 class UserInterfaceBuilder
 {
 public:
-	static std::vector<Button> buildButtons(std::string UIFile, Database* database, Vector2 resolution);
+	static std::vector<Button> buildButtons(std::string UIFile, Database* database);
 
 private:
-	static Button buildButton(Node* node, Database* database, Vector2 resolution, ButtonActionCreator& actionCreator);
+	static Button buildButton(Node* node, Database* database, ButtonActionCreator& actionCreator);
 
 	static Vector4 getColour(Node* node);
 	static Vector2 getTransformInformation(Node* node);

@@ -1,8 +1,9 @@
 #include "UserInterface.h"
 
 #include "../../Input/Devices/Mouse.h"
+#include "UserInterfaceDisplay.h"
 
-UserInterface::UserInterface(Mouse* mouse, Vector2 resolution) : Subsystem("UserInterface")
+UserInterface::UserInterface(Mouse* mouse, Vector2 resolution, Database* database) : Subsystem("UserInterface")
 {
 	this->mouse = mouse;
 	this->resolution = resolution;
@@ -16,10 +17,14 @@ UserInterface::UserInterface(Mouse* mouse, Vector2 resolution) : Subsystem("User
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 		std::cout << textMessage->text << std::endl;
 	});
+
+	menu = new Menu("../Data/UserInterface/MainMenu.xml", database);
+	UserInterfaceDisplay::provide(menu);
 }
 
 UserInterface::~UserInterface()
 {
+	delete menu;
 }
 
 void UserInterface::updateSubsystem(const float& deltaTime)

@@ -2,7 +2,7 @@
 
 #include "../Resource Management/Database/Database.h"
 
-std::vector<Button> UserInterfaceBuilder::buildButtons(std::string UIFile, Database* database, Vector2 resolution)
+std::vector<Button> UserInterfaceBuilder::buildButtons(std::string UIFile, Database* database)
 {
 	XMLParser xmlParser;
 	xmlParser.loadFile(UIFile);
@@ -13,13 +13,13 @@ std::vector<Button> UserInterfaceBuilder::buildButtons(std::string UIFile, Datab
 
 	for each (Node* buttonNode in xmlParser.parsedXml->children)
 	{
-		buttons.push_back(buildButton(buttonNode, database, resolution, actionCreator));
+		buttons.push_back(buildButton(buttonNode, database, actionCreator));
 	}
 
 	return buttons;
 }
 
-Button UserInterfaceBuilder::buildButton(Node* node, Database* database, Vector2 resolution, ButtonActionCreator& actionCreator)
+Button UserInterfaceBuilder::buildButton(Node* node, Database* database, ButtonActionCreator& actionCreator)
 {
 	const Vector4 colour = getColour(node->children[0]);;
 	const Vector2 position = getTransformInformation(node->children[1]);

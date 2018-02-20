@@ -2,6 +2,7 @@
 
 #include "../../GraphicsCommon.h"
 #include "../Resource Management/Database/Database.h"
+#include "UserInterfaceDisplay.h"
 
 UIModule::UIModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution,
 	Database* database) : GraphicsModule(identifier, projMatrix, resolution)
@@ -16,7 +17,7 @@ UIModule::~UIModule()
 
 void UIModule::initialise()
 {
-	UIObjects = UserInterfaceBuilder::buildButtons("../Data/UserInterface/MainMenu.xml", database, resolution);
+	UIObjects = *UserInterfaceDisplay::getInterface()->getAllButtonsInMenu();//UserInterfaceBuilder::buildButtons("../Data/UserInterface/MainMenu.xml", database);
 }
 
 void UIModule::apply()
@@ -26,10 +27,10 @@ void UIModule::apply()
 	viewMatrix.toIdentity();
 	updateShaderMatrices();
 
-	for (Button& button : UIObjects)
+	for (Button* button : UIObjects)
 	{
-		glUniform4fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&button.colour);
-		button.UIMesh->Draw(*currentShader,Matrix4::translation(button.position) * Matrix4::scale(button.scale));
+		glUniform4fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&button->colour);
+		button->UIMesh->Draw(*currentShader,Matrix4::translation(button->position) * Matrix4::scale(button->scale));
 	}
 	glEnable(GL_DEPTH_BUFFER);
 }
