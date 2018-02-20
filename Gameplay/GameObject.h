@@ -24,6 +24,11 @@ public:
 	void setRotation();
 	void setScale(Vector3 scale);
 
+	const Vector3& getScale() const
+	{
+		return scale;
+	}
+
 private: 
 	SceneNode *sceneNode;
 	PhysicsNode *physicsNode;

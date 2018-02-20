@@ -9,6 +9,8 @@
 #include "../Gameplay/GameObject.h"
 
 #include "CollisionShape.h"
+#include "SphereCollisionShape.h"
+#include "CuboidCollisionShape.h"
 
 
 class PhysicsNode;
@@ -16,7 +18,7 @@ class PhysicsNode;
 typedef std::function<bool(PhysicsNode* this_obj, PhysicsNode* colliding_obj)> PhysicsCollisionCallback;
 typedef std::function<void(const Matrix4& transform)> PhysicsUpdateCallback;
 
-class GameObject;
+//class GameObject;
 
 class PhysicsNode
 {
@@ -33,6 +35,8 @@ public:
 		, collisionShape(NULL)
 		, friction(0.5f)
 		, elasticity(0.9f)
+		, enabled(true)
+		, isCollision(true)
 	{
 	}
 	~PhysicsNode()
@@ -96,6 +100,14 @@ public:
 	{ 
 		return worldTransform; 
 	}
+	inline const bool getEnabled() const
+	{
+		return enabled;
+	}
+	inline const bool getIsCollision() const
+	{
+		return isCollision;
+	}
 
 
 
@@ -151,11 +163,34 @@ public:
 		invInertia = v; 
 	}
 
-	inline void setCollisionShape(CollisionShape* colShape)
+	inline void setCollisionShape(std::string colshape)
 	{
+		CollisionShape* colShape;
+		
+		if (colshape == "Sphere")
+		{
+			colShape = new SphereCollisionShape(parent->getScale().x / 2);
+		} 
+		else if (colshape == "Cube")
+		{
+			colShape = new CuboidCollisionShape(parent->getScale() / 2);
+		}
+		else
+		{
+			colShape = nullptr;
+		}
+		
 		if (collisionShape) collisionShape->setParent(NULL);
 		collisionShape = colShape;
 		if (collisionShape) collisionShape->setParent(this);
+	}
+	inline void setEnabled(bool isPhy)
+	{
+		enabled = isPhy;
+	}
+	inline void setIsCollision(bool isCol)
+	{
+		isCollision = isCol;
 	}
 
 
@@ -190,5 +225,8 @@ private:
 
 	float	elasticity;
 	float	friction;
+
+	bool enabled;
+	bool isCollision;
 };
 

@@ -11,14 +11,19 @@ GameObjectBuilder::~GameObjectBuilder()
 
 GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 {
-	SceneNode* sceneNode = buildSceneNode(node->children[0], database);
-	PhysicsNode* physicsNode = buildPhysicsNode(node->children[5]);
 	GameObject* gameObject = new GameObject();
+	SceneNode* sceneNode = buildSceneNode(node->children[0], database);
+	
+	
 	gameObject->setSize(sizeof(GameObject));
 	gameObject->setName(node->name);
 	gameObject->setSceneNode(sceneNode);
 	gameObject->setPosition(buildVector3(node->children[2]));
 	gameObject->setScale(buildVector3(node->children[4]));
+	
+	PhysicsNode* physicsNode = buildPhysicsNode(node->children[5], gameObject);
+	gameObject->setPhysicsNode(physicsNode);
+
 	return gameObject;
 }
 
@@ -30,31 +35,33 @@ SceneNode * GameObjectBuilder::buildSceneNode(Node * node, Database* database)
 	return sceneNode;
 }
 
-PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node)
+PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * parent)
 {
 	PhysicsNode* physicsnode = new PhysicsNode();
+
+	physicsnode->setParent(parent);
 
 	std::string physicsEnabled = node->children[0]->value;
 
 	if (physicsEnabled == "True")
 	{
-		physicsnode->setEnablePhysics(true);
+		physicsnode->setEnabled(true);
 	}
 	else
 	{
-		physicsnode->setEnablePhysics(false);
+		physicsnode->setEnabled(false);
 	}
 	std::string CollisionEnabled = node->children[3]->value;
 	if (CollisionEnabled == "True")
 	{
-		physicsnode->setisCollision(true);
+		physicsnode->setIsCollision(true);
 	}
 	else
 	{
-		physicsnode->setisCollision(false);
+		physicsnode->setIsCollision(false);
 	}
 	physicsnode->setCollisionShape(node->children[1]->value);
-	physicsnode->setMass(stof(node->children[2]->value));	
+	physicsnode->setInverseMass(stof(node->children[2]->value));	
 	physicsnode->setElasticity(stof(node->children[4]->value));
 	physicsnode->setFriction(stof(node->children[5]->value));
 	return physicsnode;
