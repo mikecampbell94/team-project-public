@@ -11,77 +11,74 @@
 #include "../../Input/Recorders/KeyboardMouseRecorder.h"
 #include "Communication/Messages/PlaySoundMessage.h"
 
-GameLoop::GameLoop(System& gameSystem)
+GameLoop::GameLoop(System* gameSystem)
 {
 	engine = gameSystem;
-	window = new Window("Game Window", 1280, 720);
-	window->lockMouseToWindow(true);
+	//window = new Window("Game Window", 1280, 720);
+	//window->lockMouseToWindow(true);
 
-	//MUST BE REMOVED
-	camera = new Camera(0, 0, Vector3(0, 0, 0));
+	////MUST BE REMOVED
+	//camera = new Camera(0, 0, Vector3(0, 0, 0));
 
-	rendering = new RenderingSystem(window, camera, Vector2(1280, 720));
+	//rendering = new RenderingSystem(window, camera, Vector2(1280, 720));
 
-	std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
-	scene = new SceneManager(camera, nodes);
+	//std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
+	//scene = new SceneManager(camera, nodes);
 
-	database = new Database();
-	//AUDIO MUST BE CREATED BEFORE TABLE CREATION AND AFTER DATABASE CREATION!!!!!!!!!!!!
-	audio = new AudioSystem(database, camera);
-	TableCreation tableCreation(database);
+	//database = new Database();
+	//TableCreation tableCreation(database);
 
-	Level level(database, scene);
-	level.loadLevelFile("TestLevel.txt");
+	//audio = new AudioSystem(database, camera);
 
-	rendering->initialise(database);
+	//Level level(database, scene);
+	//level.loadLevelFile("TestLevel.txt");
 
-	SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
-	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
-	//nodes->push_back(node);
+	//rendering->initialise(database);
 
-	rendering->SetSceneToRender(scene);
+	//SceneNode* node = new SceneNode("../Data/meshes/centeredcube.obj");
+	//node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
+	////nodes->push_back(node);
 
-	InputRecorder* keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
+	//rendering->SetSceneToRender(scene);
 
-	PlayerBase* playerbase = new PlayerBase();
-	playerbase->addNewPlayer(keyboardAndMouse);
-	playerbase->getPlayers()[0]->setSceneNode(node);
+	//InputRecorder* keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
 
-	std::string seperator = "|";
-	std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
-	std::string xbox = "XBOX_A|XBOX_B";
-	std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
+	//PlayerBase* playerbase = new PlayerBase();
+	//playerbase->addNewPlayer(keyboardAndMouse);
+	//playerbase->getPlayers()[0]->setSceneNode(node);
 
-	playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
+	//std::string seperator = "|";
+	//std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
+	//std::string xbox = "XBOX_A|XBOX_B";
+	//std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
 
-	inputManager = new InputManager(playerbase);
-	gameplay = new GameplaySystem(playerbase->getPlayers().size());
+	//playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
 
-	engine.addSubsystem(gameplay);
-	engine.addSubsystem(inputManager);
-	engine.addSubsystem(rendering);
-	engine.addSubsystem(audio);
+	//inputManager = new InputManager(playerbase);
+	//gameplay = new GameplaySystem(playerbase->getPlayers().size());
+
+	//engine.addSubsystem(gameplay);
+	//engine.addSubsystem(inputManager);
+	//engine.addSubsystem(rendering);
+	//engine.addSubsystem(audio);
 }
 
 GameLoop::~GameLoop()
 {
-	delete window;
-	delete rendering;
-	delete inputManager;
 }
 
 void GameLoop::executeGameLoop()
 {
 	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE))
 	{
-		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
+		float deltaTime = loopTimer->getTimeSinceLastRetrieval();
 
-		DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORITY_HIGH, 1.0f, 100.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
+		DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
 
-		engine.updateNextSystemFrame(deltaTime);
+		engine->updateNextSystemFrame(deltaTime);
 
 		DeliverySystem::getPostman()->deliverAllMessages();
-		engine.processMessagesForAllSubsystems();
+		engine->processMessagesForAllSubsystems();
 
 		DeliverySystem::getPostman()->clearAllMessages();
 

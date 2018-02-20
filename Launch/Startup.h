@@ -22,19 +22,19 @@ public:
 	void initialiseSubsystems();
 	void startGameLoop();
 
+	void loadLevel(std::string levelFile);
+	void unloadLevel();
+
 private:
 	void initialiseRenderingSystem();
 	void initialiseAudioSystem();
 	void initialiseInputSystem();
-	void initialiseDatabase();
-	void initialiseTablesInDatabase();
-	
-
+	void initialiseDatabaseAndTables();
 	void initialiseLevelSystem();
-	void loadLevel(std::string levelFile);
-	void unloadLevel();
-	
-	static void startGame();
+	void initialiseGameplaySystem();
+
+	void addSystemsToEngine();
+
 
 	//make all these unique ptrs
 	System* engine;
@@ -52,10 +52,16 @@ private:
 	AudioSystem* audio;
 
 
-	GameTimer loopTimer;
+	GameTimer* loopTimer;
 	Window* window;
 
 	Camera* camera;
+
+	InputRecorder* keyboardAndMouse;
+	PlayerBase* playerbase;
+
+	SceneNode* node;
+	std::vector<SceneNode*>* nodes;
 
 	int screenWidth = 1280;
 	int screenHeight = 720;

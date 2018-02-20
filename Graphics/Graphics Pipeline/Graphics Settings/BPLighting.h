@@ -54,6 +54,7 @@ private:
 	Shader*		lightingPassShader;
 	Camera*		camera;
 	std::vector<LightData> lightDatas;
+	std::vector<Light*>** lights;
 	ShadowData* shadowData;
 	GBufferData*	gBuffer;
 	SSAOTextures* ambientTextures;

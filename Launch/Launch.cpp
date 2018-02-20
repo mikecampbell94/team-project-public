@@ -17,18 +17,19 @@
 int main()
 {
 
-	//Startup startup;
-	//startup.initialiseSubsystems();
-	//startup.startGameLoop();
+	Startup startup;
+	startup.initialiseSubsystems();
+	startup.loadLevel("TestLevel.txt");
+	startup.startGameLoop();
 
 	//ShutdownClass here
 	//shutdown.clearAllSubsystems();
 	//shutdown.close(); ?
 
 
-	System engine;
-	GameLoop game(engine);
-	game.executeGameLoop();
+	//System engine;
+	//GameLoop game(engine);
+	//game.executeGameLoop();
 
     return 0;
 }
