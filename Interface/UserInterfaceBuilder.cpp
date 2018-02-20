@@ -1,6 +1,7 @@
 #include "UserInterfaceBuilder.h"
 
 #include "../Resource Management/Database/Database.h"
+#include "../Graphics/GraphicsCommon.h"
 
 std::vector<Button> UserInterfaceBuilder::buildButtons(std::string UIFile, Database* database)
 {
@@ -32,7 +33,9 @@ Button UserInterfaceBuilder::buildButton(Node* node, Database* database, ButtonA
 	Mesh* mesh = static_cast<Mesh*>(
 		database->getTable("Meshes")->getAllResources()->getResource(meshName));
 
-	return Button(colour, position, scale, action, text, mesh);
+	Font font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
+
+	return Button(colour, position, scale, action, new TextMesh(text, font), mesh);
 }
 
 Vector4 UserInterfaceBuilder::getColour(Node* node)

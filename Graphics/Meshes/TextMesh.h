@@ -38,13 +38,13 @@ struct Font {
 		this->yCount = yCount;
 	}
 	~Font() {
-		glDeleteTextures(1, &texture);
+		//glDeleteTextures(1, &texture);
 	}
 };
 
 class TextMesh : public LegacyMesh {
 public:
-	TextMesh(const std::string &text, const Font &font);
+	TextMesh(const std::string &text, const Font font);
 	~TextMesh(void);
 
 

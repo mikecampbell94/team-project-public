@@ -12,10 +12,10 @@ Each character of text will be kept in a quad 1 unit big one each axis,
 and each quad is right next to its neighbours, making it easy to work out
 how large a textmesh will be when scaled etc
 */
-TextMesh::TextMesh(const std::string &text, const Font &font) : font(font) {
+TextMesh::TextMesh(const std::string &text, const Font font) : font(font){
 	//Set our Mesh to have the font's texture, containing all of the
 	//individual characters we need.
-	SetTexture(font.texture);
+	SetTexture(this->font.texture);
 
 	//Each quad will be 4 points, drawn using a triangle strip
 	//just like the GenerateQuad function from early on!
@@ -31,8 +31,8 @@ TextMesh::TextMesh(const std::string &text, const Font &font) : font(font) {
 	//of the font takes up. Remember, texture coordinates
 	//are 'normalised', so a bitmap font texture of 16 by 16
 	//will have characters that are 1 / 16.0 in size etc...
-	float texelWidth = 1.0f / font.xCount;
-	float texelHeight = 1.0f / font.yCount;
+	float texelWidth = 1.0f / this->font.xCount;
+	float texelHeight = 1.0f / this->font.yCount;
 
 	/*
 	Now to generate the vertex attributes for each character
@@ -52,8 +52,8 @@ TextMesh::TextMesh(const std::string &text, const Font &font) : font(font) {
 		//character 15 will be at the far right, and 16
 		//will be on the left, down a row, and so on.
 
-		float x = (float)(c%font.xCount);
-		float y = (float)((c / font.xCount) % font.yCount);
+		float x = (float)(c%this->font.xCount);
+		float y = (float)((c / this->font.xCount) % this->font.yCount);
 
 		vertices[(i * 4)] = Vector3((float)i, 0, 0);
 		vertices[(i * 4) + 1] = Vector3((float)i, -1, 0);
@@ -70,7 +70,6 @@ TextMesh::TextMesh(const std::string &text, const Font &font) : font(font) {
 	//Lastly, we buffer the data, just like a 'normal' mesh!
 	BufferData();
 }
-
 /*
 Multiple textMeshes could be keeping hold of the same texture (borrowed as a
 pointer from its Font) so we must NULL the texture name before we call the
@@ -80,6 +79,7 @@ more elegant)
 */
 TextMesh::~TextMesh(void) {
 	//texture = 0;
+	glDeleteTextures(1, &font.texture);
 }
 
 

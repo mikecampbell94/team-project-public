@@ -15,7 +15,7 @@
       <y>20.0</y>
     </scale>
     <action>PrintText</action>
-    <text>text</text>
+    <text>This is my button</text>
     <mesh>CubeMesh</mesh>
   </Button>
 </MainMenu>

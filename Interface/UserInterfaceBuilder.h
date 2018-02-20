@@ -5,19 +5,20 @@
 
 #include <vector>
 #include "ButtonActionCreator.h"
+#include "../Graphics/Meshes/TextMesh.h"
 
 class Database;
 
 struct Button
 {
 	Button(Vector4 colour, Vector2 position, Vector2 scale,
-		ButtonAction action, std::string text, Mesh* mesh)
+		ButtonAction action, TextMesh* textMesh, Mesh* mesh)
 	{
 		this->colour = colour;
 		this->position = position;
 		this->scale = scale;
 		this->action = action;
-		this->text = text;
+		this->textMesh = textMesh;
 		this->UIMesh = mesh;
 
 		selected = false;
@@ -30,7 +31,7 @@ struct Button
 	bool selected;
 
 	ButtonAction action;
-	std::string text;
+	TextMesh* textMesh;
 
 	Mesh* UIMesh;
 };

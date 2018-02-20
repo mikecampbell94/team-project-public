@@ -22,25 +22,26 @@ UIModule::~UIModule()
 
 void UIModule::initialise()
 {
-	UIObjects = *UserInterfaceDisplay::getInterface()->getAllButtonsInMenu();//UserInterfaceBuilder::buildButtons("../Data/UserInterface/MainMenu.xml", database);
+	UIObjects = UserInterfaceDisplay::getInterface()->getAllButtonsInMenu();//UserInterfaceBuilder::buildButtons("../Data/UserInterface/MainMenu.xml", database);
 }
 
 void UIModule::apply()
 {
 	setCurrentShader(UIShader);
 	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	glDisable(GL_CULL_FACE);
 
 	viewMatrix.toIdentity();
 	textureMatrix.toIdentity();
 
 	updateShaderMatrices();
 
-	for (Button* button : UIObjects)
+	for each (Button* button in *UIObjects)
 	{
 		glUniform4fv(glGetUniformLocation(UIShader->GetProgram(), "colour"), 1, (float*)&button->colour);
 		button->UIMesh->Draw(*currentShader, Matrix4::translation(button->position) * Matrix4::scale(button->scale));
 	}
-
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -48,14 +49,16 @@ void UIModule::apply()
 	setCurrentShader(UITextShader);
 	updateShaderMatrices();
 
-	for (Button* button : UIObjects)
+	for each (Button* button in *UIObjects)
 	{
-		TextMesh textmsh("TESTING", *font);
-		textmsh.Draw(*currentShader, Matrix4::translation(button->position) * Matrix4::scale(button->scale * Vector2(0.5f, 0.5f)));
+		Vector2 buttonSize = button->scale / Vector2(4.0f, 1.5f);
+		Vector2 offset(button->scale.x, 0.0f);
+		button->textMesh->Draw(*currentShader, Matrix4::translation(button->position - offset) * Matrix4::scale(Vector3(buttonSize.x, buttonSize.y, 1)));
 	}
 
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 }
 
 void UIModule::linkShaders()

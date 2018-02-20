@@ -20,7 +20,7 @@ class LegacyMesh
 {
 public:
 	LegacyMesh(void);
-	~LegacyMesh(void);
+	virtual ~LegacyMesh(void);
 
 	virtual void	Draw(Shader& shader, Matrix4& worldTransform);
 	static	LegacyMesh*	GenerateTriangle();
