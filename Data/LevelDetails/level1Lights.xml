@@ -14,6 +14,7 @@
     </colour>
     <radius>400</radius>
     <intensity>1.0</intensity>
+    <shadowcasting>enabled</shadowcasting>
   </Lights>
   
   <Lights name="light2">
@@ -30,6 +31,7 @@
     </colour>
     <radius>100</radius>
     <intensity>3.0</intensity>
+    <shadowcasting>disabled</shadowcasting>
   </Lights>
   
 </LevelLights>
