@@ -2,7 +2,7 @@
   <Button>
     <colour>
       <r>1.0</r>
-      <g>1.0</g>
+      <g>0.0</g>
       <b>0.0</b>
       <a>1.0</a>
     </colour>
@@ -11,8 +11,8 @@
       <y>0</y>
     </position>
     <scale>
-      <x>10.0</x>
-      <y>10.0</y>
+      <x>50.0</x>
+      <y>20.0</y>
     </scale>
     <action>PrintText</action>
     <text>text</text>

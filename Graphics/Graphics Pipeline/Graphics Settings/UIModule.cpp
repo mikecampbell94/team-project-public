@@ -7,19 +7,13 @@
 UIModule::UIModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution,
 	Database* database) : GraphicsModule(identifier, projMatrix, resolution)
 {
-	font = new Font(SOIL_load_OGL_texture(SHADERDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
-	tex = SOIL_load_OGL_texture(SHADERDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+	font = new Font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
+	tex = SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
 
 	UIShader = new Shader(SHADERDIR"/UIVertex.glsl", SHADERDIR"/UIFrag.glsl");
 	UITextShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"UITextFrag.glsl");
-	Button* uiTest = new Button();
-	uiTest->UiMesh = new Mesh("../Data/Meshes/cube.obj", 1);
-	uiTest->position = Vector2(0, 0);
-	uiTest->scale = Vector2(10, 10);
-	UIObjects.push_back(uiTest);
+
 	this->database = database;
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 }
 
 UIModule::~UIModule()
@@ -33,7 +27,7 @@ void UIModule::initialise()
 
 void UIModule::apply()
 {
-	setCurrentShader(UITextShader);
+	setCurrentShader(UIShader);
 	glDisable(GL_DEPTH_TEST);
 
 	viewMatrix.toIdentity();
@@ -41,19 +35,26 @@ void UIModule::apply()
 
 	updateShaderMatrices();
 
-	for (Button * uiObject : UIObjects)
+	for (Button* button : UIObjects)
 	{
-		TextMesh* textmsh = new TextMesh("TESTING", *font);
-		glUniform4fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&button->colour);
+		glUniform4fv(glGetUniformLocation(UIShader->GetProgram(), "colour"), 1, (float*)&button->colour);
 		button->UIMesh->Draw(*currentShader, Matrix4::translation(button->position) * Matrix4::scale(button->scale));
-
-		uiObject->UiMesh->Draw(*currentShader,Matrix4::translation(uiObject->position) * Matrix4::scale(uiObject->scale));
 	}
 
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
+	setCurrentShader(UITextShader);
+	updateShaderMatrices();
 
+	for (Button* button : UIObjects)
+	{
+		TextMesh textmsh("TESTING", *font);
+		textmsh.Draw(*currentShader, Matrix4::translation(button->position) * Matrix4::scale(button->scale * Vector2(0.5f, 0.5f)));
+	}
 
+	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 }
 
