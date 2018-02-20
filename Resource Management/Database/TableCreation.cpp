@@ -4,6 +4,9 @@
 #include "../../Graphics/Meshes/Mesh.h"
 #include "../../Gameplay/GameObject.h"
 #include "../../Graphics/Scene Management/SceneNode.h"
+#include "../../Graphics/Utility/Light.h"
+
+#include "../../Audio/Sound.h"
 
 const size_t MAX_MEMORY_PER_TABLE = 5000;
 
@@ -12,11 +15,11 @@ TableCreation::TableCreation(Database* database)
 	this->database = database;
 
 	tableAdditions.push_back(std::bind(&TableCreation::addGameObject, this));
-	tableAdditions.push_back(std::bind(&TableCreation::addPhysicsObject, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addMesh, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addSounds, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addLightsTable, this));
 
-	addTablesToDatabase();
-}
+	addTablesToDatabase();}
 
 TableCreation::~TableCreation()
 {
@@ -35,49 +38,57 @@ void TableCreation::addGameObject() const
 	
 	database->addTable("GameObjects", new Table<Resource>("GameObjects", MAX_MEMORY_PER_TABLE, [&](Node* node)
 	{
-		std::string meshName = node->children[0]->value;
-		Vector3 position;
-		position.x = std::stof(node->children[2]->children[0]->value);
-		position.y = std::stof(node->children[2]->children[1]->value);
-		position.z = std::stof(node->children[2]->children[2]->value);
-		Vector4 rotation;
-		rotation.x = std::stof(node->children[3]->children[0]->value);
-		rotation.y = std::stof(node->children[3]->children[1]->value);
-		rotation.z = std::stof(node->children[3]->children[2]->value);
-		rotation.w = std::stof(node->children[3]->children[3]->value);
-		Vector3 scale;
-		scale.x = std::stof(node->children[4]->children[0]->value);
-		scale.y = std::stof(node->children[4]->children[1]->value);
-		scale.z = std::stof(node->children[4]->children[2]->value);
-
-
-		SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getAllResources()->getResource(meshName)));
-		GameObject* gameObject = new GameObject();
-		gameObject->setName(node->name);
-		gameObject->setSceneNode(sceneNode);
-		gameObject->setPosition(position);
-		gameObject->setScale(scale);
-		return gameObject;
-	}));
+		return GameObjectBuilder::buildGameObject(node,database);	}));
 }
 
-void TableCreation::addPhysicsObject() const
-{
-	database->addTable("PhysicsObjects", new Table<Resource>("PhysicsObjects", MAX_MEMORY_PER_TABLE, [](Node* node)
-	{
-		//Build object from node
-		return nullptr;
-	}));
-}
 
 void TableCreation::addMesh() const
 {
 	database->addTable("Meshes", new Table<Resource>("Meshes", MAX_MEMORY_PER_TABLE, [](Node* node)
 	{
 		Mesh* mesh = new Mesh(node->children[0]->value,1);
-		mesh->loadTexture(node->children[1]->value);
+		//mesh->loadTexture(node->children[1]->value);
 		mesh->setName(node->name);
 		return mesh;
 	}));
 }
+void TableCreation::addSounds() const
+{
+	database->addTable("SoundObjects", new Table<Resource>("SoundObjects", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		Sound *sound = new Sound(node->value);
+		sound->setName(node->name);
+		return sound;
+	}));
+}
 
+void TableCreation::addLightsTable() const
+{
+	database->addTable("Lights", new Table<Resource>("Lights", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		std::string resourceName = node->name;
+
+		Node* positionNode = node->children[0];
+		Vector3 position(
+			std::stof(positionNode->children[0]->value),
+			std::stof(positionNode->children[1]->value),
+			std::stof(positionNode->children[2]->value));
+
+		Node* colourNode = node->children[1];
+		Vector4 colour(
+			std::stof(colourNode->children[0]->value),
+			std::stof(colourNode->children[1]->value),
+			std::stof(colourNode->children[2]->value),
+			std::stof(colourNode->children[3]->value));
+
+		float radius = std::stof(node->children[2]->value);
+		float intensity = std::stof(node->children[3]->value);
+
+		bool isShadowCasting = (node->children[4]->value == "enabled");
+
+		Light* light = new Light(position, colour, radius, intensity, isShadowCasting);
+		light->setName(resourceName);
+
+		return light;
+	}));
+}

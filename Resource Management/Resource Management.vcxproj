@@ -73,6 +73,10 @@
     <IncludePath>..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>..\SOIL\Debug\;..\GLEW\lib\Debug\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>..\ASSIMP\include\assimp;..\Utilities\;..\SOIL\;..\GLEW\include;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>..\SOIL\Release\;..\GLEW\lib\Release\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -137,7 +141,7 @@
     <ClInclude Include="Database\TableCreation.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Resources\Resource.h" />
-    <ClInclude Include="ObjectBuilder.h" />
+    <ClInclude Include="GameObjectBuilder.h" />
     <ClInclude Include="Database\Table.h" />
     <ClInclude Include="Resources\ResourceManager.h" />
     <ClInclude Include="XMLParser.h" />
@@ -145,7 +149,7 @@
   <ItemGroup>
     <ClCompile Include="Database\Database.cpp" />
     <ClCompile Include="Database\TableCreation.cpp" />
-    <ClCompile Include="ObjectBuilder.cpp" />
+    <ClCompile Include="GameObjectBuilder.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Resources\Resource.cpp" />
     <ClCompile Include="XMLParser.cpp" />

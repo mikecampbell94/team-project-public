@@ -7,7 +7,8 @@
 #include "Graphics Settings/Bloom.h"
 #include "Graphics Settings/MotionBlur.h"
 #include "../Utilities/Maths/Vector2.h"
-#include "Effects/Skybox.h"
+#include "Graphics Settings/Skybox.h"
+#include "Graphics Settings/Shadows.h"
 #include "Effects/ParticleSystem.h"
 
 #include "GraphicsPipeline.h"
@@ -38,11 +39,14 @@ private:
 	Vector2	resolution;
 	Camera*	camera;
 	Window* window;
-	GraphicsPipeline* pipeline;
 	SceneManager* sceneManager;
 
 	BasicGeometry* basicGeom;
+	GBuffer *gBuffer;
+	Skybox* skybox;
+	SSAO* ssao;
+	Shadows* shadowTex;
+	BPLighting *bpLighting;
 	UIModule* uiModule;
-
 };
 

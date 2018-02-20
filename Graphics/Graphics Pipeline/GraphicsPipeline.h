@@ -11,6 +11,7 @@ public:
 	~GraphicsPipeline();
 
 	void toggleModule(std::string moduleIdentifier);
+	void toggleModule(std::string moduleIdentifier, bool enabled);
 
 	void intialisePipeline();
 	void executeModules();

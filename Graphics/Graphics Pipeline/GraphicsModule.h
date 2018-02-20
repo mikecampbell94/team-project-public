@@ -13,10 +13,8 @@
 
 struct ShadowData
 {
-	int NUM_LIGHTS;
-	int* shadowIndexes;
-	Matrix4* textureMatrices;
-	GLuint* shadows;
+	Matrix4 textureMatrices;
+	GLuint shadowTex;
 };
 
 struct GBufferData {
@@ -25,9 +23,10 @@ struct GBufferData {
 	GLuint* gAlbedo;
 };
 
-struct AmbientTextures {
+struct SSAOTextures {
+	bool* generated;
 	GLuint** textures;
-	int*	 texUnits;
+	int*	 texUnit;
 };
 
 class GraphicsModule
@@ -86,6 +85,11 @@ public:
 	void toggleModule() 
 	{
 		enabled = !enabled;
+	}
+
+	void setIsEnabled(bool newEnabled)
+	{
+		enabled = newEnabled;
 	}
 
 protected:

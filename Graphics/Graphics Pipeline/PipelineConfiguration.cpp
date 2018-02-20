@@ -9,7 +9,6 @@ PipelineConfiguration::PipelineConfiguration()
 	this->window = nullptr;
 	this->resolution = Vector2();
 	this->camera = nullptr;
-	this->pipeline = nullptr;
 }
 
 PipelineConfiguration::PipelineConfiguration(SceneManager* sceneManager, Window* window, 
@@ -19,7 +18,6 @@ PipelineConfiguration::PipelineConfiguration(SceneManager* sceneManager, Window*
 	this->window = window;
 	this->resolution = resolution;
 	this->camera = camera;
-	this->pipeline = pipeline;
 }
 
 PipelineConfiguration::~PipelineConfiguration()
@@ -28,8 +26,28 @@ PipelineConfiguration::~PipelineConfiguration()
 
 void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthographicMatrix, Database* database)
 {
-	basicGeom = new BasicGeometry("Basic Geometry Renderer", projmatrix, resolution, camera, sceneManager->getSceneNodesInFrustum());
-	basicGeom->linkShaders();
+	gBuffer = new GBuffer("gbuffer", projmatrix, resolution, window, camera, sceneManager->getSceneNodesInFrustum());
+	gBuffer->linkShaders();
+	gBuffer->initialise();
+
+	skybox = new Skybox("Skybox", projmatrix, resolution, &camera->viewMatrix);
+	skybox->linkShaders();
+	skybox->initialise();
+	skybox->GBufferFBO = &gBuffer->gBuffer;
+
+	ssao = new SSAO("SSAO", projmatrix, resolution, camera, gBuffer->getGBuffer());
+	ssao->linkShaders();
+	ssao->initialise();
+
+	shadowTex = new Shadows("Shadows", projmatrix, resolution, sceneManager->getAllLights(), sceneManager->getAllNodes());
+	shadowTex->linkShaders();
+	shadowTex->initialise();
+
+	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), 
+		sceneManager->getAllLights(), ssao->getSSAOTextures(), shadowTex->getShadowData());
+	bpLighting->linkShaders();
+	bpLighting->initialise();
+	bpLighting->SSAOApplied = &ssao->applied;
 	uiModule = new UIModule("UI Renderer", orthographicMatrix,resolution, database);
 	uiModule->linkShaders();
 	uiModule->initialise();
@@ -37,6 +55,10 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthog
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 {
-	pipeline->addModule(basicGeom);
+	pipeline->addModule(gBuffer);
+	pipeline->addModule(skybox);
+	pipeline->addModule(shadowTex);
+	pipeline->addModule(ssao);
+	pipeline->addModule(bpLighting);
 	pipeline->addModule(uiModule);
 }

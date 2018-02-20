@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 
 #include "../Utility/Camera.h"
+#include "../Utility/Light.h"
 
 SceneManager::SceneManager(Camera* camera, std::vector<SceneNode*>* sceneNodes)
 {
@@ -10,6 +11,7 @@ SceneManager::SceneManager(Camera* camera, std::vector<SceneNode*>* sceneNodes)
 	sceneNodes = new vector<SceneNode*>();
 	sceneNodesInFrustum = new vector<SceneNode*>();
 	transparentSceneNodesInFrustum = new vector<SceneNode*>();
+	lights = new vector<Light*>();
 
 	for each (SceneNode* node in *sceneNodes)
 	{
@@ -47,6 +49,11 @@ std::vector<SceneNode*>* SceneManager::getSceneNodesInFrustum()
 std::vector<SceneNode*>* SceneManager::getTransparentSceneNodesInFrustum()
 {
 	return transparentSceneNodesInFrustum;
+}
+
+std::vector<Light*>** SceneManager::getAllLights()
+{
+	return &lights;
 }
 
 std::vector<SceneNode*>** SceneManager::getAllNodes()

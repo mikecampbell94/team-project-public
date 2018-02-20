@@ -14,6 +14,8 @@
 #include "GameplaySystem.h"
 #include "../../Interface/UserInterface.h"
 
+#include "../../Audio/AudioSystem.h"
+
 class GameLoop
 {
 public:
@@ -29,6 +31,7 @@ private:
 	RenderingSystem* rendering;
 	InputManager* inputManager;
 	GameplaySystem* gameplay;
+	AudioSystem* audio;
 	UserInterface* userInterface;
 
 	System engine;
@@ -36,6 +39,7 @@ private:
 	Window* window;
 
 	Camera* camera;
+
 
 	float pitch = 0.0f;
 	float yaw   = 0.0f;

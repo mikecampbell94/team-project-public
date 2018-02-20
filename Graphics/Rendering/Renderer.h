@@ -15,7 +15,7 @@ class Renderer : OGLRenderer
 {
 public:
 	Renderer();
-	Renderer(Window* window, Camera* camera, Vector2 resolution);
+	Renderer(Window* window, Camera* camera);
 	~Renderer();
 
 	void initialise(SceneManager* sceneManager, Database* database);

@@ -55,12 +55,12 @@ void SceneNode::Draw(Shader& shader) {
 	}
 }
 
-void SceneNode::DrawShadow()
+void SceneNode::DrawShadow(Shader& shader)
 {
 	if (mesh) {
 		for each (SubMesh* submesh in mesh->meshes)
 		{
-			submesh->DrawShadow();
+			submesh->DrawShadow(shader, worldTransform);
 		}
 	}
 }

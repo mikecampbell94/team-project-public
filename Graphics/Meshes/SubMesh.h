@@ -45,7 +45,7 @@ public:
 
 	void Draw(Shader& shader, Matrix4& transform);
 	void Draw(Shader& shader);
-	void DrawShadow(); //Dont bother binding textures.
+	void DrawShadow(Shader& shader, Matrix4& worldTransform); //Dont bother binding textures.
 
 	float previousradius = 0;
 

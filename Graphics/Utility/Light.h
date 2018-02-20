@@ -2,6 +2,7 @@
 
 #include "../../Utilities/Maths/Vector4.h"
 #include "../../Utilities/Maths/Vector3.h"
+#include "../../Resource Management/Resources/Resource.h"
 
 #include <algorithm>
 
@@ -10,9 +11,10 @@ struct LightData
 	Vector4 lightPosition;
 	Vector4 lightColour;
 	float lightRadius;
+	float isShadowCasting; //positive for true, negative for false
 	float intensity;
 
-	float padding[2];
+	float padding;
 };
 
 struct SpotLightData
@@ -20,13 +22,16 @@ struct SpotLightData
 	Vector4 direction;
 };
 
-class Light
+class Light : public Resource
 {
 public:
-	Light(Vector3 position, Vector4 colour, float radius, float intensity, Vector4 direction = Vector4(0, 0, 0, 0)) {
+	Light(Vector3 position, Vector4 colour, float radius, float intensity, bool isShadowCasting, Vector4 direction = Vector4(0, 0, 0, 0))
+		: Resource()
+	{
 		this->position = position;
 		this->colour = colour;
 		this->radius = radius;
+		this->isShadowCasting = isShadowCasting;
 		this->direction = direction;
 
 		//float positionData[3] = { position.x, position.y, position.z };
@@ -37,11 +42,15 @@ public:
 		data.lightPosition = Vector4(position.x, position.y, position.z, 1.0f);
 		data.lightColour = colour;
 		data.lightRadius = radius;
+		if (isShadowCasting)
+			data.isShadowCasting = 1;
+		else
+			data.isShadowCasting = -1;
 		data.intensity = intensity;
 		spotLightData.direction = direction;
 	}
 
-	Light() {
+	Light() : Resource() {
 		this->position = Vector3(0, 0, 0);
 		this->colour = Vector4(1, 1, 1, 1);
 		this->radius = 0.0f;
@@ -98,11 +107,17 @@ public:
 		return spotLightData;
 	}
 
+	bool IsShadowCasting()
+	{
+		return isShadowCasting;
+	}
+
 protected:
 	LightData data;
 	SpotLightData spotLightData;
 	Vector3 position;
 	Vector4 colour;
+	bool isShadowCasting;
 	Vector4 direction;
 	float radius;
 };

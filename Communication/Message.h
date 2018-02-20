@@ -8,8 +8,11 @@ enum MessageType
 	PLAYER_INPUT,
 	DUMMY_TYPE,
 	RELATIVE_TRANSFORM,
-	TEXT
-};
+	TEXT,	
+	PLAY_SOUND,
+	STOP_SOUND,
+	MOVING_SOUND};
+
 
 class Message
 {

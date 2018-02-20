@@ -35,17 +35,16 @@ void BasicGeometry::initialise()
 
 void BasicGeometry::apply()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	setCurrentShader(basicShader);
+	viewMatrix = camera->buildViewMatrix();
 
-	updateShaderMatrices();
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
-		nodesInFrame->at(i)->Draw(*currentShader);
+		updateShaderMatrices();		nodesInFrame->at(i)->Draw(*currentShader);
+		
 	}
 
-
-
-	viewMatrix = camera->buildViewMatrix();
 }
 
 void BasicGeometry::locateUniforms()
