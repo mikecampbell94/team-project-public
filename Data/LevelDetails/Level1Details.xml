@@ -90,9 +90,9 @@
 		<SceneNode>
 		<Mesh>CubeMesh</Mesh>
 		<Colour>
-		  <R>1</R>
+		  <R>0</R>
 		  <G>0</G>
-		  <B>0</B>
+		  <B>1</B>
 		  <A>1</A>
 		</Colour>
 		</SceneNode>
@@ -120,7 +120,7 @@
 		<Mesh>CubeMesh</Mesh>
 		<Colour>
 		  <R>1</R>
-		  <G>0</G>
+		  <G>1</G>
 		  <B>0</B>
 		  <A>1</A>
 		</Colour>
@@ -149,8 +149,8 @@
 		<Mesh>CubeMesh</Mesh>
 		<Colour>
 		  <R>1</R>
-		  <G>0.5</G>
-		  <B>0.3</B>
+		  <G>1</G>
+		  <B>1</B>
 		  <A>1</A>
 		</Colour>
 		</SceneNode>
