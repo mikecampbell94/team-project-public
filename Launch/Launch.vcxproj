@@ -153,10 +153,12 @@
   <ItemGroup>
     <ClCompile Include="Game\GameLoop.cpp" />
     <ClCompile Include="Launch.cpp" />
+    <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Systems\System.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\GameLoop.h" />
+    <ClInclude Include="Startup.h" />
     <ClInclude Include="Systems\Subsystem.h" />
     <ClInclude Include="Systems\System.h" />
   </ItemGroup>

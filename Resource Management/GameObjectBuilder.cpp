@@ -1,7 +1,5 @@
 #include "GameObjectBuilder.h"
 
-
-
 GameObjectBuilder::GameObjectBuilder()
 {
 
@@ -14,6 +12,7 @@ GameObjectBuilder::~GameObjectBuilder()
 GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 {
 	SceneNode* sceneNode = buildSceneNode(node->children[0], database);
+	PhysicsNode* physicsNode = buildPhysicsNode(node->children[5]);
 	GameObject* gameObject = new GameObject();
 	gameObject->setSize(sizeof(GameObject));
 	gameObject->setName(node->name);
@@ -33,6 +32,31 @@ SceneNode * GameObjectBuilder::buildSceneNode(Node * node, Database* database)
 
 PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node)
 {
+	//PhysicsNode* physicsnode = new PhysicsNode();
+
+	//std::string physicsEnabled = node->children[0]->value;
+
+	//if (physicsEnabled == "True")
+	//{
+	//	physicsnode->setEnablePhysics(true);
+	//}
+	//else
+	//{
+	//	physicsnode->setEnablePhysics(false);
+	//}
+	//std::string CollisionEnabled = node->children[3]->value;
+	//if (CollisionEnabled == "True")
+	//{
+	//	physicsnode->setisCollision(true);
+	//}
+	//else
+	//{
+	//	physicsnode->setisCollision(false);
+	//}
+	//physicsnode->setCollisionShape(node->children[1]->value);
+	//physicsnode->setMass(stof(node->children[2]->value));	
+	//physicsnode->setElasticity(stof(node->children[4]->value));
+	//physicsnode->setFriction(stof(node->children[5]->value));
 	return nullptr;
 }
 
@@ -51,6 +75,6 @@ Vector4 & GameObjectBuilder::buildVector4(Node * node)
 	vec.x = stof(node->children[0]->value);
 	vec.y = stof(node->children[1]->value);
 	vec.z = stof(node->children[2]->value);
-	vec.z = stof(node->children[2]->value);
+	vec.w = stof(node->children[3]->value);
 	return vec;
 }

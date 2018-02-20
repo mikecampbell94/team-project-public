@@ -21,11 +21,6 @@ GameplaySystem::GameplaySystem(const int playersInGame,PlayerBase &playerBase)
 	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT }, 
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 
-	XMLParser xmlParser;
-	xmlParser.loadFile("../Resources/Gameplay/gameplay.xml");
-	gameLogic = GameLogic(&incomingMessages);
-	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
-
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge](Message* message)
 	{
 		gameLogic.notifyMessageActions("PlayerInputMessage", message);
@@ -42,4 +37,12 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 	gameLogic.executeMessageBasedActions();
 	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
 	gameLogic.clearNotifications();
+}
+
+void GameplaySystem::compileGameplayScript(std::string levelScript)
+{
+	XMLParser xmlParser;
+	xmlParser.loadFile(levelScript);
+	gameLogic = GameLogic(&incomingMessages);
+	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
 }

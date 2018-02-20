@@ -1,6 +1,7 @@
 #pragma once
 #include "../Graphics/Scene Management/SceneNode.h"
 #include "../Gameplay/GameObject.h"
+#include "../Physics/PhysicseNode.h"
 #include "Database\Database.h"
 #include "XMLParser.h"
 #include <unordered_map>

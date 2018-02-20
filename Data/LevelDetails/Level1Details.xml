@@ -1,10 +1,10 @@
 <LevelDetails>
 <GameObjects name="playerBall" >
-		<SceneNode>
+        <SceneNode>
 		<Mesh>SphereMesh</Mesh>
 		<Colour>
 		  <R>1</R>
-		  <G>1</G>
+		  <G>0</G>
 		  <B>0</B>
 		  <A>1</A>
 		</Colour>
@@ -26,14 +26,22 @@
 			<Y>50</Y>
 			<Z>50</Z>
 		</Scale>
+		<PhysicsNode>
+			<Enabled>True</Enabled>
+			<CollisionShape>Sphere</CollisionShape>
+			<Mass>2</Mass>
+			<isCollision>True</isCollision>
+			<Elasticity>0</Elasticity>
+			<Friction>0</Friction>
+		</PhysicsNode>
 </GameObjects>
 
 <GameObjects name="wall1" >
 		<SceneNode>
 		<Mesh>CubeMesh</Mesh>
 		<Colour>
-		  <R>0</R>
-		  <G>1</G>
+		  <R>1</R>
+		  <G>0</G>
 		  <B>0</B>
 		  <A>1</A>
 		</Colour>
@@ -55,6 +63,14 @@
 			<Y>50</Y>
 			<Z>50</Z>
 		</Scale>
+		<PhysicsNode>
+		<Enabled>True</Enabled>
+		<CollisionShape>Box</CollisionShape>
+		<Mass>2</Mass>
+		<isCollision>True</isCollision>
+		<Elasticity>0</Elasticity>
+		<Friction>0</Friction>
+		</PhysicsNode>
 </GameObjects>
 
 <GameObjects name="wall2" >
@@ -84,6 +100,14 @@
 			<Y>50</Y>
 			<Z>50</Z>
 		</Scale>
+		<PhysicsNode>
+		<Enabled>True</Enabled>
+		<CollisionShape>Sphere</CollisionShape>
+		<Mass>2</Mass>
+		<isCollision>True</isCollision>
+		<Elasticity>0</Elasticity>
+		<Friction>0</Friction>
+		</PhysicsNode>
 </GameObjects>
 
 <GameObjects name="wall3" >
@@ -113,6 +137,14 @@
 			<Y>50</Y>
 			<Z>50</Z>
 		</Scale>
+		<PhysicsNode>
+		<Enabled>True</Enabled>
+		<CollisionShape>Box</CollisionShape>
+		<Mass>2</Mass>
+		<isCollision>True</isCollision>
+		<Elasticity>0</Elasticity>
+		<Friction>0</Friction>
+		</PhysicsNode>
 </GameObjects>
 
 <GameObjects name="wall4" >
@@ -142,12 +174,21 @@
 			<Y>50</Y>
 			<Z>50</Z>
 		</Scale>
+		<PhysicsNode>
+		<Enabled>True</Enabled>
+		<CollisionShape>Box</CollisionShape>
+		<Mass>2</Mass>
+		<isCollision>True</isCollision>
+		<Elasticity>0</Elasticity>
+		<Friction>0</Friction>
+		</PhysicsNode>
 </GameObjects>
 
 <GameObjects id ="floor" >
 		<SceneNode>
 		<Mesh>CubeMesh</Mesh>
 		<Colour>
+PhysicsObject
 		  <R>1</R>
 		  <G>1</G>
 		  <B>1</B>
@@ -171,5 +212,13 @@
 			<Y>50</Y>
 			<Z>180</Z>
 		</Scale>
+		<PhysicsNode>
+		<Enabled>True</Enabled>
+		<CollisionShape>Box</CollisionShape>
+		<Mass>2</Mass>
+		<isCollision>True</isCollision>
+		<Elasticity>0</Elasticity>
+		<Friction>0</Friction>
+		</PhysicsNode>
 </GameObjects>
 </LevelDetails>

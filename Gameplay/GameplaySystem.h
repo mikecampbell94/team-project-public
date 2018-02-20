@@ -13,6 +13,8 @@ public:
 
 	void updateSubsystem(const float& deltaTime) override;
 
+	void compileGameplayScript(std::string levelScript);
+
 private:
 	GameLogic gameLogic;
 	GameplayInputBridge inputBridge;
