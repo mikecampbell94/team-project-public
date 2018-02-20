@@ -4,7 +4,7 @@
 
 #define SHADOWSIZE 4096
 
-#include "../../Meshes/Mesh.h"
+#include "../../Scene Management/SceneNode.h"
 #include "../../Utility/Light.h"
 
 #include <vector>
@@ -13,15 +13,14 @@ class Shadows : public GraphicsModule
 {
 public:
 	Shadows(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, int numShadowCastingLights, Light** lights, std::vector<Mesh*>** models);
+		const Vector2 resolution, std::vector<Light*>** lights, std::vector<SceneNode*>** models);
 
 	~Shadows()
 	{
 		delete shadowShader;
 		delete shadowData;
-		delete shadowFBOs;
 
-		glDeleteTextures(shadowData->NUM_LIGHTS, &shadowData->shadows[0]);
+		glDeleteTextures(1, &shadowData->shadowTex);
 	}
 
 	void linkShaders() override;
@@ -46,11 +45,11 @@ private:
 	//Application
 	void drawShadowScene();
 
-	GLuint* shadowFBOs;
+	GLuint shadowFBO;
 	ShadowData* shadowData;
 	Shader* shadowShader;
 
-	Light** lights;
-	std::vector<Mesh*>** models;
+	std::vector<Light*>** lights;
+	std::vector<SceneNode*>** models;
 };
 

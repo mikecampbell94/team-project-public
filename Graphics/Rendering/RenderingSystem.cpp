@@ -13,10 +13,11 @@
 #include "../../Gameplay/GameObject.h"
 #include "../../Communication/Messages/TextMessage.h"
 
-RenderingSystem::RenderingSystem(Window* window, Camera* camera, Vector2 resolution)
+RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
 {
-	renderer = std::make_unique<Renderer>(window, camera, resolution);
+
+	renderer = std::make_unique<Renderer>(window, camera);
 }
 
 RenderingSystem::~RenderingSystem()
@@ -43,6 +44,7 @@ void RenderingSystem::initialise(Database* database)
 		std::cout << "key : " << playerMessage->data.key << std::endl;
 		std::cout << "State : " << playerMessage->data.currentState << std::endl;
 	});
+	Initialise();
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)
 	{
@@ -64,4 +66,21 @@ void RenderingSystem::SetSceneToRender(SceneManager* scene)
 void RenderingSystem::updateSubsystem(const float& deltaTime)
 {
 	renderer->update(deltaTime);
+}
+
+bool RenderingSystem::stob(std::string string)
+{
+	std::transform(string.begin(), string.end(), string.begin(), ::tolower);
+	std::istringstream is(string);
+	bool b;
+	is >> std::boolalpha >> b;
+	return b;
+}
+
+
+//One initialise function
+void RenderingSystem::Initialise()
+{
+
+
 }

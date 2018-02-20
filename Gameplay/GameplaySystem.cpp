@@ -7,32 +7,16 @@
 #include "../Input/InputUtility.h"
 #include "../Resource Management/XMLParser.h"
 
-GameplaySystem::GameplaySystem(const int playersInGame)
+GameplaySystem::GameplaySystem(const int playersInGame,PlayerBase &playerBase)
 	: Subsystem("Gameplay")
 {
-	InputActionMap actions(0);
-	actions.attachKeyToAction(InputUtility::getKeyID("KEYBOARD_W"), [](Player* player)
-	{
-		player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(Vector3(0, 0, 1)));
-	}); 
-
-	actions.attachKeyToAction(InputUtility::getKeyID("KEYBOARD_A"), [](Player* player)
-	{
-		player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(Vector3(-1, 0, 0)));
-	});
-
-	actions.attachKeyToAction(InputUtility::getKeyID("KEYBOARD_S"), [](Player* player)
-	{
-		player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(Vector3(0, 0, -1)));
-	});
-
-	actions.attachKeyToAction(InputUtility::getKeyID("KEYBOARD_D"), [](Player* player)
-	{
-		player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(Vector3(1, 0, 0)));
-	});
 
 	inputBridge = GameplayInputBridge(playersInGame);
-	inputBridge.addInputActionMapForPlayer(actions);
+
+	for (int i = 0; i < playersInGame; i++)//every ionput action map in playersInGame
+	{
+		inputBridge.addInputActionMapForPlayer(playerBase.getPlayersAction()[i]);
+	}
 
 	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT }, 
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));

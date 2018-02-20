@@ -31,6 +31,25 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 	Player* playerRef = new Player(playerID, recorder);
 	players.push_back(playerRef);
 
+
+	InputActionMap newPlayersActions(playerID);
+	inputParser.loadFile("../Data/Resources/Input/configXML.xml");
+	Node* node = inputParser.parsedXml;
+
+	//NEED TO FUCK ABOUT WITH THIS IN ORDER TO ADD ANYTHING OTHER THAN WASD MOVEMENT
+	for (int i = 0; i < inputParser.parsedXml->children.size(); i++) {
+		newPlayersActions.attachKeyToAction(InputUtility::getKeyID(inputParser.parsedXml->children[i]->children[0]->value), [coordinate = node->children[i]->children[1]->children[0], i](Player* player)
+		{
+			float xPosition = stof(coordinate->children[0]->value);
+			float yPosition = stof(coordinate->children[1]->value);
+			float zPosition = stof(coordinate->children[2]->value);
+
+			Vector3 translation(xPosition, yPosition, zPosition);
+
+			player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(translation));
+		});
+	}
+	playersActions.push_back(newPlayersActions);
 	return playerRef;
 }
 
