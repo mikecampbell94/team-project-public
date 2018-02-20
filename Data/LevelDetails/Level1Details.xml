@@ -27,12 +27,12 @@
 			<Z>50</Z>
 		</Scale>
 		<PhysicsNode>
-		<Enabled>True/False</Enabled>
-		<CollisionShape>Sphere</CollisionShape>
-		<Mass>2</Mass>
-		<isCollision>True/False</isCollision>
-		<Elasticity>0</Elasticity>
-		<Friction>0</Friction>
+			<Enabled>True</Enabled>
+			<CollisionShape>Sphere</CollisionShape>
+			<Mass>2</Mass>
+			<isCollision>True</isCollision>
+			<Elasticity>0</Elasticity>
+			<Friction>0</Friction>
 		</PhysicsNode>
 </GameObjects>
 
@@ -64,10 +64,10 @@
 			<Z>50</Z>
 		</Scale>
 		<PhysicsNode>
-		<Enabled>True/False</Enabled>
+		<Enabled>True</Enabled>
 		<CollisionShape>Box</CollisionShape>
 		<Mass>2</Mass>
-		<isCollision>True/False</isCollision>
+		<isCollision>True</isCollision>
 		<Elasticity>0</Elasticity>
 		<Friction>0</Friction>
 		</PhysicsNode>
@@ -101,10 +101,10 @@
 			<Z>50</Z>
 		</Scale>
 		<PhysicsNode>
-		<Enabled>True/False</Enabled>
+		<Enabled>True</Enabled>
 		<CollisionShape>Sphere</CollisionShape>
 		<Mass>2</Mass>
-		<isCollision>True/False</isCollision>
+		<isCollision>True</isCollision>
 		<Elasticity>0</Elasticity>
 		<Friction>0</Friction>
 		</PhysicsNode>
@@ -138,10 +138,10 @@
 			<Z>50</Z>
 		</Scale>
 		<PhysicsNode>
-		<Enabled>True/False</Enabled>
+		<Enabled>True</Enabled>
 		<CollisionShape>Box</CollisionShape>
 		<Mass>2</Mass>
-		<isCollision>True/False</isCollision>
+		<isCollision>True</isCollision>
 		<Elasticity>0</Elasticity>
 		<Friction>0</Friction>
 		</PhysicsNode>
@@ -175,10 +175,10 @@
 			<Z>50</Z>
 		</Scale>
 		<PhysicsNode>
-		<Enabled>True/False</Enabled>
+		<Enabled>True</Enabled>
 		<CollisionShape>Box</CollisionShape>
 		<Mass>2</Mass>
-		<isCollision>True/False</isCollision>
+		<isCollision>True</isCollision>
 		<Elasticity>0</Elasticity>
 		<Friction>0</Friction>
 		</PhysicsNode>
@@ -212,10 +212,10 @@
 			<Z>180</Z>
 		</Scale>
 		<PhysicsNode>
-		<Enabled>True/False</Enabled>
+		<Enabled>True</Enabled>
 		<CollisionShape>Box</CollisionShape>
 		<Mass>2</Mass>
-		<isCollision>True/False</isCollision>
+		<isCollision>True</isCollision>
 		<Elasticity>0</Elasticity>
 		<Friction>0</Friction>
 		</PhysicsNode>

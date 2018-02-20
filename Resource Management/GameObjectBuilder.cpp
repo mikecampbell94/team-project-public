@@ -33,10 +33,28 @@ SceneNode * GameObjectBuilder::buildSceneNode(Node * node, Database* database)
 PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node)
 {
 	PhysicsNode* physicsnode = new PhysicsNode();
-	physicsnode->setenablePhysics(node->children[0]);
+
+	std::string physicsEnabled = node->children[0]->value;
+
+	if (physicsEnabled == "True")
+	{
+		physicsnode->setEnablePhysics(true);
+	}
+	else
+	{
+		physicsnode->setEnablePhysics(false);
+	}
+	std::string CollisionEnabled = node->children[3]->value;
+	if (CollisionEnabled == "True")
+	{
+		physicsnode->setisCollision(true);
+	}
+	else
+	{
+		physicsnode->setisCollision(false);
+	}
 	physicsnode->setCollisionShape(node->children[1]->value);
-	physicsnode->setMass(stof(node->children[2]->value));
-	physicsnode->setisCollision(node->children[3]);
+	physicsnode->setMass(stof(node->children[2]->value));	
 	physicsnode->setElasticity(stof(node->children[4]->value));
 	physicsnode->setFriction(stof(node->children[5]->value));
 	return physicsnode;

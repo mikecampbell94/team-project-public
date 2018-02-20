@@ -15,7 +15,7 @@ public:
 	inline float getMass()const { return Mass; }
 	inline std::string getCollisionShape()const { return collisionShape; }
 	bool getisCollision()const { return isCollision; }
-	bool getenablePhysics()const { return isphysics; }
+	bool getEnablePhysics()const { return isphysics; }
 	inline float getElasticity() { return elasticity; }
 	inline float getFriction() { return friction; }
 
@@ -27,7 +27,7 @@ public:
 			
 	}
 	void setisCollision(bool iscol) { isCollision = iscol; }
-	void setenablePhysics(bool isPhy) { isphysics = isPhy; }
+	void setEnablePhysics(bool isPhy) { isphysics = isPhy; }
 	void setElasticity(float v) { elasticity = v; }
 	void setFriction(float v) { friction = v; }
 
