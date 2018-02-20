@@ -44,14 +44,11 @@ void RenderingSystem::initialise(Database* database)
 		std::cout << "State : " << playerMessage->data.currentState << std::endl;
 	});
 
-	GameObject* gameObject = static_cast<GameObject*>(
-		database->getTable("GameObjects")->getAllResources()->getResource("playerBall"));
-
 	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)
 	{
 		RelativeTransformMessage* translationMessage = static_cast<RelativeTransformMessage*>(message);
 		GameObject* gameObject = static_cast<GameObject*>(
-			database->getTable("GameObjects")->getAllResources()->getResource(translationMessage->resourceName));
+			database->getTable("GameObjects")->getResource(translationMessage->resourceName));
 
 		gameObject->getSceneNode()->SetTransform(gameObject->getSceneNode()->GetTransform()
 			* translationMessage->transform);

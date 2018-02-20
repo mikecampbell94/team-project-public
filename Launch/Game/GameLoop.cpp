@@ -20,16 +20,15 @@ GameLoop::GameLoop(System& gameSystem)
 	camera = new Camera(0, 0, Vector3(0, 0, 0));
 
 	rendering = new RenderingSystem(window, camera, Vector2(1280, 720));
-	//Database database;
-	database = new Database();
-
-	//AUDIO MUST BE CREATED BEFORE TABLE CREATION AND AFTER DATABASE CREATION!!!!!!!!!!!!
-	audio = new AudioSystem(database, camera);
-
-	TableCreation tableCreation(database);
 
 	std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
 	scene = new SceneManager(camera, nodes);
+
+	database = new Database();
+	//AUDIO MUST BE CREATED BEFORE TABLE CREATION AND AFTER DATABASE CREATION!!!!!!!!!!!!
+	audio = new AudioSystem(database, camera);
+	TableCreation tableCreation(database);
+
 	Level level(database, scene);
 	level.loadLevelFile("TestLevel.txt");
 

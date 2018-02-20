@@ -8,6 +8,7 @@
 #include "../Launch/Game/GameLoop.h"
 #include "Resource Management/Database/TableCreation.h"
 #include "Resource Management/Level.h"
+#include "../../Input/Recorders/KeyboardMouseRecorder.h"
 
 class Database;
 
@@ -27,12 +28,18 @@ private:
 	void initialiseInputSystem();
 	void initialiseDatabase();
 	void initialiseTablesInDatabase();
+	
 
-	void loadLevel();
+	void initialiseLevelSystem();
+	void loadLevel(std::string levelFile);
+	void unloadLevel();
 	
 	static void startGame();
 
 	//make all these unique ptrs
+	System* engine;
+	GameLoop* game;
+
 	Database* database;
 	TableCreation* tableCreation;
 	SceneManager* scene;
@@ -44,9 +51,7 @@ private:
 	GameplaySystem* gameplay;
 	AudioSystem* audio;
 
-	GameLoop* game;
 
-	System* engine;
 	GameTimer loopTimer;
 	Window* window;
 
