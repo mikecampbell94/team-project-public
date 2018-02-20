@@ -169,11 +169,11 @@ public:
 		
 		if (colshape == "Sphere")
 		{
-			colShape = new SphereCollisionShape(parent->getScale().x / 2);
+			colShape = new SphereCollisionShape(parent->getScale().x);
 		} 
-		else if (colshape == "Cube")
+		else if (colshape == "Box")
 		{
-			colShape = new CuboidCollisionShape(parent->getScale() / 2);
+			colShape = new CuboidCollisionShape(parent->getScale());
 		}
 		else
 		{

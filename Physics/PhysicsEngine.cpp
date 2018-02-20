@@ -4,6 +4,12 @@
 
 PhysicsEngine::PhysicsEngine() : Subsystem("Physics")
 {
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM };
+
+	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
+
+	updateTimestep = 1.0f / 60.f;
+	updateRealTimeAccum = 0.0f;
 }
 
 
@@ -56,7 +62,6 @@ void PhysicsEngine::removeAllPhysicsObjects()
 void PhysicsEngine::updateSubsystem(const float& deltaTime)
 {
 	const int maxUpdatesPerFrame = 5;
-
 	
 	updateRealTimeAccum += deltaTime;
 	for (int i = 0; (updateRealTimeAccum >= updateTimestep) && i < maxUpdatesPerFrame; ++i)

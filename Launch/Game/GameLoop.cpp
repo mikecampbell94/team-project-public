@@ -40,6 +40,8 @@ GameLoop::GameLoop(System& gameSystem)
 	//Database database;
 	database = new Database();
 
+	physics = new PhysicsEngine();
+
 	//AUDIO MUST BE CREATED BEFORE TABLE CREATION AND AFTER DATABASE CREATION!!!!!!!!!!!!
 	audio = new AudioSystem(database, camera);
 
@@ -47,7 +49,7 @@ GameLoop::GameLoop(System& gameSystem)
 
 	std::vector<SceneNode*>* nodes = new std::vector<SceneNode*>();
 	scene = new SceneManager(camera, nodes);
-	Level level(database, scene);
+	Level level(database, scene, physics);
 	level.loadLevelFile("TestLevel.txt");
 
 	rendering->initialise(database);
@@ -78,6 +80,8 @@ GameLoop::GameLoop(System& gameSystem)
 	engine.addSubsystem(inputManager);
 	engine.addSubsystem(rendering);
 	engine.addSubsystem(audio);
+
+	engine.addSubsystem(physics);
 }
 
 GameLoop::~GameLoop()
@@ -85,6 +89,7 @@ GameLoop::~GameLoop()
 	delete window;
 	delete rendering;
 	delete inputManager;
+	delete physics;
 }
 
 void GameLoop::executeGameLoop()
@@ -96,6 +101,17 @@ void GameLoop::executeGameLoop()
 		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
 
 		engine.updateNextSystemFrame(deltaTime);
+
+		auto gameObjectResources = database->getTable("GameObjects")->getAllResources()->getResourceBuffer();
+		for (auto gameObjectIterator = gameObjectResources.begin(); gameObjectIterator != gameObjectResources.end(); gameObjectIterator++)
+		{
+			GameObject* gObj = static_cast<GameObject*>((*gameObjectIterator).second);
+			if (gObj->getPhysicsNode() != nullptr)
+			{
+				gObj->updatePosition();
+			}
+				
+		}
 
 		DeliverySystem::getPostman()->deliverAllMessages();
 		engine.processMessagesForAllSubsystems();

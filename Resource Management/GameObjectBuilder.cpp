@@ -18,11 +18,13 @@ GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 	gameObject->setSize(sizeof(GameObject));
 	gameObject->setName(node->name);
 	gameObject->setSceneNode(sceneNode);
-	gameObject->setPosition(buildVector3(node->children[2]));
+	
 	gameObject->setScale(buildVector3(node->children[4]));
 	
 	PhysicsNode* physicsNode = buildPhysicsNode(node->children[5], gameObject);
 	gameObject->setPhysicsNode(physicsNode);
+
+	gameObject->setPosition(buildVector3(node->children[2]));
 
 	return gameObject;
 }

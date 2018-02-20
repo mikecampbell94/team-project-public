@@ -31,7 +31,7 @@ public:
 
 private: 
 	SceneNode *sceneNode;
-	PhysicsNode *physicsNode;
+	PhysicsNode *physicsNode = nullptr;
 
 	Vector3 position;
 	Vector3 scale;

@@ -7,6 +7,8 @@
 #include "Manifold.h"
 #include <vector>
 
+
+
 //Number of jacobi iterations to apply in order to
 // assure the constraints are solved. (Last tutorial)
 #define SOLVER_ITERATIONS 50

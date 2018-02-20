@@ -5,6 +5,7 @@
 #include "Database\TableCreation.h"
 #include "../Graphics/Scene Management/SceneManager.h"
 #include "../Gameplay/GameObject.h"
+#include "../Physics/PhysicsEngine.h"
 #include <string>
 #include <vector>
 
@@ -15,7 +16,7 @@
 class Level
 {
 public:
-	Level(Database* database, SceneManager* sceneManager);
+	Level(Database* database, SceneManager* sceneManager, PhysicsEngine* physics);
 	~Level();
 
 	void loadLevelFile(std::string levelFilePath);
@@ -29,5 +30,6 @@ private:
 	std::vector<std::string> listOfObjectTypesInLevel;
 	Database *database;
 	SceneManager* sceneManager;
+	PhysicsEngine* physics;
 };
 

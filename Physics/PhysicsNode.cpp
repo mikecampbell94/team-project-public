@@ -1,6 +1,6 @@
 #include "PhysicsNode.h"
 
-static const Vector3 gravity = Vector3(0.0f, -9.81f, 0.0f);
+static const Vector3 gravity = Vector3(0.0f, -9.8f, 0.0f);
 static const float dampingFactor = 0.999f;
 
 void PhysicsNode::integrateForVelocity(float dt)
