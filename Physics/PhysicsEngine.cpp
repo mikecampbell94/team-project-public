@@ -2,6 +2,16 @@
 #include "CollisionDetectionSAT.h"
 
 
+PhysicsEngine::PhysicsEngine() : Subsystem("Physics")
+{
+}
+
+
+PhysicsEngine::~PhysicsEngine()
+{
+	removeAllPhysicsObjects();
+}
+
 void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 {
 	physicsNodes.push_back(obj);
@@ -43,7 +53,7 @@ void PhysicsEngine::removeAllPhysicsObjects()
 	physicsNodes.clear();
 }
 
-void PhysicsEngine::update(float deltaTime)
+void PhysicsEngine::updateSubsystem(const float& deltaTime)
 {
 	const int maxUpdatesPerFrame = 5;
 
@@ -60,16 +70,6 @@ void PhysicsEngine::update(float deltaTime)
 	{
 		updateRealTimeAccum = 0.0f;
 	}
-}
-
-PhysicsEngine::PhysicsEngine()
-{
-}
-
-
-PhysicsEngine::~PhysicsEngine()
-{
-	removeAllPhysicsObjects();
 }
 
 void PhysicsEngine::updatePhysics()
@@ -90,26 +90,35 @@ void PhysicsEngine::updatePhysics()
 	//2. Narrowphase Collision Detection (Accurate but slow)
 	narrowPhaseCollisions();
 	
-	//3. Initialize Constraint Params (precompute elasticity/baumgarte factor etc)
-	//Optional step to allow constraints to 
-	// precompute values based off current velocities 
-	// before they are updated loop below.
-	
-	for (Manifold* m : manifolds) m->preSolverStep(updateTimestep);
-	for (Constraint* c : constraints) c->preSolverStep(updateTimestep);
+	//3. Initialize Constraint Params (precompute elasticity/baumgarte factor etc)	
+	for (Manifold* m : manifolds)
+	{
+		m->preSolverStep(updateTimestep);
+	}
+	for (Constraint* c : constraints)
+	{
+		c->preSolverStep(updateTimestep);
+	}
 
 
 	//4. Update Velocities
-	for (PhysicsNode* obj : physicsNodes) obj->integrateForVelocity(updateTimestep);
+	for (PhysicsNode* obj : physicsNodes) 
+	{
+		obj->integrateForVelocity(updateTimestep);
+	}
 	
 	//5. Constraint Solver
-	for (size_t i = 0; i < SOLVER_ITERATIONS; ++i) {
+	for (size_t i = 0; i < SOLVER_ITERATIONS; ++i) 
+	{
 		for (Manifold* m : manifolds) m->applyImpulse();
 		for (Constraint* c : constraints) c->applyImpulse(updateTimestep);
 	}
 	
 	//6. Update Positions (with final 'real' velocities)
-	for (PhysicsNode* obj : physicsNodes) obj->integrateForPosition(updateTimestep);
+	for (PhysicsNode* obj : physicsNodes)
+	{
+		obj->integrateForPosition(updateTimestep);
+	}
 	
 }
 
@@ -147,13 +156,10 @@ void PhysicsEngine::narrowPhaseCollisions()
 {
 	if (broadphaseColPairs.size() > 0)
 	{
-		//Collision data to pass between detection and manifold generation stages.
 		CollisionData colData;
 
-		//Collision Detection Algorithm to use
 		CollisionDetectionSAT colDetect;
 
-		// Iterate over all possible collision pairs and perform accurate collision detection
 		for (size_t i = 0; i < broadphaseColPairs.size(); ++i)
 		{
 			CollisionPair& cp = broadphaseColPairs[i];
@@ -180,7 +186,8 @@ void PhysicsEngine::narrowPhaseCollisions()
 
 					colDetect.genContactPoints(manifold);
 
-					if (manifold->contactPoints.size() > 0) {
+					if (manifold->contactPoints.size() > 0) 
+					{
 						manifolds.push_back(manifold);
 					}
 					else {

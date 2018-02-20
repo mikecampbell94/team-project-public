@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Launch/Systems/Subsystem.h"
+
 #include "PhysicsNode.h"
 #include "Constraint.h"
 #include "Manifold.h"
@@ -16,11 +18,13 @@ struct CollisionPair
 	PhysicsNode* pObjectB;
 };
 
-class PhysicsEngine 
+class PhysicsEngine : public Subsystem
 {
-	//friend class TSingleton < PhysicsEngine >;
 public:
 	
+	PhysicsEngine();
+	~PhysicsEngine();
+
 	void addPhysicsObject(PhysicsNode* obj);
 	void removePhysicsObject(PhysicsNode* obj);
 	void removeAllPhysicsObjects();
@@ -28,7 +32,7 @@ public:
 	void addConstraint(Constraint* c) { constraints.push_back(c); }
 
 
-	void update(float deltaTime);
+	void updateSubsystem(const float& deltaTime) override;
 
 
 	inline float getUpdateTimestep() const 
@@ -64,9 +68,6 @@ public:
 
 
 private:
-	PhysicsEngine();
-	~PhysicsEngine();
-
 	void updatePhysics();
 
 	void broadPhaseCollisions();
