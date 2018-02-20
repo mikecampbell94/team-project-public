@@ -99,6 +99,12 @@
     <ClInclude Include="Graphics Pipeline\Graphics Settings\UIModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Meshes\TextMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\OGLRenderer.cpp">
@@ -171,6 +177,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics Pipeline\Graphics Settings\UIModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Meshes\TextMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

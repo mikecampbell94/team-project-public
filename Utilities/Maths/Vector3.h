@@ -32,7 +32,7 @@ public:
 	{
 		this->x = v.x;
 		this->y = v.y;
-		this->z = 10;
+		this->z = 1;
 	}
 
 	~Vector3(void){}

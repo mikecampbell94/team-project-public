@@ -43,6 +43,8 @@ void BasicGeometry::apply()
 		nodesInFrame->at(i)->Draw(*currentShader);
 	}
 
+
+
 	viewMatrix = camera->buildViewMatrix();
 }
 

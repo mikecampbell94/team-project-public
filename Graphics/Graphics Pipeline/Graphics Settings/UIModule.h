@@ -3,8 +3,8 @@
 #include "../GraphicsModule.h"
 #include "../../Meshes/Mesh.h"
 #include "../Interface/UserInterfaceBuilder.h"
-
-class Database;
+#include "../../Meshes/TextMesh.h"
+#include "../../Text.h"
 
 class UIModule : public GraphicsModule
 {
@@ -23,7 +23,16 @@ protected:
 	void locateUniforms() override;
 	Database* database;
 	Shader* UIShader;
+	Shader* UITextShader;
+
 	Matrix4 UIprojMatrix;
 	std::vector<Button*> UIObjects;
+
+
+	//Perhaps have UIobjects stored in the database, each with their own textMesh?
+	TextMesh* textMesh;
+	//maybe text has a font object?
+	Font* font;
+	GLint tex;
 };
 
