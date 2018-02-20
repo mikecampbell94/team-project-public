@@ -33,12 +33,10 @@ PhysicsNode * GameObject::getPhysicsNode()
 
 void GameObject::updatePosition()
 {
-	Vector3 newPosition = this->physicsNode->getWorldSpaceTransform().getPositionVector();
-	Vector3 scale = this->sceneNode->GetWorldTransform().getScalingVector();
+	Matrix4 newTransform = this->physicsNode->getWorldSpaceTransform();
+	newTransform = newTransform * Matrix4::scale(scale);
 
-	Matrix4 newTransform = this->physicsNode->getWorldSpaceTransform();// *Matrix4::scale(scale);
-	newTransform.setScalingVector(scale);
-	this->sceneNode->SetTransform(newPosition);
+	this->sceneNode->SetTransform(newTransform);
 }
 
 void GameObject::setPosition(Vector3 position)

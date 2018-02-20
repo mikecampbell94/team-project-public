@@ -33,7 +33,7 @@ GameLoop::GameLoop(System& gameSystem)
 	window->lockMouseToWindow(true);
 
 	//MUST BE REMOVED
-	camera = new Camera(0, 0, Vector3(0, 0, 0));
+	camera = new Camera(0, 0, Vector3(0, 75, 50));
 
 	//change so only window and camera are passed in and resolution is retreived from window class
 	rendering = new RenderingSystem(window, camera);

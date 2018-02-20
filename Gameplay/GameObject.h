@@ -29,6 +29,7 @@ public:
 		return scale;
 	}
 
+
 private: 
 	SceneNode *sceneNode;
 	PhysicsNode *physicsNode = nullptr;
