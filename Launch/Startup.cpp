@@ -35,8 +35,7 @@ void Startup::initialiseRenderingSystem()
 
 	camera = new Camera(0, 0, Vector3(0, 0, 0));
 
-	rendering = new RenderingSystem(window, camera, Vector2(screenWidth, screenHeight));
-	
+	rendering = new RenderingSystem(window, camera);
 	
 	nodes = new std::vector<SceneNode*>();
 	scene = new SceneManager(camera, nodes);
@@ -92,7 +91,7 @@ void Startup::initialiseLevelSystem()
 
 void Startup::initialiseGameplaySystem()
 {
-	gameplay = new GameplaySystem(inputManager->GetPlayerbase()->getPlayers().size());
+	gameplay = new GameplaySystem(inputManager->GetPlayerbase()->getPlayers().size(), *inputManager->GetPlayerbase());
 }
 
 void Startup::addSystemsToEngine()
