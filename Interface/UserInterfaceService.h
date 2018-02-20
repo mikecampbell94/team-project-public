@@ -8,5 +8,8 @@ class UserInterfaceService
 {
 public:
 	virtual std::vector<Button*>* getAllButtonsInMenu() = 0;
+	virtual void moveSelectedDown() = 0;
+	virtual void moveSelectedUp() = 0;
+	virtual void ExecuteSelectedButton() = 0;
 };
 

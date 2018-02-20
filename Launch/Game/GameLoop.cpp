@@ -51,7 +51,7 @@ GameLoop::GameLoop(System& gameSystem)
 	level.loadLevelFile("TestLevel.txt");
 
 
-	userInterface = new UserInterface(window->getMouse(), Vector2(1280, 720), database);
+	userInterface = new UserInterface(window->getKeyboard(), Vector2(1280, 720), database);
 
 	rendering->initialise(database);
 
@@ -89,6 +89,20 @@ GameLoop::GameLoop(System& gameSystem)
 	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall4"))->getSceneNode());
 	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("floor"))->getSceneNode());*/
 	engine.addSubsystem(audio);
+
+	DeliverySystem::getPostman()->addDeliveryPoint("GameLoop");
+	incomingMessages = MessageProcessor(std::vector<MessageType>{ MessageType::TEXT},
+		DeliverySystem::getPostman()->getDeliveryPoint("GameLoop"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&quit = quit](Message* message)
+	{
+		TextMessage* textMessage = static_cast<TextMessage*>(message);
+
+		if (textMessage->text == "Quit")
+		{
+			quit = true;
+		}
+	});
 }
 
 GameLoop::~GameLoop()
@@ -102,14 +116,16 @@ void GameLoop::executeGameLoop()
 {
 	int frameCount = 0;
 
-	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE))
+	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE) && !quit)
 	{
+
 		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
 
 		engine.updateNextSystemFrame(deltaTime);
 
 		DeliverySystem::getPostman()->deliverAllMessages();
 		engine.processMessagesForAllSubsystems();
+		incomingMessages.processMessagesInBuffer();
 
 		DeliverySystem::getPostman()->clearAllMessages();
 

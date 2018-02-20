@@ -4,7 +4,7 @@
       <r>1.0</r>
       <g>0.0</g>
       <b>0.0</b>
-      <a>1.0</a>
+      <a>0.5</a>
     </colour>
     <position>
       <x>0</x>
@@ -14,8 +14,28 @@
       <x>50.0</x>
       <y>20.0</y>
     </scale>
-    <action>PrintText</action>
-    <text>This is my button</text>
+    <action>Start</action>
+    <text>Start</text>
+    <mesh>CubeMesh</mesh>
+  </Button>
+
+  <Button>
+    <colour>
+      <r>1.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>0.5</a>
+    </colour>
+    <position>
+      <x>0</x>
+      <y>-45</y>
+    </position>
+    <scale>
+      <x>50.0</x>
+      <y>20.0</y>
+    </scale>
+    <action>Quit</action>
+    <text>Quit</text>
     <mesh>CubeMesh</mesh>
   </Button>
 </MainMenu>

@@ -1,11 +1,11 @@
 #include "UserInterface.h"
 
-#include "../../Input/Devices/Mouse.h"
+#include "../../Input/Devices/Keyboard.h"
 #include "UserInterfaceDisplay.h"
 
-UserInterface::UserInterface(Mouse* mouse, Vector2 resolution, Database* database) : Subsystem("UserInterface")
+UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution, Database* database) : Subsystem("UserInterface")
 {
-	this->mouse = mouse;
+	this->keyboard = keyboard;
 	this->resolution = resolution;
 
 	std::vector<MessageType> types = { MessageType::TEXT };
@@ -29,4 +29,17 @@ UserInterface::~UserInterface()
 
 void UserInterface::updateSubsystem(const float& deltaTime)
 {
+	if (keyboard->keyTriggered(KEYBOARD_DOWN))
+	{
+		UserInterfaceDisplay::getInterface()->moveSelectedDown();
+	}
+	else if (keyboard->keyTriggered(KEYBOARD_UP))
+	{
+		UserInterfaceDisplay::getInterface()->moveSelectedUp();
+	}
+
+	if (keyboard->keyTriggered(KEYBOARD_RETURN))
+	{
+		UserInterfaceDisplay::getInterface()->ExecuteSelectedButton();
+	}
 }

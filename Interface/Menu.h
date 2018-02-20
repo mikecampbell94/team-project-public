@@ -15,12 +15,19 @@ public:
 	~Menu();
 
 	void HighlightSelectedButton();
-	void ExecuteSelectedButton();
+	void UnhighlightButton();
+	void ExecuteSelectedButton() override;
+
+	void moveSelectedDown() override;
+	void moveSelectedUp() override;
 
 	std::vector<Button*>* getAllButtonsInMenu() override;
 
 private:
 	std::vector<Button> menu;
 	std::vector<Button*> allButtons;
+
+	Vector4 slectedButtonDefaultColour;
+	int selectedButtonIndex;
 };
 

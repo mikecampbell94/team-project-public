@@ -15,6 +15,7 @@
 #include "../../Interface/UserInterface.h"
 
 #include "../../Audio/AudioSystem.h"
+#include "../Communication/MessageProcessor.h"
 
 class GameLoop
 {
@@ -25,6 +26,7 @@ public:
 	void executeGameLoop();
 
 private:
+	MessageProcessor incomingMessages;
 	Database* database;
 	SceneManager* scene;
 
@@ -40,7 +42,7 @@ private:
 
 	Camera* camera;
 
-
+	bool quit = false;
 	float pitch = 0.0f;
 	float yaw   = 0.0f;
 };
