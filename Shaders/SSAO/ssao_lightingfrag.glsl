@@ -4,7 +4,6 @@ out vec4 FragColor;
 
 uniform int numberOfLights;
 
-uniform int numShadowCastingLights;
 uniform float ambientLighting;
 
 uniform sampler2D gPosition;
@@ -12,8 +11,8 @@ uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D ssao;
 
-uniform sampler2DShadow shadows[5];
-uniform mat4 texMatrices[5];
+uniform sampler2DShadow shadows;
+uniform mat4 texMatrices;
 uniform mat4 camMatrix;
 uniform mat4 viewMatrix;
 
@@ -32,9 +31,10 @@ struct LightData
 	vec4 pos;
 	vec4 lightColour;
 	float lightRadius;
+	float isShadowCasting;
 	float intensity;
 
-	float fpadding[2];
+	float fpadding;
 };
 
 layout (std430, binding = 1) buffer LightDataBuffer
@@ -70,6 +70,37 @@ void AddLighting(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 
 		specular *= attenuation;
 
 		finalColour.rgb += diffuse.rgb + specular.rgb;
+
+		//shadow
+		if (lightData[index].isShadowCasting > 0)
+		{
+			float lambert = max(0.0, dot(lightDir, normal));
+
+			//Shadow
+			vec4 shadowProj = (texMatrices * inverse(camMatrix) *
+				vec4(position + (normal * 1.5), 1));
+
+			float shadow = 0.0;
+
+			if (shadowProj.w > 0.0)
+			{
+				for (int x = -2; x <= 2; ++x)
+				{
+					for (int y = -2; y <= 2; ++y)
+					{
+						vec2 sampleCoord = vec2(x, y) *0.5;
+						shadow += textureProj(shadows, shadowProj + vec4(sampleCoord, 0.0f, 0.0f));
+					}
+				}
+
+				shadow /= 25;// pow((HALF_NUM_PCF_SAMPLES) * 2, 2);
+			}
+
+			lambert *= shadow;
+			attenuation *= lambert;
+
+			finalColour.rgb *= shadow;
+		}
 	}
 }
 
@@ -92,17 +123,17 @@ void main(void){
 			AddLighting(i, position, normal, albedo, finalColour);
 		}
 
-		//if (ssaoApplied)
-		//{
+		if (ssaoApplied)
+		{
 			float ambientComponent = 0.6f * texture(ssaoTexture, TexCoords).r;
 			vec3 ambientColour = albedo.rgb * ambientComponent;
 
 			finalColour.rgb += ambientColour;
-		//}
-		//else
-		//{
-			//finalColour.rgb *= 0.9f;
-		//}
+		}
+		else
+		{
+			finalColour.rgb *= 0.9f;
+		}
 
 		FragColor = finalColour;
 	}

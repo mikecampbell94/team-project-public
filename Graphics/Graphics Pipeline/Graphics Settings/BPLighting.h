@@ -11,7 +11,7 @@ class BPLighting : public GraphicsModule
 public:
 	BPLighting(const std::string identifier, const Matrix4 projmatrix,
 		const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights,
-		SSAOTextures* ssaoTextures);
+		SSAOTextures* ssaoTextures, ShadowData* shadowData);
 
 	virtual ~BPLighting()
 	{

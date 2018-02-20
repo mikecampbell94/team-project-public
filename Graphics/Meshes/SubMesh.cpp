@@ -121,31 +121,16 @@ void SubMesh::Draw(Shader& shader)
 	glActiveTexture(GL_TEXTURE0);
 }
 
-void SubMesh::DrawShadow()
+void SubMesh::DrawShadow(Shader& shader, Matrix4& worldTransform)
 {
-	//for each (Matrix4 transform in transforms)
-	//{
-	//	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(),
-	//		"modelMatrix"), 1, false, (float*)&transform);
+	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false, (float*)&worldTransform);
 
-	//	//Draw mesh
-	//	glBindVertexArray(VAO);
-	//	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-	//	glBindVertexArray(0);
-	//}
-
-
-	////////////////////////////
-
-	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
-	//glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4) * transforms.size(),
-	//	(float*)&transforms[0], GL_STATIC_COPY);
-	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
-	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
-	//glBindVertexArray(VAO);
+	glBindVertexArray(VAO);
 	//glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
-	//glBindVertexArray(0);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	glActiveTexture(GL_TEXTURE0);
 }
 
 void SubMesh::addTexture(unsigned int texture)

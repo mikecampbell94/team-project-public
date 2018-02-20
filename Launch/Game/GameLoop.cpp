@@ -13,13 +13,30 @@
 GameLoop::GameLoop(System& gameSystem)
 {
 	engine = gameSystem;
-	window = new Window("Game Window", 1280, 720);
+	//needs changing once Startup is done
+	XMLParser windowconfigParser;
+	windowconfigParser.loadFile("../Data/Resources/Config/Graphics/windowConfigXML.xml");
+	Node* parsednode = windowconfigParser.parsedXml;
+	bool fullscreenIsEnabled;
+	std::string enabled = parsednode->children[1]->value;
+
+	if (enabled == "Enabled")
+	{
+		fullscreenIsEnabled = true;
+	}
+	else
+	{
+		fullscreenIsEnabled = false;
+	}
+	window = new Window("overwatch haha lol :)", stoi(parsednode->children[0]->children[0]->value), stoi(parsednode->children[0]->children[1]->value), fullscreenIsEnabled);
+	//window = new Window("Game Window", 1280, 720);
 	window->lockMouseToWindow(true);
 
 	//MUST BE REMOVED
 	camera = new Camera(0, 0, Vector3(0, 0, 0));
 
-	rendering = new RenderingSystem(window, camera, Vector2(1280, 720));
+	//change so only window and camera are passed in and resolution is retreived from window class
+	rendering = new RenderingSystem(window, camera);
 	//Database database;
 	database = new Database();
 
@@ -55,7 +72,7 @@ GameLoop::GameLoop(System& gameSystem)
 	playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
 
 	inputManager = new InputManager(playerbase);
-	gameplay = new GameplaySystem(playerbase->getPlayers().size());
+	gameplay = new GameplaySystem(playerbase->getPlayers().size(),*playerbase);
 
 	engine.addSubsystem(gameplay);
 	engine.addSubsystem(inputManager);

@@ -29,6 +29,6 @@ private:
 	PhysicsNode *physicsNode;
 
 	Vector3 position;
-
+	Vector3 scale;
 };
 

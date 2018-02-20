@@ -2,7 +2,8 @@
 
 #include "Message.h"
 #include "Messages/PlayerInputMessage.h"
-#include "Messages/TextMessage.h"#include "Messages/PlaySoundMessage.h"
+#include "Messages/TextMessage.h"
+#include "Messages/PlaySoundMessage.h"
 #include "Messages/StopSoundMessage.h"
 #include <string>
 #include <queue>

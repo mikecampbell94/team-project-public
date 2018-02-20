@@ -1,5 +1,8 @@
 #pragma once
 #include "Player.h"
+#include "../Resource Management/XMLParser.h"
+#include "../Input/InputUtility.h"
+#include "../../Gameplay/InputGameplay/InputActionMap.h"
 #include <map>
 #include <vector>
 
@@ -20,9 +23,19 @@ public:
 	{
 		return players;
 	}
+
+	std::vector<InputActionMap> & getPlayersAction()
+	{
+		return playersActions;
+	}
+
+
+
 private:
 	void wipeStoredPlayers();
 
 	std::vector<InputRecorder*> inputRecorders;
 	std::vector<Player*> players;
+	XMLParser inputParser;
+	std::vector<InputActionMap> playersActions;
 };

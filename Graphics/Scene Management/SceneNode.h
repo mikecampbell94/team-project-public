@@ -67,7 +67,7 @@ public:
 
 	virtual void Update(float msec);
 	virtual void Draw(Shader& shader);
-	virtual void DrawShadow();
+	virtual void DrawShadow(Shader& shader);
 
 	std::vector<SceneNode*>::const_iterator GetChildIteratorStart() {
 		return children.begin();
