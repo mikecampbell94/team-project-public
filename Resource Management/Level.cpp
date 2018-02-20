@@ -33,24 +33,44 @@ void Level::loadLevelFile(std::string levelFilePath)
 	
 	while (!levelFile.eof() && std::getline(levelFile, line))
 	{
-		listOfObjectTypesInLevel.push_back(parser.loadFile(DATADIR + line));
+		//listOfObjectTypesInLevel.push_back(parser.loadFile(DATADIR + line));
+		parser.loadFile(DATADIR + line);
 		//have our object in XML format, add to database :)
-		for (Node * child : parser.parsedXml->children) {
+		for (Node * child : parser.parsedXml->children) 
+		{
+			listOfObjectTypesInLevel.insert(child->nodeType);
 			database->addResourceToTable(child->nodeType, child);
 		}
-		
 	}
 	levelFile.close();
 
 	addObjectsToGame();
 }
 
+void Level::unloadLevelWhileKeepingUserInterface()
+{
+	for each (std::string table in listOfObjectTypesInLevel)
+	{
+		if (table != "UIMeshes")
+		{
+			database->getTable(table)->getAllResources()->deleteAllResources();
+		}
+	}
+
+	(*sceneManager->getAllNodes())->clear();
+	(*sceneManager->getAllLights())->clear();
+}
+
 void Level::unloadLevel()
 {
-	for (std::vector<std::string>::const_iterator it = listOfObjectTypesInLevel.begin(); it != listOfObjectTypesInLevel.end(); ++it)
+	//for (std::vector<std::string>::const_iterator it = listOfObjectTypesInLevel.begin(); it != listOfObjectTypesInLevel.end(); ++it)
+	for each (std::string table in listOfObjectTypesInLevel)
 	{
-		database->getTable(*it)->getAllResources()->deleteAllResources();
+		database->getTable(table)->getAllResources()->deleteAllResources();
 	}
+
+	(*sceneManager->getAllNodes())->clear();
+	(*sceneManager->getAllLights())->clear();
 }
 
 void Level::addObjectsToGame()

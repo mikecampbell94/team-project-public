@@ -28,7 +28,8 @@ protected:
 	Matrix4 UIprojMatrix;
 	std::vector<Button*>* UIObjects;
 
-
+	void renderButtons(std::vector<Button>& buttons);
+	void renderButtonsText(std::vector<Button>& buttons);
 	//Perhaps have UIobjects stored in the database, each with their own textMesh?
 	TextMesh* textMesh;
 	//maybe text has a font object?

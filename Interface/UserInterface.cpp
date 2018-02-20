@@ -3,7 +3,7 @@
 #include "../../Input/Devices/Keyboard.h"
 #include "UserInterfaceDisplay.h"
 
-UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution, Database* database) : Subsystem("UserInterface")
+UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution) : Subsystem("UserInterface")
 {
 	this->keyboard = keyboard;
 	this->resolution = resolution;
@@ -17,9 +17,6 @@ UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution, Database* d
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 		std::cout << textMessage->text << std::endl;
 	});
-
-	menu = new Menu("../Data/UserInterface/MainMenu.xml", database);
-	UserInterfaceDisplay::provide(menu);
 }
 
 UserInterface::~UserInterface()
@@ -27,19 +24,42 @@ UserInterface::~UserInterface()
 	delete menu;
 }
 
+void UserInterface::initialise(Database* database)
+{
+	menu = new Menu("../Data/UserInterface/MainMenu.xml", database);
+	UserInterfaceDisplay::provide(menu);
+}
+
 void UserInterface::updateSubsystem(const float& deltaTime)
 {
-	if (keyboard->keyTriggered(KEYBOARD_DOWN))
+	if (keyboard->keyTriggered(KEYBOARD_ESCAPE))
 	{
-		UserInterfaceDisplay::getInterface()->moveSelectedDown();
-	}
-	else if (keyboard->keyTriggered(KEYBOARD_UP))
-	{
-		UserInterfaceDisplay::getInterface()->moveSelectedUp();
+		interfaceDisplaying = !interfaceDisplaying;
+		DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", interfaceDisplaying));
 	}
 
-	if (keyboard->keyTriggered(KEYBOARD_RETURN))
+	if (interfaceDisplaying)
 	{
-		UserInterfaceDisplay::getInterface()->ExecuteSelectedButton();
+		if (keyboard->keyTriggered(KEYBOARD_DOWN))
+		{
+			UserInterfaceDisplay::getInterface()->moveSelectedDown();
+		}
+		else if (keyboard->keyTriggered(KEYBOARD_UP))
+		{
+			UserInterfaceDisplay::getInterface()->moveSelectedUp();
+		}
+		else if (keyboard->keyTriggered(KEYBOARD_RIGHT))
+		{
+			UserInterfaceDisplay::getInterface()->moveSelectedRight();
+		}
+		else if (keyboard->keyTriggered(KEYBOARD_LEFT))
+		{
+			UserInterfaceDisplay::getInterface()->moveSelectedLeft();
+		}
+
+		if (keyboard->keyTriggered(KEYBOARD_RETURN))
+		{
+			UserInterfaceDisplay::getInterface()->ExecuteSelectedButton();
+		}
 	}
 }

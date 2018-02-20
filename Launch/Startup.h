@@ -22,7 +22,9 @@ public:
 	void initialiseSubsystems();
 	void startGameLoop();
 
+	void loadMainMenu();
 	void loadLevel(std::string levelFile);
+	void switchLevel();
 	void unloadLevel();
 
 private:
@@ -50,7 +52,7 @@ private:
 	InputManager* inputManager;
 	GameplaySystem* gameplay;
 	AudioSystem* audio;
-
+	UserInterface* userInterface;
 
 	GameTimer* loopTimer;
 	Window* window;

@@ -31,11 +31,23 @@ Button UserInterfaceBuilder::buildButton(Node* node, Database* database, ButtonA
 	const std::string meshName = node->children[5]->value;
 
 	Mesh* mesh = static_cast<Mesh*>(
-		database->getTable("Meshes")->getAllResources()->getResource(meshName));
+		database->getTable("UIMeshes")->getAllResources()->getResource(meshName));
 
 	Font font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
 
-	return Button(colour, position, scale, action, new TextMesh(text, font), mesh);
+	Button button(colour, position, scale, action, new TextMesh(text, font), mesh);
+
+	if (node->children.size() >= 7)
+	{
+		//for each (Node* buttonNode in node->children)
+		for (int i = 6; i < node->children.size(); ++i)
+		{
+			Button childButton = buildButton(node->children[i], database, actionCreator);
+			button.childButtons.push_back(childButton);
+		}
+	}
+
+	return button;
 }
 
 Vector4 UserInterfaceBuilder::getColour(Node* node)

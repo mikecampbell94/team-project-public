@@ -10,8 +10,9 @@
 #include "../../Gameplay/GameObject.h"
 #include "../../Input/Recorders/KeyboardMouseRecorder.h"
 #include "Communication/Messages/PlaySoundMessage.h"
+#include "../Startup.h"
 
-GameLoop::GameLoop(System* gameSystem)
+GameLoop::GameLoop(Startup* startup, System* gameSystem)
 {
 	engine = gameSystem;
 	//window = new Window("Game Window", 1280, 720);
@@ -57,10 +58,10 @@ GameLoop::GameLoop(System* gameSystem)
 	//inputManager = new InputManager(playerbase);
 	//gameplay = new GameplaySystem(playerbase->getPlayers().size());
 
-	engine.addSubsystem(gameplay);
-	engine.addSubsystem(inputManager);
-	engine.addSubsystem(rendering);
-	engine.addSubsystem(userInterface);
+	//engine.addSubsystem(gameplay);
+	//engine.addSubsystem(inputManager);
+	//engine.addSubsystem(rendering);
+	//engine.addSubsystem(userInterface);
 
 	/*nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("playerBall"))->getSceneNode());
 	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall1"))->getSceneNode());
@@ -68,13 +69,13 @@ GameLoop::GameLoop(System* gameSystem)
 	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall3"))->getSceneNode());
 	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("wall4"))->getSceneNode());
 	nodes->push_back(static_cast<GameObject*>(database.getTable("GameObjects")->getResource("floor"))->getSceneNode());*/
-	engine.addSubsystem(audio);
+	//engine.addSubsystem(audio);
 
 	DeliverySystem::getPostman()->addDeliveryPoint("GameLoop");
 	incomingMessages = MessageProcessor(std::vector<MessageType>{ MessageType::TEXT},
 		DeliverySystem::getPostman()->getDeliveryPoint("GameLoop"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&quit = quit](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [startup = startup, &quit = quit](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
@@ -82,7 +83,15 @@ GameLoop::GameLoop(System* gameSystem)
 		{
 			quit = true;
 		}
+		else if (textMessage->text == "Start")
+		{
+			startup->switchLevel();
+			startup->loadLevel("TestLevel.txt");
+		}
 	});
+
+	yaw = -130;
+	pitch = 30;
 }
 
 GameLoop::~GameLoop()
@@ -93,15 +102,15 @@ void GameLoop::executeGameLoop()
 {
 	int frameCount = 0;
 
-	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE) && !quit)
+	while(window->updateWindow() && !quit)
 	{
 
-		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
+		float deltaTime = loopTimer->getTimeSinceLastRetrieval();
 
 		engine->updateNextSystemFrame(deltaTime);
 
 		DeliverySystem::getPostman()->deliverAllMessages();
-		engine.processMessagesForAllSubsystems();
+		engine->processMessagesForAllSubsystems();
 		incomingMessages.processMessagesInBuffer();
 
 		DeliverySystem::getPostman()->clearAllMessages();

@@ -118,6 +118,7 @@ void BPLighting::lightingPass()
 	currentShader->ApplyTexture(CommonGraphicsData::GALBEDO, *gBuffer->gAlbedo);
 
 	glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "ssaoApplied"), *SSAOApplied);
+	glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "shadowsApplied"), *ShadowsApplied);
 	glUniform1i(loc_shadows, 5);
 
 	for (int a = 0; a < 1; ++a)
@@ -131,4 +132,5 @@ void BPLighting::lightingPass()
 
 	renderScreenQuad();
 	*SSAOApplied = false;
+	*ShadowsApplied = false;
 }

@@ -68,6 +68,11 @@ void Renderer::update(const float& deltatime)
 	renderScene();
 }
 
+void Renderer::toggleModule(const std::string& moduleName, bool enabled)
+{
+	pipeline.toggleModule(moduleName, enabled);
+}
+
 void Renderer::updateScene(const float& msec)
 {
 	camera->updateCamera();

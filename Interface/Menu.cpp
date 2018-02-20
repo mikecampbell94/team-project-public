@@ -9,7 +9,14 @@ Menu::Menu(std::string buttonFile, Database* database)
 		allButtons.push_back(&menu[i]);
 	}
 
-	selectedButtonIndex = 0;
+	for (Button& button : menu)
+	{
+		buildTree(&button);
+	}
+
+	selectedRowIndex = 0;
+	depth = 0;
+	indexes.push_back(selectedRowIndex);
 	HighlightSelectedButton();
 }
 
@@ -19,36 +26,92 @@ Menu::~Menu()
 
 void Menu::HighlightSelectedButton()
 {
-	slectedButtonDefaultColour = menu[selectedButtonIndex].colour;
-	menu[selectedButtonIndex].colour = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+	std::vector<Button>* column = &menu;
+
+	for (int i = 0; i < depth; ++i)
+	{
+		column->at(indexes[i + 1]).childrenEnabled = true;
+		column = &(column->at(indexes[i + 1]).childButtons);
+	}
+
+	currentColumnSize = column->size();
+
+	parentOfLastButtonPressed = column->at(selectedRowIndex).parent;
+	currentSelectedButton = &column->at(selectedRowIndex);
+
+	slectedButtonDefaultColour = column->at(selectedRowIndex).colour;
+	column->at(selectedRowIndex).colour = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void Menu::UnhighlightButton()
 {
-	menu[selectedButtonIndex].colour = slectedButtonDefaultColour;
+	std::vector<Button>* column = &menu;
+
+	for (int i = 0; i < depth; ++i)
+	{
+		column = &(column->at(indexes[i + 1]).childButtons);
+	}
+
+	column->at(selectedRowIndex).colour = slectedButtonDefaultColour;
 }
 
 void Menu::ExecuteSelectedButton()
 {
-	menu[selectedButtonIndex].action();
+	std::vector<Button>* column = &menu;
+
+	for (int i = 0; i < depth; ++i)
+	{
+		column = &(column->at(indexes[i + 1]).childButtons);
+	}
+
+	if (column->at(selectedRowIndex).childButtons.size() == 0)
+	{
+		column->at(selectedRowIndex).action();
+	}
 }
 
 void Menu::moveSelectedDown()
 {
-	if (selectedButtonIndex < menu.size() - 1)
+	if (selectedRowIndex < currentColumnSize - 1)
 	{
 		UnhighlightButton();
-		++selectedButtonIndex;
+		++selectedRowIndex;
 		HighlightSelectedButton();
 	}
 }
 
 void Menu::moveSelectedUp()
 {
-	if (selectedButtonIndex > 0)
+	if (selectedRowIndex > 0)
 	{
 		UnhighlightButton();
-		--selectedButtonIndex;
+		--selectedRowIndex;
+		HighlightSelectedButton();
+	}
+}
+
+void Menu::moveSelectedRight()
+{
+	if (currentSelectedButton->childButtons.size() > 0)
+	{
+		UnhighlightButton();
+		++depth;
+		indexes.push_back(selectedRowIndex);
+		selectedRowIndex = 0;
+		HighlightSelectedButton();
+	}
+}
+
+void Menu::moveSelectedLeft()
+{
+	if (currentSelectedButton->parent != nullptr)
+	{
+		parentOfLastButtonPressed->childrenEnabled = false;
+
+		UnhighlightButton();
+		--depth;
+		indexes.pop_back();
+		selectedRowIndex = 0;
 		HighlightSelectedButton();
 	}
 }
@@ -56,4 +119,14 @@ void Menu::moveSelectedUp()
 std::vector<Button*>* Menu::getAllButtonsInMenu()
 {
 	return &allButtons;
+}
+
+void Menu::buildTree(Button* button)
+{
+	for (Button& child : button->childButtons)
+	{
+		child.parent = button;
+
+		buildTree(&child);
+	}
 }

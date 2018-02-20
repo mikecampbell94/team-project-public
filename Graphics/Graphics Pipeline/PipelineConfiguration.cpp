@@ -48,8 +48,9 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthog
 	bpLighting->linkShaders();
 	bpLighting->initialise();
 	bpLighting->SSAOApplied = &ssao->applied;
+	bpLighting->ShadowsApplied = &shadowTex->applied;
 
-	uiModule = new UIModule("UI Renderer", orthographicMatrix,resolution, database);
+	uiModule = new UIModule("UIModule", orthographicMatrix, resolution, database);
 	uiModule->linkShaders();
 	uiModule->initialise();
 }

@@ -20,14 +20,25 @@ public:
 
 	void moveSelectedDown() override;
 	void moveSelectedUp() override;
+	void moveSelectedRight() override;
+	void moveSelectedLeft() override;
 
 	std::vector<Button*>* getAllButtonsInMenu() override;
 
 private:
+	void buildTree(Button* button);
+
 	std::vector<Button> menu;
 	std::vector<Button*> allButtons;
 
 	Vector4 slectedButtonDefaultColour;
-	int selectedButtonIndex;
+	int selectedRowIndex;
+	int depth;
+	std::vector<int> indexes;
+
+	Button* parentOfLastButtonPressed;
+	Button* currentSelectedButton;
+
+	int currentColumnSize = 0;
 };
 

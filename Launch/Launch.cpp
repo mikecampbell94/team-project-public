@@ -20,7 +20,8 @@ int main()
 
 	Startup startup;
 	startup.initialiseSubsystems();
-	startup.loadLevel("TestLevel.txt");
+	//startup.loadLevel("TestLevel.txt");
+	startup.loadMainMenu();
 	startup.startGameLoop();
 
 	//ShutdownClass here

@@ -11,7 +11,9 @@ enum MessageType
 	TEXT,	
 	PLAY_SOUND,
 	STOP_SOUND,
-	MOVING_SOUND};
+	MOVING_SOUND,
+	TOGGLE_GRAPHICS_MODULE
+};
 
 
 class Message

@@ -17,10 +17,12 @@
 #include "../../Audio/AudioSystem.h"
 #include "../Communication/MessageProcessor.h"
 
+class Startup;
+
 class GameLoop
 {
 public:
-	GameLoop(System* gameSystem);
+	GameLoop(Startup* startup, System* gameSystem);
 	GameLoop();
 	~GameLoop();
 
@@ -42,6 +44,7 @@ public:
 	}
 
 private:
+	MessageProcessor incomingMessages;
 	System* engine;
 	GameTimer* loopTimer;
 	Window* window;

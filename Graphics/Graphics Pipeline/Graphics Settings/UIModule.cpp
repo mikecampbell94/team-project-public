@@ -22,11 +22,13 @@ UIModule::~UIModule()
 
 void UIModule::initialise()
 {
-	UIObjects = UserInterfaceDisplay::getInterface()->getAllButtonsInMenu();//UserInterfaceBuilder::buildButtons("../Data/UserInterface/MainMenu.xml", database);
+	//UserInterfaceBuilder::buildButtons("../Data/UserInterface/MainMenu.xml", database);
 }
 
 void UIModule::apply()
 {
+	UIObjects = UserInterfaceDisplay::getInterface()->getAllButtonsInMenu();
+
 	setCurrentShader(UIShader);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
@@ -40,7 +42,13 @@ void UIModule::apply()
 	for each (Button* button in *UIObjects)
 	{
 		glUniform4fv(glGetUniformLocation(UIShader->GetProgram(), "colour"), 1, (float*)&button->colour);
+
 		button->UIMesh->Draw(*currentShader, Matrix4::translation(button->position) * Matrix4::scale(button->scale));
+
+		if (button->childrenEnabled)
+		{
+			renderButtons(button->childButtons);
+		}
 	}
 
 	glEnable(GL_BLEND);
@@ -54,6 +62,11 @@ void UIModule::apply()
 		Vector2 buttonSize = button->scale / Vector2(4.0f, 1.5f);
 		Vector2 offset(button->scale.x, 0.0f);
 		button->textMesh->Draw(*currentShader, Matrix4::translation(button->position - offset) * Matrix4::scale(Vector3(buttonSize.x, buttonSize.y, 1)));
+
+		if (button->childrenEnabled)
+		{
+			renderButtonsText(button->childButtons);
+		}
 	}
 
 	glDisable(GL_BLEND);
@@ -74,4 +87,34 @@ void UIModule::regenerateShaders()
 
 void UIModule::locateUniforms()
 {
+}
+
+void UIModule::renderButtons(std::vector<Button>& buttons)
+{
+	for each (Button button in buttons)
+	{
+		glUniform4fv(glGetUniformLocation(UIShader->GetProgram(), "colour"), 1, (float*)&button.colour);
+
+		button.UIMesh->Draw(*currentShader, Matrix4::translation(button.position) * Matrix4::scale(button.scale));
+
+		if (button.childrenEnabled)
+		{
+			renderButtons(button.childButtons);
+		}
+	}
+}
+
+void UIModule::renderButtonsText(std::vector<Button>& buttons)
+{
+	for each (Button button in buttons)
+	{
+		Vector2 buttonSize = button.scale / Vector2(4.0f, 1.5f);
+		Vector2 offset(button.scale.x, 0.0f);
+		button.textMesh->Draw(*currentShader, Matrix4::translation(button.position - offset) * Matrix4::scale(Vector3(buttonSize.x, buttonSize.y, 1)));
+
+		if (button.childrenEnabled)
+		{
+			renderButtonsText(button.childButtons);
+		}
+	}
 }

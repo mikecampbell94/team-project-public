@@ -22,7 +22,13 @@ struct Button
 		this->UIMesh = mesh;
 
 		selected = false;
+		childrenEnabled = false;
+		parent = nullptr;
 	}
+
+	std::vector<Button> childButtons;
+	Button* parent;
+	bool childrenEnabled;
 
 	Vector4 colour;
 	Vector2 position;
