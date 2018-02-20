@@ -26,8 +26,8 @@ LegacyMesh::~LegacyMesh()
 {
 	glDeleteVertexArrays(1, &arrayObject);
 	glDeleteBuffers(MAX_BUFFER, bufferObject);
-	glDeleteTextures(1, &bumpTexture);
-	glDeleteTextures(1, &texture);
+	//glDeleteTextures(1, &bumpTexture);
+	//glDeleteTextures(1, &texture);
 	delete[] vertices;
 	delete[] colours;
 	delete[] normals;
@@ -264,9 +264,9 @@ Vector3 LegacyMesh::GenerateTangent(const Vector3 &a, const Vector3 &b,
 }
 
 void LegacyMesh::Draw(Shader& shader, Matrix4& worldTransform) {
+	glUniform1i(glGetUniformLocation(shader.GetProgram(), "diffuseTex"), 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
-
 
 
 

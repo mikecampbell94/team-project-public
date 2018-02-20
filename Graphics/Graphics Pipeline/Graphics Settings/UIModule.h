@@ -43,5 +43,6 @@ protected:
 	TextMesh* textMesh;
 	//maybe text has a font object?
 	Font* font;
+	GLint tex;
 };
 

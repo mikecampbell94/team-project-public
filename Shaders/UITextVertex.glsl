@@ -9,10 +9,10 @@ uniform mat4 projMatrix;
 uniform mat4 modelMatrix;
 uniform mat4 textureMatrix;
 
-
 out Vertex {
 	vec2 texCoord;
 } OUT;
+
 
 void main(void) {	
 	gl_Position = (projMatrix * viewMatrix * modelMatrix) * vec4(aPos, 1.0);

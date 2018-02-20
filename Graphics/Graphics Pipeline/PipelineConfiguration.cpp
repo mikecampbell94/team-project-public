@@ -35,6 +35,6 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthog
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 {
-	//pipeline->addModule(basicGeom);
+	pipeline->addModule(basicGeom);
 	pipeline->addModule(uiModule);
 }
