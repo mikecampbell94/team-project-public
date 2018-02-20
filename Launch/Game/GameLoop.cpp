@@ -76,7 +76,7 @@ void GameLoop::executeGameLoop()
 	{
 		float deltaTime = loopTimer.getTimeSinceLastRetrieval();
 
-		DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
+		DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORITY_HIGH, 1.0f, 100.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
 
 		engine.updateNextSystemFrame(deltaTime);
 
