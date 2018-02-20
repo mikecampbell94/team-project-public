@@ -1,6 +1,4 @@
 <Config inputType="GraphicsConfig">
-	<Modules>
-	<Settings name="Fullscreen">Enabled</Settings>
 	<Settings name="BasicGeometry">Disabled</Settings>
 	<Settings name="Bloom">Disabled</Settings>
 	<Settings name="BPLighting">Enabled</Settings>
@@ -10,5 +8,4 @@
 	<Settings name="ShadowMapping">Disabled</Settings>
 	<Settings name="Skybox">Enabled</Settings>
 	<Settings name="SSAO">Enabled</Settings>
-	</Modules>
 </Config>
