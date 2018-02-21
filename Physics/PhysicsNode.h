@@ -210,16 +210,10 @@ public:
 
 	inline void fireOnUpdateCallback()
 	{
-		//Build world transform
-		//worldTransform = orientation.ToMatrix4();
-		//worldTransform.SetPositionVector(position);
-
 		if (worldTransform.getPositionVector() != previousTransform.getPositionVector())
 		{
 			for each (PhysicsUpdateCallback callback in onUpdateCallbacks)
 			{
-				//Fire the OnUpdateCallback, notifying GameObject's and other potential
-				// listeners that this PhysicsNode has a new world transform.
 				if (callback) callback(worldTransform);
 			}
 
