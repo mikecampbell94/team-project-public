@@ -5,6 +5,10 @@
 
 ButtonActionCreator::ButtonActionCreator()
 {
+	actions.insert({ "None", []()
+	{
+	} });
+
 	actions.insert({"PrintText", []()
 	{
 		std::cout << "Button pressed" << std::endl;
