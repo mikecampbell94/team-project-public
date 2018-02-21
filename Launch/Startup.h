@@ -50,7 +50,7 @@ private:
 	InputManager* inputManager;
 	GameplaySystem* gameplay;
 	AudioSystem* audio;
-
+	PhysicsEngine* physics;
 
 	GameTimer* loopTimer;
 	Window* window;

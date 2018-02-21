@@ -19,11 +19,12 @@
 class GameLoop
 {
 public:
-	GameLoop(System* gameSystem);
+	GameLoop(System* gameSystem, Database* database);
 	GameLoop();
 	~GameLoop();
 
 	void executeGameLoop();
+	void updateGameObjects();
 
 	void addCameraToGameLoop(Camera* camera)
 	{
@@ -40,11 +41,11 @@ public:
 		loopTimer = timer;
 	}
 
+	Database* database;
 private:
 	System* engine;
 	GameTimer* loopTimer;
 	Window* window;
-
 	Camera* camera;
 
 	float pitch = 0.0f;

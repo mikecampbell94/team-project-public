@@ -39,7 +39,7 @@ SceneNode * GameObjectBuilder::buildSceneNode(Node * node, Database* database)
 
 PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * parent)
 {
-	//PhysicsNode* physicsnode = new PhysicsNode();
+	PhysicsNode* physicsnode = new PhysicsNode();
 
 	physicsnode->setParent(parent);
 

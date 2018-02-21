@@ -4,7 +4,7 @@
 Startup::Startup()
 {
 	engine = new System();
-	game = new GameLoop(engine);
+	game = new GameLoop(engine, nullptr);
 	loopTimer = new GameTimer();
 }
 
@@ -18,6 +18,7 @@ void Startup::initialiseSubsystems()
 	initialiseRenderingSystem();
 	initialiseDatabaseAndTables();
 	initialiseAudioSystem();
+	physics = new PhysicsEngine();
 	initialiseLevelSystem();
 	initialiseInputSystem();
 	initialiseGameplaySystem();
@@ -82,11 +83,12 @@ void Startup::initialiseDatabaseAndTables()
 {
 	database = new Database();
 	tableCreation = new TableCreation(database);
+	game->database = database;
 }
 
 void Startup::initialiseLevelSystem()
 {
-	level = new Level(database, scene);
+	level = new Level(database, scene, physics);
 }
 
 void Startup::initialiseGameplaySystem()
@@ -100,6 +102,7 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(inputManager);
 	engine->addSubsystem(rendering);
 	engine->addSubsystem(audio);
+	engine->addSubsystem(physics);
 }
 
 void Startup::loadLevel(std::string levelFile)

@@ -11,9 +11,10 @@
 #include "../../Input/Recorders/KeyboardMouseRecorder.h"
 #include "Communication/Messages/PlaySoundMessage.h"
 
-GameLoop::GameLoop(System* gameSystem)
+GameLoop::GameLoop(System* gameSystem, Database* database)
 {
 	engine = gameSystem;
+	this->database = database;
 	//window = new Window("Game Window", 1280, 720);
 	//window->lockMouseToWindow(true);
 
@@ -71,24 +72,14 @@ GameLoop::~GameLoop()
 
 void GameLoop::executeGameLoop()
 {
+	DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
+
 	while(window->updateWindow() && !window->getKeyboard()->keyDown(KEYBOARD_ESCAPE))
 	{
 		float deltaTime = loopTimer->getTimeSinceLastRetrieval();
 
-		DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
-
 		engine->updateNextSystemFrame(deltaTime);
-
-		auto gameObjectResources = database->getTable("GameObjects")->getAllResources()->getResourceBuffer();
-		for (auto gameObjectIterator = gameObjectResources.begin(); gameObjectIterator != gameObjectResources.end(); gameObjectIterator++)
-		{
-			GameObject* gObj = static_cast<GameObject*>((*gameObjectIterator).second);
-			if (gObj->getPhysicsNode() != nullptr)
-			{
-				gObj->updatePosition();
-			}
-				
-		}
+		updateGameObjects();
 
 		DeliverySystem::getPostman()->deliverAllMessages();
 		engine->processMessagesForAllSubsystems();
@@ -130,4 +121,17 @@ void GameLoop::executeGameLoop()
 		camera->setYaw(yaw);
 	}
 
+}
+
+void GameLoop::updateGameObjects()
+{
+	auto gameObjectResources = database->getTable("GameObjects")->getAllResources()->getResourceBuffer();
+	for (auto gameObjectIterator = gameObjectResources.begin(); gameObjectIterator != gameObjectResources.end(); ++gameObjectIterator)
+	{
+		GameObject* gObj = static_cast<GameObject*>((*gameObjectIterator).second);
+		if (gObj->getPhysicsNode() != nullptr)
+		{
+			gObj->updatePosition();
+		}
+	}
 }
