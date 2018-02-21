@@ -15,6 +15,7 @@
 #include "../../Interface/UserInterface.h"
 
 #include "../../Audio/AudioSystem.h"
+#include "../../Physics/PhysicsEngine.h"
 #include "../Communication/MessageProcessor.h"
 
 class Startup;
@@ -22,11 +23,12 @@ class Startup;
 class GameLoop
 {
 public:
-	GameLoop(Startup* startup, System* gameSystem);
+	GameLoop(System* gameSystem, Database* database);
 	GameLoop();
 	~GameLoop();
 
 	void executeGameLoop();
+	void updateGameObjects();
 
 	void addCameraToGameLoop(Camera* camera)
 	{
@@ -43,12 +45,12 @@ public:
 		loopTimer = timer;
 	}
 
+	Database* database;
 private:
 	MessageProcessor incomingMessages;
 	System* engine;
 	GameTimer* loopTimer;
 	Window* window;
-
 	Camera* camera;
 
 	bool quit = false;

@@ -52,6 +52,7 @@ private:
 	InputManager* inputManager;
 	GameplaySystem* gameplay;
 	AudioSystem* audio;
+	PhysicsEngine* physics;
 	UserInterface* userInterface;
 
 	GameTimer* loopTimer;

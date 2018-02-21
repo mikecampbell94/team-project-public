@@ -23,6 +23,7 @@ public:
 	bool sphereInPlane(const Vector3 &position, float radius)		const;
 	bool sphereOutsidePlane(const Vector3& position, float radius)	const;
 	bool sphereIntersecting(const Vector3& position, float radius)	const;
+	bool pointInPlane(const Vector3& position) const;
 
 	Vector3 position;
 protected:

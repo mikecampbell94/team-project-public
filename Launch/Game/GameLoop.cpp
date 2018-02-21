@@ -12,11 +12,13 @@
 #include "Communication/Messages/PlaySoundMessage.h"
 #include "../Startup.h"
 
-GameLoop::GameLoop(Startup* startup, System* gameSystem)
+GameLoop::GameLoop(System* gameSystem, Database* database)
 {
 	engine = gameSystem;
+	this->database = database;
 	//window = new Window("Game Window", 1280, 720);
 	//window->lockMouseToWindow(true);
+
 
 	////MUST BE REMOVED
 	//camera = new Camera(0, 0, Vector3(0, 0, 0));
@@ -28,6 +30,7 @@ GameLoop::GameLoop(Startup* startup, System* gameSystem)
 
 	//database = new Database();
 	//TableCreation tableCreation(database);
+
 
 	//audio = new AudioSystem(database, camera);
 
@@ -100,14 +103,15 @@ GameLoop::~GameLoop()
 
 void GameLoop::executeGameLoop()
 {
-	int frameCount = 0;
+	DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
 
-	while(window->updateWindow() && !quit)
+	while (window->updateWindow() && !quit)
 	{
 
 		float deltaTime = loopTimer->getTimeSinceLastRetrieval();
 
 		engine->updateNextSystemFrame(deltaTime);
+		updateGameObjects();
 
 		DeliverySystem::getPostman()->deliverAllMessages();
 		engine->processMessagesForAllSubsystems();
@@ -150,4 +154,17 @@ void GameLoop::executeGameLoop()
 		camera->setYaw(yaw);
 	}
 
+}
+
+void GameLoop::updateGameObjects()
+{
+	auto gameObjectResources = database->getTable("GameObjects")->getAllResources()->getResourceBuffer();
+	for (auto gameObjectIterator = gameObjectResources.begin(); gameObjectIterator != gameObjectResources.end(); ++gameObjectIterator)
+	{
+		GameObject* gObj = static_cast<GameObject*>((*gameObjectIterator).second);
+		if (gObj->getPhysicsNode() != nullptr)
+		{
+			gObj->updatePosition();
+		}
+	}
 }

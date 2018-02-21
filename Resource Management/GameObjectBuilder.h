@@ -1,7 +1,7 @@
 #pragma once
 #include "../Graphics/Scene Management/SceneNode.h"
 #include "../Gameplay/GameObject.h"
-#include "../Physics/PhysicseNode.h"
+#include "../Physics/PhysicsNode.h"
 #include "Database\Database.h"
 #include "XMLParser.h"
 #include <unordered_map>
@@ -16,7 +16,7 @@ public:
 
 	static GameObject* buildGameObject(Node* node, Database* database);
 	static SceneNode* buildSceneNode(Node* node, Database* database);
-	static PhysicsNode* buildPhysicsNode(Node* node);
+	static PhysicsNode* buildPhysicsNode(Node* node, GameObject* parent);
 
 
 	static Vector3 & buildVector3(Node* node);

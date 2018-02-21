@@ -5,10 +5,11 @@
 
 #include "../Graphics/Utility/Light.h"
 
-Level::Level(Database *database,SceneManager* sceneManager)
+Level::Level(Database *database,SceneManager* sceneManager, PhysicsEngine* physics)
 {
 	this->database = database;
 	this->sceneManager = sceneManager;
+	this->physics = physics;
 }
 
 Level::~Level()
@@ -79,6 +80,9 @@ void Level::addObjectsToGame()
 	for (auto gameObjectIterator = gameObjectResources.begin(); gameObjectIterator != gameObjectResources.end(); gameObjectIterator++)
 	{
 		(*sceneManager->getAllNodes())->push_back(static_cast<GameObject*>((*gameObjectIterator).second)->getSceneNode());
+		PhysicsNode* pnode = static_cast<GameObject*>((*gameObjectIterator).second)->getPhysicsNode();
+		if(pnode != nullptr)
+			physics->addPhysicsObject(pnode);
 	}
 
 	auto lightsResources = database->getTable("Lights")->getAllResources()->getResourceBuffer();
