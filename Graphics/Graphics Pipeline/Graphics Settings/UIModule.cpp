@@ -22,7 +22,6 @@ UIModule::~UIModule()
 
 void UIModule::initialise()
 {
-	//UserInterfaceBuilder::buildButtons("../Data/UserInterface/MainMenu.xml", database);
 }
 
 void UIModule::apply()
