@@ -6,6 +6,14 @@ Quaternion::Quaternion(void)
 	w = 1.0f;
 }
 
+Quaternion::Quaternion(const Vector3 & vec, float w)
+{
+	this->x = vec.x;
+	this->y = vec.y;
+	this->z = vec.z;
+	this->w = w;
+}
+
 Quaternion::Quaternion(float x, float y, float z, float w)
 {
 	this->x = x;
@@ -82,6 +90,35 @@ Matrix4 Quaternion::toMatrix() const{
 	mat.values[8] = 2*xz + 2*yw;
 	mat.values[9] = 2*yz - 2*xw;
 	mat.values[10] = 1 - 2*xx - 2*yy;
+
+	return mat;
+}
+
+Matrix3 Quaternion::toMatrix3() const
+{
+	Matrix3 mat;
+
+	float yy = y*y;
+	float zz = z*z;
+	float xy = x*y;
+	float zw = z*w;
+	float xz = x*z;
+	float yw = y*w;
+	float xx = x*x;
+	float yz = y*z;
+	float xw = x*w;
+
+	mat._11 = 1.0f - 2.0f * (yy + zz);
+	mat._12 = 2.0f * (xy + zw);
+	mat._13 = 2.0f * (xz - yw);
+
+	mat._21 = 2.0f * (xy - zw);
+	mat._22 = 1.0f - 2.0f * (xx + zz);
+	mat._23 = 2.0f * (yz + xw);
+
+	mat._31 = 2.0f * (xz + yw);
+	mat._32 = 2.0f * (yz - xw);
+	mat._33 = 1.0f - 2.0f * (xx + yy);
 
 	return mat;
 }

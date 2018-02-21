@@ -71,8 +71,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\Audio\;..\Gameplay\;..\Graphics\;..\Input\;..\Utilities\;..\ASSIMP\include\assimp;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>..\Audio\$(Configuration);..\Gameplay\$(Configuration);..\Graphics\$(Configuration);..\Input\$(Configuration);..\Utilities\$(Configuration);..\ASSIMP\lib;..\GLEW\lib;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+
+    <IncludePath>..\Physics\;..\Audio\;..\Gameplay\;..\Graphics\;..\Input\;..\Utilities\;..\ASSIMP\include\assimp;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\Physics\$(Configuration);..\Audio\$(Configuration);..\Gameplay\$(Configuration);..\Graphics\$(Configuration);..\Input\$(Configuration);..\Utilities\$(Configuration);..\ASSIMP\lib;..\GLEW\lib;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -96,7 +97,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>OpenAL32.lib;Graphics.lib;Audio.lib;Input.lib;Utilities.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib;Resource Management.lib</AdditionalDependencies>
+      <AdditionalDependencies>OpenAL32.lib;Graphics.lib;Audio.lib;Input.lib;Utilities.lib;Physics.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib;Resource Management.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

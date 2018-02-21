@@ -17,6 +17,7 @@ GameLoop::GameLoop(System* gameSystem)
 	//window = new Window("Game Window", 1280, 720);
 	//window->lockMouseToWindow(true);
 
+
 	////MUST BE REMOVED
 	//camera = new Camera(0, 0, Vector3(0, 0, 0));
 
@@ -27,6 +28,7 @@ GameLoop::GameLoop(System* gameSystem)
 
 	//database = new Database();
 	//TableCreation tableCreation(database);
+
 
 	//audio = new AudioSystem(database, camera);
 
@@ -76,6 +78,17 @@ void GameLoop::executeGameLoop()
 		DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, Vector3(0.0f, 0.0f, 0.0f), SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
 
 		engine->updateNextSystemFrame(deltaTime);
+
+		auto gameObjectResources = database->getTable("GameObjects")->getAllResources()->getResourceBuffer();
+		for (auto gameObjectIterator = gameObjectResources.begin(); gameObjectIterator != gameObjectResources.end(); gameObjectIterator++)
+		{
+			GameObject* gObj = static_cast<GameObject*>((*gameObjectIterator).second);
+			if (gObj->getPhysicsNode() != nullptr)
+			{
+				gObj->updatePosition();
+			}
+				
+		}
 
 		DeliverySystem::getPostman()->deliverAllMessages();
 		engine->processMessagesForAllSubsystems();

@@ -33,7 +33,7 @@ public:
 	float y;
 	float z;
 
-	void			normalise() {
+	const Vector3&	normalise() {
 		float currentLength = length();
 
 		if(currentLength != 0.0f)	{
@@ -42,6 +42,8 @@ public:
 			y = y * currentLength;
 			z = z * currentLength;
 		}
+
+		return *this;
 	}
 
 	float sqrLength() const

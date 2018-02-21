@@ -14,6 +14,7 @@
 #include "GameplaySystem.h"
 
 #include "../../Audio/AudioSystem.h"
+#include "../../Physics/PhysicsEngine.h"
 
 class GameLoop
 {

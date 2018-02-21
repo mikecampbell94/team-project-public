@@ -6,6 +6,7 @@
 #pragma comment(lib, "Gameplay.lib")
 #pragma comment(lib, "Resource Management.lib")
 #pragma comment(lib, "Audio.lib")
+#pragma comment(lib, "Physics.lib")
 
 #include "Systems\System.h"
 #include "Game/GameLoop.h"

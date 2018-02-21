@@ -1,5 +1,7 @@
 #include "GameObject.h"
 
+#include "../Physics/PhysicsNode.h"
+
 GameObject::GameObject()
 {
 	setSize(sizeof(*this));
@@ -31,13 +33,18 @@ PhysicsNode * GameObject::getPhysicsNode()
 
 void GameObject::updatePosition()
 {
+	Matrix4 newTransform = this->physicsNode->getWorldSpaceTransform();
+	newTransform = newTransform * Matrix4::scale(scale);
+
+	this->sceneNode->SetTransform(newTransform);
 }
 
 void GameObject::setPosition(Vector3 position)
 {
 	this->position = position;
 	this->sceneNode->SetTransform(position);
-	//set physics position
+	if(this->physicsNode != nullptr)
+		this->physicsNode->setPosition(position);
 }
 
 void GameObject::setRotation()
