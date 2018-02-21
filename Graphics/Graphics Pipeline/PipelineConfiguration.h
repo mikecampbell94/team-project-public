@@ -16,7 +16,9 @@
 
 #include <vector>
 #include "Graphics Settings/BasicGeometry.h"
+#include "Graphics Settings/UIModule.h"
 
+class Database;
 class Camera;
 class Window;
 
@@ -28,7 +30,7 @@ public:
 		Camera* camera, Vector2 resolution);
 	~PipelineConfiguration();
 
-	void initialiseModules(Matrix4 projmatrix);
+	void initialiseModules(Matrix4 projmatrix, Matrix4 orthographicMatrix, Database* database);
 	void buildPipeline(GraphicsPipeline* pipeline);
 
 private:
@@ -45,5 +47,6 @@ private:
 	SSAO* ssao;
 	Shadows* shadowTex;
 	BPLighting *bpLighting;
+	UIModule* uiModule;
 };
 

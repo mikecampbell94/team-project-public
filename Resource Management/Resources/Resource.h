@@ -7,7 +7,7 @@ class Resource
 public:
 	Resource();
 	Resource(std::string name, size_t size);
-	~Resource();
+	virtual ~Resource();
 
 	std::string getName();
 	void setName(std::string newName);

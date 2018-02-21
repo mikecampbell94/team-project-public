@@ -5,6 +5,8 @@
 #include "Maths/Vector2.h"
 #include "Maths/Vector3.h"
 #include "Maths/Vector4.h"
+#include "../Shaders/Shader.h"
+#include "../../Utilities/Maths/Matrix4.h"
 
 enum MeshBuffer
 {
@@ -18,9 +20,9 @@ class LegacyMesh
 {
 public:
 	LegacyMesh(void);
-	~LegacyMesh(void);
+	virtual ~LegacyMesh(void);
 
-	virtual void	Draw();
+	virtual void	Draw(Shader& shader, Matrix4& worldTransform);
 	static	LegacyMesh*	GenerateTriangle();
 	static	LegacyMesh*	GenerateQuad();
 

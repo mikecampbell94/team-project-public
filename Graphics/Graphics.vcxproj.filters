@@ -33,6 +33,9 @@
     <ClInclude Include="Graphics Pipeline\Effects\ParticleSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics Pipeline\Effects\Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Graphics Pipeline\Graphics Settings\Bloom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -93,7 +96,13 @@
     <ClInclude Include="Rendering\RenderingSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics Pipeline\Graphics Settings\Skybox.h">
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\UIModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Meshes\TextMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -105,6 +114,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics Pipeline\Effects\ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics Pipeline\Effects\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics Pipeline\Graphics Settings\Bloom.cpp">
@@ -164,7 +176,10 @@
     <ClCompile Include="Rendering\RenderingSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics Pipeline\Graphics Settings\Skybox.cpp">
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\UIModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Meshes\TextMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

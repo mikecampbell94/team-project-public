@@ -40,6 +40,7 @@ public:
 	SubMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
 		std::vector<Texture> textures, std::vector<Texture> heights,
 		BoundingBox AABB, int numTransforms);
+	SubMesh();
 	~SubMesh();
 
 	void Draw(Shader& shader, Matrix4& transform);
@@ -121,7 +122,7 @@ public:
 
 	GLuint modelMatricesSSBO;
 
-private:
+protected:
 	Matrix4 transform;
 
 	void SetupMesh();

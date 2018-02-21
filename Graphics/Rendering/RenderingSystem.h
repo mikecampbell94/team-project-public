@@ -17,18 +17,8 @@ public:
 
 	void initialise(Database* database);
 
-
-	void loadingScreen() {}
-
-	void SetSceneToRender(SceneManager* scene);
+	void SetSceneToRender(SceneManager* scene, Database* database);
 	void updateSubsystem(const float& deltaTime) override;
-
-	void removeAsset() {}
-	void addAsset() {}
-	void changeColor(Vector4 c) {}
-	void Initialise();
-
-	bool stob(std::string string);
 
 private:
 	std::unique_ptr<Renderer> renderer;

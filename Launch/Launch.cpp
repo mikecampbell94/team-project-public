@@ -1,4 +1,5 @@
 
+#pragma comment(lib, "Interface.lib")
 #pragma comment(lib, "Utilities.lib")
 #pragma comment(lib, "Input.lib")
 #pragma comment(lib, "Graphics.lib")
@@ -20,7 +21,8 @@ int main()
 
 	Startup startup;
 	startup.initialiseSubsystems();
-	startup.loadLevel("TestLevel.txt");
+	//startup.loadLevel("TestLevel.txt");
+	startup.loadMainMenu();
 	startup.startGameLoop();
 
 	//ShutdownClass here

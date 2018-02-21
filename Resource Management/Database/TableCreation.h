@@ -16,6 +16,7 @@ public:
 private:
 	void addGameObject() const;
 	void addMesh() const;
+	void addUIMeshTable() const;
 	void addSounds() const;
 	void addLightsTable() const;
 

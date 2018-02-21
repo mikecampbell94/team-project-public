@@ -32,6 +32,7 @@ public:
 	GLuint FBO;
 	float ambientLighting;
 	bool* SSAOApplied;
+	bool* ShadowsApplied;
 
 private:
 	void locateUniforms() override;

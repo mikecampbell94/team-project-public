@@ -12,14 +12,18 @@
 #include "Rendering/RenderingSystem.h"
 #include "../Input/InputManager.h"
 #include "GameplaySystem.h"
+#include "../../Interface/UserInterface.h"
 
 #include "../../Audio/AudioSystem.h"
 #include "../../Physics/PhysicsEngine.h"
+#include "../Communication/MessageProcessor.h"
+
+class Startup;
 
 class GameLoop
 {
 public:
-	GameLoop(System* gameSystem, Database* database);
+	GameLoop(System* gameSystem, Database* database, Startup* startup);
 	GameLoop();
 	~GameLoop();
 
@@ -43,11 +47,13 @@ public:
 
 	Database* database;
 private:
+	MessageProcessor incomingMessages;
 	System* engine;
 	GameTimer* loopTimer;
 	Window* window;
 	Camera* camera;
 
+	bool quit = false;
 	float pitch = 0.0f;
 	float yaw   = 0.0f;
 };

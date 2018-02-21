@@ -8,6 +8,7 @@
 #include "../Physics/PhysicsEngine.h"
 #include <string>
 #include <vector>
+#include <set>
 
 #define DATADIR "../Data/"
 #define LEVELDIR "../Data/Levels/"
@@ -20,6 +21,8 @@ public:
 	~Level();
 
 	void loadLevelFile(std::string levelFilePath);
+
+	void unloadLevelWhileKeepingUserInterface();
 	void unloadLevel();
 
 	void addObjectsToGame();
@@ -27,7 +30,7 @@ public:
 
 private:
 	XMLParser parser;
-	std::vector<std::string> listOfObjectTypesInLevel;
+	std::set<std::string> listOfObjectTypesInLevel;
 	Database *database;
 	SceneManager* sceneManager;
 	PhysicsEngine* physics;

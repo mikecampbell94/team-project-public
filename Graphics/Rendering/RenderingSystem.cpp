@@ -12,6 +12,7 @@
 #include "../Resource Management/Database/Database.h"
 #include "../../Gameplay/GameObject.h"
 #include "../../Communication/Messages/TextMessage.h"
+#include "../../Communication/Messages/ToggleGraphicsModuleMessage.h"
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
@@ -27,7 +28,8 @@ RenderingSystem::~RenderingSystem()
 void RenderingSystem::initialise(Database* database)
 {
 
-	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM };
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM,
+		MessageType::TOGGLE_GRAPHICS_MODULE};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -44,7 +46,6 @@ void RenderingSystem::initialise(Database* database)
 		std::cout << "key : " << playerMessage->data.key << std::endl;
 		std::cout << "State : " << playerMessage->data.currentState << std::endl;
 	});
-	Initialise();
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)
 	{
@@ -56,31 +57,20 @@ void RenderingSystem::initialise(Database* database)
 			* translationMessage->transform);
 
 	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TOGGLE_GRAPHICS_MODULE, [&renderer = renderer](Message* message)
+	{
+		ToggleGraphicsModuleMessage* moduleMessage = static_cast<ToggleGraphicsModuleMessage*>(message);
+		renderer->toggleModule(moduleMessage->moduleName, moduleMessage->enabled);
+	});
 }
 
-void RenderingSystem::SetSceneToRender(SceneManager* scene)
+void RenderingSystem::SetSceneToRender(SceneManager* scene, Database* database)
 {
-	renderer->initialise(scene);
+	renderer->initialise(scene, database);
 }
 
 void RenderingSystem::updateSubsystem(const float& deltaTime)
 {
 	renderer->update(deltaTime);
-}
-
-bool RenderingSystem::stob(std::string string)
-{
-	std::transform(string.begin(), string.end(), string.begin(), ::tolower);
-	std::istringstream is(string);
-	bool b;
-	is >> std::boolalpha >> b;
-	return b;
-}
-
-
-//One initialise function
-void RenderingSystem::Initialise()
-{
-
-
 }

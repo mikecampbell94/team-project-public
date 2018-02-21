@@ -34,6 +34,8 @@ public:
 		return shadowData;
 	}
 
+	bool applied;
+
 private:
 	void locateUniforms() override
 	{}

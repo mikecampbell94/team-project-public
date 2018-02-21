@@ -9,6 +9,7 @@
 class Window;
 class Camera;
 class Matrix4;
+class Database;
 
 class Renderer : OGLRenderer
 {
@@ -17,8 +18,9 @@ public:
 	Renderer(Window* window, Camera* camera);
 	~Renderer();
 
-	void initialise(SceneManager* sceneManager);
+	void initialise(SceneManager* sceneManager, Database* database);
 	void update(const float& deltatime);
+	void toggleModule(const std::string& moduleName, bool enabled);
 
 private:
 	void updateScene(const float& msec) override;
@@ -32,5 +34,6 @@ private:
 	Camera* camera; 
 	Vector2 resolution;
 	Matrix4 globalProjectionMatrix;
+	Matrix4 globalOrthographicMatrix;
 };
 

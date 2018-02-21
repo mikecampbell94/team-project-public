@@ -4,7 +4,7 @@
 Startup::Startup()
 {
 	engine = new System();
-	game = new GameLoop(engine, nullptr);
+	game = new GameLoop(engine, nullptr, this);
 	loopTimer = new GameTimer();
 }
 
@@ -22,6 +22,7 @@ void Startup::initialiseSubsystems()
 	initialiseLevelSystem();
 	initialiseInputSystem();
 	initialiseGameplaySystem();
+	userInterface = new UserInterface(window->getKeyboard(), Vector2(screenWidth, screenHeight));
 	addSystemsToEngine();
 
 	game->addWindowToGameLoop(window);
@@ -34,7 +35,7 @@ void Startup::initialiseRenderingSystem()
 	window = new Window("Game Window", screenWidth, screenHeight);
 	window->lockMouseToWindow(true);
 
-	camera = new Camera(0, 0, Vector3(0, 0, 0));
+	camera = new Camera(0, 90, Vector3(0, 0, 0));
 
 	rendering = new RenderingSystem(window, camera);
 	
@@ -60,7 +61,7 @@ void Startup::initialiseInputSystem()
 	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
 
 	//-------------------------------------------
-	rendering->SetSceneToRender(scene);
+	rendering->SetSceneToRender(scene, database);
 	//-------------------------------------------
 
 	keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
@@ -102,14 +103,27 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(inputManager);
 	engine->addSubsystem(rendering);
 	engine->addSubsystem(audio);
+	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
+}
+
+void Startup::loadMainMenu()
+{
+	level->loadLevelFile("MainMenu.txt");
+	gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
+	userInterface->initialise(database);
 }
 
 void Startup::loadLevel(std::string levelFile)
 {
 	physics->InitialiseOctrees(5);
 	level->loadLevelFile(levelFile);
-	gameplay->compileGameplayScript("../Resources/Gameplay/gameplay.xml");
+	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
+}
+
+void Startup::switchLevel()
+{
+	level->unloadLevelWhileKeepingUserInterface();
 }
 
 void Startup::unloadLevel()

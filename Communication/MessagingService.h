@@ -8,6 +8,7 @@
 #include <string>
 #include <queue>
 #include "Messages/RelativeTransformMessage.h"
+#include "Messages/ToggleGraphicsModuleMessage.h"
 
 
 //exposed interface
@@ -22,6 +23,7 @@ public:
 	virtual void insertMessage(TextMessage message) = 0;
 	virtual void insertMessage(RelativeTransformMessage message) = 0;	virtual void insertMessage(PlaySoundMessage message) = 0;
 	virtual void insertMessage(StopSoundMessage message) = 0;
+	virtual void insertMessage(ToggleGraphicsModuleMessage message) = 0;
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;
 };

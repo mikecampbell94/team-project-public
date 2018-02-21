@@ -18,6 +18,7 @@ TableCreation::TableCreation(Database* database)
 	tableAdditions.push_back(std::bind(&TableCreation::addMesh, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addSounds, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addLightsTable, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addUIMeshTable, this));
 
 	addTablesToDatabase();}
 
@@ -52,6 +53,17 @@ void TableCreation::addMesh() const
 		return mesh;
 	}));
 }
+
+void TableCreation::addUIMeshTable() const
+{
+	database->addTable("UIMeshes", new Table<Resource>("UIMeshes", MAX_MEMORY_PER_TABLE, [](Node* node)
+	{
+		Mesh* mesh = new Mesh(node->children[0]->value, 1);
+		mesh->setName(node->name);
+		return mesh;
+	}));
+}
+
 void TableCreation::addSounds() const
 {
 	database->addTable("SoundObjects", new Table<Resource>("SoundObjects", MAX_MEMORY_PER_TABLE, [](Node* node)

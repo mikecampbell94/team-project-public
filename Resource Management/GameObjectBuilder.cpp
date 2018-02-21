@@ -11,9 +11,8 @@ GameObjectBuilder::~GameObjectBuilder()
 
 GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 {
-	GameObject* gameObject = new GameObject();
 	SceneNode* sceneNode = buildSceneNode(node->children[0], database);
-	
+	GameObject* gameObject = new GameObject();
 	
 	gameObject->setSize(sizeof(GameObject));
 	gameObject->setName(node->name);
@@ -21,8 +20,12 @@ GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 	
 	gameObject->setScale(buildVector3(node->children[4]));
 	
-	PhysicsNode* physicsNode = buildPhysicsNode(node->children[5], gameObject);
-	gameObject->setPhysicsNode(physicsNode);
+	if (node->children.size() >= 6)
+	{
+
+		PhysicsNode* physicsNode = buildPhysicsNode(node->children[5], gameObject);
+		gameObject->setPhysicsNode(physicsNode);
+	}
 
 	gameObject->setPosition(buildVector3(node->children[2]));
 

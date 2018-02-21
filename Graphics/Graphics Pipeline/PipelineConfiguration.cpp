@@ -1,5 +1,7 @@
 #include "PipelineConfiguration.h"
+
 #include "Graphics Settings/BasicGeometry.h"
+#include "../Resource Management/Database/Database.h"
 
 PipelineConfiguration::PipelineConfiguration()
 {
@@ -22,7 +24,7 @@ PipelineConfiguration::~PipelineConfiguration()
 {
 }
 
-void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
+void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthographicMatrix, Database* database)
 {
 	gBuffer = new GBuffer("gbuffer", projmatrix, resolution, window, camera, sceneManager->getSceneNodesInFrustum());
 	gBuffer->linkShaders();
@@ -46,6 +48,11 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix)
 	bpLighting->linkShaders();
 	bpLighting->initialise();
 	bpLighting->SSAOApplied = &ssao->applied;
+	bpLighting->ShadowsApplied = &shadowTex->applied;
+
+	uiModule = new UIModule("UIModule", orthographicMatrix, resolution, database);
+	uiModule->linkShaders();
+	uiModule->initialise();
 }
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
@@ -55,4 +62,5 @@ void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 	pipeline->addModule(shadowTex);
 	pipeline->addModule(ssao);
 	pipeline->addModule(bpLighting);
+	pipeline->addModule(uiModule);
 }

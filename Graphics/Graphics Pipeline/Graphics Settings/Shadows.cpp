@@ -38,6 +38,7 @@ void Shadows::initialise()
 void Shadows::apply()
 {
 	drawShadowScene();
+	applied = true;
 }
 
 void Shadows::initShadowTex()
