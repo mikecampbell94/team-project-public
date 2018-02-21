@@ -5,7 +5,7 @@
 				<Move>
 					<X>000</X>
 					<Y>000</Y>
-					<Z>001</Z>
+					<Z>1</Z>
 				</Move>
 			</Actions>
 		</KeyMapping>
@@ -13,7 +13,7 @@
 			<KeyAssignedTo>KEYBOARD_J</KeyAssignedTo>
 			<Actions>
 				<Move>
-					<X>001</X>
+					<X>1</X>
 					<Y>000</Y>
 					<Z>000</Z>
 				</Move>
@@ -25,7 +25,7 @@
 				<Move>
 					<X>000</X>
 					<Y>000</Y>
-					<Z>-001</Z>
+					<Z>-1</Z>
 				</Move>
 			</Actions>
 		</KeyMapping>
@@ -33,7 +33,7 @@
 			<KeyAssignedTo>KEYBOARD_L</KeyAssignedTo>
 			<Actions>
 				<Move>
-					<X>-001</X>
+					<X>-1</X>
 					<Y>000</Y>
 					<Z>000</Z>
 				</Move>

@@ -117,6 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MessageBuffer.h" />
     <ClInclude Include="Messages\ApplyForceMessage.h" />
     <ClInclude Include="Messages\PlaySoundMessage.h" />
     <ClInclude Include="DeliverySystem.h" />
@@ -131,21 +132,23 @@
     <ClInclude Include="Messages\StopSoundMessage.h" />
     <ClInclude Include="Messages\PlayMovingSoundMessage.h" />
     <ClInclude Include="Messages\ToggleGraphicsModuleMessage.h" />
+    <ClInclude Include="OutgoingMessageBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MessageStorage.cpp" />
     <ClCompile Include="Messages\ApplyForceMessage.cpp" />
     <ClCompile Include="Messages\PlaySoundMessage.cpp" />
     <ClCompile Include="DeliverySystem.cpp" />
     <ClCompile Include="LetterBox.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageProcessor.cpp" />
-    <ClCompile Include="MessageStorage.cpp" />
     <ClCompile Include="Messages\PlayerInputMessage.cpp" />
     <ClCompile Include="Messages\RelativeTransformMessage.cpp" />
     <ClCompile Include="Messages\TextMessage.cpp" />
     <ClCompile Include="Messages\StopSoundMessage.cpp" />
     <ClCompile Include="Messages\PlayMovingSoundMessage.cpp" />
     <ClCompile Include="Messages\ToggleGraphicsModuleMessage.cpp" />
+    <ClCompile Include="OutgoingMessageBuffer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

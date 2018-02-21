@@ -10,7 +10,6 @@
 GameplaySystem::GameplaySystem()
 	: Subsystem("Gameplay")
 {
-
 	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT }, 
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 

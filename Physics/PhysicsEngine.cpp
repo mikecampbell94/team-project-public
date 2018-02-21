@@ -7,7 +7,7 @@
 
 PhysicsEngine::PhysicsEngine() : Subsystem("Physics")
 {
-	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, MessageType::APPLY_FORCE };
+	std::vector<MessageType> types = { MessageType::APPLY_FORCE };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 

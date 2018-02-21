@@ -4,6 +4,7 @@
 #include "../../Resource Management/Database/Database.h"
 #include "../../Gameplay/GameObject.h"
 #include "../../Physics/PhysicsNode.h"
+#include "../../Communication/DeliverySystem.h"
 
 PlayerBase::PlayerBase(Database* database)
 {
@@ -57,6 +58,10 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 		{
 			keyboardButtonsToListenTo += keyName + seperator;
 		}
+		else
+		{
+			keyboardButtonsToListenTo += keyName;
+		}
 
 		Node* magnitude = node->children[i]->children[1]->children[0];
 
@@ -67,7 +72,7 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 			float zPosition = stof(magnitude->children[2]->value);
 
 			Vector3 translation(xPosition, yPosition, zPosition);
-			player->getGameObject()->getPhysicsNode()->setForce(Vector3(translation));
+			DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "playerBall", translation));
 		});
 	}
 

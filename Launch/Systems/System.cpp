@@ -2,11 +2,14 @@
 
 #include "Communication/DeliverySystem.h"
 #include "Communication/LetterBox.h"
+#include "Communication/OutgoingMessageBuffer.h"
 #include <iostream>
 
 System::System()
 {
-	DeliverySystem::provide(new LetterBox());
+	letterBox = new LetterBox();
+	outgoingMessages = new OutgoingMessageBuffer();
+	DeliverySystem::provide(letterBox);
 }
 
 System::~System()

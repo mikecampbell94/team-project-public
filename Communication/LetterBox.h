@@ -9,6 +9,7 @@
 #include "MessagingService.h"
 #include "MessageStorage.h"
 #include "Messages/ApplyForceMessage.h"
+#include "MessageBuffer.h"
 
 class LetterBox : public MessagingService
 {
@@ -22,7 +23,8 @@ public:
 	void insertMessage(Message message) override;
 	void insertMessage(PlayerInputMessage message) override;
 	void insertMessage(TextMessage message) override;
-	void insertMessage(RelativeTransformMessage message) override;	void insertMessage(PlaySoundMessage message) override;
+	void insertMessage(RelativeTransformMessage message) override;	
+	void insertMessage(PlaySoundMessage message) override;
 	void insertMessage(StopSoundMessage message) override;
 	void insertMessage(ToggleGraphicsModuleMessage message) override;
 	void insertMessage(ApplyForceMessage message) override;
@@ -32,13 +34,13 @@ public:
 private:
 	MessageStorage messageStorage;
 
-	std::vector<Message> messages;
-	std::vector<PlayerInputMessage> playerInputMessages;
-	std::vector<TextMessage> textMessages;
-	std::vector<RelativeTransformMessage> sceneNodeTranslationMessages;	
-	std::vector<PlaySoundMessage> playSoundMessages;
-	std::vector<StopSoundMessage> stopSoundMessages;
-	std::vector<ToggleGraphicsModuleMessage> graphicsModuleMessages;
-	std::vector<ApplyForceMessage> applyForceMessages;
+	MessageBuffer<Message> messageBuffer;
+	MessageBuffer<PlayerInputMessage> playerInputMessageBuffer;
+	MessageBuffer<TextMessage> textMessageBuffer;
+	MessageBuffer<RelativeTransformMessage> relativeTransformMessageBuffer;
+	MessageBuffer<PlaySoundMessage> playSoundMessageBuffer;
+	MessageBuffer<StopSoundMessage> stopSoundMessageBuffer;
+	MessageBuffer<ToggleGraphicsModuleMessage> toggleGraphicsModuleMessageBuffer;
+	MessageBuffer<ApplyForceMessage> applyForceMessageBuffer;
 };
 
