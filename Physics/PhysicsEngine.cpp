@@ -1,6 +1,7 @@
 #include "PhysicsEngine.h"
 #include "CollisionDetectionSAT.h"
 
+#include "OctreePartitioning.h"
 
 PhysicsEngine::PhysicsEngine() : Subsystem("Physics")
 {
@@ -20,7 +21,19 @@ PhysicsEngine::~PhysicsEngine()
 
 void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 {
+	if (octreeInitialised)
+	{
+		octreeChanged = true;
+		obj->movedSinceLastBroadPhase = true;
+		octree->AddNode(obj);
+	}
+
 	physicsNodes.push_back(obj);
+
+	obj->setOnUpdateCallback(std::bind(
+		&PhysicsEngine::OctreeChanged,
+		this,
+		std::placeholders::_1));
 }
 
 void PhysicsEngine::removePhysicsObject(PhysicsNode * obj)
@@ -129,30 +142,40 @@ void PhysicsEngine::updatePhysics()
 
 void PhysicsEngine::broadPhaseCollisions()
 {
-	broadphaseColPairs.clear();
+	//broadphaseColPairs.clear();
 
-	PhysicsNode *pnodeA, *pnodeB;
+	//PhysicsNode *pnodeA, *pnodeB;
+
+	//if (physicsNodes.size() > 0)
+	//{
+	//	for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
+	//	{
+	//		for (size_t j = i + 1; j < physicsNodes.size(); ++j)
+	//		{
+	//			pnodeA = physicsNodes[i];
+	//			pnodeB = physicsNodes[j];
+	//			
+	//			if (pnodeA->getCollisionShape() != NULL
+	//				&& pnodeB->getCollisionShape() != NULL)
+	//			{
+	//				CollisionPair cp;
+	//				cp.pObjectA = pnodeA;
+	//				cp.pObjectB = pnodeB;
+
+	//				broadphaseColPairs.push_back(cp);
+
+	//			}
+	//		}
+	//	}
+	//}
 
 	if (physicsNodes.size() > 0)
 	{
-		for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
+		if (octreeChanged)
 		{
-			for (size_t j = i + 1; j < physicsNodes.size(); ++j)
-			{
-				pnodeA = physicsNodes[i];
-				pnodeB = physicsNodes[j];
-				
-				if (pnodeA->getCollisionShape() != NULL
-					&& pnodeB->getCollisionShape() != NULL)
-				{
-					CollisionPair cp;
-					cp.pObjectA = pnodeA;
-					cp.pObjectB = pnodeB;
-
-					broadphaseColPairs.push_back(cp);
-
-				}
-			}
+			octree->UpdateTree();
+			octreeChanged = false;
+			broadphaseColPairs = octree->GetAllCollisionPairs();
 		}
 	}
 }
@@ -203,4 +226,30 @@ void PhysicsEngine::narrowPhaseCollisions()
 		}
 
 	}
+}
+
+void PhysicsEngine::InitialiseOctrees(int entityLimit)
+{
+	//if (octree)
+	//{
+	//	delete octree;
+	//}
+
+	octree = new OctreePartitioning(physicsNodes, Vector3(24, 16, 24), Vector3(0, 0, 0));
+	octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
+
+	if (physicsNodes.size() > 0)
+	{
+		octree->BuildInitialTree();
+	}
+
+	octreeChanged = false;
+	octreeInitialised = true;
+
+	for each (PhysicsNode* node in physicsNodes)
+	{
+		node->movedSinceLastBroadPhase = false;
+	}
+
+	broadphaseColPairs = octree->GetAllCollisionPairs();
 }

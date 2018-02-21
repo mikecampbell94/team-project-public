@@ -7,6 +7,7 @@
 #include "Manifold.h"
 #include <vector>
 
+class OctreePartitioning;
 
 
 //Number of jacobi iterations to apply in order to
@@ -68,6 +69,12 @@ public:
 		return updateTimestep; 
 	}
 
+	void OctreeChanged(const Matrix4 &matrix)
+	{
+		octreeChanged = true;
+	}
+
+	void InitialiseOctrees(int entityLimit);
 
 private:
 	void updatePhysics();
@@ -88,6 +95,10 @@ private:
 	std::vector<PhysicsNode*>	physicsNodes;
 
 	std::vector<Constraint*>	constraints;
-	std::vector<Manifold*>		manifolds;	
+	std::vector<Manifold*>		manifolds;
+
+	bool		octreeChanged = false;
+	bool		octreeInitialised = false;
+	OctreePartitioning* octree;
 
 };

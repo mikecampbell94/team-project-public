@@ -203,11 +203,41 @@ public:
 		return (onCollisionCallback) ? onCollisionCallback(obj_a, obj_b) : true;
 	}
 
+	inline void setOnUpdateCallback(PhysicsUpdateCallback callback)
+	{
+		onUpdateCallbacks.push_back(callback);
+	}
+
+	inline void fireOnUpdateCallback()
+	{
+		//Build world transform
+		//worldTransform = orientation.ToMatrix4();
+		//worldTransform.SetPositionVector(position);
+
+		if (worldTransform.getPositionVector() != previousTransform.getPositionVector())
+		{
+			for each (PhysicsUpdateCallback callback in onUpdateCallbacks)
+			{
+				//Fire the OnUpdateCallback, notifying GameObject's and other potential
+				// listeners that this PhysicsNode has a new world transform.
+				if (callback) callback(worldTransform);
+			}
+
+			movedSinceLastBroadPhase = true;
+		}
+
+		previousTransform = worldTransform;
+	}
+
+	bool toDeleteInOctree = false;
+	bool movedSinceLastBroadPhase = false;
 
 private:
 	GameObject*				parent;
 	Matrix4					worldTransform;
+	Matrix4 previousTransform;
 	PhysicsUpdateCallback	onUpdateCallback;
+	std::vector<PhysicsUpdateCallback>	onUpdateCallbacks;
 
 
 	Vector3		position;

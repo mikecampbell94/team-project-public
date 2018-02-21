@@ -133,6 +133,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AABBUtility.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="CollisionDetectionSAT.h" />
     <ClInclude Include="CollisionShape.h" />
     <ClInclude Include="Constraint.h" />
@@ -141,8 +143,11 @@
     <ClInclude Include="GeometryUtils.h" />
     <ClInclude Include="Hull.h" />
     <ClInclude Include="Manifold.h" />
+    <ClInclude Include="OctreePartitioning.h" />
+    <ClInclude Include="Partition.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="PhysicsNode.h" />
+    <ClInclude Include="SortAndSweep.h" />
     <ClInclude Include="SphereCollisionShape.h" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +156,7 @@
     <ClCompile Include="GeometryUtils.cpp" />
     <ClCompile Include="Hull.cpp" />
     <ClCompile Include="Manifold.cpp" />
+    <ClCompile Include="OctreePartitioning.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PhysicsNode.cpp" />
     <ClCompile Include="SphereCollisionShape.cpp" />
