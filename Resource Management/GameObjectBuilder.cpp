@@ -73,7 +73,7 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 	return physicsnode;
 }
 
-Vector3 & GameObjectBuilder::buildVector3(Node * node)
+Vector3 GameObjectBuilder::buildVector3(Node * node)
 {
 	Vector3 vec;
 	vec.x = stof(node->children[0]->value);
@@ -82,7 +82,7 @@ Vector3 & GameObjectBuilder::buildVector3(Node * node)
 	return vec;
 }
 
-Vector4 & GameObjectBuilder::buildVector4(Node * node)
+Vector4 GameObjectBuilder::buildVector4(Node * node)
 {
 	Vector4 vec;
 	vec.x = stof(node->children[0]->value);
