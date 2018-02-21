@@ -12,10 +12,7 @@ GameObjectBuilder::~GameObjectBuilder()
 GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 {
 	SceneNode* sceneNode = buildSceneNode(node->children[0], database);
-	PhysicsNode* physicsNode = buildPhysicsNode(node->children[5]);
 	GameObject* gameObject = new GameObject();
-	SceneNode* sceneNode = buildSceneNode(node->children[0], database);
-	
 	
 	gameObject->setSize(sizeof(GameObject));
 	gameObject->setName(node->name);

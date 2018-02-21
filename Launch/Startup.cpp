@@ -4,7 +4,7 @@
 Startup::Startup()
 {
 	engine = new System();
-	game = new GameLoop(engine, nullptr);
+	game = new GameLoop(engine, nullptr, this);
 	loopTimer = new GameTimer();
 }
 

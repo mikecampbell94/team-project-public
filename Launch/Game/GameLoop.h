@@ -23,7 +23,7 @@ class Startup;
 class GameLoop
 {
 public:
-	GameLoop(System* gameSystem, Database* database);
+	GameLoop(System* gameSystem, Database* database, Startup* startup);
 	GameLoop();
 	~GameLoop();
 

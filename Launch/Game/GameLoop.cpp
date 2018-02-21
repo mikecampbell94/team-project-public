@@ -12,7 +12,7 @@
 #include "Communication/Messages/PlaySoundMessage.h"
 #include "../Startup.h"
 
-GameLoop::GameLoop(System* gameSystem, Database* database)
+GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 {
 	engine = gameSystem;
 	this->database = database;
