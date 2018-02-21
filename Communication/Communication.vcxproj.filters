@@ -54,6 +54,9 @@
     <ClInclude Include="Messages\ToggleGraphicsModuleMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Messages\ApplyForceMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\ToggleGraphicsModuleMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\ApplyForceMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

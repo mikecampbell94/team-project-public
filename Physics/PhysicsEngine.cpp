@@ -3,11 +3,27 @@
 
 #include "OctreePartitioning.h"
 
+#include "../Communication/Messages/ApplyForceMessage.h"
+
 PhysicsEngine::PhysicsEngine() : Subsystem("Physics")
 {
-	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM };
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, MessageType::APPLY_FORCE };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [&physNodes = physicsNodes](Message* message)
+	{
+		ApplyForceMessage* applyForceMessage = static_cast<ApplyForceMessage*>(message);
+
+		for (PhysicsNode* node : physNodes)
+		{
+			if(node->getParent()->getName() == applyForceMessage->gameObjectID)
+			{
+				node->applyForce(applyForceMessage->force);
+				break;
+			}
+		}
+	});
 
 	updateTimestep = 1.0f / 60.f;
 	updateRealTimeAccum = 0.0f;
