@@ -1,5 +1,7 @@
 #include "PlayerBase.h"
 
+#include "../Recorders/InputRecorder.h"
+
 PlayerBase::PlayerBase()
 {
 
@@ -36,8 +38,18 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 	inputParser.loadFile("../Data/Resources/Input/configXML.xml");
 	Node* node = inputParser.parsedXml;
 
+	std::string seperator = "|";
+	std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
+
+	//GET THIS FROM CONFIG
+	std::vector<int> kmTestConfig = playerRef->getInputFilter()->getListenedKeys(keyboard, seperator);
+	playerRef->getInputRecorder()->addKeysToListen(kmTestConfig);
+
+	//NOW ATTACH NODE
+
 	//NEED TO FUCK ABOUT WITH THIS IN ORDER TO ADD ANYTHING OTHER THAN WASD MOVEMENT
-	for (int i = 0; i < inputParser.parsedXml->children.size(); i++) {
+	for (int i = 0; i < inputParser.parsedXml->children.size(); i++) 
+	{
 		newPlayersActions.attachKeyToAction(InputUtility::getKeyID(inputParser.parsedXml->children[i]->children[0]->value), [coordinate = node->children[i]->children[1]->children[0], i](Player* player)
 		{
 			float xPosition = stof(coordinate->children[0]->value);
@@ -46,9 +58,11 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 
 			Vector3 translation(xPosition, yPosition, zPosition);
 
+			//MUST BE DONE BY A MESSAGE - NOT THREADSAFE
 			player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(translation));
 		});
 	}
+
 	playersActions.push_back(newPlayersActions);
 	return playerRef;
 }

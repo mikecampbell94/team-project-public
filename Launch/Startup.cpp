@@ -57,8 +57,8 @@ void Startup::initialiseInputSystem()
 	rendering->initialise(database);
 	//---------------------------------
 
-	node = new SceneNode("../Data/meshes/centeredcube.obj");
-	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
+	//node = new SceneNode("../Data/meshes/centeredcube.obj");
+	//node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
 
 	//-------------------------------------------
 	rendering->SetSceneToRender(scene, database);
@@ -68,14 +68,14 @@ void Startup::initialiseInputSystem()
 
 	playerbase = new PlayerBase();
 	playerbase->addNewPlayer(keyboardAndMouse);
-	playerbase->getPlayers()[0]->setSceneNode(node);
+	//playerbase->getPlayers()[0]->setSceneNode(node);
 
-	std::string seperator = "|";
-	std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
-	std::string xbox = "XBOX_A|XBOX_B";
-	std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
+	//std::string seperator = "|";
+	//std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
+	//std::string xbox = "XBOX_A|XBOX_B";
+	//std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
 
-	playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
+	//playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
 
 	inputManager = new InputManager(playerbase);
 }
