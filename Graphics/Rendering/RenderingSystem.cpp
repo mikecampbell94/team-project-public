@@ -13,11 +13,12 @@
 #include "../../Gameplay/GameObject.h"
 #include "../../Communication/Messages/TextMessage.h"
 #include "../../Communication/Messages/ToggleGraphicsModuleMessage.h"
+#include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
 {
-
+	this->camera = camera;
 	renderer = std::make_unique<Renderer>(window, camera);
 }
 
@@ -29,7 +30,7 @@ void RenderingSystem::initialise(Database* database)
 {
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM,
-		MessageType::TOGGLE_GRAPHICS_MODULE};
+		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -62,6 +63,18 @@ void RenderingSystem::initialise(Database* database)
 	{
 		ToggleGraphicsModuleMessage* moduleMessage = static_cast<ToggleGraphicsModuleMessage*>(message);
 		renderer->toggleModule(moduleMessage->moduleName, moduleMessage->enabled);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, [&camera = camera, database = database](Message* message)
+	{
+		MoveCameraRelativeToGameObjectMessage* movementMessage = static_cast<MoveCameraRelativeToGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(movementMessage->resourceName));
+
+		camera->setPosition(gameObject->getSceneNode()->GetTransform().getPositionVector() + movementMessage->translation);
+		camera->setPitch(movementMessage->pitch);
+		camera->setYaw(movementMessage->yaw);
 	});
 }
 

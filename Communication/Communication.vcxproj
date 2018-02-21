@@ -132,7 +132,7 @@
     <ClInclude Include="Messages\StopSoundMessage.h" />
     <ClInclude Include="Messages\PlayMovingSoundMessage.h" />
     <ClInclude Include="Messages\ToggleGraphicsModuleMessage.h" />
-    <ClInclude Include="OutgoingMessageBuffer.h" />
+    <ClInclude Include="Messages\MoveCameraRelativeToGameObjectMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MessageStorage.cpp" />
@@ -148,7 +148,7 @@
     <ClCompile Include="Messages\StopSoundMessage.cpp" />
     <ClCompile Include="Messages\PlayMovingSoundMessage.cpp" />
     <ClCompile Include="Messages\ToggleGraphicsModuleMessage.cpp" />
-    <ClCompile Include="OutgoingMessageBuffer.cpp" />
+    <ClCompile Include="Messages\MoveCameraRelativeToGameObjectMessage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

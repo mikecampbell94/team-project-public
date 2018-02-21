@@ -6,7 +6,6 @@
 #include <vector>
 #include <memory>
 
-class OutgoingMessageBuffer;
 class LetterBox;
 
 class System
@@ -24,6 +23,5 @@ private:
 	std::vector<Subsystem*> subsystems;
 	MessageStorage messageBuffers;
 	LetterBox* letterBox;
-	OutgoingMessageBuffer* outgoingMessages;
 };
 

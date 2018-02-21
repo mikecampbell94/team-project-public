@@ -145,6 +145,9 @@ public:
 	inline void applyForce(const Vector3& v)
 	{
 		force += v;
+
+		//linVelocity += (v * invMass);
+		//angVelocity += invInertia * Vector3::cross(worldTransform.getPositionVector(), v);
 	}
 	
 	inline void setInverseMass(const float& v) 

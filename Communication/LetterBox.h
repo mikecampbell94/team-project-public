@@ -5,6 +5,7 @@
 #include "Messages/TextMessage.h"
 #include "Messages/PlaySoundMessage.h"
 #include "Messages/StopSoundMessage.h"
+#include "Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "Messages/PlayMovingSoundMessage.h"
 #include "MessagingService.h"
 #include "MessageStorage.h"
@@ -28,6 +29,8 @@ public:
 	void insertMessage(StopSoundMessage message) override;
 	void insertMessage(ToggleGraphicsModuleMessage message) override;
 	void insertMessage(ApplyForceMessage message) override;
+	void insertMessage(MoveCameraRelativeToGameObjectMessage message) override;
+
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
 
@@ -42,5 +45,6 @@ private:
 	MessageBuffer<StopSoundMessage> stopSoundMessageBuffer;
 	MessageBuffer<ToggleGraphicsModuleMessage> toggleGraphicsModuleMessageBuffer;
 	MessageBuffer<ApplyForceMessage> applyForceMessageBuffer;
+	MessageBuffer<MoveCameraRelativeToGameObjectMessage> moveCameraBuffer;
 };
 

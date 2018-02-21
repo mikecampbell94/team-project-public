@@ -57,10 +57,10 @@
     <ClInclude Include="Messages\ApplyForceMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OutgoingMessageBuffer.h">
+    <ClInclude Include="MessageBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MessageBuffer.h">
+    <ClInclude Include="Messages\MoveCameraRelativeToGameObjectMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,10 +101,10 @@
     <ClCompile Include="Messages\ApplyForceMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OutgoingMessageBuffer.cpp">
+    <ClCompile Include="MessageStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MessageStorage.cpp">
+    <ClCompile Include="Messages\MoveCameraRelativeToGameObjectMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

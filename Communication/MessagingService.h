@@ -10,7 +10,7 @@
 #include "Messages/RelativeTransformMessage.h"
 #include "Messages/ToggleGraphicsModuleMessage.h"
 #include "Messages/ApplyForceMessage.h"
-
+#include "Messages/MoveCameraRelativeToGameObjectMessage.h"
 
 //exposed interface
 class MessagingService 
@@ -26,6 +26,7 @@ public:
 	virtual void insertMessage(StopSoundMessage message) = 0;
 	virtual void insertMessage(ToggleGraphicsModuleMessage message) = 0;
 	virtual void insertMessage(ApplyForceMessage message) = 0;
+	virtual void insertMessage(MoveCameraRelativeToGameObjectMessage message) = 0;
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;
 };
