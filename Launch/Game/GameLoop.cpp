@@ -150,6 +150,11 @@ void GameLoop::executeGameLoop()
 			camera->setPosition(camera->getPosition() + Vector3(0, -1, 0) * 1);
 		}
 
+		if (window->getKeyboard()->keyDown(KEYBOARD_L)) {
+			DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "cube2", Vector3(1.0f, 0.0f, 0.0)));
+		}
+
+
 		camera->setPitch(pitch);
 		camera->setYaw(yaw);
 	}
