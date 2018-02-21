@@ -8,6 +8,7 @@
 #include "Messages/PlayMovingSoundMessage.h"
 #include "MessagingService.h"
 #include "MessageStorage.h"
+#include "Messages/ApplyForceMessage.h"
 
 class LetterBox : public MessagingService
 {
@@ -24,6 +25,7 @@ public:
 	void insertMessage(RelativeTransformMessage message) override;	void insertMessage(PlaySoundMessage message) override;
 	void insertMessage(StopSoundMessage message) override;
 	void insertMessage(ToggleGraphicsModuleMessage message) override;
+	void insertMessage(ApplyForceMessage message) override;
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
 
@@ -37,5 +39,6 @@ private:
 	std::vector<PlaySoundMessage> playSoundMessages;
 	std::vector<StopSoundMessage> stopSoundMessages;
 	std::vector<ToggleGraphicsModuleMessage> graphicsModuleMessages;
+	std::vector<ApplyForceMessage> applyForceMessages;
 };
 

@@ -54,6 +54,11 @@ void LetterBox::insertMessage(ToggleGraphicsModuleMessage message)
 	graphicsModuleMessages.push_back(message);
 }
 
+void LetterBox::insertMessage(ApplyForceMessage message)
+{
+	applyForceMessages.push_back(message);
+}
+
 void LetterBox::deliverAllMessages()
 {
 	for (unsigned int i = 0; i < messages.size(); ++i)
@@ -90,6 +95,11 @@ void LetterBox::deliverAllMessages()
 	{
 		messageStorage.sendMessage(&graphicsModuleMessages[i]);
 	}
+
+	for (unsigned int i = 0; i < applyForceMessages.size(); ++i)
+	{
+		messageStorage.sendMessage(&applyForceMessages[i]);
+	}
 }
 
 void LetterBox::clearAllMessages()
@@ -103,4 +113,5 @@ void LetterBox::clearAllMessages()
 	playSoundMessages.clear();
 	stopSoundMessages.clear();
 	graphicsModuleMessages.clear();
+	applyForceMessages.clear();
 }

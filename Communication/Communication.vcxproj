@@ -117,6 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Messages\ApplyForceMessage.h" />
     <ClInclude Include="Messages\PlaySoundMessage.h" />
     <ClInclude Include="DeliverySystem.h" />
     <ClInclude Include="LetterBox.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="Messages\ToggleGraphicsModuleMessage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Messages\ApplyForceMessage.cpp" />
     <ClCompile Include="Messages\PlaySoundMessage.cpp" />
     <ClCompile Include="DeliverySystem.cpp" />
     <ClCompile Include="LetterBox.cpp" />
