@@ -16,14 +16,14 @@
       <destination>RenderingSystem</destination>
       <translation>
         <x>0</x>
-        <y>0.1</y>
-        <z>1</z>
+        <y>0.01</y>
+        <z>0</z>
       </translation>
       <rotation>
         <x>0</x>
-        <y>1</y>
+        <y>0</y>
         <z>0</z>
-        <degrees>5</degrees>
+        <degrees>0</degrees>
       </rotation>
       <scale>
         <x>1</x>

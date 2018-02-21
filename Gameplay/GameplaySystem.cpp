@@ -7,16 +7,9 @@
 #include "../Input/InputUtility.h"
 #include "../Resource Management/XMLParser.h"
 
-GameplaySystem::GameplaySystem(const int playersInGame,PlayerBase &playerBase)
+GameplaySystem::GameplaySystem()
 	: Subsystem("Gameplay")
 {
-
-	inputBridge = GameplayInputBridge(playersInGame);
-
-	for (int i = 0; i < playersInGame; i++)//every ionput action map in playersInGame
-	{
-		inputBridge.addInputActionMapForPlayer(playerBase.getPlayersAction()[i]);
-	}
 
 	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT }, 
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
@@ -37,6 +30,16 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 	gameLogic.executeMessageBasedActions();
 	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
 	gameLogic.clearNotifications();
+}
+
+void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
+{
+	inputBridge = GameplayInputBridge(playerBase->getPlayers().size());
+
+	for (int i = 0; i < playerBase->getPlayers().size(); i++)//every ionput action map in playersInGame
+	{
+		inputBridge.addInputActionMapForPlayer(playerBase->getPlayersAction()[i]);
+	}
 }
 
 void GameplaySystem::compileGameplayScript(std::string levelScript)

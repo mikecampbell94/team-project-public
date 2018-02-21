@@ -66,8 +66,7 @@ void Startup::initialiseInputSystem()
 
 	keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
 
-	playerbase = new PlayerBase();
-	playerbase->addNewPlayer(keyboardAndMouse);
+	playerbase = new PlayerBase(database);
 	//playerbase->getPlayers()[0]->setSceneNode(node);
 
 	//std::string seperator = "|";
@@ -94,7 +93,7 @@ void Startup::initialiseLevelSystem()
 
 void Startup::initialiseGameplaySystem()
 {
-	gameplay = new GameplaySystem(inputManager->GetPlayerbase()->getPlayers().size(), *inputManager->GetPlayerbase());
+	gameplay = new GameplaySystem();
 }
 
 void Startup::addSystemsToEngine()
@@ -118,6 +117,8 @@ void Startup::loadLevel(std::string levelFile)
 {
 	physics->InitialiseOctrees(5);
 	level->loadLevelFile(levelFile);
+	playerbase->addNewPlayer(keyboardAndMouse);
+	gameplay->connectPlayerbase(inputManager->GetPlayerbase());
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 }
 

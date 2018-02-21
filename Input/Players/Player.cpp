@@ -2,11 +2,10 @@
 
 #include "../Recorders/InputRecorder.h"
 
-Player::Player(int playerID, InputRecorder *recorder/*, SceneNode* playerNode*/)
+Player::Player(int playerID, InputRecorder *recorder)
 {
 	this->playerID = playerID;
 	this->recorder = recorder;
-	//node = playerNode;
 }
 
 Player::~Player()
@@ -43,12 +42,12 @@ void Player::setInputRecorder(InputRecorder* newInputRecorder)
 	 return &playerControls;
  }
 
- void Player::setSceneNode(SceneNode* node)
+ void Player::setGameObject(GameObject* newGameObject)
 {
-	this->node = node;
+	this->gameObject = newGameObject;
 }
 
-SceneNode* Player::getSceneNode()
+ GameObject* Player::getGameObject()
 {
-	return node;
+	return gameObject;
 }

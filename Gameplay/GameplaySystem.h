@@ -8,17 +8,17 @@
 class GameplaySystem : public Subsystem
 {
 public:
-	explicit GameplaySystem(const int playersInGame, PlayerBase &playerBase);
+	GameplaySystem();
 	~GameplaySystem();
 
 	void updateSubsystem(const float& deltaTime) override;
 
+	void connectPlayerbase(PlayerBase* playerbase);
 	void compileGameplayScript(std::string levelScript);
 
 private:
 	GameLogic gameLogic;
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
-	PlayerBase playerBase;
 };
 

@@ -1,14 +1,18 @@
 #include "PlayerBase.h"
 
 #include "../Recorders/InputRecorder.h"
+#include "../../Resource Management/Database/Database.h"
+#include "../../Gameplay/GameObject.h"
+#include "../../Physics/PhysicsNode.h"
 
-PlayerBase::PlayerBase()
+PlayerBase::PlayerBase(Database* database)
 {
-
+	this->database = database;
 }
 
-PlayerBase::PlayerBase(std::vector<InputRecorder*> allRecorders)
+PlayerBase::PlayerBase(Database* database, std::vector<InputRecorder*> allRecorders)
 {
+	this->database = database;
 	initializePlayers(allRecorders);
 }
 
@@ -30,41 +34,48 @@ void PlayerBase::initializePlayers(std::vector<InputRecorder*> allRecorders)
 Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 {
 	int playerID = players.size();
-	Player* playerRef = new Player(playerID, recorder);
-	players.push_back(playerRef);
-
+	Player* player = new Player(playerID, recorder);
+	players.push_back(player);
 
 	InputActionMap newPlayersActions(playerID);
 	inputParser.loadFile("../Data/Resources/Input/configXML.xml");
 	Node* node = inputParser.parsedXml;
 
-	std::string seperator = "|";
-	std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
-
-	//GET THIS FROM CONFIG
-	std::vector<int> kmTestConfig = playerRef->getInputFilter()->getListenedKeys(keyboard, seperator);
-	playerRef->getInputRecorder()->addKeysToListen(kmTestConfig);
 
 	//NOW ATTACH NODE
+	GameObject* playerGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource("playerBall"));
+	player->setGameObject(playerGameObject);
 
-	//NEED TO FUCK ABOUT WITH THIS IN ORDER TO ADD ANYTHING OTHER THAN WASD MOVEMENT
+	std::string seperator = "|";
+	std::string keyboardButtonsToListenTo = "";
+
 	for (int i = 0; i < inputParser.parsedXml->children.size(); i++) 
 	{
-		newPlayersActions.attachKeyToAction(InputUtility::getKeyID(inputParser.parsedXml->children[i]->children[0]->value), [coordinate = node->children[i]->children[1]->children[0], i](Player* player)
+		std::string keyName = inputParser.parsedXml->children[i]->children[0]->value;
+
+		if (i != inputParser.parsedXml->children.size() - 1)
 		{
-			float xPosition = stof(coordinate->children[0]->value);
-			float yPosition = stof(coordinate->children[1]->value);
-			float zPosition = stof(coordinate->children[2]->value);
+			keyboardButtonsToListenTo += keyName + seperator;
+		}
+
+		Node* magnitude = node->children[i]->children[1]->children[0];
+
+		newPlayersActions.attachKeyToAction(InputUtility::getKeyID(keyName), [magnitude = magnitude](Player* player)
+		{
+			float xPosition = stof(magnitude->children[0]->value);
+			float yPosition = stof(magnitude->children[1]->value);
+			float zPosition = stof(magnitude->children[2]->value);
 
 			Vector3 translation(xPosition, yPosition, zPosition);
-
-			//MUST BE DONE BY A MESSAGE - NOT THREADSAFE
-			player->getSceneNode()->SetTransform(player->getSceneNode()->GetTransform() * Matrix4::translation(translation));
+			player->getGameObject()->getPhysicsNode()->setForce(Vector3(translation));
 		});
 	}
 
+	std::vector<int> keyboardMouseConfiguration = player->getInputFilter()->getListenedKeys(keyboardButtonsToListenTo, seperator);
+	player->getInputRecorder()->addKeysToListen(keyboardMouseConfiguration);
+
 	playersActions.push_back(newPlayersActions);
-	return playerRef;
+	return player;
 }
 
 void PlayerBase::removePlayer(int playerID)
