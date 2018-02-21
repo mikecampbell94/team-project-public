@@ -107,8 +107,8 @@ void Startup::addSystemsToEngine()
 
 void Startup::loadLevel(std::string levelFile)
 {
+	physics->InitialiseOctrees(5);
 	level->loadLevelFile(levelFile);
-	physics->InitialiseOctrees(3);
 	gameplay->compileGameplayScript("../Resources/Gameplay/gameplay.xml");
 }
 
