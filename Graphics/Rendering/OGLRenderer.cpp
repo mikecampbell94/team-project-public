@@ -150,6 +150,8 @@ OGLRenderer::OGLRenderer(HWND windowHandle, Vector2 size)
 			return;
 		}
 	}
+
+	//wglSwapIntervalEXT(0);
 }
 
 /*

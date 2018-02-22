@@ -24,6 +24,11 @@ public:
 		incomingMessages.processMessagesInBuffer();
 	}
 
+	std::string getSubsystemName()
+	{
+		return subsystemName;
+	}
+
 protected:
 	std::string subsystemName;
 	MessageProcessor incomingMessages;

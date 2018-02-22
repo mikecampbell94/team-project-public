@@ -19,6 +19,7 @@ public:
 
 	void SetSceneToRender(SceneManager* scene, Database* database);
 	void updateSubsystem(const float& deltaTime) override;
+	void synchronise();
 
 private:
 	std::unique_ptr<Renderer> renderer;

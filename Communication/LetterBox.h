@@ -10,6 +10,8 @@
 #include "MessageStorage.h"
 #include "Messages/ApplyForceMessage.h"
 
+#include <mutex>
+
 class LetterBox : public MessagingService
 {
 public:
@@ -40,5 +42,14 @@ private:
 	std::vector<StopSoundMessage> stopSoundMessages;
 	std::vector<ToggleGraphicsModuleMessage> graphicsModuleMessages;
 	std::vector<ApplyForceMessage> applyForceMessages;
+
+	mutex messageMutex;
+	mutex playerInputMutex;
+	mutex textMutex;
+	mutex sceneNodeTranslationMutex;
+	mutex playSoundMutex;
+	mutex stopSoundMutex;
+	mutex graphicsModuleMutex;
+	mutex applyForceMutex;
 };
 

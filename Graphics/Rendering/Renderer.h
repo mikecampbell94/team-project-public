@@ -11,7 +11,7 @@ class Camera;
 class Matrix4;
 class Database;
 
-class Renderer : OGLRenderer
+class Renderer : public OGLRenderer
 {
 public:
 	Renderer();

@@ -87,5 +87,5 @@ void Renderer::renderScene()
 {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	pipeline.executeModules();
-	swapBuffers();
+	//swapBuffers();
 }

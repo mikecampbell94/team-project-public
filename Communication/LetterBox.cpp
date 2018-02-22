@@ -1,6 +1,8 @@
 #include "LetterBox.h"
 #include "DeliverySystem.h"
 
+#include <omp.h>  
+
 LetterBox::LetterBox()
 {
 	messageStorage = MessageStorage();
@@ -22,40 +24,48 @@ std::queue<Message*>* LetterBox::getDeliveryPoint(const std::string& bufferName)
 
 void LetterBox::insertMessage(Message message)
 {
+//#pragma omp critical
 	messages.push_back(message);
 }
 
 void LetterBox::insertMessage(PlayerInputMessage message)
 {
+//#pragma omp critical
 	playerInputMessages.push_back(message);
 }
 
 void LetterBox::insertMessage(TextMessage message)
 {
+//#pragma omp critical
 	textMessages.push_back(message);
 }
 
 void LetterBox::insertMessage(RelativeTransformMessage message)
 {
+//#pragma omp critical
 	sceneNodeTranslationMessages.push_back(message);
 }
 void LetterBox::insertMessage(PlaySoundMessage message)
 {
+//#pragma omp critical
 	playSoundMessages.push_back(message);
 }
 
 void LetterBox::insertMessage(StopSoundMessage message)
 {
+//#pragma omp critical
 	stopSoundMessages.push_back(message);
 }
 
 void LetterBox::insertMessage(ToggleGraphicsModuleMessage message)
 {
+//#pragma omp critical
 	graphicsModuleMessages.push_back(message);
 }
 
 void LetterBox::insertMessage(ApplyForceMessage message)
 {
+//#pragma omp critical
 	applyForceMessages.push_back(message);
 }
 

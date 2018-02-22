@@ -74,3 +74,8 @@ void RenderingSystem::updateSubsystem(const float& deltaTime)
 {
 	renderer->update(deltaTime);
 }
+
+void RenderingSystem::synchronise()
+{
+	renderer->swapBuffers();
+}

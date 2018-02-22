@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <memory>
+#include "Rendering/RenderingSystem.h"
 
 class System
 {
@@ -20,5 +21,7 @@ public:
 private:
 	std::vector<Subsystem*> subsystems;
 	MessageStorage messageBuffers;
+
+	RenderingSystem* rendering;
 };
 
