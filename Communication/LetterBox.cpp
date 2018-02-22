@@ -59,6 +59,12 @@ void LetterBox::insertMessage(ApplyForceMessage message)
 	applyForceMessages.push_back(message);
 }
 
+void LetterBox::insertMessage(ApplyImpulseMessage message)
+{
+	applyImpulseMessages.push_back(message);
+}
+
+
 void LetterBox::deliverAllMessages()
 {
 	for (unsigned int i = 0; i < messages.size(); ++i)
@@ -100,6 +106,11 @@ void LetterBox::deliverAllMessages()
 	{
 		messageStorage.sendMessage(&applyForceMessages[i]);
 	}
+
+	for (unsigned int i = 0; i < applyImpulseMessages.size(); ++i)
+	{
+		messageStorage.sendMessage(&applyImpulseMessages[i]);
+	}
 }
 
 void LetterBox::clearAllMessages()
@@ -114,4 +125,5 @@ void LetterBox::clearAllMessages()
 	stopSoundMessages.clear();
 	graphicsModuleMessages.clear();
 	applyForceMessages.clear();
+	applyImpulseMessages.clear();
 }

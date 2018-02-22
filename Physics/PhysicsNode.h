@@ -237,6 +237,11 @@ public:
 	{
 		this->appliedForce = appliedForce;
 	}
+
+	inline void applyImpulse(Vector3 impulse)
+	{
+		linVelocity += impulse;
+	}
 	
 
 private:

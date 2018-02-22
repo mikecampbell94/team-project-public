@@ -166,6 +166,10 @@ void GameLoop::executeGameLoop()
 			DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "cube2", Vector3(0.0f, 0.0f, -50.0)));
 		}
 
+		if (window->getKeyboard()->keyDown(KEYBOARD_J)) {
+			DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Physics", "cube2", Vector3(0.0f, 10.0f, 0.0)));
+		}
+
 
 		camera->setPitch(pitch);
 		camera->setYaw(yaw);

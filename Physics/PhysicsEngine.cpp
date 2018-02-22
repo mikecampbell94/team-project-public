@@ -9,7 +9,7 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
 	this->database = database;
 
-	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, MessageType::APPLY_FORCE };
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
@@ -20,6 +20,15 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyForceMessage->gameObjectID));
 
 		gObj->getPhysicsNode()->setAppliedForce(applyForceMessage->force);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_IMPULSE, [database](Message* message)
+	{
+		ApplyImpulseMessage* applyImpulseMessage = static_cast<ApplyImpulseMessage*>(message);
+
+		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyImpulseMessage->gameObjectID));
+
+		gObj->getPhysicsNode()->applyImpulse(applyImpulseMessage->impulse);
 	});
 
 	updateTimestep = 1.0f / 60.f;

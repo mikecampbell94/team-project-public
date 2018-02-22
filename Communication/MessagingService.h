@@ -10,6 +10,7 @@
 #include "Messages/RelativeTransformMessage.h"
 #include "Messages/ToggleGraphicsModuleMessage.h"
 #include "Messages/ApplyForceMessage.h"
+#include "Messages/ApplyImpulseMessage.h"
 
 
 //exposed interface
@@ -26,6 +27,7 @@ public:
 	virtual void insertMessage(StopSoundMessage message) = 0;
 	virtual void insertMessage(ToggleGraphicsModuleMessage message) = 0;
 	virtual void insertMessage(ApplyForceMessage message) = 0;
+	virtual void insertMessage(ApplyImpulseMessage message) = 0;
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;
 };
