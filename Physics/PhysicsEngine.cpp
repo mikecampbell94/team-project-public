@@ -5,25 +5,21 @@
 
 #include "../Communication/Messages/ApplyForceMessage.h"
 
-PhysicsEngine::PhysicsEngine() : Subsystem("Physics")
+PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
+	this->database = database;
+
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, MessageType::APPLY_FORCE };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [&physNodes = physicsNodes](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
 	{
 		ApplyForceMessage* applyForceMessage = static_cast<ApplyForceMessage*>(message);
 
-		//Change this to use database to get quick access to game obj
-		for (PhysicsNode* node : physNodes)
-		{
-			if(node->getParent()->getName() == applyForceMessage->gameObjectID)
-			{
-				node->setForce(applyForceMessage->force);
-				break;
-			}
-		}
+		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyForceMessage->gameObjectID));
+
+		gObj->getPhysicsNode()->setAppliedForce(applyForceMessage->force);
 	});
 
 	updateTimestep = 1.0f / 60.f;

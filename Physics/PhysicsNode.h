@@ -37,6 +37,7 @@ public:
 		, elasticity(0.9f)
 		, enabled(true)
 		, isCollision(true)
+		, appliedForce(0.0f, 0.0f, 0.0f)
 	{
 	}
 	~PhysicsNode()
@@ -231,6 +232,13 @@ public:
 	bool toDeleteInOctree = false;
 	bool movedSinceLastBroadPhase = false;
 
+
+	inline void setAppliedForce(Vector3 appliedForce)
+	{
+		this->appliedForce = appliedForce;
+	}
+	
+
 private:
 	GameObject*				parent;
 	Matrix4					worldTransform;
@@ -257,5 +265,7 @@ private:
 
 	bool enabled;
 	bool isCollision;
+
+	Vector3 appliedForce;
 };
 
