@@ -62,7 +62,7 @@ bool Keyboard::keyTriggered(KeyboardKeys key) {
 
 bool Keyboard::keyReleased(KeyboardKeys key)
 {
-	return !keyDown(key);
+	return false;
 }
 
 /*

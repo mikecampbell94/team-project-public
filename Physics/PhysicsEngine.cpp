@@ -15,11 +15,12 @@ PhysicsEngine::PhysicsEngine() : Subsystem("Physics")
 	{
 		ApplyForceMessage* applyForceMessage = static_cast<ApplyForceMessage*>(message);
 
+		//Change this to use database to get quick access to game obj
 		for (PhysicsNode* node : physNodes)
 		{
 			if(node->getParent()->getName() == applyForceMessage->gameObjectID)
 			{
-				node->applyForce(applyForceMessage->force);
+				node->setForce(applyForceMessage->force);
 				break;
 			}
 		}

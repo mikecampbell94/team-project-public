@@ -141,11 +141,6 @@ public:
 	{
 		force = v;
 	}
-
-	inline void applyForce(const Vector3& v)
-	{
-		force = v;
-	}
 	
 	inline void setInverseMass(const float& v) 
 	{ 
