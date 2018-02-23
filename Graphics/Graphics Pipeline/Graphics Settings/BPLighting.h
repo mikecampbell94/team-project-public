@@ -34,6 +34,8 @@ public:
 	bool* SSAOApplied;
 	bool* ShadowsApplied;
 
+	Matrix4* paintTextureMatrix;
+	GLuint* paintTrailTexture;
 private:
 	void locateUniforms() override;
 	void lightingPass();

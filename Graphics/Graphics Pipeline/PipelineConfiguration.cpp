@@ -43,12 +43,18 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthog
 	shadowTex->linkShaders();
 	shadowTex->initialise();
 
+	paintTrail = new PaintTrail("PaintTrail", projmatrix, resolution, database);
+	paintTrail->linkShaders();
+	paintTrail->initialise();
+
 	bpLighting = new BPLighting("BPLighting", projmatrix, resolution, camera, gBuffer->getGBuffer(), 
 		sceneManager->getAllLights(), ssao->getSSAOTextures(), shadowTex->getShadowData());
 	bpLighting->linkShaders();
 	bpLighting->initialise();
 	bpLighting->SSAOApplied = &ssao->applied;
 	bpLighting->ShadowsApplied = &shadowTex->applied;
+	bpLighting->paintTextureMatrix = &paintTrail->textureMatrices;
+	bpLighting->paintTrailTexture = &paintTrail->paintTrailTexture;
 
 	uiModule = new UIModule("UIModule", orthographicMatrix, resolution, database);
 	uiModule->linkShaders();
@@ -60,6 +66,7 @@ void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 	pipeline->addModule(gBuffer);
 	pipeline->addModule(skybox);
 	pipeline->addModule(shadowTex);
+	pipeline->addModule(paintTrail);
 	pipeline->addModule(ssao);
 	pipeline->addModule(bpLighting);
 	pipeline->addModule(uiModule);

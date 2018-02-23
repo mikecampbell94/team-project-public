@@ -17,6 +17,8 @@ uniform mat4 camMatrix;
 uniform mat4 viewMatrix;
 
 uniform sampler2D ssaoTexture;
+uniform sampler2D paintTrailTexture;
+uniform mat4 paintTrailTextureMatrix;
 uniform bool ssaoApplied;
 uniform bool shadowsApplied;
 
@@ -139,6 +141,14 @@ void main(void){
 		{
 			vec3 ambientColour = albedo.rgb * 0.6f;
 			finalColour.rgb += ambientColour;
+		}
+
+		vec4 paintTrailProjection = (paintTrailTextureMatrix * inverse(camMatrix) *
+			vec4(position + (normal * 1.5), 1));
+
+		if (paintTrailProjection.w > 0.0)
+		{
+			finalColour *= textureProj(paintTrailTexture, paintTrailProjection);
 		}
 
 		FragColor = finalColour;
