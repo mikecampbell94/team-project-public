@@ -70,6 +70,11 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 	physicsnode->setInverseInertia(physicsnode->getCollisionShape()->buildInverseInertia(physicsnode->getInverseMass()));
 	physicsnode->setElasticity(stof(node->children[4]->value));
 	physicsnode->setFriction(stof(node->children[5]->value));
+	if (node->children.size() == 7)
+	{
+		physicsnode->setDamping(stof(node->children[6]->value));
+	}
+	
 	return physicsnode;
 }
 

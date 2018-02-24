@@ -34,6 +34,7 @@ public:
 		, invInertia(Matrix3::ZeroMatrix)
 		, collisionShape(NULL)
 		, friction(0.5f)
+		, damping(0.99999999f)
 		, elasticity(0.9f)
 		, enabled(true)
 		, isCollision(true)
@@ -123,6 +124,11 @@ public:
 	inline void setFriction(float frictionCoeff) 
 	{ 
 		friction = frictionCoeff; 
+	}
+
+	inline void setDamping(float dampingCoeff)
+	{
+		damping = dampingCoeff;
 	}
 
 	inline void setPosition(const Vector3& v) 
@@ -235,7 +241,7 @@ public:
 
 	inline void setAppliedForce(Vector3 appliedForce)
 	{
-		this->appliedForce = appliedForce;
+		this->appliedForce += appliedForce;
 	}
 
 	inline void applyImpulse(Vector3 impulse)
@@ -267,6 +273,7 @@ private:
 
 	float	elasticity;
 	float	friction;
+	float	damping;
 
 	bool enabled;
 	bool isCollision;
