@@ -33,6 +33,7 @@
 			<isCollision>True</isCollision>
 			<Elasticity>0.5</Elasticity>
 			<Friction>0.9</Friction>
+      <Damping>0.995</Damping>
 		</PhysicsNode>
 </GameObjects>
 
@@ -78,7 +79,7 @@
 
   <GameObjects name="cube2" >
     <SceneNode>
-      <Mesh>CubeMesh</Mesh>
+      <Mesh>SphereMesh</Mesh>
       <Colour>
         <R>0</R>
         <G>1</G>
@@ -105,8 +106,8 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
-      <CollisionShape>Box</CollisionShape>
-      <Mass>0.2</Mass>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
       <isCollision>True</isCollision>
       <Elasticity>0.5</Elasticity>
       <Friction>0.9</Friction>

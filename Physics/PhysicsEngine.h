@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Launch/Systems/Subsystem.h"
+#include "../Resource Management/Database/Database.h"
 
 #include "PhysicsNode.h"
 #include "Constraint.h"
@@ -14,7 +15,6 @@ class OctreePartitioning;
 // assure the constraints are solved. (Last tutorial)
 #define SOLVER_ITERATIONS 50
 
-
 struct CollisionPair
 {
 	PhysicsNode* pObjectA;
@@ -25,7 +25,7 @@ class PhysicsEngine : public Subsystem
 {
 public:
 	
-	PhysicsEngine();
+	PhysicsEngine(Database* database);
 	~PhysicsEngine();
 
 	void addPhysicsObject(PhysicsNode* obj);
@@ -100,5 +100,7 @@ private:
 	bool		octreeChanged = false;
 	bool		octreeInitialised = false;
 	OctreePartitioning* octree;
+
+	Database* database;
 
 };

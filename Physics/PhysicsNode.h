@@ -34,9 +34,11 @@ public:
 		, invInertia(Matrix3::ZeroMatrix)
 		, collisionShape(NULL)
 		, friction(0.5f)
+		, damping(0.99999999f)
 		, elasticity(0.9f)
 		, enabled(true)
 		, isCollision(true)
+		, appliedForce(0.0f, 0.0f, 0.0f)
 	{
 	}
 	~PhysicsNode()
@@ -124,6 +126,11 @@ public:
 		friction = frictionCoeff; 
 	}
 
+	inline void setDamping(float dampingCoeff)
+	{
+		damping = dampingCoeff;
+	}
+
 	inline void setPosition(const Vector3& v) 
 	{ 
 		position = v; 
@@ -140,14 +147,6 @@ public:
 	inline void setForce(const Vector3& v)
 	{
 		force = v;
-	}
-
-	inline void applyForce(const Vector3& v)
-	{
-		force += v;
-
-		//linVelocity += (v * invMass);
-		//angVelocity += invInertia * Vector3::cross(worldTransform.getPositionVector(), v);
 	}
 	
 	inline void setInverseMass(const float& v) 
@@ -239,6 +238,18 @@ public:
 	bool toDeleteInOctree = false;
 	bool movedSinceLastBroadPhase = false;
 
+
+	inline void setAppliedForce(Vector3 appliedForce)
+	{
+		this->appliedForce += appliedForce;
+	}
+
+	inline void applyImpulse(Vector3 impulse)
+	{
+		linVelocity += impulse;
+	}
+	
+
 private:
 	GameObject*				parent;
 	Matrix4					worldTransform;
@@ -262,8 +273,11 @@ private:
 
 	float	elasticity;
 	float	friction;
+	float	damping;
 
 	bool enabled;
 	bool isCollision;
+
+	Vector3 appliedForce;
 };
 

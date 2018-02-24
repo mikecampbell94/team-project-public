@@ -11,6 +11,7 @@
 #include "MessageStorage.h"
 #include "Messages/ApplyForceMessage.h"
 #include "MessageBuffer.h"
+#include "Messages/ApplyImpulseMessage.h"
 
 class LetterBox : public MessagingService
 {
@@ -31,6 +32,7 @@ public:
 	void insertMessage(ApplyForceMessage message) override;
 	void insertMessage(MoveCameraRelativeToGameObjectMessage message) override;
 
+	void insertMessage(ApplyImpulseMessage message) override;
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
 
@@ -45,6 +47,7 @@ private:
 	MessageBuffer<StopSoundMessage> stopSoundMessageBuffer;
 	MessageBuffer<ToggleGraphicsModuleMessage> toggleGraphicsModuleMessageBuffer;
 	MessageBuffer<ApplyForceMessage> applyForceMessageBuffer;
+	MessageBuffer<ApplyImpulseMessage> applyImpulseMessageBuffer;
 	MessageBuffer<MoveCameraRelativeToGameObjectMessage> moveCameraBuffer;
 };
 
