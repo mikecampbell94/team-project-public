@@ -6,7 +6,8 @@
 
 System::System()
 {
-	DeliverySystem::provide(new LetterBox());
+	letterBox = new LetterBox();
+	DeliverySystem::provide(letterBox);
 }
 
 System::~System()

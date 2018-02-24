@@ -3,9 +3,9 @@
         <SceneNode>
 		<Mesh>SphereMesh</Mesh>
 		<Colour>
-		  <R>0</R>
+		  <R>1</R>
 		  <G>0</G>
-		  <B>0</B>
+		  <B>1</B>
 		  <A>1</A>
 		</Colour>
 		</SceneNode>

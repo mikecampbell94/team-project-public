@@ -24,5 +24,5 @@ private:
 	std::unique_ptr<Renderer> renderer;
 	std::map<std::string, bool> graphicsConfig;
 	GraphicsPipeline pipeline;
-
+	Camera* camera;
 };

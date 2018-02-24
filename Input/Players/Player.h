@@ -2,8 +2,8 @@
 
 #include <string>
 #include "InputFilter.h"
-#include "../Graphics/Scene Management/SceneNode.h"
 
+class GameObject;
 class InputRecorder;
 
 class Player
@@ -11,7 +11,7 @@ class Player
 
 public:
 	Player() = default;
-	Player(int playerID, InputRecorder *recorder/*, SceneNode* playerNode*/);
+	Player(int playerID, InputRecorder *recorder);
 	~Player();
 
 	void setPlayerID(int newID);
@@ -23,11 +23,11 @@ public:
 	void setPlayerControls(InputFilter* newControls);
 	InputFilter* getInputFilter();
 
-	void setSceneNode(SceneNode* node);
-	SceneNode* getSceneNode();
+	void setGameObject(GameObject* node);
+	GameObject* getGameObject();
 
 private:
-	SceneNode* node;
+	GameObject* gameObject;
 	int playerID;
 	InputRecorder *recorder;
 	InputFilter playerControls;

@@ -6,12 +6,10 @@
 class ApplyForceMessage : public Message
 {
 public:
-	ApplyForceMessage(const std::string& desinationName, std::string gameObjectID, Vector3 force);
+	ApplyForceMessage(const std::string& desinationName, const std::string& gameObjectID, const Vector3& force);
 	~ApplyForceMessage();
 
 	std::string gameObjectID;
 	Vector3 force;
-
-
 };
 

@@ -6,11 +6,13 @@
 #include <map>
 #include <vector>
 
+class Database;
+
 class PlayerBase
 {
 public:
-	PlayerBase();
-	PlayerBase(std::vector<InputRecorder*> allRecorders);
+	PlayerBase(Database* database);
+	PlayerBase(Database* database, std::vector<InputRecorder*> allRecorders);
 	~PlayerBase();
 
 	void initializePlayers(std::vector<InputRecorder*> allRecorders);
@@ -36,6 +38,8 @@ private:
 
 	std::vector<InputRecorder*> inputRecorders;
 	std::vector<Player*> players;
-	XMLParser inputParser;
 	std::vector<InputActionMap> playersActions;
+
+	XMLParser inputParser;
+	Database* database;
 };

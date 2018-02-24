@@ -57,6 +57,12 @@
     <ClInclude Include="Messages\ApplyForceMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MessageBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages\MoveCameraRelativeToGameObjectMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Messages\ApplyImpulseMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -66,9 +72,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MessageProcessor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MessageStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DeliverySystem.cpp">
@@ -99,6 +102,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\ApplyForceMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageStorage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\MoveCameraRelativeToGameObjectMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\ApplyImpulseMessage.cpp">

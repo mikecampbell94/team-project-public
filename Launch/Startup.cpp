@@ -57,8 +57,8 @@ void Startup::initialiseInputSystem()
 	rendering->initialise(database);
 	//---------------------------------
 
-	node = new SceneNode("../Data/meshes/centeredcube.obj");
-	node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
+	//node = new SceneNode("../Data/meshes/centeredcube.obj");
+	//node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
 
 	//-------------------------------------------
 	rendering->SetSceneToRender(scene, database);
@@ -66,16 +66,15 @@ void Startup::initialiseInputSystem()
 
 	keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
 
-	playerbase = new PlayerBase();
-	playerbase->addNewPlayer(keyboardAndMouse);
-	playerbase->getPlayers()[0]->setSceneNode(node);
+	playerbase = new PlayerBase(database);
+	//playerbase->getPlayers()[0]->setSceneNode(node);
 
-	std::string seperator = "|";
-	std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
-	std::string xbox = "XBOX_A|XBOX_B";
-	std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
+	//std::string seperator = "|";
+	//std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
+	//std::string xbox = "XBOX_A|XBOX_B";
+	//std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
 
-	playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
+	//playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
 
 	inputManager = new InputManager(playerbase);
 }
@@ -94,7 +93,7 @@ void Startup::initialiseLevelSystem()
 
 void Startup::initialiseGameplaySystem()
 {
-	gameplay = new GameplaySystem(inputManager->GetPlayerbase()->getPlayers().size(), *inputManager->GetPlayerbase());
+	gameplay = new GameplaySystem();
 }
 
 void Startup::addSystemsToEngine()
@@ -118,6 +117,8 @@ void Startup::loadLevel(std::string levelFile)
 {
 	physics->InitialiseOctrees(5);
 	level->loadLevelFile(levelFile);
+	playerbase->addNewPlayer(keyboardAndMouse);
+	gameplay->connectPlayerbase(inputManager->GetPlayerbase());
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 }
 
