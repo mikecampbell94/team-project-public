@@ -30,7 +30,7 @@ void PhysicsNode::integrateForVelocity(float dt)
 
 	angVelocity = angVelocity * damping;
 
-	
+	appliedForce.toZero();
 }
 
 void PhysicsNode::integrateForPosition(float dt)
@@ -40,8 +40,6 @@ void PhysicsNode::integrateForPosition(float dt)
 	orientation = orientation + Quaternion(angVelocity * dt * .5f, 0.f) * orientation;
 
 	orientation.normalise();
-
-	appliedForce.toZero();
 
 	worldTransform = orientation.toMatrix();
 

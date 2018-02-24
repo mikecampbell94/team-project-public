@@ -16,13 +16,13 @@ public:
 
 	void sendMessages(MessageStorage& messageStorage)
 	{
-		for (unsigned int i = 0; i < outgoingMessages.size(); ++i)
+		while (!outgoingMessages.empty())
 		{
 			MessageType message = outgoingMessages.front();
 			outgoingMessages.pop();
 
 			sentMessages.push(message);
-			messageStorage.sendMessage(&sentMessages.front());
+			messageStorage.sendMessage(&sentMessages.back());
 		}
 	}
 

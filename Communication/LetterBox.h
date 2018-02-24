@@ -47,6 +47,7 @@ private:
 	MessageBuffer<StopSoundMessage> stopSoundMessageBuffer;
 	MessageBuffer<ToggleGraphicsModuleMessage> toggleGraphicsModuleMessageBuffer;
 	MessageBuffer<ApplyForceMessage> applyForceMessageBuffer;
+	MessageBuffer<ApplyImpulseMessage> applyImpulseMessageBuffer;
 	MessageBuffer<MoveCameraRelativeToGameObjectMessage> moveCameraBuffer;
 };
 

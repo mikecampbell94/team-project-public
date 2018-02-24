@@ -8,14 +8,15 @@
 PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
 	this->database = database;
-	std::vector<MessageType> types = { MessageType::APPLY_FORCE };
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database, &incomingMessages = incomingMessages](Message* message)
 	{
+		MessageProcessor* m = &incomingMessages;
+
 		ApplyForceMessage* applyForceMessage = static_cast<ApplyForceMessage*>(message);
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyForceMessage->gameObjectID));
