@@ -84,8 +84,9 @@ public:
 
 	std::vector<SceneNode*> getChildren();
 
-
 	const float getRadius();
+
+	bool isPaintSurface = false;
 
 protected:
 	bool		enabled;

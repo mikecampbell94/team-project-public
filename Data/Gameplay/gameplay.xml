@@ -1,31 +1,31 @@
 <GameplayScript>
-	<ReceiveMessage type="PlayerInputMessage">
-		<Action>
-			<Condition>
-				<playerID>0</playerID>
-			</Condition>
-      <SendMessage type="RELATIVE_TRANSFORM">
+  <OnStart>
+    <SendMessage type="TOGGLE_GRAPHICS_MODULE">
+      <destination>RenderingSystem</destination>
+      <moduleName>PaintTrail</moduleName>
+      <enabled>True</enabled>
+    </SendMessage>
+    
+    <SendMessage type="PREPARE_PAINT_SURFACE">
+      <destination>RenderingSystem</destination>
+      <resource>floor</resource>
+    </SendMessage>
+  </OnStart>
+  
+  <ReceiveMessage type="CollisionMessage">
+    <Action>
+      <Condition type="AND">
+        <objectIdentifier>playerBall</objectIdentifier>
+        <colliderIdentifier>cube1</colliderIdentifier>
+      </Condition>
+      
+      <SendMessage type="TEXT">
         <destination>RenderingSystem</destination>
-        <translation>
-          <x>0</x>
-          <y>0.01</y>
-          <z>0</z>
-        </translation>
-        <rotation>
-          <x>0</x>
-          <y>0</y>
-          <z>0</z>
-          <degrees>0</degrees>
-        </rotation>
-        <scale>
-          <x>1</x>
-          <y>1</y>
-          <z>1</z>
-        </scale>
-        <resource>cube1</resource>
+        <text>playerball collided</text>
       </SendMessage>
     </Action>
   </ReceiveMessage>
+  
   <Timed interval="0.01">
     <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
       <destination>RenderingSystem</destination>
@@ -41,11 +41,11 @@
       </rotation>
     </SendMessage>
 	</Timed>
+  
 	<Timed interval="2.0">
 		<SendMessage type="TEXT">
 			<destination>RenderingSystem</destination>
 			<text>every 2 seconds</text>
 		</SendMessage>
-		
 	</Timed>
 </GameplayScript>

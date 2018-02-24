@@ -64,6 +64,16 @@ void LetterBox::insertMessage(MoveCameraRelativeToGameObjectMessage message)
 	moveCameraBuffer.insertOutgoingMessage(message);
 }
 
+void LetterBox::insertMessage(CollisionMessage message)
+{
+	collisionBuffer.insertOutgoingMessage(message);
+}
+
+void LetterBox::insertMessage(PreparePaintSurfaceMessage message)
+{
+	preparePaintSurfaceBuffer.insertOutgoingMessage(message);
+}
+
 void LetterBox::deliverAllMessages()
 {
 	messageBuffer.sendMessages(messageStorage);
@@ -75,6 +85,8 @@ void LetterBox::deliverAllMessages()
 	toggleGraphicsModuleMessageBuffer.sendMessages(messageStorage);
 	applyForceMessageBuffer.sendMessages(messageStorage);
 	moveCameraBuffer.sendMessages(messageStorage);
+	collisionBuffer.sendMessages(messageStorage);
+	preparePaintSurfaceBuffer.sendMessages(messageStorage);
 }
 
 void LetterBox::clearAllMessages()
@@ -90,4 +102,6 @@ void LetterBox::clearAllMessages()
 	toggleGraphicsModuleMessageBuffer.clearSentMessages();
 	applyForceMessageBuffer.clearSentMessages();
 	moveCameraBuffer.clearSentMessages();
+	collisionBuffer.clearSentMessages();
+	preparePaintSurfaceBuffer.clearSentMessages();
 }

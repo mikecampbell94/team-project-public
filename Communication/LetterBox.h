@@ -30,6 +30,8 @@ public:
 	void insertMessage(ToggleGraphicsModuleMessage message) override;
 	void insertMessage(ApplyForceMessage message) override;
 	void insertMessage(MoveCameraRelativeToGameObjectMessage message) override;
+	void insertMessage(CollisionMessage message) override;
+	void insertMessage(PreparePaintSurfaceMessage message) override;
 
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
@@ -46,5 +48,7 @@ private:
 	MessageBuffer<ToggleGraphicsModuleMessage> toggleGraphicsModuleMessageBuffer;
 	MessageBuffer<ApplyForceMessage> applyForceMessageBuffer;
 	MessageBuffer<MoveCameraRelativeToGameObjectMessage> moveCameraBuffer;
+	MessageBuffer<CollisionMessage> collisionBuffer;
+	MessageBuffer<PreparePaintSurfaceMessage> preparePaintSurfaceBuffer;
 };
 

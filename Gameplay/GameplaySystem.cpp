@@ -10,13 +10,22 @@
 GameplaySystem::GameplaySystem()
 	: Subsystem("Gameplay")
 {
-	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT }, 
+	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION }, 
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge](Message* message)
 	{
-		gameLogic.notifyMessageActions("PlayerInputMessage", message);
+		//gameLogic.notifyMessageActions("PlayerInputMessage", message);
 		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::COLLISION, [&gameLogic = gameLogic](Message* message)
+	{
+		//CollisionMessage* collisionMessage = static_cast<CollisionMessage*>(message);
+		//std::cout << "Obj : " << collisionMessage->objectIdentifier << std::endl;
+		//std::cout << "Collider : " << collisionMessage->colliderIdentifier << std::endl;
+
+		gameLogic.notifyMessageActions("CollisionMessage", message);
 	});
 }
 
@@ -47,4 +56,5 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	xmlParser.loadFile(levelScript);
 	gameLogic = GameLogic(&incomingMessages);
 	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
+	gameLogic.executeActionsOnStart();
 }

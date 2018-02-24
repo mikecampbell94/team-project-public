@@ -56,7 +56,7 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 	{
 		physicsnode->setEnabled(false);
 	}
-	std::string CollisionEnabled = node->children[3]->value;
+	std::string CollisionEnabled = node->children[4]->value;
 	if (CollisionEnabled == "True")
 	{
 		physicsnode->setIsCollision(true);
@@ -65,11 +65,12 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 	{
 		physicsnode->setIsCollision(false);
 	}
-	physicsnode->setCollisionShape(node->children[1]->value);
-	physicsnode->setInverseMass(stof(node->children[2]->value));
+	physicsnode->transmitCollision = node->children[1]->value == "True";
+	physicsnode->setCollisionShape(node->children[2]->value);
+	physicsnode->setInverseMass(stof(node->children[3]->value));
 	physicsnode->setInverseInertia(physicsnode->getCollisionShape()->buildInverseInertia(physicsnode->getInverseMass()));
-	physicsnode->setElasticity(stof(node->children[4]->value));
-	physicsnode->setFriction(stof(node->children[5]->value));
+	physicsnode->setElasticity(stof(node->children[5]->value));
+	physicsnode->setFriction(stof(node->children[6]->value));
 	return physicsnode;
 }
 

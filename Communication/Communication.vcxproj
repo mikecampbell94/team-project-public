@@ -117,6 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Messages\CollisionMessage.h" />
     <ClInclude Include="MessageBuffer.h" />
     <ClInclude Include="Messages\ApplyForceMessage.h" />
     <ClInclude Include="Messages\PlaySoundMessage.h" />
@@ -133,8 +134,10 @@
     <ClInclude Include="Messages\PlayMovingSoundMessage.h" />
     <ClInclude Include="Messages\ToggleGraphicsModuleMessage.h" />
     <ClInclude Include="Messages\MoveCameraRelativeToGameObjectMessage.h" />
+    <ClInclude Include="Messages\PreparePaintSurfaceMessage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Messages\CollisionMessage.cpp" />
     <ClCompile Include="MessageStorage.cpp" />
     <ClCompile Include="Messages\ApplyForceMessage.cpp" />
     <ClCompile Include="Messages\PlaySoundMessage.cpp" />
@@ -149,6 +152,7 @@
     <ClCompile Include="Messages\PlayMovingSoundMessage.cpp" />
     <ClCompile Include="Messages\ToggleGraphicsModuleMessage.cpp" />
     <ClCompile Include="Messages\MoveCameraRelativeToGameObjectMessage.cpp" />
+    <ClCompile Include="Messages\PreparePaintSurfaceMessage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

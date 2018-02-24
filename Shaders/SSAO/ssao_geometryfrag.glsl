@@ -7,6 +7,10 @@ layout (location = 2) out vec4 gAlbedo;
 uniform sampler2D texture_diffuse;
 uniform int hasTexture;
 
+uniform sampler2D paintTrailTexture;
+uniform mat4 paintTrailTextureMatrix;
+uniform int isPaintSurface;
+
 uniform vec3 cameraPos;
 uniform vec4 baseColour;
 uniform mat4 viewMatrix;
@@ -36,6 +40,17 @@ void main(void) {
 	//	col += reflectioncolour * reflectionstrength;
 	//	col /= 2;
 	//}
+
+	if (isPaintSurface == 1)
+	{
+		vec4 paintTrailProjection = (paintTrailTextureMatrix * inverse(viewMatrix) *
+			vec4(gPosition + (gNormal * 1.5), 1));
+
+		if (paintTrailProjection.w > 0.0)
+		{
+			col *= textureProj(paintTrailTexture, paintTrailProjection);
+		}
+	}
 
 	gAlbedo = vec4(col.rgb, 1.0);
 	//glAlbedo = vec4(1.0f, 0.0f, 0.0f, 1.0f);

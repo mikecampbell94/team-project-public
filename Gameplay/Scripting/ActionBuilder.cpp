@@ -8,6 +8,7 @@
 #include "../../Communication/Messages/TextMessage.h"
 #include "../../Communication/Messages/RelativeTransformMessage.h"
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
+#include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 
 const std::string CONDITIONAL_STATEMENT = "Condition";
 const std::string SEND_MESSAGE_STATEMENT = "SendMessage";
@@ -100,10 +101,6 @@ Executable ActionBuilder::compileActionSectionWithoutCondition(Node* section)
 	{
 		return buildSendMessageExecutable(section);
 	}
-	else
-	{
-		//TO-DO
-	}
 }
 
 Condition ActionBuilder::buildIfStatement(Node* node)
@@ -154,6 +151,24 @@ Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 	else if (node->name == "MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT")
 	{
 		MoveCameraRelativeToGameObjectMessage message = MoveCameraRelativeToGameObjectMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	}
+	else if (node->name == "TOGGLE_GRAPHICS_MODULE")
+	{
+		ToggleGraphicsModuleMessage message = ToggleGraphicsModuleMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	}
+	else if (node->name == "PREPARE_PAINT_SURFACE")
+	{
+		PreparePaintSurfaceMessage message = PreparePaintSurfaceMessage::builder(node);
 
 		return [message = message]()
 		{

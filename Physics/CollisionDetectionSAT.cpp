@@ -1,5 +1,7 @@
 #include "CollisionDetectionSAT.h"
 #include "GeometryUtils.h"
+#include "PhysicsNode.h"
+#include "Manifold.h"
 
 using namespace GeometryUtils;
 

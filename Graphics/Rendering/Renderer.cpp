@@ -73,6 +73,11 @@ void Renderer::toggleModule(const std::string& moduleName, bool enabled)
 	pipeline.toggleModule(moduleName, enabled);
 }
 
+GraphicsModule* Renderer::getGraphicsModule(const std::string& moduleName)
+{
+	return pipeline.getGraphicsModule(moduleName);
+}
+
 void Renderer::updateScene(const float& msec)
 {
 	camera->updateCamera();

@@ -12,10 +12,11 @@
 #include "SphereCollisionShape.h"
 #include "CuboidCollisionShape.h"
 
+#include "CollisionDetectionSAT.h"
 
 class PhysicsNode;
 
-typedef std::function<bool(PhysicsNode* this_obj, PhysicsNode* colliding_obj)> PhysicsCollisionCallback;
+typedef std::function<bool(PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData)> PhysicsCollisionCallback;
 typedef std::function<void(const Matrix4& transform)> PhysicsUpdateCallback;
 
 //class GameObject;
@@ -211,9 +212,9 @@ public:
 	{ 
 		onCollisionCallback = callback; 
 	}
-	inline bool fireOnCollisionEvent(PhysicsNode* obj_a, PhysicsNode* obj_b)
+	inline bool fireOnCollisionEvent(PhysicsNode* obj_a, PhysicsNode* obj_b, CollisionData collisionData)
 	{
-		return (onCollisionCallback) ? onCollisionCallback(obj_a, obj_b) : true;
+		return (onCollisionCallback) ? onCollisionCallback(obj_a, obj_b, collisionData) : true;
 	}
 
 	inline void setOnUpdateCallback(PhysicsUpdateCallback callback)
@@ -238,6 +239,7 @@ public:
 
 	bool toDeleteInOctree = false;
 	bool movedSinceLastBroadPhase = false;
+	bool transmitCollision = false;
 
 private:
 	GameObject*				parent;

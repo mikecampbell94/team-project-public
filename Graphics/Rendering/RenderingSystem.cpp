@@ -14,6 +14,7 @@
 #include "../../Communication/Messages/TextMessage.h"
 #include "../../Communication/Messages/ToggleGraphicsModuleMessage.h"
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
+#include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
@@ -30,7 +31,7 @@ void RenderingSystem::initialise(Database* database)
 {
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM,
-		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT};
+		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -75,6 +76,21 @@ void RenderingSystem::initialise(Database* database)
 		camera->setPosition(gameObject->getSceneNode()->GetTransform().getPositionVector() + movementMessage->translation);
 		camera->setPitch(movementMessage->pitch);
 		camera->setYaw(movementMessage->yaw);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::PREPARE_PAINT_SURFACE, [database = database, &renderer = renderer](Message* message)
+	{
+		PreparePaintSurfaceMessage* paintMessage = static_cast<PreparePaintSurfaceMessage*>(message);
+
+		std::vector<GameObject*> surfaceObjects;
+
+		for each (std::string objectIdentifiers in paintMessage->surfaceObjectIdentifiers)
+		{
+			surfaceObjects.push_back(static_cast<GameObject*>(
+				database->getTable("GameObjects")->getResource(objectIdentifiers)));
+		}
+
+		static_cast<PaintTrail*>(renderer->getGraphicsModule("PaintTrail"))->preparePaintSurface(surfaceObjects);
 	});
 }
 

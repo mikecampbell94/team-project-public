@@ -17,6 +17,7 @@ public:
 	void executeModules();
 
 	void addModule(GraphicsModule* module);
+	GraphicsModule* getGraphicsModule(std::string moduleIdentifier);
 
 private:
 	std::vector<GraphicsModule*> modules;

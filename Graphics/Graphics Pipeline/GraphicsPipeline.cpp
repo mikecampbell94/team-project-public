@@ -65,3 +65,14 @@ void GraphicsPipeline::addModule(GraphicsModule * module)
 {
 	modules.push_back(module);
 }
+
+GraphicsModule* GraphicsPipeline::getGraphicsModule(std::string moduleIdentifier)
+{
+	for (GraphicsModule* module : modules)
+	{
+		if (module->getIdentifier() == moduleIdentifier)
+		{
+			return module;
+		}
+	}
+}

@@ -99,7 +99,6 @@ void BPLighting::lightingPass()
 	glUniform1i(loc_gPosition, CommonGraphicsData::GPOSITION);
 	glUniform1i(loc_gNormal, CommonGraphicsData::GNORMAL);
 	glUniform1i(loc_gAlbedo, CommonGraphicsData::GALBEDO);
-	glUniform1i(glGetUniformLocation(lightingPassShader->GetProgram(), "paintTrailTexture"), 6);
 
 	//glUniform1f(glGetUniformLocation(lightingPassShader->GetProgram(), "ambientLighting"), ambientLighting);
 
@@ -108,7 +107,6 @@ void BPLighting::lightingPass()
 	glUniform1i(loc_ambientTextures, *ambientTextures->texUnit);
 
 	glUniformMatrix4fv(loc_texMatrices, 1, false, (float*)&shadowData->textureMatrices);
-	glUniformMatrix4fv(glGetUniformLocation(lightingPassShader->GetProgram(), "paintTrailTextureMatrix"), 1, false, (float*)paintTextureMatrix);
 
 	viewMatrix = camera->buildViewMatrix();
 	glUniformMatrix4fv(loc_camMatrix, 1, false, (float*)&viewMatrix);
@@ -118,7 +116,6 @@ void BPLighting::lightingPass()
 	currentShader->ApplyTexture(CommonGraphicsData::GPOSITION, *gBuffer->gPosition);
 	currentShader->ApplyTexture(CommonGraphicsData::GNORMAL, *gBuffer->gNormal);
 	currentShader->ApplyTexture(CommonGraphicsData::GALBEDO, *gBuffer->gAlbedo);
-	currentShader->ApplyTexture(6, *paintTrailTexture);
 
 	glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "ssaoApplied"), *SSAOApplied);
 	glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "shadowsApplied"), *ShadowsApplied);

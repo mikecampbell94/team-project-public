@@ -17,8 +17,6 @@ public:
 	SceneNode* getSceneNode();
 	PhysicsNode* getPhysicsNode();
 
-
-
 	void updatePosition();
 	void setPosition(Vector3 position);
 	void setRotation();
@@ -28,7 +26,6 @@ public:
 	{
 		return scale;
 	}
-
 
 private: 
 	SceneNode *sceneNode;
