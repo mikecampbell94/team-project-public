@@ -5,7 +5,7 @@
 		<Colour>
 		  <R>1</R>
 		  <G>0</G>
-		  <B>1</B>
+		  <B>0</B>
 		  <A>1</A>
 		</Colour>
 		</SceneNode>
@@ -28,6 +28,7 @@
 		</Scale>
 		<PhysicsNode>
 			<Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
 			<CollisionShape>Sphere</CollisionShape>
 			<Mass>1</Mass>
 			<isCollision>True</isCollision>
@@ -37,7 +38,43 @@
 		</PhysicsNode>
 </GameObjects>
 
-  
+  <GameObjects name="enemy" >
+    <SceneNode>
+      <Mesh>SphereMesh</Mesh>
+      <Colour>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>1</A>
+      </Colour>
+    </SceneNode>
+    <Enabled>True/False</Enabled>
+    <Position>
+      <X>50</X>
+      <Y>300</Y>
+      <Z>0</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>10</X>
+      <Y>10</Y>
+      <Z>10</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0.5</Elasticity>
+      <Friction>0.9</Friction>
+    </PhysicsNode>
+  </GameObjects>
 
 
   <GameObjects name="cube1" >
@@ -69,6 +106,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
+      <TransmitCollision>False</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
       <Mass>0.2</Mass>
       <isCollision>True</isCollision>
@@ -79,7 +117,7 @@
 
   <GameObjects name="cube2" >
     <SceneNode>
-      <Mesh>SphereMesh</Mesh>
+      <Mesh>CubeMesh</Mesh>
       <Colour>
         <R>0</R>
         <G>1</G>
@@ -106,7 +144,8 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
-      <CollisionShape>Sphere</CollisionShape>
+      <TransmitCollision>False</TransmitCollision>
+      <CollisionShape>Box</CollisionShape>
       <Mass>1</Mass>
       <isCollision>True</isCollision>
       <Elasticity>0.5</Elasticity>
@@ -143,6 +182,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
+      <TransmitCollision>False</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
       <Mass>0.2</Mass>
       <isCollision>True</isCollision>
@@ -180,6 +220,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
+      <TransmitCollision>False</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
       <Mass>0.2</Mass>
       <isCollision>True</isCollision>
@@ -218,6 +259,7 @@
 		</Scale>
 		<PhysicsNode>
 		<Enabled>True</Enabled>
+		  <TransmitCollision>False</TransmitCollision>
 		<CollisionShape>Box</CollisionShape>
 		<Mass>0</Mass>
 		<isCollision>True</isCollision>

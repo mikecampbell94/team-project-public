@@ -29,6 +29,13 @@ void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
 			timers.push_back(float(0.0f));
 			timedActions.push_back(ActionBuilder::buildTimedAction(gameplayAction));
 		}
+		else if (gameplayAction->nodeType == "OnStart")
+		{
+			for each (Node* action in gameplayAction->children)
+			{
+				actionsOnStart.push_back(ActionBuilder::compileActionSectionWithoutCondition(action));
+			}
+		}
 	}
 }
 
@@ -51,6 +58,14 @@ void GameLogic::executeTimeBasedActions(const float& deltaTime)
 	{
 		timers[i] += deltaTime;
 		timedActions[i](timers[i]);
+	}
+}
+
+void GameLogic::executeActionsOnStart()
+{
+	for each (Executable executable in actionsOnStart)
+	{
+		executable();
 	}
 }
 

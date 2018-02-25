@@ -1,7 +1,5 @@
 #pragma once
-#include "PhysicsNode.h"
 #include "CollisionShape.h"
-#include "Manifold.h"
 
 struct CollisionData
 {
@@ -9,6 +7,9 @@ struct CollisionData
 	float		penetration;
 	Vector3		pointOnPlane;
 };
+
+class PhysicsNode;
+class Manifold;
 
 class CollisionDetectionSAT
 {

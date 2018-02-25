@@ -126,10 +126,15 @@ void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 	viewMatrix = camera->buildViewMatrix();
 	updateShaderMatrices();
 
+	glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "paintTrailTexture"), 6);
+	glUniformMatrix4fv(glGetUniformLocation(geometryPass->GetProgram(), "paintTrailTextureMatrix"), 1, false, (float*)paintTextureMatrix);
+	currentShader->ApplyTexture(6, *paintTrailTexture);
+
 	glUniform3fv(loc_cameraPos, 1, (float*)&camera->getPosition());
 
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
+		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "isPaintSurface"), nodesInFrame->at(i)->isPaintSurface);
 		glUniform4fv(loc_baseColour, 1, (float*)&nodesInFrame->at(i)->getColour());
 		nodesInFrame->at(i)->Draw(*currentShader);
 	}

@@ -17,6 +17,7 @@
 #include <vector>
 #include "Graphics Settings/BasicGeometry.h"
 #include "Graphics Settings/UIModule.h"
+#include "Graphics Settings/PaintTrail.h"
 
 class Database;
 class Camera;
@@ -48,5 +49,6 @@ private:
 	Shadows* shadowTex;
 	BPLighting *bpLighting;
 	UIModule* uiModule;
+	PaintTrail* paintTrail;
 };
 

@@ -105,6 +105,9 @@
     <ClInclude Include="Graphics Pipeline\Graphics Settings\Skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\PaintTrail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\OGLRenderer.cpp">
@@ -180,6 +183,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics Pipeline\Graphics Settings\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\PaintTrail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

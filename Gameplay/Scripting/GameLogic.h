@@ -20,6 +20,7 @@ public:
 
 	void executeMessageBasedActions();
 	void executeTimeBasedActions(const float& deltaTime);
+	void executeActionsOnStart();
 
 	void notifyMessageActions(const std::string& messageType, Message* message);
 	void clearNotifications();
@@ -29,6 +30,7 @@ private:
 	std::vector<std::pair<std::string, Message>> publishers;
 	std::unordered_map<std::string, std::vector<GameplayAction>> messageBasedActions;
 	std::vector<TimedGameplayAction> timedActions;
+	std::vector<Executable> actionsOnStart;
 
 	std::vector<float> timers;
 	float totalTime = 0.0f;

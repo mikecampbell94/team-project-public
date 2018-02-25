@@ -4,6 +4,7 @@
 #include "OctreePartitioning.h"
 
 #include "../Communication/Messages/ApplyForceMessage.h"
+#include "../Communication/Messages/CollisionMessage.h"
 
 PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
@@ -53,6 +54,16 @@ void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 	}
 
 	physicsNodes.push_back(obj);
+
+	if (obj->transmitCollision)
+	{
+		obj->setOnCollisionCallback([](PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData collisionData)
+		{
+			DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
+				this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
+			return true;
+		});
+	}
 
 	obj->setOnUpdateCallback(std::bind(
 		&PhysicsEngine::OctreeChanged,
@@ -201,8 +212,8 @@ void PhysicsEngine::narrowPhaseCollisions()
 			
 			if (colDetect.areColliding(&colData))
 			{
-				bool okA = cp.pObjectA->fireOnCollisionEvent(cp.pObjectA, cp.pObjectB);
-				bool okB = cp.pObjectB->fireOnCollisionEvent(cp.pObjectB, cp.pObjectA);
+				bool okA = cp.pObjectA->fireOnCollisionEvent(cp.pObjectA, cp.pObjectB, colData);
+				bool okB = cp.pObjectB->fireOnCollisionEvent(cp.pObjectB, cp.pObjectA, colData);
 
 				if (okA && okB)
 				{

@@ -41,6 +41,8 @@ public:
 	GLuint gBuffer;
 
 	Skybox* skybox;
+	Matrix4* paintTextureMatrix;
+	GLuint* paintTrailTexture;
 
 private:
 	void locateUniforms() override;

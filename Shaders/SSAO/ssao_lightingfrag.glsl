@@ -96,7 +96,7 @@ void AddLighting(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 
 						}
 					}
 
-					shadow /= 16;// pow((HALF_NUM_PCF_SAMPLES) * 2, 2);
+					shadow /= 25;// pow((HALF_NUM_PCF_SAMPLES) * 2, 2);
 				}
 
 				lambert *= shadow;

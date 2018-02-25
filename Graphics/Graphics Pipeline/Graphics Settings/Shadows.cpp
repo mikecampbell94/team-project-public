@@ -10,7 +10,7 @@ Shadows::Shadows(const std::string identifier, const Matrix4 projmatrix,
 {
 	shadowData = new ShadowData();
 
-	shadowShader = new Shader(SHADERDIR"shadowvert.glsl", SHADERDIR"shadowfrag.glsl", "",true);
+	shadowShader = new Shader(SHADERDIR"shadowvert.glsl", SHADERDIR"shadowfrag.glsl");
 
 	this->projMatrix = projmatrix;
 	this->resolution = resolution;

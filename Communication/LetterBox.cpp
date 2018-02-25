@@ -69,6 +69,21 @@ void LetterBox::insertMessage(ApplyImpulseMessage message)
 	applyImpulseMessageBuffer.insertOutgoingMessage(message);
 }
 
+void LetterBox::insertMessage(CollisionMessage message)
+{
+	collisionBuffer.insertOutgoingMessage(message);
+}
+
+void LetterBox::insertMessage(PreparePaintSurfaceMessage message)
+{
+	preparePaintSurfaceBuffer.insertOutgoingMessage(message);
+}
+
+void LetterBox::insertMessage(PaintTrailForGameObjectMessage message)
+{
+	paintTrailForGameObjectBuffer.insertOutgoingMessage(message);
+}
+
 void LetterBox::deliverAllMessages()
 {
 	messageBuffer.sendMessages(messageStorage);
@@ -80,7 +95,10 @@ void LetterBox::deliverAllMessages()
 	toggleGraphicsModuleMessageBuffer.sendMessages(messageStorage);
 	applyForceMessageBuffer.sendMessages(messageStorage);
 	moveCameraBuffer.sendMessages(messageStorage);
+	collisionBuffer.sendMessages(messageStorage);
+	preparePaintSurfaceBuffer.sendMessages(messageStorage);
 	applyImpulseMessageBuffer.sendMessages(messageStorage);
+	paintTrailForGameObjectBuffer.sendMessages(messageStorage);
 }
 
 void LetterBox::clearAllMessages()
@@ -97,4 +115,7 @@ void LetterBox::clearAllMessages()
 	applyForceMessageBuffer.clearSentMessages();
 	applyImpulseMessageBuffer.clearSentMessages();
 	moveCameraBuffer.clearSentMessages();
+	collisionBuffer.clearSentMessages();
+	preparePaintSurfaceBuffer.clearSentMessages();
+	paintTrailForGameObjectBuffer.clearSentMessages();
 }

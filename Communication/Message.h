@@ -15,7 +15,10 @@ enum MessageType
 	TOGGLE_GRAPHICS_MODULE,
 	APPLY_FORCE,
 	MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT,
-	APPLY_IMPULSE
+	APPLY_IMPULSE,
+	COLLISION,
+	PREPARE_PAINT_SURFACE,
+	PAINT_TRAIL_FOR_GAMEOBJECT
 };
 
 
@@ -37,7 +40,7 @@ public:
 		return type; 
 	}
 
-	std::string getDataField(std::string name)
+	virtual std::string getDataField(std::string name)
 	{
 		if (name == "destination")
 		{
