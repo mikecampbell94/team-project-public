@@ -59,7 +59,7 @@ void AddLighting(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 
 
 		//Specular
 		vec3 halfDir = normalize(lightDir + viewDir);
-		float specPower = pow(max(dot(normal, halfDir), 0.0), 500.0);
+		float specPower = pow(max(dot(normal, halfDir), 0.0), 50.0);
 		vec3 specular = lightData[index].lightColour.rgb * specPower;
 
 		//Attenuation
@@ -87,16 +87,18 @@ void AddLighting(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 
 
 				if (shadowProj.w > 0.0)
 				{
-					for (int x = -2; x <= 2; ++x)
+					vec2 texelSize = 1.0f / textureSize(shadows, 0);
+
+					for (int x = -1; x <= 1; ++x)
 					{
-						for (int y = -2; y <= 2; ++y)
+						for (int y = -1; y <= 1; ++y)
 						{
-							vec2 sampleCoord = vec2(x, y) *0.5;
+							vec2 sampleCoord = vec2(x, y) * texelSize;// *0.5;
 							shadow += textureProj(shadows, shadowProj + vec4(sampleCoord, 0.0f, 0.0f));
 						}
 					}
 
-					shadow /= 25;// pow((HALF_NUM_PCF_SAMPLES) * 2, 2);
+					shadow /= 9;// pow((HALF_NUM_PCF_SAMPLES) * 2, 2);
 				}
 
 				lambert *= shadow;

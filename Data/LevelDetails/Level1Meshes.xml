@@ -21,4 +21,15 @@
 		  <A>1</A>
 		</Colour>
 	</Mesh>
+
+    <Meshes name="CrateMesh" >
+      <MeshFile>../Data/Meshes/box/Crate/Crate1.obj</MeshFile>
+      <Texture>../Data/Textures/hell.jpg</Texture>
+      <Colour>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>1</A>
+      </Colour>
+      </Mesh>
 </LevelMeshes>

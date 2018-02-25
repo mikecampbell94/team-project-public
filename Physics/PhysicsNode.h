@@ -239,6 +239,7 @@ public:
 	bool toDeleteInOctree = false;
 	bool movedSinceLastBroadPhase = false;
 	bool transmitCollision = false;
+	bool hasTransmittedCollision = false;
 
 
 	inline void setAppliedForce(Vector3 appliedForce)
