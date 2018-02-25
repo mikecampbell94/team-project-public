@@ -20,7 +20,9 @@ public:
 
 	void initialise(SceneManager* sceneManager, Database* database);
 	void update(const float& deltatime);
+
 	void toggleModule(const std::string& moduleName, bool enabled);
+	GraphicsModule* getGraphicsModule(const std::string& moduleName);
 
 private:
 	void updateScene(const float& msec) override;

@@ -22,7 +22,7 @@ void main(void){
 	//Generate noise scale based on screen resolution
 	vec2 noiseScale = vec2(1280 / 4.0f, 720 / 4.0f);
 
-	float b = 0.01f;
+	float b = 0.1f;
 	float r = 50.0f;
 
 	//Get input for SSAO algorithm
@@ -59,5 +59,5 @@ void main(void){
 
     occlusion = 1.0f - (occlusion / kernelSize);
     
-    gl_FragColor = pow(occlusion, 1.4f);
+    gl_FragColor = pow(occlusion, 2.0f);
 }

@@ -134,8 +134,9 @@ void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
+		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "hasTexture"), nodesInFrame->at(i)->GetMesh()->hasTexture);
 		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "isPaintSurface"), nodesInFrame->at(i)->isPaintSurface);
-		glUniform4fv(loc_baseColour, 1, (float*)&nodesInFrame->at(i)->getColour());
+		glUniform4fv(loc_baseColour, 1, (float*)&nodesInFrame->at(i)->getColour()); 
 		nodesInFrame->at(i)->Draw(*currentShader);
 	}
 }

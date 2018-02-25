@@ -12,7 +12,7 @@
       <b>1.0</b>
       <a>1.0</a>
     </colour>
-    <radius>400</radius>
+    <radius>500</radius>
     <intensity>1.0</intensity>
     <shadowcasting>enabled</shadowcasting>
   </Lights>

@@ -59,8 +59,12 @@ void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 	{
 		obj->setOnCollisionCallback([](PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData collisionData)
 		{
-			DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
-				this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
+			if (!this_obj->hasTransmittedCollision)
+			{
+				DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
+					this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
+				this_obj->hasTransmittedCollision = true;
+			}
 			return true;
 		});
 	}
@@ -122,6 +126,11 @@ void PhysicsEngine::updateSubsystem(const float& deltaTime)
 	if (updateRealTimeAccum >= updateTimestep)
 	{
 		updateRealTimeAccum = 0.0f;
+	}
+
+	for each (PhysicsNode* physicsNode in physicsNodes)
+	{
+		physicsNode->hasTransmittedCollision = false;
 	}
 }
 

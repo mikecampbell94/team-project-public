@@ -27,10 +27,10 @@ void main(void) {
 	vec4 col = baseColour;
 	float alpha = col.a;
 
-	//if (hastexture == 1) 
-	//{
-	//	col = texture2d(texture_diffuse, texcoords);
-	//}
+	if (hasTexture == 1)
+	{
+		col = texture2D(texture_diffuse, TexCoords);
+	}
 	//
 	//if (isreflective == 1) 
 	//{

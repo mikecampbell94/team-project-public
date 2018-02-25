@@ -79,7 +79,7 @@
 
   <GameObjects name="cube1" >
     <SceneNode>
-      <Mesh>CubeMesh</Mesh>
+      <Mesh>CrateMesh</Mesh>
       <Colour>
         <R>0</R>
         <G>0</G>

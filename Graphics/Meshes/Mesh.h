@@ -14,8 +14,8 @@
 #include <string>
 #include <vector>
 
-//#include <Simple OpenGL Image Library\src\stb_image_aug.h>
 #include <unordered_map>
+#include <Simple OpenGL Image Library\src\stb_image_aug.h>
 
 class Mesh : public Resource
 {
@@ -79,6 +79,7 @@ public:
 	Assimp::Importer import;
 	const aiScene* scene;
 
+	int hasTexture = 0;
 	int numModels;
 
 	float radius;

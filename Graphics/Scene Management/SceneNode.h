@@ -87,6 +87,7 @@ public:
 	const float getRadius();
 
 	bool isPaintSurface = false;
+	int hasTexture = 0;
 
 protected:
 	bool		enabled;
