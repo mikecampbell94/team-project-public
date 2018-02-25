@@ -96,7 +96,6 @@ void PaintTrail::apply()
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
 
 	glDisable(GL_DEPTH_TEST);
-	std::cout << painters.size() << std::endl;
 	while (!painters.empty()) 
 	{
 		GameObject* painter = painters.front();
