@@ -15,6 +15,7 @@
 
 #include "Messages/CollisionMessage.h"
 #include "Messages/PreparePaintSurfaceMessage.h"
+#include "Messages/PaintTrailForGameObjectMessage.h"
 
 //exposed interface
 class MessagingService 
@@ -34,6 +35,7 @@ public:
 	virtual void insertMessage(MoveCameraRelativeToGameObjectMessage message) = 0;
 	virtual void insertMessage(CollisionMessage message) = 0;
 	virtual void insertMessage(PreparePaintSurfaceMessage message) = 0;
+	virtual void insertMessage(PaintTrailForGameObjectMessage message) = 0;
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;
 };

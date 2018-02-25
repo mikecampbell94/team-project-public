@@ -136,6 +136,7 @@
     <ClInclude Include="Messages\ToggleGraphicsModuleMessage.h" />
     <ClInclude Include="Messages\MoveCameraRelativeToGameObjectMessage.h" />
     <ClInclude Include="Messages\PreparePaintSurfaceMessage.h" />
+    <ClInclude Include="Messages\PaintTrailForGameObjectMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Messages\CollisionMessage.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Messages\ToggleGraphicsModuleMessage.cpp" />
     <ClCompile Include="Messages\MoveCameraRelativeToGameObjectMessage.cpp" />
     <ClCompile Include="Messages\PreparePaintSurfaceMessage.cpp" />
+    <ClCompile Include="Messages\PaintTrailForGameObjectMessage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

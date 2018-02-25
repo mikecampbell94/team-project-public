@@ -72,6 +72,9 @@
     <ClInclude Include="Messages\PreparePaintSurfaceMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Messages\PaintTrailForGameObjectMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp">
@@ -123,6 +126,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\PreparePaintSurfaceMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\PaintTrailForGameObjectMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

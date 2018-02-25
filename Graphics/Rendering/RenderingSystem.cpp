@@ -31,7 +31,8 @@ void RenderingSystem::initialise(Database* database)
 {
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM,
-		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE};
+		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
+		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -91,6 +92,16 @@ void RenderingSystem::initialise(Database* database)
 		}
 
 		static_cast<PaintTrail*>(renderer->getGraphicsModule("PaintTrail"))->preparePaintSurface(surfaceObjects);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, [database = database, &renderer = renderer](Message* message)
+	{
+		PaintTrailForGameObjectMessage* paintMessage = static_cast<PaintTrailForGameObjectMessage*>(message);
+
+		GameObject* painterGameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(paintMessage->resourceName));
+
+		static_cast<PaintTrail*>(renderer->getGraphicsModule("PaintTrail"))->addPainterObjectForNextFrame(painterGameObject);
 	});
 }
 

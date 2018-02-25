@@ -3,7 +3,6 @@
 #include "../Message.h"
 
 struct Node;
-class GameObject;
 
 class PreparePaintSurfaceMessage : public Message
 {

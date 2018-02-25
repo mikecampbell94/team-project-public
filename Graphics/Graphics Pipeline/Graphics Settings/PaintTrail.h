@@ -2,6 +2,8 @@
 
 #include "../GraphicsModule.h"
 
+#include <queue>
+
 class Database;
 class GameObject;
 
@@ -13,6 +15,7 @@ public:
 	~PaintTrail();
 
 	void preparePaintSurface(std::vector<GameObject*> surfaceObjects);
+	void addPainterObjectForNextFrame(GameObject* painter);
 
 	void linkShaders() override;
 	void initialise() override;
@@ -26,6 +29,8 @@ private:
 	void locateUniforms() override {}
 
 	Database* database;
+	std::queue<GameObject*> painters;
+
 	Shader* paintTrailShader;
 
 	GLuint buffer;

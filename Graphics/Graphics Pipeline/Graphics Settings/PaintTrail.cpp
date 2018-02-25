@@ -45,6 +45,11 @@ void PaintTrail::preparePaintSurface(std::vector<GameObject*> surfaceObjects)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void PaintTrail::addPainterObjectForNextFrame(GameObject* painter)
+{
+	painters.push(painter);
+}
+
 void PaintTrail::linkShaders()
 {
 	paintTrailShader->LinkProgram();
@@ -82,25 +87,22 @@ void PaintTrail::initialise()
 void PaintTrail::apply()
 {
 	setCurrentShader(paintTrailShader);
-
 	glBindFramebuffer(GL_FRAMEBUFFER, buffer);
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
-
-	GameObject* player = static_cast<GameObject*>(database->getTable("GameObjects")->getResource("playerBall"));
-	GameObject* enemy = static_cast<GameObject*>(database->getTable("GameObjects")->getResource("enemy"));
 
 	viewMatrix = Matrix4::buildViewMatrix(Vector3(1, 800, 1), Vector3(0, 0, 0));
 	textureMatrices = biasMatrix * (projMatrix * viewMatrix);
 
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
 
 	glDisable(GL_DEPTH_TEST);
-	if (player != nullptr)
+	while (!painters.empty()) 
 	{
-		glUniform4fv(glGetUniformLocation(paintTrailShader->GetProgram(), "baseColour"), 1, (float*)&enemy->getSceneNode()->getColour());
-		enemy->getSceneNode()->Draw(*paintTrailShader);
-		glUniform4fv(glGetUniformLocation(paintTrailShader->GetProgram(), "baseColour"), 1, (float*)&player->getSceneNode()->getColour());
-		player->getSceneNode()->Draw(*paintTrailShader);
+		GameObject* painter = painters.front();
+		painters.pop();
+
+		glUniform4fv(glGetUniformLocation(paintTrailShader->GetProgram(), "baseColour"), 1, (float*)&painter->getSceneNode()->getColour());
+		painter->getSceneNode()->Draw(*paintTrailShader);
 	}
 
 	glEnable(GL_DEPTH_TEST);

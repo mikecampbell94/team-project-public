@@ -67,7 +67,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
-      <TransmitCollision>False</TransmitCollision>
+      <TransmitCollision>True</TransmitCollision>
       <CollisionShape>Sphere</CollisionShape>
       <Mass>1</Mass>
       <isCollision>True</isCollision>
