@@ -8,7 +8,7 @@ MessageProcessor::MessageProcessor(std::vector<MessageType> typeOfMessagesToList
 
 	for each (MessageType messageType in typeOfMessagesToListenFor)
 	{
-		actionsToExecute[messageType] = std::vector<Action>();
+		actionsToExecute[messageType] = new std::vector<Action>();
 	}
 }
 
@@ -19,7 +19,7 @@ MessageProcessor::~MessageProcessor()
 void MessageProcessor::addActionToExecuteOnMessage(const MessageType& typeOfMessageToPerformOn, 
 	const Action& action)
 {
-	actionsToExecute.at(typeOfMessageToPerformOn).push_back(action);
+	actionsToExecute.at(typeOfMessageToPerformOn)->push_back(action);
 }
 
 void MessageProcessor::processMessagesInBuffer()
@@ -28,7 +28,7 @@ void MessageProcessor::processMessagesInBuffer()
 	{
 		Message* message = subsystemMessageBuffer->front();
 
-		for each (Action action in actionsToExecute.at(message->getMessageType()))
+		for each (Action action in *actionsToExecute.at(message->getMessageType()))
 		{
 			action(message);
 		}

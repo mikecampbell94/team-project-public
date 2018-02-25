@@ -18,7 +18,7 @@ void Startup::initialiseSubsystems()
 	initialiseRenderingSystem();
 	initialiseDatabaseAndTables();
 	initialiseAudioSystem();
-	physics = new PhysicsEngine();
+	physics = new PhysicsEngine(database);
 	initialiseLevelSystem();
 	initialiseInputSystem();
 	initialiseGameplaySystem();

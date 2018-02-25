@@ -34,6 +34,7 @@
 			<isCollision>True</isCollision>
 			<Elasticity>0.5</Elasticity>
 			<Friction>0.9</Friction>
+      <Damping>0.995</Damping>
 		</PhysicsNode>
 </GameObjects>
 
@@ -145,7 +146,7 @@
       <Enabled>True</Enabled>
       <TransmitCollision>False</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
-      <Mass>0.2</Mass>
+      <Mass>1</Mass>
       <isCollision>True</isCollision>
       <Elasticity>0.5</Elasticity>
       <Friction>0.9</Friction>

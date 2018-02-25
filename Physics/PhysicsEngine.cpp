@@ -6,24 +6,32 @@
 #include "../Communication/Messages/ApplyForceMessage.h"
 #include "../Communication/Messages/CollisionMessage.h"
 
-PhysicsEngine::PhysicsEngine() : Subsystem("Physics")
+PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
-	std::vector<MessageType> types = { MessageType::APPLY_FORCE };
+	this->database = database;
+
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [&physNodes = physicsNodes](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database, &incomingMessages = incomingMessages](Message* message)
 	{
+		MessageProcessor* m = &incomingMessages;
+
 		ApplyForceMessage* applyForceMessage = static_cast<ApplyForceMessage*>(message);
 
-		for (PhysicsNode* node : physNodes)
-		{
-			if(node->getParent()->getName() == applyForceMessage->gameObjectID)
-			{
-				node->applyForce(applyForceMessage->force);
-				break;
-			}
-		}
+		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyForceMessage->gameObjectID));
+
+		gObj->getPhysicsNode()->setAppliedForce(applyForceMessage->force);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_IMPULSE, [database](Message* message)
+	{
+		ApplyImpulseMessage* applyImpulseMessage = static_cast<ApplyImpulseMessage*>(message);
+
+		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyImpulseMessage->gameObjectID));
+
+		gObj->getPhysicsNode()->applyImpulse(applyImpulseMessage->impulse);
 	});
 
 	updateTimestep = 1.0f / 60.f;

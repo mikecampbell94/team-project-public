@@ -69,8 +69,13 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 	physicsnode->setCollisionShape(node->children[2]->value);
 	physicsnode->setInverseMass(stof(node->children[3]->value));
 	physicsnode->setInverseInertia(physicsnode->getCollisionShape()->buildInverseInertia(physicsnode->getInverseMass()));
-	physicsnode->setElasticity(stof(node->children[5]->value));
+	physicsnode->setElasticity(stof(node->children[45]->value));
 	physicsnode->setFriction(stof(node->children[6]->value));
+	if (node->children.size() == 8)
+	{
+		physicsnode->setDamping(stof(node->children[7]->value));
+	}
+	
 	return physicsnode;
 }
 

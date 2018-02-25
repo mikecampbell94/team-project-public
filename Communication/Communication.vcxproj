@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClInclude Include="Messages\CollisionMessage.h" />
     <ClInclude Include="MessageBuffer.h" />
+    <ClInclude Include="Messages\ApplyImpulseMessage.h" />
     <ClInclude Include="Messages\ApplyForceMessage.h" />
     <ClInclude Include="Messages\PlaySoundMessage.h" />
     <ClInclude Include="DeliverySystem.h" />
@@ -139,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="Messages\CollisionMessage.cpp" />
     <ClCompile Include="MessageStorage.cpp" />
+    <ClCompile Include="Messages\ApplyImpulseMessage.cpp" />
     <ClCompile Include="Messages\ApplyForceMessage.cpp" />
     <ClCompile Include="Messages\PlaySoundMessage.cpp" />
     <ClCompile Include="DeliverySystem.cpp" />

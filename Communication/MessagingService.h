@@ -11,6 +11,8 @@
 #include "Messages/ToggleGraphicsModuleMessage.h"
 #include "Messages/ApplyForceMessage.h"
 #include "Messages/MoveCameraRelativeToGameObjectMessage.h"
+#include "Messages/ApplyImpulseMessage.h"
+
 #include "Messages/CollisionMessage.h"
 #include "Messages/PreparePaintSurfaceMessage.h"
 
@@ -28,6 +30,7 @@ public:
 	virtual void insertMessage(StopSoundMessage message) = 0;
 	virtual void insertMessage(ToggleGraphicsModuleMessage message) = 0;
 	virtual void insertMessage(ApplyForceMessage message) = 0;
+	virtual void insertMessage(ApplyImpulseMessage message) = 0;
 	virtual void insertMessage(MoveCameraRelativeToGameObjectMessage message) = 0;
 	virtual void insertMessage(CollisionMessage message) = 0;
 	virtual void insertMessage(PreparePaintSurfaceMessage message) = 0;
