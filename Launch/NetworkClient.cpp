@@ -18,9 +18,9 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse,
 		serverConnection = network.ConnectPeer(10, 70, 33, 11, 1234);
 	}
 
-	clientID = serverConnection->incomingPeerID;
-	playerbase->addNewPlayer(keyboardAndMouse, clientID);
-	gameplay->connectPlayerbase(playerbase);
+	this->keyboardAndMouse = keyboardAndMouse;
+	this->playerbase = playerbase;
+	this->gameplay = gameplay;
 }
 
 NetworkClient::~NetworkClient()
@@ -29,7 +29,8 @@ NetworkClient::~NetworkClient()
 
 void NetworkClient::updateSubsystem(const float& deltaTime)
 {
-	network.ServiceNetwork(0, [&serverConnection = serverConnection](const ENetEvent& evnt)
+	network.ServiceNetwork(0, [&serverConnection = serverConnection, &gameplay = gameplay,
+		&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase](const ENetEvent& evnt)
 	{
 		switch (evnt.type)
 		{
@@ -48,6 +49,16 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 		case ENET_EVENT_TYPE_RECEIVE:
 		{
 			printf("\t Server %d says: %s\n", evnt.peer->incomingPeerID, evnt.packet->data);
+
+			if (evnt.packet->dataLength == sizeof(int))
+			{
+				int clientID;
+				memcpy(&clientID, evnt.packet->data, sizeof(int));
+
+				playerbase->addNewPlayer(keyboardAndMouse, clientID);
+				gameplay->connectPlayerbase(playerbase);
+			}
+
 			enet_packet_destroy(evnt.packet);
 		}
 		break;

@@ -20,6 +20,9 @@ public:
 private:
 	NetworkBase network;
 	ENetPeer* serverConnection;
-	int clientID;
+
+	InputRecorder* keyboardAndMouse;
+	PlayerBase* playerbase; 
+	GameplaySystem* gameplay;
 };
 

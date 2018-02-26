@@ -81,7 +81,7 @@ int main(int arcg, char** argv)
 
 
 	Win32_PrintAllAdapterIPAddresses();
-
+	int numberOfPlayersConnected = 0;
 
 	timer.getMillisecondsSinceStart();
 	while (true)
@@ -100,9 +100,9 @@ int main(int arcg, char** argv)
 				printf("- New Client Connected\n");
 
 				//std::string numPeers = std::to_string(numberOfPlayersConnected);
-				ENetPacket* numPeersPacket = enet_packet_create(&evnt.peer->incomingPeerID,
-					sizeof(evnt.peer->incomingPeerID), 0);
-				enet_host_broadcast(server.m_pNetwork, 0, numPeersPacket);
+				ENetPacket* idPacket = enet_packet_create(&numberOfPlayersConnected,
+					sizeof(int), 0);
+				enet_peer_send(evnt.peer, 0, idPacket);
 			}
 			break;
 
