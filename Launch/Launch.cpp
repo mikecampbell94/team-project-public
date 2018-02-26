@@ -39,7 +39,7 @@ int main()
 
 	if (network.Initialize(0))
 	{
-		serverConnection = network.ConnectPeer(127, 0, 0, 1, 1234);
+		serverConnection = network.ConnectPeer(10, 70, 33, 11, 1234);
 	}
 
 	while (true)
