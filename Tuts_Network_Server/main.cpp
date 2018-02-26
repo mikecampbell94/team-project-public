@@ -122,7 +122,11 @@ int main(int arcg, char** argv)
 
 				if (evnt.packet->dataLength == sizeof(ApplyForcePacket))
 				{
-					enet_host_broadcast(server.m_pNetwork, 0, evnt.packet);
+					ApplyForcePacket recievedForcePacket;
+					memcpy(&recievedForcePacket, evnt.packet->data, sizeof(ApplyForcePacket));
+
+					ENetPacket* packet = enet_packet_create(&recievedForcePacket, sizeof(ApplyForcePacket), 0);
+					enet_host_broadcast(server.m_pNetwork, 0, packet);
 				}
 
 				enet_packet_destroy(evnt.packet);
