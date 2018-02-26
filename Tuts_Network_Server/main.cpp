@@ -55,6 +55,14 @@ float rotation = 0.0f;
 
 void Win32_PrintAllAdapterIPAddresses();
 
+struct ApplyForcePacket
+{
+	int id;
+	float x;
+	float y;
+	float z;
+};
+
 int onExit(int exitcode)
 {
 	server.Release();
@@ -111,6 +119,12 @@ int main(int arcg, char** argv)
 			case ENET_EVENT_TYPE_RECEIVE:
 			{
 				printf("\t Client %d says: %s\n", evnt.peer->incomingPeerID, evnt.packet->data);
+
+				if (evnt.packet->dataLength == sizeof(ApplyForcePacket))
+				{
+					enet_host_broadcast(server.m_pNetwork, 0, evnt.packet);
+				}
+
 				enet_packet_destroy(evnt.packet);
 			}
 				break;

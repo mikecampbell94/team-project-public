@@ -20,6 +20,8 @@ public:
 	void connectToServer();
 
 private:
+	int clientID;
+
 	NetworkBase network;
 	ENetPeer* serverConnection;
 

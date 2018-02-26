@@ -3,14 +3,32 @@
 #include "../Input/Players/PlayerBase.h"
 #include "../Gameplay/GameplaySystem.h"
 
+struct ApplyForcePacket
+{
+	int id;
+	float x;
+	float y;
+	float z;
+};
+
 NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse,
 	PlayerBase* playerbase, GameplaySystem* gameplay) : Subsystem("NetworkClient")
 {
-	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT }, 
+	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::APPLY_FORCE }, 
 		DeliverySystem::getPostman()->getDeliveryPoint("NetworkClient"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [&serverConnection = serverConnection, &clientID = clientID](Message* message)
 	{
+		ApplyForceMessage* forceMessage = static_cast<ApplyForceMessage*>(message);
+
+		ApplyForcePacket forcePacket;
+		forcePacket.id = clientID;
+		forcePacket.x = forceMessage->force.x;
+		forcePacket.y = forceMessage->force.y;
+		forcePacket.z = forceMessage->force.z;
+
+		ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(ApplyForcePacket), 0);
+		enet_peer_send(serverConnection, 0, packet);
 	});
 
 	this->keyboardAndMouse = keyboardAndMouse;
@@ -28,7 +46,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 	if (isConnected)
 	{
 		network.ServiceNetwork(0, [&serverConnection = serverConnection, &gameplay = gameplay,
-			&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase](const ENetEvent& evnt)
+			&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID](const ENetEvent& evnt)
 		{
 			switch (evnt.type)
 			{
@@ -50,11 +68,21 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 				if (evnt.packet->dataLength == sizeof(int))
 				{
-					int clientID;
 					memcpy(&clientID, evnt.packet->data, sizeof(int));
 
 					playerbase->addNewPlayer(keyboardAndMouse, clientID);
 					gameplay->connectPlayerbase(playerbase);
+				}
+				else if (evnt.packet->dataLength == sizeof(ApplyForcePacket))
+				{
+					ApplyForcePacket recievedForcePacket;
+					memcpy(&recievedForcePacket, evnt.packet->data, sizeof(ApplyForcePacket));
+
+					if (recievedForcePacket.id != clientID)
+					{
+						DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "player" + recievedForcePacket.id,
+							Vector3(recievedForcePacket.x, recievedForcePacket.y, recievedForcePacket.z)));
+					}
 				}
 
 				enet_packet_destroy(evnt.packet);
