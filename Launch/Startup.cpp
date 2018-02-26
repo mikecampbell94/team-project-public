@@ -122,8 +122,8 @@ void Startup::loadLevel(std::string levelFile)
 	level->loadLevelFile(levelFile);
 	//playerbase->addNewPlayer(keyboardAndMouse);
 	//gameplay->connectPlayerbase(inputManager->GetPlayerbase());
-	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	network->connectToServer();
+	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 }
 
 void Startup::switchLevel()

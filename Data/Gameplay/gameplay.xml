@@ -43,7 +43,6 @@
   <Timed interval="0.01">
     <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
       <destination>RenderingSystem</destination>
-      <resource>player0</resource>
       <translation>
         <x>0</x>
         <y>100</y>

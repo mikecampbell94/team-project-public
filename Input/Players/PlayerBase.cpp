@@ -48,6 +48,8 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 
 	//NOW ATTACH NODE
 	std::string playerName = "player" + std::to_string(id);
+	MoveCameraRelativeToGameObjectMessage::resourceName = playerName;
+
 	GameObject* playerGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
 	player->setGameObject(playerGameObject);
 

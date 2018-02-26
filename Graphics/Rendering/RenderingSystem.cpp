@@ -72,7 +72,7 @@ void RenderingSystem::initialise(Database* database)
 		MoveCameraRelativeToGameObjectMessage* movementMessage = static_cast<MoveCameraRelativeToGameObjectMessage*>(message);
 
 		GameObject* gameObject = static_cast<GameObject*>(
-			database->getTable("GameObjects")->getResource(movementMessage->resourceName));
+			database->getTable("GameObjects")->getResource(MoveCameraRelativeToGameObjectMessage::resourceName));
 
 		camera->setPosition(gameObject->getSceneNode()->GetTransform().getPositionVector() + movementMessage->translation);
 		camera->setPitch(movementMessage->pitch);

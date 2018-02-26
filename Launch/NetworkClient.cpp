@@ -40,7 +40,6 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 					char* text_data = "Connected to server";
 					ENetPacket* packet = enet_packet_create(text_data, strlen(text_data) + 1, 0);
 					enet_peer_send(serverConnection, 0, packet);
-
 				}
 			}
 			break;
