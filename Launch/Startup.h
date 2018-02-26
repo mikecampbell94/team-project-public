@@ -10,6 +10,8 @@
 #include "Resource Management/Level.h"
 #include "../../Input/Recorders/KeyboardMouseRecorder.h"
 
+class NetworkClient;
+
 class Database;
 
 class Startup
@@ -54,6 +56,7 @@ private:
 	AudioSystem* audio;
 	PhysicsEngine* physics;
 	UserInterface* userInterface;
+	NetworkClient* network;
 
 	GameTimer* loopTimer;
 	Window* window;

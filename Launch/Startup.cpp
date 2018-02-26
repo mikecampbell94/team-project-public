@@ -24,6 +24,7 @@ void Startup::initialiseSubsystems()
 	initialiseInputSystem();
 	initialiseGameplaySystem();
 	userInterface = new UserInterface(window->getKeyboard(), Vector2(screenWidth, screenHeight));
+	network = new NetworkClient(keyboardAndMouse, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
 
 	game->addWindowToGameLoop(window);
@@ -105,7 +106,7 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(audio);
 	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
-	engine->addSubsystem(new NetworkClient(keyboardAndMouse, inputManager->GetPlayerbase(), gameplay));
+	engine->addSubsystem(network);
 }
 
 void Startup::loadMainMenu()
@@ -122,6 +123,7 @@ void Startup::loadLevel(std::string levelFile)
 	//playerbase->addNewPlayer(keyboardAndMouse);
 	//gameplay->connectPlayerbase(inputManager->GetPlayerbase());
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
+	network->connectToServer();
 }
 
 void Startup::switchLevel()

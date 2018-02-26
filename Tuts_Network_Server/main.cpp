@@ -103,6 +103,8 @@ int main(int arcg, char** argv)
 				ENetPacket* idPacket = enet_packet_create(&numberOfPlayersConnected,
 					sizeof(int), 0);
 				enet_peer_send(evnt.peer, 0, idPacket);
+
+				++numberOfPlayersConnected;
 			}
 			break;
 
@@ -114,8 +116,12 @@ int main(int arcg, char** argv)
 				break;
 
 			case ENET_EVENT_TYPE_DISCONNECT:
+				{
 				printf("- Client %d has disconnected.\n", evnt.peer->incomingPeerID);
+				--numberOfPlayersConnected;
+				}
 				break;
+
 			}
 		});
 

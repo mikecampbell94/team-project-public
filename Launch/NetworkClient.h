@@ -17,6 +17,8 @@ public:
 
 	void updateSubsystem(const float& deltaTime) override;
 
+	void connectToServer();
+
 private:
 	NetworkBase network;
 	ENetPeer* serverConnection;
@@ -24,5 +26,7 @@ private:
 	InputRecorder* keyboardAndMouse;
 	PlayerBase* playerbase; 
 	GameplaySystem* gameplay;
+
+	bool isConnected;
 };
 
