@@ -1,4 +1,6 @@
 #include "PhysicsNode.h"
+#include "../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
+#include "../Communication/DeliverySystem.h"
 
 static const Vector3 gravity = Vector3(0.0f, -9.8f, 0.0f);
 static const float MAX_SPEED = 50.0f;
@@ -45,4 +47,9 @@ void PhysicsNode::integrateForPosition(float dt)
 
 	worldTransform.setPositionVector(position);
 	fireOnUpdateCallback();
+
+	//if (parent->getName() == MoveCameraRelativeToGameObjectMessage::resourceName)
+	//{
+	//	DeliverySystem::getPostman()->insertMessage(UpdatePositionMessage("NetworkClient", parent->getName(), position));
+	//}
 }

@@ -13,6 +13,7 @@
 #include "MessageBuffer.h"
 #include "Messages/ApplyImpulseMessage.h"
 #include "Messages/PaintTrailForGameObjectMessage.h"
+#include "Messages/UpdatePositionMessage.h"
 
 class LetterBox : public MessagingService
 {
@@ -35,6 +36,7 @@ public:
 	void insertMessage(CollisionMessage message) override;
 	void insertMessage(PreparePaintSurfaceMessage message) override;
 	void insertMessage(PaintTrailForGameObjectMessage message) override;
+	void insertMessage(UpdatePositionMessage message) override;
 
 	void insertMessage(ApplyImpulseMessage message) override;
 	void deliverAllMessages() override;
@@ -56,5 +58,6 @@ private:
 	MessageBuffer<CollisionMessage> collisionBuffer;
 	MessageBuffer<PreparePaintSurfaceMessage> preparePaintSurfaceBuffer;
 	MessageBuffer<PaintTrailForGameObjectMessage> paintTrailForGameObjectBuffer;
+	MessageBuffer<UpdatePositionMessage> updatePositionBuffer;
 };
 

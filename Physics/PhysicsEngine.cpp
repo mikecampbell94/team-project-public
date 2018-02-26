@@ -10,7 +10,8 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
 	this->database = database;
 
-	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE };
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, 
+		MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE, MessageType::UPDATE_POSITION };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
@@ -33,6 +34,16 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 		gObj->getPhysicsNode()->applyImpulse(applyImpulseMessage->impulse);
 	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [database](Message* message)
+	{
+		UpdatePositionMessage* positionMessage = static_cast<UpdatePositionMessage*>(message);
+
+		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(positionMessage->gameObjectID));
+
+		gObj->getPhysicsNode()->setPosition(positionMessage->position);
+	});
+
 
 	updateTimestep = 1.0f / 60.f;
 	updateRealTimeAccum = 0.0f;

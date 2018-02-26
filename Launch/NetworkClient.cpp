@@ -2,9 +2,17 @@
 
 #include "../Input/Players/PlayerBase.h"
 #include "../Gameplay/GameplaySystem.h"
+#include "../Communication/Messages/UpdatePositionMessage.h"
 
-struct ApplyForcePacket
+enum PACKET_TYPE
 {
+	APPLY_FORCE_PACKET,
+	POSITION_PACKET
+};
+
+struct PlayerPacket
+{
+	int type;
 	int id;
 	float x;
 	float y;
@@ -14,26 +22,47 @@ struct ApplyForcePacket
 NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse,
 	PlayerBase* playerbase, GameplaySystem* gameplay) : Subsystem("NetworkClient")
 {
-	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::APPLY_FORCE }, 
+	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::APPLY_FORCE, MessageType::UPDATE_POSITION }, 
 		DeliverySystem::getPostman()->getDeliveryPoint("NetworkClient"));
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [&serverConnection = serverConnection, &clientID = clientID](Message* message)
 	{
 		ApplyForceMessage* forceMessage = static_cast<ApplyForceMessage*>(message);
 
-		ApplyForcePacket forcePacket;
+		PlayerPacket forcePacket;
+		forcePacket.type = APPLY_FORCE_PACKET;
 		forcePacket.id = clientID;
 		forcePacket.x = forceMessage->force.x;
 		forcePacket.y = forceMessage->force.y;
 		forcePacket.z = forceMessage->force.z;
 
-		ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(ApplyForcePacket), 0);
+		ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(PlayerPacket), 0);
 		enet_peer_send(serverConnection, 0, packet);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [&serverConnection = serverConnection,
+		&clientID = clientID, &isConnected = isConnected](Message* message)
+	{
+		if (isConnected)
+		{
+			UpdatePositionMessage* forceMessage = static_cast<UpdatePositionMessage*>(message);
+
+			PlayerPacket forcePacket;
+			forcePacket.type = POSITION_PACKET;
+			forcePacket.id = clientID;
+			forcePacket.x = forceMessage->position.x;
+			forcePacket.y = forceMessage->position.y;
+			forcePacket.z = forceMessage->position.z;
+
+			ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(PlayerPacket), 0);
+			enet_peer_send(serverConnection, 0, packet);
+		}
 	});
 
 	this->keyboardAndMouse = keyboardAndMouse;
 	this->playerbase = playerbase;
 	this->gameplay = gameplay;
+	isNetworkUp = false;
 	isConnected = false;
 }
 
@@ -43,10 +72,11 @@ NetworkClient::~NetworkClient()
 
 void NetworkClient::updateSubsystem(const float& deltaTime)
 {
-	if (isConnected)
+	if (isNetworkUp)
 	{
 		network.ServiceNetwork(0, [&serverConnection = serverConnection, &gameplay = gameplay,
-			&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID](const ENetEvent& evnt)
+			&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, 
+			&isConnected = isConnected](const ENetEvent& evnt)
 		{
 			switch (evnt.type)
 			{
@@ -72,16 +102,25 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 					playerbase->addNewPlayer(keyboardAndMouse, clientID);
 					gameplay->connectPlayerbase(playerbase);
+					isConnected = true;
 				}
-				else if (evnt.packet->dataLength == sizeof(ApplyForcePacket))
+				else if (evnt.packet->dataLength == sizeof(PlayerPacket) && isConnected)
 				{
-					ApplyForcePacket recievedForcePacket;
-					memcpy(&recievedForcePacket, evnt.packet->data, sizeof(ApplyForcePacket));
+					PlayerPacket recievedForcePacket;
+					memcpy(&recievedForcePacket, evnt.packet->data, sizeof(PlayerPacket));
 
 					if (recievedForcePacket.id != clientID)
 					{
-						DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "player" + to_string(recievedForcePacket.id),
-							Vector3(recievedForcePacket.x, recievedForcePacket.y, recievedForcePacket.z)));
+						if (recievedForcePacket.type == APPLY_FORCE_PACKET)
+						{
+							DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "player" + to_string(recievedForcePacket.id),
+								Vector3(recievedForcePacket.x, recievedForcePacket.y, recievedForcePacket.z)));
+						}
+						else if(recievedForcePacket.type == POSITION_PACKET)
+						{
+							DeliverySystem::getPostman()->insertMessage(UpdatePositionMessage("Physics", "player" + to_string(recievedForcePacket.id),
+								Vector3(recievedForcePacket.x, recievedForcePacket.y, recievedForcePacket.z)));
+						}
 					}
 				}
 
@@ -98,6 +137,6 @@ void NetworkClient::connectToServer()
 	if (network.Initialize(0))
 	{
 		serverConnection = network.ConnectPeer(10, 70, 33, 11, 1234);
-		isConnected = true;
+		isNetworkUp = true;
 	}
 }

@@ -55,8 +55,9 @@ float rotation = 0.0f;
 
 void Win32_PrintAllAdapterIPAddresses();
 
-struct ApplyForcePacket
+struct PlayerPacket
 {
+	int type;
 	int id;
 	float x;
 	float y;
@@ -120,12 +121,12 @@ int main(int arcg, char** argv)
 			{
 				printf("\t Client %d says: %s\n", evnt.peer->incomingPeerID, evnt.packet->data);
 
-				if (evnt.packet->dataLength == sizeof(ApplyForcePacket))
+				if (evnt.packet->dataLength == sizeof(PlayerPacket))
 				{
-					ApplyForcePacket recievedForcePacket;
-					memcpy(&recievedForcePacket, evnt.packet->data, sizeof(ApplyForcePacket));
+					PlayerPacket recievedPlayerPacket;
+					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(PlayerPacket));
 
-					ENetPacket* packet = enet_packet_create(&recievedForcePacket, sizeof(ApplyForcePacket), 0);
+					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(PlayerPacket), 0);
 					enet_host_broadcast(server.m_pNetwork, 0, packet);
 				}
 

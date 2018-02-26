@@ -29,6 +29,7 @@ private:
 	PlayerBase* playerbase; 
 	GameplaySystem* gameplay;
 
+	bool isNetworkUp;
 	bool isConnected;
 };
 
