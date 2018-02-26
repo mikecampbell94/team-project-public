@@ -22,11 +22,15 @@
     <ClCompile Include="Startup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Systems\Subsystem.h" />
     <ClInclude Include="Systems\System.h" />
     <ClInclude Include="Game\GameLoop.h" />
     <ClInclude Include="Startup.h" />
+    <ClInclude Include="NetworkClient.h" />
   </ItemGroup>
 </Project>

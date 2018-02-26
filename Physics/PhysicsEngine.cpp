@@ -195,6 +195,35 @@ void PhysicsEngine::broadPhaseCollisions()
 			broadphaseColPairs = octree->GetAllCollisionPairs();
 		}
 	}
+
+	//broadphaseColPairs.clear();
+
+	//PhysicsNode* nodeA;
+	//PhysicsNode* nodeB;
+
+	//if (physicsNodes.size() > 0)
+	//{
+	//	for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
+	//	{
+	//		for (size_t j = i + 1; j < physicsNodes.size(); j++)
+	//		{
+	//			nodeA = physicsNodes[i];
+	//			nodeB = physicsNodes[j];
+
+	//			if (nodeA->getCollisionShape() && nodeB->getCollisionShape())
+	//			{
+	//				CollisionPair pair;
+	//				pair.pObjectA = nodeA;
+	//				pair.pObjectB = nodeB;
+
+	//				if (pair.pObjectA->getIsCollision() && pair.pObjectB->getIsCollision())
+	//				{
+	//					broadphaseColPairs.push_back(pair);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 void PhysicsEngine::narrowPhaseCollisions()
@@ -247,7 +276,7 @@ void PhysicsEngine::narrowPhaseCollisions()
 
 void PhysicsEngine::InitialiseOctrees(int entityLimit)
 {
-	octree = new OctreePartitioning(physicsNodes, Vector3(400, 400, 400), Vector3(0, 0, 0));
+	octree = new OctreePartitioning(physicsNodes, Vector3(600, 400, 600), Vector3(0, 0, 0));
 	octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
 
 	if (physicsNodes.size() > 0)

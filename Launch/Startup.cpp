@@ -1,5 +1,6 @@
 #include "Startup.h"
 #include "Resource Management/Database/Database.h"
+#include "NetworkClient.h"
 
 Startup::Startup()
 {
@@ -104,6 +105,7 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(audio);
 	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
+	engine->addSubsystem(new NetworkClient(keyboardAndMouse, inputManager->GetPlayerbase(), gameplay));
 }
 
 void Startup::loadMainMenu()
@@ -115,10 +117,10 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile)
 {
-	physics->InitialiseOctrees(5);
+	physics->InitialiseOctrees(10);
 	level->loadLevelFile(levelFile);
-	playerbase->addNewPlayer(keyboardAndMouse);
-	gameplay->connectPlayerbase(inputManager->GetPlayerbase());
+	//playerbase->addNewPlayer(keyboardAndMouse);
+	//gameplay->connectPlayerbase(inputManager->GetPlayerbase());
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 }
 
