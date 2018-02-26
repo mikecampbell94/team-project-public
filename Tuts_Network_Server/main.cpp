@@ -33,17 +33,17 @@ FOR MORE NETWORKING INFORMATION SEE "Tuts_Network_Client -> Net1_Client.h"
 *//////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+#pragma comment(lib, "Utilities.lib")
 
 #include <enet\enet.h>
 #include <enet\include/enet/enet.h>
-#include "NetworkBase.h"
+#include "../Utilities/GameTimer.h"
+#include <Utilities/NetworkBase.h>
 #include "../Utilities/Maths/Matrix4.h"
 
 //Needed to get computer adapter IPv4 addresses via windows
 #include <iphlpapi.h>
 #pragma comment(lib, "IPHLPAPI.lib")
-#pragma comment(lib, "Utilities.lib");
-#include "../Utilities/GameTimer.h"
 
 #define SERVER_PORT 1234
 #define UPDATE_TIMESTEP (1.0f / 30.0f) //send 30 position updates per second

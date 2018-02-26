@@ -70,14 +70,14 @@ ENetPeer* NetworkBase::ConnectPeer(uint8_t ip_part1, uint8_t ip_part2, uint8_t i
 		ENetPeer* peer = enet_host_connect(m_pNetwork, &address, 2, 0);
 		if (peer == NULL)
 		{
-			//NCLERROR("Unable to connect to peer: %d.%d.%d.%d:%d", ip_part1, ip_part2, ip_part3, ip_part4, port_number);
+			printf("Unable to connect to peer: %d.%d.%d.%d:%d", ip_part1, ip_part2, ip_part3, ip_part4, port_number);
 		}
 
 		return peer;
 	}
 	else
 	{
-		//NCLERROR("Unable to connect to peer: Network not initialized!");
+		printf("Unable to connect to peer: Network not initialized!");
 		return NULL;
 	}
 }
@@ -96,12 +96,12 @@ void NetworkBase::EnqueuePacket(ENetPeer* peer, PacketTransportType transport_ty
 		}
 		else
 		{
-			//NCLERROR("Unable to enqueue packet: Peer not initialized!");
+			printf("Unable to enqueue packet: Peer not initialized!");
 		}
 	}
 	else
 	{
-		//NCLERROR("Unable to enqueue packet: Network not initialized!");
+		printf("Unable to enqueue packet: Network not initialized!");
 	}
 }
 
@@ -138,6 +138,6 @@ void NetworkBase::ServiceNetwork(float dt, std::function<void(const ENetEvent&)>
 	}
 	else
 	{
-		//NCLERROR("Unable to service network: Network not initialized!");
+		printf("Unable to service network: Network not initialized!");
 	}
 }

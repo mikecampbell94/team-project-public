@@ -12,7 +12,7 @@ PaintTrail::PaintTrail(const std::string identifier, const Matrix4 projmatrix,
 	const Vector2 resolution, Database* database)
 	: GraphicsModule(identifier, projmatrix, resolution)
 {
-	paintTrailShader = new Shader(SHADERDIR"PaintTrail/paintTrailVert.glsl", SHADERDIR"PaintTrail/paintTrailFrag.glsl", "", true);
+	paintTrailShader = new Shader(SHADERDIR"PaintTrail/paintTrailVert.glsl", SHADERDIR"PaintTrail/paintTrailFrag.glsl");
 	this->database = database;
 }
 

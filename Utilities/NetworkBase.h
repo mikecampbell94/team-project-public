@@ -38,6 +38,9 @@ Description:
 *//////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+
+//#pragma comment(lib, )
+
 #include <enet\enet.h>
 #include <stdint.h>
 #include <functional>

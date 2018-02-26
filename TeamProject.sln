@@ -5,6 +5,7 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launch", "Launch\Launch.vcxproj", "{D1AB7213-2193-4CF2-9A00-EBFA1D8E85ED}"
 	ProjectSection(ProjectDependencies) = postProject
+		{6E6C4E29-F7BA-4182-A199-257ABDA3E9C3} = {6E6C4E29-F7BA-4182-A199-257ABDA3E9C3}
 		{FB9A3D53-0833-4832-8EB7-CAA20091E6B5} = {FB9A3D53-0833-4832-8EB7-CAA20091E6B5}
 		{378E5B61-6D97-4499-B575-32387992D0C2} = {378E5B61-6D97-4499-B575-32387992D0C2}
 		{943EEB77-34B1-4B1A-BC4C-F04ADD4D2094} = {943EEB77-34B1-4B1A-BC4C-F04ADD4D2094}
@@ -43,6 +44,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tuts_Network_Server", "Tuts_Network_Server\Tuts_Network_Server.vcxproj", "{6E6C4E29-F7BA-4182-A199-257ABDA3E9C3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{378E5B61-6D97-4499-B575-32387992D0C2} = {378E5B61-6D97-4499-B575-32387992D0C2}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
