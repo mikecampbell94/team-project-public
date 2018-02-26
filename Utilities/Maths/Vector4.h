@@ -44,11 +44,27 @@ public:
 
 	static Vector4 builder(Node* node)
 	{
-		const float x = std::stof(node->children[0]->value);
-		const float y = std::stof(node->children[1]->value);
-		const float z = std::stof(node->children[2]->value);
-		const float w = std::stof(node->children[3]->value);
+		const float x = getValueFromNode(node->children[0]);
+		const float y = getValueFromNode(node->children[1]);
+		const float z = getValueFromNode(node->children[2]);
+		const float w = getValueFromNode(node->children[3]);
 		return Vector4(x, y, z, w);
+	}
+
+private:
+	static float getValueFromNode(Node* node)
+	{
+		if (node->nodeType == "random")
+		{
+			float min = std::stof(node->children[0]->value);
+			float max = std::stof(node->children[1]->value);
+
+			return (rand() % (int)((max - min) * 1000)) / 1000 + min;
+		}
+		else
+		{
+			return std::stof(node->value);
+		}
 	}
 };
 

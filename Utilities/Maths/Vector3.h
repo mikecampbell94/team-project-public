@@ -135,10 +135,26 @@ public:
 
 	static Vector3 builder(Node* node)
 	{
-		const float x = std::stof(node->children[0]->value);
-		const float y = std::stof(node->children[1]->value);
-		const float z = std::stof(node->children[2]->value);
+		const float x = getValueFromNode(node->children[0]);
+		const float y = getValueFromNode(node->children[1]);
+		const float z = getValueFromNode(node->children[2]);
 		return Vector3(x, y, z);
 	}
+
+	private: 
+		static float getValueFromNode(Node* node)
+		{
+			if (node->nodeType == "random")
+			{
+				float min = std::stof(node->children[0]->value);
+				float max = std::stof(node->children[1]->value);
+
+				return (rand() % (int)((max - min) * 1000)) / 1000 + min;
+			}
+			else
+			{
+				return std::stof(node->value);
+			}
+		}
 };
 
