@@ -49,7 +49,7 @@
 
       <SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
         <destination>RenderingSystem</destination>
-        <resource>player1</resource>
+        <resource>player2</resource>
       </SendMessage>
     </Action>
   </ReceiveMessage>

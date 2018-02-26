@@ -89,7 +89,7 @@
     </SceneNode>
     <Enabled>True/False</Enabled>
     <Position>
-      <X>50</X>
+      <X>-50</X>
       <Y>200</Y>
       <Z>0</Z>
     </Position>
