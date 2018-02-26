@@ -36,8 +36,8 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse,
 		forcePacket.y = forceMessage->force.y;
 		forcePacket.z = forceMessage->force.z;
 
-		ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(PlayerPacket), 0);
-		enet_peer_send(serverConnection, 0, packet);
+		//ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(PlayerPacket), 0);
+		//enet_peer_send(serverConnection, 0, packet);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [&serverConnection = serverConnection,
