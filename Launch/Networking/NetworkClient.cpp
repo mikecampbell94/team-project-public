@@ -160,7 +160,16 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						client->getPhysicsNode()->constantForce = true;
 
 						//otherClients.insert(std::make_pair(recievedState, client));
-						clientStates[playerName] = recievedState;
+						//clientStates[playerName] = recievedState;
+						if (clientStates.find(playerName) != clientStates.end())
+						{
+							clientStates.at(playerName) = recievedState;
+						}
+						else
+						{
+							//clientStates[playerName] = recievedState;
+							clientStates.insert({ playerName, recievedState });
+						}
 					}
 				}
 
