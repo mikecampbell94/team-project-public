@@ -23,7 +23,7 @@ struct PlayerPacket
 	float z;
 };
 
-const float UPDATE_FREQUENCY = 60.0f;
+const float UPDATE_FREQUENCY = 15.0f;
 
 NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database,
 	PlayerBase* playerbase, GameplaySystem* gameplay) : Subsystem("NetworkClient")
@@ -94,7 +94,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 		state.position = client->getPhysicsNode()->getPosition();
 		state.linearVelocity = client->getPhysicsNode()->getLinearVelocity();
 		state.linearAcceleration = client->getPhysicsNode()->getAcceleration();
-		state.timeStamp = msCounter;// (float)(std::clock() / CLOCKS_PER_SEC);
+		state.timeStamp = msCounter;
 
 		ENetPacket* packet = enet_packet_create(&state, sizeof(KinematicState), 0);
 		enet_peer_send(serverConnection, 0, packet);
@@ -157,21 +157,15 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						const std::string playerName = "player" + to_string(recievedState.id);
 
 						GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
-						//client->getPhysicsNode()->setPosition(recievedState.position);
-						//client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
-						//client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
 						client->getPhysicsNode()->constantForce = true;
 						recievedState.timeStamp = msCounter;
 
-						//otherClients.insert(std::make_pair(recievedState, client));
-						//clientStates[playerName] = recievedState;
 						if (clientStates.find(playerName) != clientStates.end())
 						{
 							clientStates.at(playerName) = recievedState;
 						}
 						else
 						{
-							//clientStates[playerName] = recievedState;
 							clientStates.insert({ playerName, recievedState });
 						}
 					}

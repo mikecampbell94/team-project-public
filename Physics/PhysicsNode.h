@@ -264,7 +264,6 @@ public:
 	}
 	
 	bool constantForce = false;
-	KinematicState deadReckoningState;
 
 private:
 	GameObject*				parent;
