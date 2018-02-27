@@ -168,6 +168,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						//client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
 						//client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
 						client->getPhysicsNode()->constantForce = true;
+						recievedState.timeStamp = msCounter;
 
 						//otherClients.insert(std::make_pair(recievedState, client));
 						//clientStates[playerName] = recievedState;
