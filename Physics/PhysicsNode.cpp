@@ -5,6 +5,11 @@
 static const Vector3 gravity = Vector3(0.0f, -9.8f, 0.0f);
 static const float MAX_SPEED = 50.0f;
 
+Vector3 interpolate(Vector3 a, Vector3 b, float factor)
+{
+	return a + ((b - a) * factor);
+}
+
 void PhysicsNode::integrateForVelocity(float dt)
 {
 	if (invMass > 0.f) 
@@ -38,7 +43,14 @@ void PhysicsNode::integrateForPosition(float dt)
 {
 	position += linVelocity * dt;
 
+	if (constantForce)
+	{
+		position = interpolate(position, deadReckoningState.position, factor);
 
+		linVelocity = interpolate(linVelocity, deadReckoningState.linearVelocity, factor);
+
+		acceleration = interpolate(acceleration, deadReckoningState.linearAcceleration, factor);
+	}
 
 	orientation = orientation + Quaternion(angVelocity * dt * .5f, 0.f) * orientation;
 
@@ -54,3 +66,4 @@ void PhysicsNode::integrateForPosition(float dt)
 	//	DeliverySystem::getPostman()->insertMessage(UpdatePositionMessage("NetworkClient", parent->getName(), position));
 	//}
 }
+
