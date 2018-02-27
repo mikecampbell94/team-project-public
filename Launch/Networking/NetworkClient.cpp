@@ -105,21 +105,13 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 	for (auto client = clientStates.begin(); client != clientStates.end(); ++client)
 	{
 		float factor = (msCounter - client->second.timeStamp) / UPDATE_FREQUENCY;
+		std::cout << factor << std::endl;
 		
-		if (factor > 1.0f)
+		if (factor < 1.0f)
 		{
-			factor = 1.0f;
-		}
-		else if (factor < 0.0f)
-		{
-			factor = 0.0f;
-		}
-
-		//if (factor >= 0.0f && factor <= 1.0f)
-		//{
 			GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
 			DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
-		//}
+		}
 	}
 
 	if (isNetworkUp)

@@ -13,6 +13,7 @@
 #include "CuboidCollisionShape.h"
 
 #include "CollisionDetectionSAT.h"
+#include "../Launch/Networking/DeadReckoning.h"
 
 class PhysicsNode;
 
@@ -263,6 +264,7 @@ public:
 	}
 	
 	bool constantForce = false;
+	KinematicState deadReckoningState;
 
 private:
 	GameObject*				parent;
