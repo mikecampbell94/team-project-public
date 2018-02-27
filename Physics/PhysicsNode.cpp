@@ -14,11 +14,6 @@ void PhysicsNode::integrateForVelocity(float dt)
 		force = appliedForce;
 	}
 
-	if (force.z == 50.f)
-	{
-		int x = 0;
-	}
-
 	linVelocity += force * invMass * dt;
 
 	linVelocity = linVelocity * damping;

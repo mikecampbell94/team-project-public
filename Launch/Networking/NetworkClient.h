@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Systems\Subsystem.h"
-#include <enet\enet.h>
-#include <Utilities/NetworkBase.h>
+#include "../Systems/Subsystem.h"
 #include "../Input/Recorders/InputRecorder.h"
+#include <Utilities/NetworkBase.h>
+#include <enet\enet.h>
 
 class GameplaySystem;
 class PlayerBase;

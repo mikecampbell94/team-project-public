@@ -151,15 +151,17 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Networking\DeadReckoning.cpp" />
     <ClCompile Include="Game\GameLoop.cpp" />
     <ClCompile Include="Launch.cpp" />
-    <ClCompile Include="NetworkClient.cpp" />
+    <ClCompile Include="Networking\NetworkClient.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Systems\System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Networking\DeadReckoning.h" />
     <ClInclude Include="Game\GameLoop.h" />
-    <ClInclude Include="NetworkClient.h" />
+    <ClInclude Include="Networking\NetworkClient.h" />
     <ClInclude Include="Startup.h" />
     <ClInclude Include="Systems\Subsystem.h" />
     <ClInclude Include="Systems\System.h" />

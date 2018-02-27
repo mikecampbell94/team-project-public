@@ -22,7 +22,10 @@
     <ClCompile Include="Startup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkClient.cpp">
+    <ClCompile Include="Networking\NetworkClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Networking\DeadReckoning.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -31,6 +34,7 @@
     <ClInclude Include="Systems\System.h" />
     <ClInclude Include="Game\GameLoop.h" />
     <ClInclude Include="Startup.h" />
-    <ClInclude Include="NetworkClient.h" />
+    <ClInclude Include="Networking\NetworkClient.h" />
+    <ClInclude Include="Networking\DeadReckoning.h" />
   </ItemGroup>
 </Project>

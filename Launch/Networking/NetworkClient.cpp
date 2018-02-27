@@ -116,7 +116,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 							DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "player" + to_string(recievedForcePacket.id),
 								Vector3(recievedForcePacket.x, recievedForcePacket.y, recievedForcePacket.z)));
 						}
-						else if(recievedForcePacket.type == POSITION_PACKET)
+						else if (recievedForcePacket.type == POSITION_PACKET)
 						{
 							DeliverySystem::getPostman()->insertMessage(UpdatePositionMessage("Physics", "player" + to_string(recievedForcePacket.id),
 								Vector3(recievedForcePacket.x, recievedForcePacket.y, recievedForcePacket.z)));

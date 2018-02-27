@@ -1,6 +1,6 @@
 #include "Startup.h"
 #include "Resource Management/Database/Database.h"
-#include "NetworkClient.h"
+#include "Networking/NetworkClient.h"
 
 Startup::Startup()
 {
