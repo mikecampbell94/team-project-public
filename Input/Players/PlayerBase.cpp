@@ -72,7 +72,14 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 			float zPosition = stof(magnitude->children[2]->value);
 
 			Vector3 translation(xPosition, yPosition, zPosition);
-			DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "playerBall", translation));
+			if (magnitude->nodeType == "Move")
+			{
+				DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "playerBall", translation));
+			}
+			else if (magnitude->nodeType == "Impulse")
+			{
+				DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Physics", "playerBall", translation));
+			}
 		});
 	}
 

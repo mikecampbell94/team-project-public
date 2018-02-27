@@ -44,8 +44,8 @@
 			<Actions>
 				<Impulse>
 					<X>0</X>
-					<Y>500</Y>
-					<X>0</X>
+					<Y>20</Y>
+					<Z>0</Z>
 				</Impulse>
 			</Actions>
 		</KeyMapping>
