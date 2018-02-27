@@ -110,7 +110,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 	{
 		for (int i = 0; (updateRealTimeAccum >= updateTimestep) && i < 5; ++i)
 		{
-			client->second.predictPosition(deltaTime);
+			client->second.predictPosition(updateTimestep);
 
 			float factor = (msCounter - client->second.prediction.timeStamp) / UPDATE_FREQUENCY;
 

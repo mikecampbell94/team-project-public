@@ -4,10 +4,10 @@
 void DeadReckoning::blendStates(PhysicsNode* node, float factor)
 {
 	node->setPosition(interpolate(node->getPosition(), prediction.position, factor));
-/*
-	node->setLinearVelocity(interpolate(node->startVelocity, newState.linearVelocity, factor));
 
-	node->setAcceleration(interpolate(node->startAcceleration, newState.linearAcceleration, factor));*/
+	node->setLinearVelocity(interpolate(node->startVelocity, prediction.linearVelocity, factor));
+
+	node->setAcceleration(interpolate(node->startAcceleration, prediction.linearAcceleration, factor));
 }
 
 void DeadReckoning::predictPosition(float deltaTime)
