@@ -114,7 +114,8 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 			client->second.predictPosition(updateTimestep);
 
-			float factor = ((clientGameObject->getPhysicsNode()->getPosition() - client->second.prediction.position).normalise()).length();//(msCounter - client->second.prediction.timeStamp) / UPDATE_FREQUENCY;
+			float factor = ((client->second.prediction.position - clientGameObject->getPhysicsNode()->getPosition()).normalise()).length();//(msCounter - client->second.prediction.timeStamp) / UPDATE_FREQUENCY;
+			std::cout << factor << std::endl;
 
 			if (factor <= 1.0f && factor >= 0.0f)
 			{
@@ -173,7 +174,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						client->getPhysicsNode()->constantForce = true;
 						recievedState.timeStamp = msCounter;
 						
-						client->getPhysicsNode()->setPosition(recievedState.position);
+						//client->getPhysicsNode()->setPosition(recievedState.position);
 						client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
 						client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
 
