@@ -79,7 +79,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 {
 	timeSinceLastBroadcast += deltaTime;
 
-	if (timeSinceLastBroadcast >= 10000.0f && isConnected)
+	if (timeSinceLastBroadcast >= 30.0f && isConnected)
 	{
 		timeSinceLastBroadcast = 0.0f;
 
@@ -98,7 +98,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 	for each (GameObject* client in otherClients)
 	{
-		DeadReckoning::predictPosition(client->getPhysicsNode(), deltaTime);
+		//DeadReckoning::predictPosition(client->getPhysicsNode(), deltaTime);
 	}
 
 	if (isNetworkUp)

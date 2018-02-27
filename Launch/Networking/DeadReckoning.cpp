@@ -14,6 +14,7 @@
 //}
 void DeadReckoning::predictPosition(PhysicsNode* node, float deltaTime)
 {
-		node->setPosition(node->getPosition() + (node->getLinearVelocity() * deltaTime)
-			+ ((node->getAcceleration() * 0.5f) * (deltaTime * deltaTime)));
+	float dt = 1.0f / 60.f;
+		node->setPosition(node->getPosition() + (node->getLinearVelocity() * dt)
+			+ ((node->getAcceleration() * 0.5f) * (dt * dt)));
 }
