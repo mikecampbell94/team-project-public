@@ -23,6 +23,8 @@ struct PlayerPacket
 	float z;
 };
 
+const float UPDATE_FREQUENCY = 60.0f;
+
 NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database,
 	PlayerBase* playerbase, GameplaySystem* gameplay) : Subsystem("NetworkClient")
 {
@@ -79,7 +81,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 {
 	timeSinceLastBroadcast += deltaTime;
 
-	if (timeSinceLastBroadcast >= 300.0f && isConnected)
+	if (timeSinceLastBroadcast >= UPDATE_FREQUENCY && isConnected)
 	{
 		timeSinceLastBroadcast = 0.0f;
 
@@ -101,7 +103,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 	for (auto client = clientStates.begin(); client != clientStates.end(); ++client)
 	{
-		float factor = (currentTime - client->second.timeStamp) / 300.0f;
+		float factor = (currentTime - client->second.timeStamp) / UPDATE_FREQUENCY;
 		
 		if (factor >= 0.0f && factor <= 1.0f)
 		{
