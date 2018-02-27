@@ -120,7 +120,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 				//clientGameObject->getPhysicsNode()->factor = factor;
 				//DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
 
-				client->second.blendStates(clientGameObject->getPhysicsNode(), factor);
+				//client->second.blendStates(clientGameObject->getPhysicsNode(), factor);
 			}
 		}
 		
