@@ -172,6 +172,10 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						client->getPhysicsNode()->constantForce = true;
 						recievedState.timeStamp = msCounter;
 						
+						client->getPhysicsNode()->setPosition(recievedState.position);
+						client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
+						client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
+
 						//client->getPhysicsNode()->startPosition = client->getPhysicsNode()->getPosition();
 						//client->getPhysicsNode()->startVelocity = client->getPhysicsNode()->getLinearVelocity();
 						//client->getPhysicsNode()->startAcceleration = client->getPhysicsNode()->getAcceleration();
