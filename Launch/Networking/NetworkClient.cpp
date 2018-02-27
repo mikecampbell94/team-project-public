@@ -126,7 +126,8 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 	{
 		network.ServiceNetwork(0, [&serverConnection = serverConnection, &gameplay = gameplay,
 			&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, 
-			&isConnected = isConnected, &clientStates = clientStates, &database = database](const ENetEvent& evnt)
+			&isConnected = isConnected, &clientStates = clientStates, &database = database,
+			&msCounter = msCounter](const ENetEvent& evnt)
 		{
 			switch (evnt.type)
 			{
