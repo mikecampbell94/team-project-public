@@ -5,6 +5,7 @@
 #include <Utilities/NetworkBase.h>
 #include <enet\enet.h>
 #include <set>
+#include "DeadReckoning.h"
 
 class GameplaySystem;
 class PlayerBase;
@@ -34,7 +35,8 @@ private:
 
 	bool isNetworkUp;
 	bool isConnected;
-	std::set<GameObject*> otherClients;
+	//std::set<std::pair<KinematicState, GameObject*>> otherClients;
+	std::map<PhysicsNode*, KinematicState> clientStates;
 	float timeSinceLastBroadcast = 0.0f;
 };
 

@@ -6,7 +6,7 @@
 #include "../Resource Management/Database/Database.h"
 #include "../Gameplay/GameObject.h"
 #include "../Physics/PhysicsNode.h"
-#include "DeadReckoning.h"
+#include <ctime>
 
 enum PACKET_TYPE
 {
@@ -79,7 +79,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 {
 	timeSinceLastBroadcast += deltaTime;
 
-	if (timeSinceLastBroadcast >= 150.0f && isConnected)
+	if (timeSinceLastBroadcast >= 30.0f && isConnected)
 	{
 		timeSinceLastBroadcast = 0.0f;
 
@@ -91,21 +91,26 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 		state.position = client->getPhysicsNode()->getPosition();
 		state.linearVelocity = client->getPhysicsNode()->getLinearVelocity();
 		state.linearAcceleration = client->getPhysicsNode()->getAcceleration();
+		state.timeStamp = (float)(std::clock() / CLOCKS_PER_SEC);
 
 		ENetPacket* packet = enet_packet_create(&state, sizeof(KinematicState), 0);
 		enet_peer_send(serverConnection, 0, packet);
 	}
 
-	for each (GameObject* client in otherClients)
+	float currentTime = (float)(std::clock() / CLOCKS_PER_SEC);
+
+	for (auto client = clientStates.begin(); client != clientStates.end(); ++client)
 	{
-		//DeadReckoning::predictPosition(client->getPhysicsNode(), deltaTime);
+		float factor = (currentTime - client->second.timeStamp) / 30.0f;
+
+		DeadReckoning::blendStates(client->first, client->second, factor);
 	}
 
 	if (isNetworkUp)
 	{
 		network.ServiceNetwork(0, [&serverConnection = serverConnection, &gameplay = gameplay,
 			&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, 
-			&isConnected = isConnected, &otherClients = otherClients, &database = database](const ENetEvent& evnt)
+			&isConnected = isConnected, &clientStates = clientStates, &database = database](const ENetEvent& evnt)
 		{
 			switch (evnt.type)
 			{
@@ -143,12 +148,13 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						const std::string playerName = "player" + to_string(recievedState.id);
 
 						GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
-						client->getPhysicsNode()->setPosition(recievedState.position);
-						client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
-						client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
+						//client->getPhysicsNode()->setPosition(recievedState.position);
+						//client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
+						//client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
 						client->getPhysicsNode()->constantForce = true;
 
-						otherClients.insert(client);
+						//otherClients.insert(std::make_pair(recievedState, client));
+						clientStates[client->getPhysicsNode()] = recievedState;
 					}
 				}
 

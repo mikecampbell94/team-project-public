@@ -11,11 +11,13 @@ struct KinematicState
 	Vector3 position;
 	Vector3 linearVelocity;
 	Vector3 linearAcceleration;
+	float timeStamp;
 };
 
 class DeadReckoning
 {
 public:
-	static void predictPosition(PhysicsNode* node, float deltaTime);
+	//static void predictPosition(PhysicsNode* node, float deltaTime);
+	static void blendStates(PhysicsNode* node, KinematicState oldState, float factor);
 };
 
