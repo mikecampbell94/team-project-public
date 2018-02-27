@@ -79,7 +79,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 {
 	timeSinceLastBroadcast += deltaTime;
 
-	if (timeSinceLastBroadcast >= 30.0f && isConnected)
+	if (timeSinceLastBroadcast >= 300.0f && isConnected)
 	{
 		timeSinceLastBroadcast = 0.0f;
 
@@ -101,7 +101,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 	for (auto client = clientStates.begin(); client != clientStates.end(); ++client)
 	{
-		float factor = (currentTime - client->second.timeStamp) / 30.0f;
+		float factor = (currentTime - client->second.timeStamp) / 300.0f;
 		
 		if (factor >= 0.0f && factor <= 1.0f)
 		{
