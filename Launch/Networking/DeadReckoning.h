@@ -17,10 +17,14 @@ struct KinematicState
 class DeadReckoning
 {
 public:
-	//static void predictPosition(PhysicsNode* node, float deltaTime);
-	static void blendStates(PhysicsNode* node, KinematicState oldState, float factor);
+	DeadReckoning() {}
+	~DeadReckoning() {}
 
+	void blendStates(PhysicsNode* node, float factor);
+	void predictPosition(float deltaTime);
+
+	KinematicState prediction;
 private:
-	static Vector3 interpolate(Vector3 a, Vector3 b, float factor);
+	Vector3 interpolate(Vector3 a, Vector3 b, float factor);
 };
 

@@ -71,6 +71,8 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 	this->database = database;
 	isNetworkUp = false;
 	isConnected = false;
+	updateTimestep = 1.0f / 60.f;
+	updateRealTimeAccum = 0.0f;
 }
 
 NetworkClient::~NetworkClient()
@@ -102,16 +104,26 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 	float currentTime = (float)(std::clock() / CLOCKS_PER_SEC);
 
-	for (auto client = clientStates.begin(); client != clientStates.end(); ++client)
-	{
-		float factor = (msCounter - client->second.timeStamp) / UPDATE_FREQUENCY;
+	updateRealTimeAccum += deltaTime;
 
-		if (factor <= 1.0f && factor >= 0.0f)
+	for (auto client = clientDeadReckonings.begin(); client != clientDeadReckonings.end(); ++client)
+	{
+		for (int i = 0; (updateRealTimeAccum >= updateTimestep) && i < 5; ++i)
 		{
-			GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
-			//clientGameObject->getPhysicsNode()->factor = factor;
-			DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
+			client->second.predictPosition(deltaTime);
+
+			float factor = (msCounter - client->second.prediction.timeStamp) / UPDATE_FREQUENCY;
+
+			if (factor <= 1.0f && factor >= 0.0f)
+			{
+				GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
+				//clientGameObject->getPhysicsNode()->factor = factor;
+				//DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
+
+				client->second.blendStates(clientGameObject->getPhysicsNode(), factor);
+			}
 		}
+		
 	}
 
 	if (isNetworkUp)
@@ -119,7 +131,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 		network.ServiceNetwork(0, [&serverConnection = serverConnection, &gameplay = gameplay,
 			&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, 
 			&isConnected = isConnected, &clientStates = clientStates, &database = database,
-			&msCounter = msCounter](const ENetEvent& evnt)
+			&msCounter = msCounter, &clientDeadReckonings = clientDeadReckonings](const ENetEvent& evnt)
 		{
 			switch (evnt.type)
 			{
@@ -160,10 +172,12 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						client->getPhysicsNode()->constantForce = true;
 						recievedState.timeStamp = msCounter;
 						
-						client->getPhysicsNode()->startPosition = client->getPhysicsNode()->getPosition();
-						client->getPhysicsNode()->startVelocity = client->getPhysicsNode()->getLinearVelocity();
-						client->getPhysicsNode()->startAcceleration = client->getPhysicsNode()->getAcceleration();
-						
+						//client->getPhysicsNode()->startPosition = client->getPhysicsNode()->getPosition();
+						//client->getPhysicsNode()->startVelocity = client->getPhysicsNode()->getLinearVelocity();
+						//client->getPhysicsNode()->startAcceleration = client->getPhysicsNode()->getAcceleration();
+
+						DeadReckoning update;
+						update.prediction = recievedState;
 
 						if (clientStates.find(playerName) != clientStates.end())
 						{
@@ -172,6 +186,15 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						else
 						{
 							clientStates.insert({ playerName, recievedState });
+						}
+
+						if (clientDeadReckonings.find(playerName) != clientDeadReckonings.end())
+						{
+							clientDeadReckonings.at(playerName) = update;
+						}
+						else
+						{
+							clientDeadReckonings.insert({ playerName, update });
 						}
 					}
 				}

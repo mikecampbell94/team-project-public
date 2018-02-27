@@ -1,13 +1,18 @@
 #include "DeadReckoning.h"
 #include "../Physics/PhysicsNode.h"
 
-void DeadReckoning::blendStates(PhysicsNode* node, KinematicState newState, float factor)
+void DeadReckoning::blendStates(PhysicsNode* node, float factor)
 {
-	node->setPosition(interpolate(node->startPosition, newState.position, factor));
-
+	node->setPosition(interpolate(node->getPosition(), prediction.position, factor));
+/*
 	node->setLinearVelocity(interpolate(node->startVelocity, newState.linearVelocity, factor));
 
-	node->setAcceleration(interpolate(node->startAcceleration, newState.linearAcceleration, factor));
+	node->setAcceleration(interpolate(node->startAcceleration, newState.linearAcceleration, factor));*/
+}
+
+void DeadReckoning::predictPosition(float deltaTime)
+{
+	prediction.position += (prediction.linearVelocity * deltaTime) + ((prediction.linearAcceleration * 0.5f) * (deltaTime * deltaTime));
 }
 
 Vector3 DeadReckoning::interpolate(Vector3 a, Vector3 b, float factor)

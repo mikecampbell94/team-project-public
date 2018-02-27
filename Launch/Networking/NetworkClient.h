@@ -36,7 +36,10 @@ private:
 	bool isNetworkUp;
 	bool isConnected;
 	std::map<std::string, KinematicState> clientStates;
+	std::map<std::string, DeadReckoning> clientDeadReckonings;
 	float timeSinceLastBroadcast = 0.0f;
 	float msCounter = 0.0f;
+	float updateRealTimeAccum = 0.0f;
+	float updateTimestep;
 };
 
