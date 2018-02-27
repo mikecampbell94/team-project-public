@@ -24,7 +24,7 @@ void Startup::initialiseSubsystems()
 	initialiseInputSystem();
 	initialiseGameplaySystem();
 	userInterface = new UserInterface(window->getKeyboard(), Vector2(screenWidth, screenHeight));
-	network = new NetworkClient(keyboardAndMouse, inputManager->GetPlayerbase(), gameplay);
+	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
 
 	game->addWindowToGameLoop(window);

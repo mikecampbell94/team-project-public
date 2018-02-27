@@ -55,13 +55,13 @@ float rotation = 0.0f;
 
 void Win32_PrintAllAdapterIPAddresses();
 
-struct PlayerPacket
+struct KinematicState
 {
-	int type;
 	int id;
-	float x;
-	float y;
-	float z;
+
+	Vector3 position;
+	Vector3 linearVelocity;
+	Vector3 linearAcceleration;
 };
 
 int onExit(int exitcode)
@@ -121,12 +121,12 @@ int main(int arcg, char** argv)
 			{
 				printf("\t Client %d says: %s\n", evnt.peer->incomingPeerID, evnt.packet->data);
 
-				if (evnt.packet->dataLength == sizeof(PlayerPacket))
+				if (evnt.packet->dataLength == sizeof(KinematicState))
 				{
-					PlayerPacket recievedPlayerPacket;
-					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(PlayerPacket));
+					KinematicState recievedPlayerPacket;
+					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(KinematicState));
 
-					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(PlayerPacket), 0);
+					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(KinematicState), 0);
 					enet_host_broadcast(server.m_pNetwork, 0, packet);
 				}
 

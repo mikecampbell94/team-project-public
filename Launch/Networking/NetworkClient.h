@@ -4,14 +4,16 @@
 #include "../Input/Recorders/InputRecorder.h"
 #include <Utilities/NetworkBase.h>
 #include <enet\enet.h>
+#include <set>
 
 class GameplaySystem;
 class PlayerBase;
+class Database;
 
 class NetworkClient : public Subsystem
 {
 public:
-	NetworkClient(InputRecorder* keyboardAndMouse, 
+	NetworkClient(InputRecorder* keyboardAndMouse, Database* database,
 		PlayerBase* playerbase, GameplaySystem* gameplay);
 	~NetworkClient();
 
@@ -28,8 +30,11 @@ private:
 	InputRecorder* keyboardAndMouse;
 	PlayerBase* playerbase; 
 	GameplaySystem* gameplay;
+	Database* database;
 
 	bool isNetworkUp;
 	bool isConnected;
+	std::set<GameObject*> otherClients;
+	float timeSinceLastBroadcast = 0.0f;
 };
 

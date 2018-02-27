@@ -3,6 +3,10 @@
 #include "../Input/Players/PlayerBase.h"
 #include "../Gameplay/GameplaySystem.h"
 #include "../Communication/Messages/UpdatePositionMessage.h"
+#include "../Resource Management/Database/Database.h"
+#include "../Gameplay/GameObject.h"
+#include "../Physics/PhysicsNode.h"
+#include "DeadReckoning.h"
 
 enum PACKET_TYPE
 {
@@ -19,7 +23,7 @@ struct PlayerPacket
 	float z;
 };
 
-NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse,
+NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database,
 	PlayerBase* playerbase, GameplaySystem* gameplay) : Subsystem("NetworkClient")
 {
 	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::APPLY_FORCE, MessageType::UPDATE_POSITION }, 
@@ -54,14 +58,15 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse,
 			forcePacket.y = forceMessage->position.y;
 			forcePacket.z = forceMessage->position.z;
 
-			ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(PlayerPacket), 0);
-			enet_peer_send(serverConnection, 0, packet);
+			//ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(PlayerPacket), 0);
+			//enet_peer_send(serverConnection, 0, packet);
 		}
 	});
 
 	this->keyboardAndMouse = keyboardAndMouse;
 	this->playerbase = playerbase;
 	this->gameplay = gameplay;
+	this->database = database;
 	isNetworkUp = false;
 	isConnected = false;
 }
@@ -72,11 +77,33 @@ NetworkClient::~NetworkClient()
 
 void NetworkClient::updateSubsystem(const float& deltaTime)
 {
+	timeSinceLastBroadcast += deltaTime;
+
+	if (timeSinceLastBroadcast >= 15.0f && isConnected)
+	{
+		const std::string playerName = "player" + to_string(clientID);
+		GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
+
+		KinematicState state;
+		state.id = clientID;
+		state.position = client->getPhysicsNode()->getPosition();
+		state.linearVelocity = client->getPhysicsNode()->getLinearVelocity();
+		state.linearAcceleration = client->getPhysicsNode()->getAcceleration();
+
+		ENetPacket* packet = enet_packet_create(&state, sizeof(KinematicState), 0);
+		enet_peer_send(serverConnection, 0, packet);
+	}
+
+	for each (GameObject* client in otherClients)
+	{
+		DeadReckoning::predictPosition(client->getPhysicsNode(), deltaTime);
+	}
+
 	if (isNetworkUp)
 	{
 		network.ServiceNetwork(0, [&serverConnection = serverConnection, &gameplay = gameplay,
 			&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, 
-			&isConnected = isConnected](const ENetEvent& evnt)
+			&isConnected = isConnected, &otherClients = otherClients, &database = database](const ENetEvent& evnt)
 		{
 			switch (evnt.type)
 			{
@@ -104,23 +131,22 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 					gameplay->connectPlayerbase(playerbase);
 					isConnected = true;
 				}
-				else if (evnt.packet->dataLength == sizeof(PlayerPacket) && isConnected)
+				else if (evnt.packet->dataLength == sizeof(KinematicState) && isConnected)
 				{
-					PlayerPacket recievedForcePacket;
-					memcpy(&recievedForcePacket, evnt.packet->data, sizeof(PlayerPacket));
+					KinematicState recievedState;
+					memcpy(&recievedState, evnt.packet->data, sizeof(KinematicState));
 
-					if (recievedForcePacket.id != clientID)
+					if (recievedState.id != clientID)
 					{
-						if (recievedForcePacket.type == APPLY_FORCE_PACKET)
-						{
-							DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "player" + to_string(recievedForcePacket.id),
-								Vector3(recievedForcePacket.x, recievedForcePacket.y, recievedForcePacket.z)));
-						}
-						else if (recievedForcePacket.type == POSITION_PACKET)
-						{
-							DeliverySystem::getPostman()->insertMessage(UpdatePositionMessage("Physics", "player" + to_string(recievedForcePacket.id),
-								Vector3(recievedForcePacket.x, recievedForcePacket.y, recievedForcePacket.z)));
-						}
+						const std::string playerName = "player" + to_string(recievedState.id);
+
+						GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
+						client->getPhysicsNode()->setPosition(recievedState.position);
+						client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
+						client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
+						client->getPhysicsNode()->constantForce = true;
+
+						otherClients.insert(client);
 					}
 				}
 

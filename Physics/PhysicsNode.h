@@ -40,7 +40,9 @@ public:
 		, enabled(true)
 		, isCollision(true)
 		, appliedForce(0.0f, 0.0f, 0.0f)
+		, acceleration(0.0f, 0.0f, 0.0f)
 	{
+
 	}
 	~PhysicsNode()
 	{
@@ -112,7 +114,15 @@ public:
 		return isCollision;
 	}
 
+	Vector3 getAcceleration()
+	{
+		return acceleration;
+	}
 
+	void setAcceleration(Vector3 newAcceleration)
+	{
+		acceleration = newAcceleration;
+	}
 
 	inline void setParent(GameObject* obj) 
 	{ 
@@ -252,6 +262,7 @@ public:
 		linVelocity += impulse;
 	}
 	
+	bool constantForce = false;
 
 private:
 	GameObject*				parent;
@@ -264,6 +275,7 @@ private:
 	Vector3		position;
 	Vector3		linVelocity;
 	Vector3		force;
+	Vector3		acceleration;
 	float		invMass;
 
 	Quaternion  orientation;

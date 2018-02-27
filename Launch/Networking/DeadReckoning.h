@@ -16,8 +16,6 @@ struct KinematicState
 class DeadReckoning
 {
 public:
-	static KinematicState predictState(KinematicState oldState, float deltaTime);
-	static KinematicState blendStates(KinematicState oldState, KinematicState newState, float blendFactor);
-	static Vector3 predictLinearPosition(KinematicState& oldState, float deltaTime);
+	static void predictPosition(PhysicsNode* node, float deltaTime);
 };
 

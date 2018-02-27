@@ -9,12 +9,16 @@ void PhysicsNode::integrateForVelocity(float dt)
 {
 	if (invMass > 0.f) 
 	{
-		appliedForce += gravity;
-
-		force = appliedForce;
+		linVelocity += gravity * dt;
 	}
 
-	linVelocity += force * invMass * dt;
+	if(!constantForce)
+	{
+		force = appliedForce;
+		acceleration = force * invMass;
+	}
+
+	linVelocity += acceleration * dt;
 
 	linVelocity = linVelocity * damping;
 
