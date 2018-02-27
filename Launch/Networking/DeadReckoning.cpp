@@ -25,11 +25,11 @@ void DeadReckoning::blendStates(PhysicsNode* node, KinematicState newState, floa
 	//node->setPosition((node->getPosition() * oldFactor) + (newState.position * factor));
 	node->setPosition(interpolate(node->getPosition(), newState.position, factor));
 
-	//node->setLinearVelocity((node->getLinearVelocity() * oldFactor) + (newState.linearVelocity * factor));
-	node->setLinearVelocity(interpolate(node->getLinearVelocity(), newState.linearVelocity, factor));
+	////node->setLinearVelocity((node->getLinearVelocity() * oldFactor) + (newState.linearVelocity * factor));
+	//node->setLinearVelocity(interpolate(node->getLinearVelocity(), newState.linearVelocity, factor));
 
-	//node->setAcceleration((node->getAcceleration() * oldFactor) + (newState.linearAcceleration * factor));
-	node->setAcceleration(interpolate(node->getAcceleration(), newState.linearAcceleration, factor));
+	////node->setAcceleration((node->getAcceleration() * oldFactor) + (newState.linearAcceleration * factor));
+	//node->setAcceleration(interpolate(node->getAcceleration(), newState.linearAcceleration, factor));
 }
 
 Vector3 DeadReckoning::interpolate(Vector3 a, Vector3 b, float factor)
