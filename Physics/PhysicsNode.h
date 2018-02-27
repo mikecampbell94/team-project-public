@@ -264,9 +264,10 @@ public:
 	}
 	
 	bool constantForce = false;
-	KinematicState deadReckoningState;
-	//float factor = 0.5f;
-	float msCounter = 0.0f;
+
+	Vector3 startPosition;
+	Vector3 startVelocity;
+	Vector3 startAcceleration;
 
 private:
 	GameObject*				parent;

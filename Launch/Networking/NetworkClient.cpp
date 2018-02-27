@@ -101,20 +101,16 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 	}
 
 	float currentTime = (float)(std::clock() / CLOCKS_PER_SEC);
-	int numUpdates = (int)(60.0f / UPDATE_FREQUENCY);
 
-	for (int i = 0; i < numUpdates; ++i)
+	for (auto client = clientStates.begin(); client != clientStates.end(); ++client)
 	{
-		for (auto client = clientStates.begin(); client != clientStates.end(); ++client)
-		{
-			float factor = (msCounter - client->second.timeStamp) / UPDATE_FREQUENCY;
+		float factor = (msCounter - client->second.timeStamp) / UPDATE_FREQUENCY;
 
-			if (factor <= 1.0f && factor >= 0.0f)
-			{
-				GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
-				//clientGameObject->getPhysicsNode()->factor = factor;
-				DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
-			}
+		if (factor <= 1.0f && factor >= 0.0f)
+		{
+			GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
+			//clientGameObject->getPhysicsNode()->factor = factor;
+			DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
 		}
 	}
 
@@ -163,9 +159,10 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
 						client->getPhysicsNode()->constantForce = true;
 						recievedState.timeStamp = msCounter;
-						client->getPhysicsNode()->deadReckoningState = recievedState;
 						
-
+						client->getPhysicsNode()->startPosition = client->getPhysicsNode()->getPosition();
+						client->getPhysicsNode()->startVelocity = client->getPhysicsNode()->getLinearVelocity();
+						client->getPhysicsNode()->startAcceleration = client->getPhysicsNode()->getAcceleration();
 						
 
 						if (clientStates.find(playerName) != clientStates.end())
