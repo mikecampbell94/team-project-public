@@ -79,7 +79,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 {
 	timeSinceLastBroadcast += deltaTime;
 
-	if (timeSinceLastBroadcast >= 100.0f && isConnected)
+	if (timeSinceLastBroadcast >= 10000.0f && isConnected)
 	{
 		timeSinceLastBroadcast = 0.0f;
 

@@ -7,46 +7,54 @@ static const float MAX_SPEED = 50.0f;
 
 void PhysicsNode::integrateForVelocity(float dt)
 {
-	if (invMass > 0.f) 
-	{
-		linVelocity += gravity * dt;
-	}
+	
 
 	if(!constantForce)
 	{
+		if (invMass > 0.f)
+		{
+			linVelocity += gravity * dt;
+		}
+
 		force = appliedForce;
 		acceleration = force * invMass;
+
+		linVelocity += acceleration * dt;
+
+		linVelocity = linVelocity * damping;
+
+		if (linVelocity.length() > MAX_SPEED)
+		{
+			linVelocity = linVelocity.normalise() * MAX_SPEED;
+		}
+
+		angVelocity += invInertia * torque * dt;
+
+		angVelocity = angVelocity * damping;
+
+		appliedForce.toZero();
 	}
 
-	linVelocity += acceleration * dt;
-
-	linVelocity = linVelocity * damping;
-
-	if(linVelocity.length() > MAX_SPEED)
-	{
-		linVelocity = linVelocity.normalise() * MAX_SPEED;
-	}
-
-	angVelocity += invInertia * torque * dt;
-
-	angVelocity = angVelocity * damping;
-
-	appliedForce.toZero();
+	
 }
 
 void PhysicsNode::integrateForPosition(float dt)
 {
-	position += linVelocity * dt;
+	if (!constantForce)
+	{
+		position += linVelocity * dt;
 
-	orientation = orientation + Quaternion(angVelocity * dt * .5f, 0.f) * orientation;
+		orientation = orientation + Quaternion(angVelocity * dt * .5f, 0.f) * orientation;
 
-	orientation.normalise();
+		orientation.normalise();
 
-	worldTransform = orientation.toMatrix();
+		worldTransform = orientation.toMatrix();
 
-	worldTransform.setPositionVector(position);
-	fireOnUpdateCallback();
+		worldTransform.setPositionVector(position);
+		fireOnUpdateCallback();
 
+	}
+	
 	//if (parent->getName() == MoveCameraRelativeToGameObjectMessage::resourceName)
 	//{
 	//	DeliverySystem::getPostman()->insertMessage(UpdatePositionMessage("NetworkClient", parent->getName(), position));
