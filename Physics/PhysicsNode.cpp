@@ -45,11 +45,17 @@ void PhysicsNode::integrateForPosition(float dt)
 
 	if (constantForce)
 	{
-		position = interpolate(position, deadReckoningState.position, factor);
+		msCounter += dt;
+		float factor = (msCounter - deadReckoningState.timeStamp) / 15.0f;
 
-		linVelocity = interpolate(linVelocity, deadReckoningState.linearVelocity, factor);
+		if (factor <= 1.0f && factor >= 0.0f)
+		{
+			position = interpolate(position, deadReckoningState.position, factor);
 
-		acceleration = interpolate(acceleration, deadReckoningState.linearAcceleration, factor);
+			linVelocity = interpolate(linVelocity, deadReckoningState.linearVelocity, factor);
+
+			acceleration = interpolate(acceleration, deadReckoningState.linearAcceleration, factor);
+		}
 	}
 
 	orientation = orientation + Quaternion(angVelocity * dt * .5f, 0.f) * orientation;
