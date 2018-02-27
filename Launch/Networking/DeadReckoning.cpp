@@ -3,8 +3,6 @@
 
 void DeadReckoning::blendStates(PhysicsNode* node, KinematicState newState, float factor)
 {
-	float oldFactor = 1.0f - factor;
-
 	node->setPosition(interpolate(node->getPosition(), newState.position, factor));
 
 	node->setLinearVelocity(interpolate(node->getLinearVelocity(), newState.linearVelocity, factor));

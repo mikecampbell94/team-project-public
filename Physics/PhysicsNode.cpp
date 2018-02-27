@@ -43,20 +43,20 @@ void PhysicsNode::integrateForPosition(float dt)
 {
 	position += linVelocity * dt;
 
-	if (constantForce)
-	{
-		msCounter += dt;
-		float factor = (msCounter - deadReckoningState.timeStamp) / 15.0f;
+	//if (constantForce)
+	//{
+	//	msCounter += dt;
+	//	float factor = (msCounter - deadReckoningState.timeStamp) / 15.0f;
 
-		if (factor <= 1.0f && factor >= 0.0f)
-		{
-			position = interpolate(position, deadReckoningState.position, factor);
+	//	if (factor <= 1.0f && factor >= 0.0f)
+	//	{
+	//		position = interpolate(position, deadReckoningState.position, factor);
 
-			linVelocity = interpolate(linVelocity, deadReckoningState.linearVelocity, factor);
+	//		linVelocity = interpolate(linVelocity, deadReckoningState.linearVelocity, factor);
 
-			acceleration = interpolate(acceleration, deadReckoningState.linearAcceleration, factor);
-		}
-	}
+	//		acceleration = interpolate(acceleration, deadReckoningState.linearAcceleration, factor);
+	//	}
+	//}
 
 	orientation = orientation + Quaternion(angVelocity * dt * .5f, 0.f) * orientation;
 
