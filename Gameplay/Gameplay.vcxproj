@@ -138,7 +138,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FiniteStateMachine\FiniteStateMachine.h" />
+    <ClInclude Include="GameObjectLogic\GameObjectLogic.h" />
     <ClInclude Include="Scripting\ConditionalStatementBuilder.h" />
     <ClInclude Include="Scripting\ActionBuilder.h" />
     <ClInclude Include="Scripting\GameLogic.h" />
@@ -148,7 +148,7 @@
     <ClInclude Include="InputGameplay\InputActionMap.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FiniteStateMachine\FiniteStateMachine.cpp" />
+    <ClCompile Include="GameObjectLogic\GameObjectLogic.cpp" />
     <ClCompile Include="Scripting\ConditionalStatementBuilder.cpp" />
     <ClCompile Include="Scripting\ActionBuilder.cpp" />
     <ClCompile Include="Scripting\GameLogic.cpp" />

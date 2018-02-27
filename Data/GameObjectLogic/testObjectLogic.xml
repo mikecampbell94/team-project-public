@@ -1,0 +1,23 @@
+<GameObjectLogic>
+  <OnStart>
+    <GameObject>AI</GameObject>
+  </OnStart>
+
+  <ReceiveMessage type="CollisionMessage">
+    <Action>
+      <Condition type="AND">
+        <objectIdentifier>AI</objectIdentifier>
+        <colliderIdentifier>playerBall</colliderIdentifier>
+      </Condition>
+
+      <SendMessage type="APPLY_IMPULSE">
+        <destination>Physics</destination>
+        <gameObjectID>AI</gameObjectID>
+		<impulse>
+		  <x>-10</x>
+		  <y>0</y>
+		  <z>0</z>
+		 </impulse>
+      </SendMessage>
+    </Action>
+  </ReceiveMessage>

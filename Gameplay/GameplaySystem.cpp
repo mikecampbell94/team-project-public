@@ -10,6 +10,8 @@
 GameplaySystem::GameplaySystem()
 	: Subsystem("Gameplay")
 {
+	this->database = database;
+
 	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION }, 
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 
@@ -57,14 +59,8 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	gameLogic = GameLogic(&incomingMessages);
 	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
 	gameLogic.executeActionsOnStart();
-}
 
-void GameplaySystem::compileFSMScript(std::string fsmScript)
-{
-	XMLParser xmlParser;
-	xmlParser.loadFile(fsmScript);
-	fsm = FiniteStateMachine();
-	fsm.compileParsedXMLIntoFSM(xmlParser.parsedXml);
+	objects.push_back(GameObjectLogic(database));
+	objects[0].compileParsedXMLIntoScript(xmlParser.parsedXml);
 }
-
 

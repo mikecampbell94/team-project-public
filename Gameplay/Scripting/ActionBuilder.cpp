@@ -185,4 +185,13 @@ Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 			DeliverySystem::getPostman()->insertMessage(message);
 		};
 	}
+	else if (node->name == "APPLY_IMPULSE")
+	{
+		ApplyImpulseMessage message = ApplyImpulseMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	}
 }

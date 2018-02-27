@@ -10,6 +10,8 @@ public:
 	ApplyImpulseMessage(const std::string& desinationName, std::string gameObjectID, Vector3 impulse);
 	~ApplyImpulseMessage();
 
+	static ApplyImpulseMessage builder(Node* node);
+
 	std::string gameObjectID;
 	Vector3 impulse;
 };
