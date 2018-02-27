@@ -1,1 +1,6 @@
 <FiniteStateMachineScript>
+  <OnStart>
+    <resource>AI</resource>
+  </OnStart>
+
+    

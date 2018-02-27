@@ -120,6 +120,7 @@ void Startup::loadLevel(std::string levelFile)
 	playerbase->addNewPlayer(keyboardAndMouse);
 	gameplay->connectPlayerbase(inputManager->GetPlayerbase());
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
+	gameplay->compileFSMScript("../Data/FSM Scripts\testFSM.xml");
 }
 
 void Startup::switchLevel()

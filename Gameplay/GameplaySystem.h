@@ -4,6 +4,7 @@
 #include "InputGameplay/GameplayInputBridge.h"
 #include "Scripting/GameLogic.h"
 #include "../Resource Management/XMLParser.h"
+#include "FiniteStateMachine/FiniteStateMachine.h"
 
 class GameplaySystem : public Subsystem
 {
@@ -15,9 +16,11 @@ public:
 
 	void connectPlayerbase(PlayerBase* playerbase);
 	void compileGameplayScript(std::string levelScript);
+	void compileFSMScript(std::string fsmScript);
 
 private:
 	GameLogic gameLogic;
+	FiniteStateMachine fsm;
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
 };
