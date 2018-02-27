@@ -39,4 +39,14 @@
 				</Move>
 			</Actions>
 		</KeyMapping>
+		<KeyMapping name="jump">
+			<KeyAssignedTo>KEYBOARD_SPACE</KeyAssignedTo>
+			<Actions>
+				<Impulse>
+					<X>0</X>
+					<Y>500</Y>
+					<X>0</X>
+				</Impulse>
+			</Actions>
+		</KeyMapping>
 </Config>

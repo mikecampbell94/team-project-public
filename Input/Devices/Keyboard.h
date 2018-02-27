@@ -198,6 +198,7 @@ public:
 		button_mapping.insert({ "Y", KEYBOARD_Y });
 		button_mapping.insert({ "Z", KEYBOARD_Z });
 		button_mapping.insert({ "ESC", KEYBOARD_ESCAPE });
+		button_mapping.insert({ "SPACE",KEYBOARD_SPACE });
 	}
 
 	KeyboardKeys Mapper(std::string key)
