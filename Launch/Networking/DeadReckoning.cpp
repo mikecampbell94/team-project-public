@@ -12,7 +12,9 @@ void DeadReckoning::blendStates(PhysicsNode* node, float factor)
 
 void DeadReckoning::predictPosition(float deltaTime)
 {
-	prediction.position += (prediction.linearVelocity * deltaTime) + ((prediction.linearAcceleration * 0.5f) * (deltaTime * deltaTime));
+	prediction.linearVelocity += prediction.linearAcceleration * deltaTime;
+	prediction.position += prediction.linearVelocity * deltaTime;
+	//prediction.position += (prediction.linearVelocity * deltaTime) + ((prediction.linearAcceleration * 0.5f) * (deltaTime * deltaTime));
 }
 
 Vector3 DeadReckoning::interpolate(Vector3 a, Vector3 b, float factor)
