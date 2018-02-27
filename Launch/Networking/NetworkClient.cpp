@@ -107,7 +107,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 		float factor = (msCounter - client->second.timeStamp) / UPDATE_FREQUENCY;
 		std::cout << factor << std::endl;
 		
-		if (factor < 1.0f)
+		if (factor <= 1.0f)
 		{
 			GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
 			DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
