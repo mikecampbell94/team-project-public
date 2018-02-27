@@ -108,7 +108,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 	for (auto client = clientDeadReckonings.begin(); client != clientDeadReckonings.end(); ++client)
 	{
-		for (int i = 0; (updateRealTimeAccum >= updateTimestep) && i < 5; ++i)
+		for (int i = 0; (updateRealTimeAccum >= updateTimestep) && i < 1; ++i)
 		{
 			client->second.predictPosition(updateTimestep);
 
