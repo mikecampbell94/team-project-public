@@ -102,8 +102,11 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 	for (auto client = clientStates.begin(); client != clientStates.end(); ++client)
 	{
 		float factor = (currentTime - client->second.timeStamp) / 30.0f;
-
-		DeadReckoning::blendStates(client->first, client->second, factor);
+		
+		if (factor >= 0.0f && factor <= 1.0f)
+		{
+			DeadReckoning::blendStates(client->first, client->second, factor);
+		}
 	}
 
 	if (isNetworkUp)
