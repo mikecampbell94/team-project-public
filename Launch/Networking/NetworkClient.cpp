@@ -107,7 +107,8 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 		
 		if (factor >= 0.0f && factor <= 1.0f)
 		{
-			//DeadReckoning::blendStates(client->first, client->second, factor);
+			GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
+			DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
 		}
 	}
 
@@ -159,7 +160,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						client->getPhysicsNode()->constantForce = true;
 
 						//otherClients.insert(std::make_pair(recievedState, client));
-						clientStates[client->getPhysicsNode()] = recievedState;
+						clientStates[client->getName()] = recievedState;
 					}
 				}
 
