@@ -38,5 +38,6 @@ private:
 	//std::set<std::pair<KinematicState, GameObject*>> otherClients;
 	std::map<std::string, KinematicState> clientStates;
 	float timeSinceLastBroadcast = 0.0f;
+	float msCounter = 0.0f;
 };
 

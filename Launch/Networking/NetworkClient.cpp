@@ -80,6 +80,7 @@ NetworkClient::~NetworkClient()
 void NetworkClient::updateSubsystem(const float& deltaTime)
 {
 	timeSinceLastBroadcast += deltaTime;
+	msCounter += deltaTime;
 
 	if (timeSinceLastBroadcast >= UPDATE_FREQUENCY && isConnected)
 	{
@@ -93,7 +94,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 		state.position = client->getPhysicsNode()->getPosition();
 		state.linearVelocity = client->getPhysicsNode()->getLinearVelocity();
 		state.linearAcceleration = client->getPhysicsNode()->getAcceleration();
-		state.timeStamp = (float)(std::clock() / CLOCKS_PER_SEC);
+		state.timeStamp = msCounter;// (float)(std::clock() / CLOCKS_PER_SEC);
 
 		ENetPacket* packet = enet_packet_create(&state, sizeof(KinematicState), 0);
 		enet_peer_send(serverConnection, 0, packet);
@@ -103,9 +104,9 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 	for (auto client = clientStates.begin(); client != clientStates.end(); ++client)
 	{
-		float factor = (currentTime - client->second.timeStamp) / UPDATE_FREQUENCY;
+		float factor = (msCounter - client->second.timeStamp) / UPDATE_FREQUENCY;
 		
-		if (factor >= 0.0f && factor <= 1.0f)
+		//if (factor >= 0.0f && factor <= 1.0f)
 		{
 			GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
 			DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
