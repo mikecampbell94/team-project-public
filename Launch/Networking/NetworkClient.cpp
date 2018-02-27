@@ -115,7 +115,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 			client->second.predictPosition(updateTimestep);
 
 			float factor = (client->second.prediction.position - clientGameObject->getPhysicsNode()->getPosition()).length();//(msCounter - client->second.prediction.timeStamp) / UPDATE_FREQUENCY;
-			factor /= 100.0f;
+			factor /= 50.0f;
 
 			std::cout << factor << std::endl;
 
