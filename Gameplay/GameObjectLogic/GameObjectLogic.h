@@ -10,7 +10,7 @@ class Database;
 class GameObjectLogic
 {
 public:
-	GameObjectLogic(Database* database);
+	GameObjectLogic(Database* database, MessageProcessor* messages);
 	~GameObjectLogic();
 
 	void compileParsedXMLIntoScript(Node* xmlNode);
@@ -23,8 +23,8 @@ public:
 	
 
 private:
+	GameLogic logic;
 	GameObject* gameObject;
 	Database* database;
-	//GameLogic logic;
 };
 

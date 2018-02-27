@@ -7,7 +7,7 @@
 #include "../Input/InputUtility.h"
 #include "../Resource Management/XMLParser.h"
 
-GameplaySystem::GameplaySystem()
+GameplaySystem::GameplaySystem(Database* database)
 	: Subsystem("Gameplay")
 {
 	this->database = database;
@@ -33,6 +33,11 @@ GameplaySystem::GameplaySystem()
 
 GameplaySystem::~GameplaySystem()
 {
+	for each (GameObjectLogic* node in objects)
+	{
+		delete node;
+		node = nullptr;
+	}
 }
 
 void GameplaySystem::updateSubsystem(const float& deltaTime)
@@ -60,7 +65,8 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
 	gameLogic.executeActionsOnStart();
 
-	objects.push_back(GameObjectLogic(database));
-	objects[0].compileParsedXMLIntoScript(xmlParser.parsedXml);
+	xmlParser.loadFile("../Data/GameObjectLogic/testObjectLogic.xml");
+	objects.push_back(new GameObjectLogic(database, &incomingMessages));
+	objects[0]->compileParsedXMLIntoScript(xmlParser.parsedXml);
 }
 
