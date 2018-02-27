@@ -107,7 +107,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 		
 		if (factor >= 0.0f && factor <= 1.0f)
 		{
-			DeadReckoning::blendStates(client->first, client->second, factor);
+			//DeadReckoning::blendStates(client->first, client->second, factor);
 		}
 	}
 
@@ -153,9 +153,9 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 						const std::string playerName = "player" + to_string(recievedState.id);
 
 						GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
-						//client->getPhysicsNode()->setPosition(recievedState.position);
-						//client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
-						//client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
+						client->getPhysicsNode()->setPosition(recievedState.position);
+						client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
+						client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
 						client->getPhysicsNode()->constantForce = true;
 
 						//otherClients.insert(std::make_pair(recievedState, client));
