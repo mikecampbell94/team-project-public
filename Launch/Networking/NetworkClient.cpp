@@ -23,7 +23,7 @@ struct PlayerPacket
 	float z;
 };
 
-const float UPDATE_FREQUENCY = 100.0f;
+const float UPDATE_FREQUENCY = 50.0f;
 
 NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database,
 	PlayerBase* playerbase, GameplaySystem* gameplay) : Subsystem("NetworkClient")
@@ -119,13 +119,15 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 			std::cout << factor << std::endl;
 
-			if (factor <= 1.0f && factor >= 0.0f)
+			if (factor > 1.0f)
 			{
+				factor = 1.0f;
+			}
+
 				//clientGameObject->getPhysicsNode()->factor = factor;
 				//DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
 
 				client->second.blendStates(clientGameObject->getPhysicsNode(), factor);
-			}
 		}
 		
 	}
