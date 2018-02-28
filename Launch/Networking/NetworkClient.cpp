@@ -118,7 +118,6 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 
 					clientDeadReckonings[client] = DeadReckoning(recievedState);
 				}
-
 			}
 		}
 
