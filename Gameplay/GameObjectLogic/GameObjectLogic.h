@@ -27,5 +27,6 @@ private:
 	//GameLogic logic;
 	std::map<GameObject*, GameLogic> logicToGameObjects;
 	Database* database;
+	MessageProcessor* messages;
 };
 
