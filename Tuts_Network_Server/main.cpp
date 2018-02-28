@@ -64,6 +64,23 @@ struct KinematicState
 	Vector3 linearAcceleration;
 };
 
+struct CurrentlyJoinedPlayers
+{
+	std::vector<int> joinedPlayers;
+};
+
+enum
+{
+	NEW_ID,
+	CURRENT_NUMBER_OF_PLAYERS
+};
+
+struct IntegerData
+{
+	int type;
+	int data;
+};
+
 int onExit(int exitcode)
 {
 	server.Release();
@@ -106,19 +123,26 @@ int main(int arcg, char** argv)
 			{
 				printf("- New Client Connected\n");
 
-				//std::string numPeers = std::to_string(numberOfPlayersConnected);
-				ENetPacket* idPacket = enet_packet_create(&numberOfPlayersConnected,
-					sizeof(int), 0);
-				enet_peer_send(evnt.peer, 0, idPacket);
+				IntegerData message;
+				message.type = NEW_ID;
+				message.data = numberOfPlayersConnected;
 
+				ENetPacket* idPacket = enet_packet_create(&message,
+					sizeof(IntegerData), 0);
+				enet_peer_send(evnt.peer, 0, idPacket);
 				++numberOfPlayersConnected;
+
+				IntegerData numberOfPlayersMessage;
+				numberOfPlayersMessage.type = CURRENT_NUMBER_OF_PLAYERS;
+				numberOfPlayersMessage.data = numberOfPlayersConnected;
+
+				ENetPacket* packet = enet_packet_create(&numberOfPlayersMessage, sizeof(IntegerData), 0);
+				enet_host_broadcast(server.m_pNetwork, 0, packet);
 			}
 			break;
 
 			case ENET_EVENT_TYPE_RECEIVE:
 			{
-				printf("\t Client %d says: %s\n", evnt.peer->incomingPeerID, evnt.packet->data);
-
 				if (evnt.packet->dataLength == sizeof(KinematicState))
 				{
 					KinematicState recievedPlayerPacket;

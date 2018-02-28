@@ -1,5 +1,5 @@
 <MainMenu>
-  <Button name="Start">
+  <Button name="Start Solo">
     <colour>
       <r>1.0</r>
       <g>0.0</g>
@@ -14,8 +14,34 @@
       <x>50.0</x>
       <y>20.0</y>
     </scale>
-    <action>Start</action>
-    <text>Start</text>
+    <action type="Start">
+      <Online>False</Online>
+      <Level>TestLevel.txt</Level>
+    </action>
+    <text>Solo</text>
+    <mesh>UIQuad</mesh>
+  </Button>
+
+  <Button name="Start Online">
+    <colour>
+      <r>1.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>0.5</a>
+    </colour>
+    <position>
+      <x>-450</x>
+      <y>-50</y>
+    </position>
+    <scale>
+      <x>50.0</x>
+      <y>20.0</y>
+    </scale>
+    <action type="Start">
+      <Online>True</Online>
+      <Level>TestLevel.txt</Level>
+    </action>
+    <text>Online</text>
     <mesh>UIQuad</mesh>
   </Button>
 
@@ -28,7 +54,7 @@
     </colour>
     <position>
       <x>-450</x>
-      <y>-45</y>
+      <y>-100</y>
     </position>
     <scale>
       <x>50.0</x>
@@ -225,7 +251,7 @@
     </colour>
     <position>
       <x>-450</x>
-      <y>-90</y>
+      <y>-150</y>
     </position>
     <scale>
       <x>50.0</x>

@@ -106,7 +106,6 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(audio);
 	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
-	engine->addSubsystem(network);
 }
 
 void Startup::loadMainMenu()
@@ -122,7 +121,6 @@ void Startup::loadLevel(std::string levelFile)
 	level->loadLevelFile(levelFile);
 	//playerbase->addNewPlayer(keyboardAndMouse);
 	//gameplay->connectPlayerbase(inputManager->GetPlayerbase());
-	network->connectToServer();
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 }
 
@@ -134,6 +132,15 @@ void Startup::switchLevel()
 void Startup::unloadLevel()
 {
 	level->unloadLevel();
+}
+
+void Startup::beginOnlineLobby(std::string levelFile)
+{
+	engine->addSubsystem(network);
+	network->connectToServer();
+	network->waitForOtherClients(3);
+	DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
+	loadLevel(levelFile);
 }
 
 void Startup::startGameLoop()

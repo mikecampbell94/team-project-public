@@ -21,6 +21,7 @@ public:
 	void updateSubsystem(const float& deltaTime) override;
 
 	void connectToServer();
+	void waitForOtherClients(int numberToWaitFor);
 
 private:
 	void broadcastKinematicState();
@@ -28,6 +29,8 @@ private:
 	void processNetworkMessages(const float& deltaTime);
 
 	int clientID;
+	int numberOfOtherPlayersToWaitFor = 0;
+	int numberOfOtherJoinedPlayers = 0;
 
 	NetworkBase network;
 	ENetPeer* serverConnection;
@@ -39,6 +42,7 @@ private:
 
 	bool connectedToServer;
 	bool joinedGame;
+	bool inLobby = false;
 
 	std::map<GameObject*, DeadReckoning> clientDeadReckonings;
 	std::set<std::string> recievedClients;

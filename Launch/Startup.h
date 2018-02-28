@@ -29,6 +29,8 @@ public:
 	void switchLevel();
 	void unloadLevel();
 
+	void beginOnlineLobby(std::string levelFile);
+
 private:
 	void initialiseRenderingSystem();
 	void initialiseAudioSystem();

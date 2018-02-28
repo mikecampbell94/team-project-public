@@ -9,6 +9,18 @@
 #include "NetworkMessageProcessor.h"
 #include <ctime>
 
+enum
+{
+	NEW_ID,
+	CURRENT_NUMBER_OF_PLAYERS
+};
+
+struct IntegerData
+{
+	int type;
+	int data;
+};
+
 const float UPDATE_FREQUENCY = 50.0f;
 const float UPDATE_TIMESTEP = 1.0f / 60.0f;
 
@@ -33,19 +45,22 @@ NetworkClient::~NetworkClient()
 
 void NetworkClient::updateSubsystem(const float& deltaTime)
 {
-	timeSinceLastBroadcast += deltaTime;
-	msCounter += deltaTime;
-	updateRealTimeAccum += deltaTime;
-
-	if (timeSinceLastBroadcast >= UPDATE_FREQUENCY && joinedGame)
+	if (!inLobby)
 	{
-		broadcastKinematicState();
-	}
+		timeSinceLastBroadcast += deltaTime;
+		msCounter += deltaTime;
+		updateRealTimeAccum += deltaTime;
 
-	if (updateRealTimeAccum >= UPDATE_TIMESTEP)
-	{
-		updateDeadReckoningForConnectedClients();
-		updateRealTimeAccum = 0.0f;
+		if (timeSinceLastBroadcast >= UPDATE_FREQUENCY && joinedGame)
+		{
+			broadcastKinematicState();
+		}
+
+		if (updateRealTimeAccum >= UPDATE_TIMESTEP)
+		{
+			updateDeadReckoningForConnectedClients();
+			updateRealTimeAccum = 0.0f;
+		}
 	}
 
 	if (connectedToServer)
@@ -61,6 +76,12 @@ void NetworkClient::connectToServer()
 		serverConnection = network.ConnectPeer(10, 70, 33, 11, 1234);
 		connectedToServer = true;
 	}
+}
+
+void NetworkClient::waitForOtherClients(int numberToWaitFor)
+{
+	numberOfOtherPlayersToWaitFor = numberToWaitFor;
+	inLobby = true;
 }
 
 void NetworkClient::broadcastKinematicState()
@@ -92,17 +113,31 @@ void NetworkClient::updateDeadReckoningForConnectedClients()
 void NetworkClient::processNetworkMessages(const float& deltaTime)
 {
 	network.ServiceNetwork(deltaTime, [&serverConnection = serverConnection, &gameplay = gameplay,
-		&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID,
-		&joinedGame = joinedGame, &database = database,
+		&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, &inLobby = inLobby,
+		&joinedGame = joinedGame, &database = database, &numberOfOtherPlayersToWaitFor = numberOfOtherPlayersToWaitFor,
 		&msCounter = msCounter, &clientDeadReckonings = clientDeadReckonings](const ENetEvent& evnt)
 	{
 		if (evnt.type == ENET_EVENT_TYPE_RECEIVE)
 		{
-			if (evnt.packet->dataLength == sizeof(int))
+			if (evnt.packet->dataLength == sizeof(IntegerData))
 			{
-				clientID = NetworkMessageProcessor::getClientNumber(evnt.packet);
-				NetworkMessageProcessor::joinGame(clientID, playerbase, gameplay, keyboardAndMouse);
-				joinedGame = true;
+				IntegerData message;
+				memcpy(&message, evnt.packet->data, sizeof(IntegerData));
+
+				if (message.type == NEW_ID)
+				{
+					clientID = message.data;
+					NetworkMessageProcessor::joinGame(clientID, playerbase, gameplay, keyboardAndMouse);
+					joinedGame = true;
+				}
+				else if (message.type == CURRENT_NUMBER_OF_PLAYERS)
+				{
+					if (message.data == numberOfOtherPlayersToWaitFor)
+					{
+						DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime enable"));
+						inLobby = false;
+					}
+				}
 			}
 			else if (evnt.packet->dataLength == sizeof(KinematicState) && joinedGame)
 			{

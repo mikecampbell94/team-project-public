@@ -26,7 +26,7 @@ Button UserInterfaceBuilder::buildButton(Node* node, Database* database, ButtonA
 	const Vector2 position = getTransformInformation(node->children[1]);
 	const Vector2 scale = getTransformInformation(node->children[2]);
 
-	const ButtonAction action = actionCreator.createButtonAction(node->children[3]->value);
+	const ButtonAction action = actionCreator.createButtonAction(node->children[3]);
 	const std::string text = node->children[4]->value;
 	const std::string meshName = node->children[5]->value;
 
