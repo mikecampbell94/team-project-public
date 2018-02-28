@@ -25,11 +25,11 @@ public:
 	void startGameLoop();
 
 	void loadMainMenu();
-	void loadLevel(std::string levelFile);
+	void loadLevel(std::string levelFile, bool online);
 	void switchLevel();
 	void unloadLevel();
 
-	void beginOnlineLobby(std::string levelFile);
+	void beginOnlineLobby();
 
 private:
 	void initialiseRenderingSystem();
