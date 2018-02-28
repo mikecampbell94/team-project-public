@@ -59,6 +59,8 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 
 	//iterate map
 	//logicToGameObjects[gObj].executeActionsOnStart();
+
+	std::map<std::string, int>::iterator it = logicToGameObjects.begin();
 }
 
 void GameObjectLogic::notify(const std::string& messageType, Message* message)
