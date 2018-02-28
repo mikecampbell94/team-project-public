@@ -28,15 +28,15 @@
   </ReceiveMessage>
 </GameplayScript>
 
-<!--
-<cPlusPlusStufFThatIWantToCall>
+
+<ObjectLogic>
 	<flipDirection>
 	<>
 	<COndition>
 		<addHealth>
 		<>
 	<>
-<cPlusPlusStufFThatIWantToCall> -->
+</ObjectLogic>
 
 
 </GameObjectLogic>

@@ -39,11 +39,6 @@ GameplaySystem::GameplaySystem(Database* database)
 
 GameplaySystem::~GameplaySystem()
 {
-	//for each (GameObjectLogic node in objects)
-	//{
-	//	delete node;
-	//	node = nullptr;
-	//}
 }
 
 void GameplaySystem::updateSubsystem(const float& deltaTime)
