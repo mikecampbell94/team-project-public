@@ -51,6 +51,7 @@ void GameText::apply()
 		else
 		{
 			viewMatrix = camera->buildViewMatrix();
+			bufferedScales[i].x = -bufferedScales[i].x;
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&perspectiveMatrix);
 		}
 
@@ -61,6 +62,7 @@ void GameText::apply()
 	bufferedText.clear();
 	bufferedPositions.clear();
 	bufferedScales.clear();
+	bufferedOrthographicUsage.clear();
 
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);

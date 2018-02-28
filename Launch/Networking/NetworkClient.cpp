@@ -61,6 +61,15 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 			updateDeadReckoningForConnectedClients();
 			updateRealTimeAccum = 0.0f;
 		}
+
+		for (int i = 0; i < numberOfOtherPlayersToWaitFor; ++i)
+		{
+			const std::string playerName = "player" + to_string(i);
+			GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
+
+			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", playerName,
+				client->getPhysicsNode()->getPosition() + Vector3(-3.5, 1, 0), Vector3(7, 7, 1), false));
+		}
 	}
 	else
 	{
@@ -130,9 +139,6 @@ void NetworkClient::updateDeadReckoningForConnectedClients()
 	{
 		client->second.predictPosition(UPDATE_TIMESTEP);
 		client->second.blendStates(client->first->getPhysicsNode());
-
-		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", client->first->getName(),
-			client->first->getSceneNode()->GetWorldTransform().getPositionVector(), Vector3(20, 20, 1), false));
 	}
 }
 
