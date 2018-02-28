@@ -2,6 +2,7 @@
 
 <Resources>
   <resource>AI</resource>
+  <resource>AI2</resource>
 </Resources>
 
 <GameplayScript>
@@ -9,13 +10,13 @@
     <Action>
 
       <Condition type="AND">
-        <objectIdentifier>AI</objectIdentifier>
+        <objectIdentifier>var</objectIdentifier>
         <colliderIdentifier>floor</colliderIdentifier>
       </Condition>
 
       <SendMessage type="APPLY_IMPULSE">
         <destination>Physics</destination>
-        <resource>AI</resource>
+        <resource>var</resource>
 		    <impulse>
 		      <X>0</X>
 		      <Y>10</Y>

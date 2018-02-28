@@ -266,6 +266,44 @@
       <Friction>0.9</Friction>
     </PhysicsNode>
   </GameObjects>
+  
+  <GameObjects name="AI2" >
+    <SceneNode>
+      <Mesh>SphereMesh</Mesh>
+      <Colour>
+        <R>0</R>
+        <G>1</G>
+        <B>1</B>
+        <A>1</A>
+      </Colour>
+    </SceneNode>
+    <Enabled>True</Enabled>
+    <Position>
+      <X>100</X>
+      <Y>200</Y>
+      <Z>50</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>5</X>
+      <Y>5</Y>
+      <Z>5</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0.5</Elasticity>
+      <Friction>0.9</Friction>
+    </PhysicsNode>
+  </GameObjects>
 
 <GameObjects id ="floor" >
 		<SceneNode>

@@ -20,11 +20,9 @@ public:
 	
 
 private:
-	void compileResources(Node* node);
 	void compileFunctions(Node* node);
 
 	Node* parsedScript;
-	//GameLogic logic;
 	std::map<GameObject*, GameLogic> logicToGameObjects;
 	Database* database;
 	MessageProcessor* messages;

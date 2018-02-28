@@ -2,14 +2,9 @@
 
 void changeResource(Node** node, std::string id)
 {
-	if((*node)->nodeType == "resource" || (*node)->nodeType == "objectIdentifier")
+	if ((*node)->value == "var")
 	{
-		if((*node)->value == "var")
-		{
-			(*node)->value = id;
-			return;
-		}
-		
+		(*node)->value = id;
 	}
 	for each (Node* child in (*node)->children)
 	{
@@ -31,14 +26,6 @@ GameObjectLogic::~GameObjectLogic()
 {
 }
 
-void GameObjectLogic::compileResources(Node* node)
-{
-	
-}
-
-
-
-
 void GameObjectLogic::compileParsedXMLIntoScript()
 {
 	Node* resources = parsedScript->children[0];
@@ -57,21 +44,29 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 		logicToGameObjects[gObj].compileParsedXMLIntoScript(gameLogic);
 	}
 
-	//iterate map
-	//logicToGameObjects[gObj].executeActionsOnStart();
-
-	std::map<std::string, int>::iterator it = logicToGameObjects.begin();
+	for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)
+	{
+		logicToObject->second.executeActionsOnStart();
+	}
 }
 
 void GameObjectLogic::notify(const std::string& messageType, Message* message)
 {
-	//logic.notifyMessageActions(messageType, message);
-	//notify myself of messages which need to be acted upon via hard coded functions
+	for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)
+	{
+		logicToObject->second.notifyMessageActions(messageType, message);
+		//notify myself of messages which need to be acted upon via hard coded functions
+	}
 }
 
 void GameObjectLogic::updatelogic(const float& deltaTime)
 {
-	/*logic.executeMessageBasedActions();
-	logic.executeTimeBasedActions(deltaTime);
-	logic.clearNotifications();*/
+	for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)
+	{
+		logicToObject->second.executeMessageBasedActions();
+		logicToObject->second.executeTimeBasedActions(deltaTime);
+		logicToObject->second.clearNotifications();
+
+		//update hard coded stuff here
+	}
 }
