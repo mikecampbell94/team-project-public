@@ -20,5 +20,6 @@ private:
 	GameLogic gameLogic;
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
+	bool canjump = false;
 };
 

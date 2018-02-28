@@ -41,8 +41,6 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 	InputActionMap newPlayersActions(playerID);
 	inputParser.loadFile("../Data/Resources/Input/configXML.xml");
 	Node* node = inputParser.parsedXml;
-
-
 	//NOW ATTACH NODE
 	GameObject* playerGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource("playerBall"));
 	player->setGameObject(playerGameObject);
@@ -78,7 +76,7 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 			}
 			else if (magnitude->nodeType == "Impulse")
 			{
-				DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Physics", "playerBall", translation));
+				DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Gameplay", "playerBall", translation));
 			}
 		});
 	}

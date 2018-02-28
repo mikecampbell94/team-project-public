@@ -62,6 +62,7 @@ public:
 	std::vector<int> const getKeysToListen();
 	
 	void addKeysToListen(std::vector<int> keysToListen);
+	void removeListenedKey(int key);//TODO
 	void addKeyToListen(int key);
 
 protected:
