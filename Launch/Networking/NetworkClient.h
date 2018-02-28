@@ -40,8 +40,8 @@ private:
 	bool connectedToServer;
 	bool joinedGame;
 
-	std::map<std::string, KinematicState> clientStates;
-	std::map<std::string, DeadReckoning> clientDeadReckonings;
+	std::map<GameObject*, DeadReckoning> clientDeadReckonings;
+	std::set<std::string> recievedClients;
 	float timeSinceLastBroadcast = 0.0f;
 	float msCounter = 0.0f;
 	float updateRealTimeAccum = 0.0f;

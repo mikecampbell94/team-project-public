@@ -11,20 +11,20 @@ struct KinematicState
 	Vector3 position;
 	Vector3 linearVelocity;
 	Vector3 linearAcceleration;
-	float timeStamp;
 };
 
 class DeadReckoning
 {
 public:
+	explicit DeadReckoning(KinematicState prediction);
 	DeadReckoning() {}
 	~DeadReckoning() {}
 
-	void blendStates(PhysicsNode* node, float factor);
+	void blendStates(PhysicsNode* node);
 	void predictPosition(float deltaTime);
 
-	KinematicState prediction;
 private:
-	Vector3 interpolate(Vector3 a, Vector3 b, float factor);
+	KinematicState prediction;
+	float calculateInterpolationFactor(const Vector3& originalPosition);
 };
 

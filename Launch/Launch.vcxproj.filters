@@ -28,6 +28,9 @@
     <ClCompile Include="Networking\DeadReckoning.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Networking\NetworkMessageProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Systems\Subsystem.h" />
@@ -36,5 +39,6 @@
     <ClInclude Include="Startup.h" />
     <ClInclude Include="Networking\NetworkClient.h" />
     <ClInclude Include="Networking\DeadReckoning.h" />
+    <ClInclude Include="Networking\NetworkMessageProcessor.h" />
   </ItemGroup>
 </Project>

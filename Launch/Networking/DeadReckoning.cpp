@@ -1,9 +1,17 @@
 #include "DeadReckoning.h"
 #include "../Physics/PhysicsNode.h"
 
-void DeadReckoning::blendStates(PhysicsNode* node, float factor)
+const float MAX_INTERPOLATION_DISTANCE = 50.0f;
+
+DeadReckoning::DeadReckoning(KinematicState prediction)
 {
-	node->setPosition(interpolate(node->getPosition(), prediction.position, factor));
+	this->prediction = prediction;
+}
+
+void DeadReckoning::blendStates(PhysicsNode* node)
+{
+	const float interpolationFactor = calculateInterpolationFactor(node->getPosition());
+	node->setPosition(Vector3::interpolate(node->getPosition(), prediction.position, interpolationFactor));
 }
 
 void DeadReckoning::predictPosition(float deltaTime)
@@ -12,7 +20,15 @@ void DeadReckoning::predictPosition(float deltaTime)
 	prediction.position += prediction.linearVelocity * deltaTime;
 }
 
-Vector3 DeadReckoning::interpolate(Vector3 a, Vector3 b, float factor)
+float DeadReckoning::calculateInterpolationFactor(const Vector3& originalPosition)
 {
-	return a + ((b - a) * factor);
+	float factor = (prediction.position - originalPosition).length();
+	factor /= MAX_INTERPOLATION_DISTANCE;
+
+	if (factor > 1.0f)
+	{
+		factor = 1.0f;
+	}
+
+	return factor;
 }

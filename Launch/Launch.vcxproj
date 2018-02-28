@@ -155,6 +155,7 @@
     <ClCompile Include="Game\GameLoop.cpp" />
     <ClCompile Include="Launch.cpp" />
     <ClCompile Include="Networking\NetworkClient.cpp" />
+    <ClCompile Include="Networking\NetworkMessageProcessor.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Systems\System.cpp" />
   </ItemGroup>
@@ -162,6 +163,7 @@
     <ClInclude Include="Networking\DeadReckoning.h" />
     <ClInclude Include="Game\GameLoop.h" />
     <ClInclude Include="Networking\NetworkClient.h" />
+    <ClInclude Include="Networking\NetworkMessageProcessor.h" />
     <ClInclude Include="Startup.h" />
     <ClInclude Include="Systems\Subsystem.h" />
     <ClInclude Include="Systems\System.h" />

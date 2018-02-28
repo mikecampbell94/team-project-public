@@ -62,7 +62,6 @@ struct KinematicState
 	Vector3 position;
 	Vector3 linearVelocity;
 	Vector3 linearAcceleration;
-	float timeStamp;
 };
 
 int onExit(int exitcode)

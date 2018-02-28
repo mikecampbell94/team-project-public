@@ -263,7 +263,7 @@ public:
 		linVelocity += impulse;
 	}
 	
-	bool constantForce = false;
+	bool constantAcceleration = false;
 
 	Vector3 startPosition;
 	Vector3 startVelocity;
