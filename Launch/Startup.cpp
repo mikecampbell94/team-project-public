@@ -137,7 +137,7 @@ void Startup::unloadLevel()
 void Startup::beginOnlineLobby(std::string levelFile)
 {
 	engine->addSubsystem(network);
-	network->waitForOtherClients(2);
+	network->waitForOtherClients(3);
 	network->connectToServer();
 	DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
 	loadLevel(levelFile);
