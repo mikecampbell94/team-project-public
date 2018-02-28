@@ -14,14 +14,14 @@
         <colliderIdentifier>floor</colliderIdentifier>
       </Condition>
 
-      <SendMessage type="APPLY_IMPULSE">
+      <SendMessage type="APPLY_FORCE">
         <destination>Physics</destination>
         <resource>var</resource>
-		    <impulse>
+		    <force>
 		      <X>0</X>
-		      <Y>10</Y>
+		      <Y>0.1</Y>
 		      <Z>0</Z>
-		    </impulse>
+		    </force>
       </SendMessage>
 
     </Action>

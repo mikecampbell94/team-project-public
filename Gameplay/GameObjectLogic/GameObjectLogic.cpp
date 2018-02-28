@@ -12,6 +12,18 @@ void changeResource(Node** node, std::string id)
 	}
 }
 
+void changeResourceBack(Node** node, std::string id)
+{
+	if ((*node)->value == id)
+	{
+		(*node)->value = "var";
+	}
+	for each (Node* child in (*node)->children)
+	{
+		changeResourceBack(&child, id);
+	}
+}
+
 GameObjectLogic::GameObjectLogic(Database* database, MessageProcessor* messages, std::string script)
 {
 	this->database = database;
@@ -29,19 +41,27 @@ GameObjectLogic::~GameObjectLogic()
 void GameObjectLogic::compileParsedXMLIntoScript()
 {
 	Node* resources = parsedScript->children[0];
-	
+	Node* gameLogicNode = parsedScript->children[1];
 	//Node* cStuff = parsedScript->children[2];
 
 	for each (Node* resource in resources->children)
 	{
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(resource->value));
 
-		Node* gameLogic = parsedScript->children[1];
+		std::string first = gameLogicNode->children[0]->children[0]->children[0]->children[0]->value;
 
-		changeResource(&(gameLogic), resource->value);
+		changeResource(&(gameLogicNode), resource->value);
 		
-		logicToGameObjects[gObj] = GameLogic(messages);
-		logicToGameObjects[gObj].compileParsedXMLIntoScript(gameLogic);
+		std::string second = gameLogicNode->children[0]->children[0]->children[0]->children[0]->value;
+
+		logicToGameObjects.insert({ gObj, GameLogic(messages) });
+		logicToGameObjects.at(gObj).compileParsedXMLIntoScript(gameLogicNode);
+
+		changeResourceBack(&(gameLogicNode), resource->value);
+		
+		std::string third = gameLogicNode->children[0]->children[0]->children[0]->children[0]->value;
+
+		int x = 0;
 	}
 
 	for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)

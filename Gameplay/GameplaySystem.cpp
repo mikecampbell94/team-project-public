@@ -29,23 +29,21 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		gameLogic.notifyMessageActions("CollisionMessage", message);
 		
-		for each (GameObjectLogic* object in objects)
+		for (GameObjectLogic& object : objects)
 		{
-			object->notify("CollisionMessage", message);
+			object.notify("CollisionMessage", message);
 		}
 
 	});
-
-	objects.push_back(new GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/testObjectLogic.xml"));
 }
 
 GameplaySystem::~GameplaySystem()
 {
-	for each (GameObjectLogic* node in objects)
-	{
-		delete node;
-		node = nullptr;
-	}
+	//for each (GameObjectLogic node in objects)
+	//{
+	//	delete node;
+	//	node = nullptr;
+	//}
 }
 
 void GameplaySystem::updateSubsystem(const float& deltaTime)
@@ -54,9 +52,9 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
 	gameLogic.clearNotifications();
 
-	for each (GameObjectLogic* object in objects)
+	for each (GameObjectLogic object in objects)
 	{
-		object->updatelogic(deltaTime * 0.001f);
+		object.updatelogic(deltaTime * 0.001f);
 	}
 }
 
@@ -72,15 +70,19 @@ void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
 
 void GameplaySystem::compileGameplayScript(std::string levelScript)
 {
+	objects.clear();
+
 	XMLParser xmlParser;
 	xmlParser.loadFile(levelScript);
 	gameLogic = GameLogic(&incomingMessages);
 	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
 	gameLogic.executeActionsOnStart();
 
-	for each (GameObjectLogic* object in objects)
+	objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/testObjectLogic.xml"));
+
+	for (GameObjectLogic& object : objects)
 	{
-		object->compileParsedXMLIntoScript();
+		object.compileParsedXMLIntoScript();
 	}
 }
 
