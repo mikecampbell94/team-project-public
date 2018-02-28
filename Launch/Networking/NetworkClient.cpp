@@ -8,70 +8,22 @@
 #include "../Physics/PhysicsNode.h"
 #include <ctime>
 
-enum PACKET_TYPE
-{
-	APPLY_FORCE_PACKET,
-	POSITION_PACKET
-};
-
-struct PlayerPacket
-{
-	int type;
-	int id;
-	float x;
-	float y;
-	float z;
-};
-
 const float UPDATE_FREQUENCY = 50.0f;
+const float MAX_INTERPOLATION_DISTANCE = 50.0f;
+const float UPDATE_TIMESTEP = 1.0f / 60.0f;
 
 NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database,
 	PlayerBase* playerbase, GameplaySystem* gameplay) : Subsystem("NetworkClient")
 {
-	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::APPLY_FORCE, MessageType::UPDATE_POSITION }, 
+	incomingMessages = MessageProcessor(std::vector<MessageType> {}, 
 		DeliverySystem::getPostman()->getDeliveryPoint("NetworkClient"));
-
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [&serverConnection = serverConnection, &clientID = clientID](Message* message)
-	{
-		ApplyForceMessage* forceMessage = static_cast<ApplyForceMessage*>(message);
-
-		PlayerPacket forcePacket;
-		forcePacket.type = APPLY_FORCE_PACKET;
-		forcePacket.id = clientID;
-		forcePacket.x = forceMessage->force.x;
-		forcePacket.y = forceMessage->force.y;
-		forcePacket.z = forceMessage->force.z;
-
-		//ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(PlayerPacket), 0);
-		//enet_peer_send(serverConnection, 0, packet);
-	});
-
-	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [&serverConnection = serverConnection,
-		&clientID = clientID, &isConnected = isConnected](Message* message)
-	{
-		if (isConnected)
-		{
-			UpdatePositionMessage* forceMessage = static_cast<UpdatePositionMessage*>(message);
-
-			PlayerPacket forcePacket;
-			forcePacket.type = POSITION_PACKET;
-			forcePacket.id = clientID;
-			forcePacket.x = forceMessage->position.x;
-			forcePacket.y = forceMessage->position.y;
-			forcePacket.z = forceMessage->position.z;
-
-			//ENetPacket* packet = enet_packet_create(&forcePacket, sizeof(PlayerPacket), 0);
-			//enet_peer_send(serverConnection, 0, packet);
-		}
-	});
 
 	this->keyboardAndMouse = keyboardAndMouse;
 	this->playerbase = playerbase;
 	this->gameplay = gameplay;
 	this->database = database;
-	isNetworkUp = false;
-	isConnected = false;
-	updateTimestep = 1.0f / 60.f;
+	connectedToServer = false;
+	joinedGame = false;
 	updateRealTimeAccum = 0.0f;
 }
 
@@ -83,137 +35,18 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 {
 	timeSinceLastBroadcast += deltaTime;
 	msCounter += deltaTime;
-
-	if (timeSinceLastBroadcast >= UPDATE_FREQUENCY && isConnected)
-	{
-		timeSinceLastBroadcast = 0.0f;
-
-		const std::string playerName = "player" + to_string(clientID);
-		GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
-
-		KinematicState state;
-		state.id = clientID;
-		state.position = client->getPhysicsNode()->getPosition();
-		state.linearVelocity = client->getPhysicsNode()->getLinearVelocity();
-		state.linearAcceleration = client->getPhysicsNode()->getAcceleration();
-		state.timeStamp = msCounter;
-
-		ENetPacket* packet = enet_packet_create(&state, sizeof(KinematicState), 0);
-		enet_peer_send(serverConnection, 0, packet);
-	}
-
-	float currentTime = (float)(std::clock() / CLOCKS_PER_SEC);
-
 	updateRealTimeAccum += deltaTime;
 
-	for (auto client = clientDeadReckonings.begin(); client != clientDeadReckonings.end(); ++client)
+	if (timeSinceLastBroadcast >= UPDATE_FREQUENCY && joinedGame)
 	{
-		for (int i = 0; (updateRealTimeAccum >= updateTimestep) && i < 1; ++i)
-		{
-			GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
-
-			client->second.predictPosition(updateTimestep);
-
-			float factor = (client->second.prediction.position - clientGameObject->getPhysicsNode()->getPosition()).length();//(msCounter - client->second.prediction.timeStamp) / UPDATE_FREQUENCY;
-			factor /= 50.0f;
-
-			std::cout << factor << std::endl;
-
-			if (factor > 1.0f)
-			{
-				factor = 1.0f;
-			}
-
-				//clientGameObject->getPhysicsNode()->factor = factor;
-				//DeadReckoning::blendStates(clientGameObject->getPhysicsNode(), client->second, factor);
-
-				client->second.blendStates(clientGameObject->getPhysicsNode(), factor);
-		}
-		
+		broadcastKinematicState();
 	}
 
-	if (isNetworkUp)
+	updateDeadReckoningForConnectedClients();
+
+	if (connectedToServer)
 	{
-		network.ServiceNetwork(0, [&serverConnection = serverConnection, &gameplay = gameplay,
-			&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, 
-			&isConnected = isConnected, &clientStates = clientStates, &database = database,
-			&msCounter = msCounter, &clientDeadReckonings = clientDeadReckonings](const ENetEvent& evnt)
-		{
-			switch (evnt.type)
-			{
-			case ENET_EVENT_TYPE_CONNECT:
-			{
-				if (evnt.peer == serverConnection)
-				{
-					//Send a 'hello' packet
-					char* text_data = "Connected to server";
-					ENetPacket* packet = enet_packet_create(text_data, strlen(text_data) + 1, 0);
-					enet_peer_send(serverConnection, 0, packet);
-				}
-			}
-			break;
-
-			case ENET_EVENT_TYPE_RECEIVE:
-			{
-				printf("\t Server %d says: %s\n", evnt.peer->incomingPeerID, evnt.packet->data);
-
-				if (evnt.packet->dataLength == sizeof(int))
-				{
-					memcpy(&clientID, evnt.packet->data, sizeof(int));
-
-					playerbase->addNewPlayer(keyboardAndMouse, clientID);
-					gameplay->connectPlayerbase(playerbase);
-					isConnected = true;
-				}
-				else if (evnt.packet->dataLength == sizeof(KinematicState) && isConnected)
-				{
-					KinematicState recievedState;
-					memcpy(&recievedState, evnt.packet->data, sizeof(KinematicState));
-
-					if (recievedState.id != clientID)
-					{
-						const std::string playerName = "player" + to_string(recievedState.id);
-
-						GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
-						client->getPhysicsNode()->constantForce = true;
-						recievedState.timeStamp = msCounter;
-						
-						//client->getPhysicsNode()->setPosition(recievedState.position);
-						client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
-						client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
-
-						//client->getPhysicsNode()->startPosition = client->getPhysicsNode()->getPosition();
-						//client->getPhysicsNode()->startVelocity = client->getPhysicsNode()->getLinearVelocity();
-						//client->getPhysicsNode()->startAcceleration = client->getPhysicsNode()->getAcceleration();
-
-						DeadReckoning update;
-						update.prediction = recievedState;
-
-						if (clientStates.find(playerName) != clientStates.end())
-						{
-							clientStates.at(playerName) = recievedState;
-						}
-						else
-						{
-							clientStates.insert({ playerName, recievedState });
-						}
-
-						if (clientDeadReckonings.find(playerName) != clientDeadReckonings.end())
-						{
-							clientDeadReckonings.at(playerName) = update;
-						}
-						else
-						{
-							clientDeadReckonings.insert({ playerName, update });
-						}
-					}
-				}
-
-				enet_packet_destroy(evnt.packet);
-			}
-			break;
-			}
-		});
+		processNetworkMessages(deltaTime);
 	}
 }
 
@@ -222,6 +55,114 @@ void NetworkClient::connectToServer()
 	if (network.Initialize(0))
 	{
 		serverConnection = network.ConnectPeer(10, 70, 33, 11, 1234);
-		isNetworkUp = true;
+		connectedToServer = true;
 	}
+}
+
+void NetworkClient::broadcastKinematicState()
+{
+	timeSinceLastBroadcast = 0.0f;
+
+	const std::string playerName = "player" + to_string(clientID);
+	GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
+
+	KinematicState state;
+	state.id = clientID;
+	state.position = client->getPhysicsNode()->getPosition();
+	state.linearVelocity = client->getPhysicsNode()->getLinearVelocity();
+	state.linearAcceleration = client->getPhysicsNode()->getAcceleration();
+	state.timeStamp = msCounter;
+
+	ENetPacket* packet = enet_packet_create(&state, sizeof(KinematicState), 0);
+	enet_peer_send(serverConnection, 0, packet);
+}
+
+void NetworkClient::updateDeadReckoningForConnectedClients()
+{
+	if (updateRealTimeAccum >= UPDATE_TIMESTEP)
+	{
+		for (auto client = clientDeadReckonings.begin(); client != clientDeadReckonings.end(); ++client)
+		{
+			GameObject* clientGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(client->first));
+
+			client->second.predictPosition(UPDATE_TIMESTEP);
+
+			float factor = (client->second.prediction.position - clientGameObject->getPhysicsNode()->getPosition()).length();
+			factor /= MAX_INTERPOLATION_DISTANCE;
+
+			if (factor > 1.0f)
+			{
+				factor = 1.0f;
+			}
+
+			client->second.blendStates(clientGameObject->getPhysicsNode(), factor);
+		}
+
+	}
+	updateRealTimeAccum = 0.0f;
+}
+
+void NetworkClient::processNetworkMessages(const float& deltaTime)
+{
+	network.ServiceNetwork(deltaTime, [&serverConnection = serverConnection, &gameplay = gameplay,
+		&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID,
+		&joinedGame = joinedGame, &clientStates = clientStates, &database = database,
+		&msCounter = msCounter, &clientDeadReckonings = clientDeadReckonings](const ENetEvent& evnt)
+	{
+		switch (evnt.type)
+		{
+		case ENET_EVENT_TYPE_RECEIVE:
+		{
+			if (evnt.packet->dataLength == sizeof(int))
+			{
+				memcpy(&clientID, evnt.packet->data, sizeof(int));
+
+				playerbase->addNewPlayer(keyboardAndMouse, clientID);
+				gameplay->connectPlayerbase(playerbase);
+				joinedGame = true;
+			}
+			else if (evnt.packet->dataLength == sizeof(KinematicState) && joinedGame)
+			{
+				KinematicState recievedState;
+				memcpy(&recievedState, evnt.packet->data, sizeof(KinematicState));
+
+				if (recievedState.id != clientID)
+				{
+					const std::string playerName = "player" + to_string(recievedState.id);
+
+					GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
+					client->getPhysicsNode()->constantForce = true;
+					recievedState.timeStamp = msCounter;
+
+					client->getPhysicsNode()->setLinearVelocity(recievedState.linearVelocity);
+					client->getPhysicsNode()->setAcceleration(recievedState.linearAcceleration);
+
+					DeadReckoning update;
+					update.prediction = recievedState;
+
+					if (clientStates.find(playerName) != clientStates.end())
+					{
+						clientStates.at(playerName) = recievedState;
+					}
+					else
+					{
+						clientStates.insert({ playerName, recievedState });
+					}
+
+					if (clientDeadReckonings.find(playerName) != clientDeadReckonings.end())
+					{
+						clientDeadReckonings.at(playerName) = update;
+					}
+					else
+					{
+						clientDeadReckonings.insert({ playerName, update });
+					}
+				}
+			}
+
+			enet_packet_destroy(evnt.packet);
+		}
+		break;
+		}
+	});
 }

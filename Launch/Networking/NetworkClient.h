@@ -23,6 +23,10 @@ public:
 	void connectToServer();
 
 private:
+	void broadcastKinematicState();
+	void updateDeadReckoningForConnectedClients();
+	void processNetworkMessages(const float& deltaTime);
+
 	int clientID;
 
 	NetworkBase network;
@@ -33,13 +37,13 @@ private:
 	GameplaySystem* gameplay;
 	Database* database;
 
-	bool isNetworkUp;
-	bool isConnected;
+	bool connectedToServer;
+	bool joinedGame;
+
 	std::map<std::string, KinematicState> clientStates;
 	std::map<std::string, DeadReckoning> clientDeadReckonings;
 	float timeSinceLastBroadcast = 0.0f;
 	float msCounter = 0.0f;
 	float updateRealTimeAccum = 0.0f;
-	float updateTimestep;
 };
 

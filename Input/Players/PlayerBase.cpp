@@ -79,7 +79,6 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 
 			Vector3 translation(xPosition, yPosition, zPosition);
 			DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", playerName, translation));
-			DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("NetworkClient", playerName, translation));
 		});
 	}
 

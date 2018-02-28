@@ -97,8 +97,6 @@ int main(int arcg, char** argv)
 	while (true)
 	{
 		float dt = timer.getMillisecondsSinceStart() * 0.001f;
-		accum_time += dt;
-		rotation += 0.5f * PI * dt;
 
 		//Handle All Incoming Packets and Send any enqued packets
 		server.ServiceNetwork(dt, [&](const ENetEvent& evnt)

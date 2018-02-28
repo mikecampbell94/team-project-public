@@ -35,9 +35,6 @@ void InputManager::updateSubsystem(const float& deltatime)
 		{
 			DeliverySystem::getPostman()->insertMessage(PlayerInputMessage("Gameplay", player, singleInput));
 		}
-
-		DeliverySystem::getPostman()->insertMessage(UpdatePositionMessage("NetworkClient", "player" + to_string(player->getPlayerID()),
-			player->getGameObject()->getPhysicsNode()->getPosition()));
 	}
 }
 
