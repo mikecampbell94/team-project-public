@@ -128,11 +128,11 @@ void NetworkClient::updateDeadReckoningForConnectedClients()
 {
 	for (auto client = clientDeadReckonings.begin(); client != clientDeadReckonings.end(); ++client)
 	{
-		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", client->first->getName(),
-			client->first->getSceneNode()->GetWorldTransform().getPositionVector(), Vector3(5, 5, 1), false));
-
 		client->second.predictPosition(UPDATE_TIMESTEP);
 		client->second.blendStates(client->first->getPhysicsNode());
+
+		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", client->first->getName(),
+			client->first->getSceneNode()->GetWorldTransform().getPositionVector(), Vector3(20, 20, 1), false));
 	}
 }
 
