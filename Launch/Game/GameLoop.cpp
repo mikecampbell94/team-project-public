@@ -98,11 +98,12 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 
 			if (tokens[1] == "True")
 			{
-				startup->beginOnlineLobby(tokens[2]);
+				startup->beginOnlineLobby();
+				startup->loadLevel(tokens[2], true);
 			}
 			else
 			{
-				startup->loadLevel(tokens[2]);
+				startup->loadLevel(tokens[2], false);
 			}
 		}
 		else if (tokens[0] == "deltatime")

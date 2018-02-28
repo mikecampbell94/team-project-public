@@ -115,12 +115,17 @@ void Startup::loadMainMenu()
 	userInterface->initialise(database);
 }
 
-void Startup::loadLevel(std::string levelFile)
+void Startup::loadLevel(std::string levelFile, bool online)
 {
 	physics->InitialiseOctrees(10);
 	level->loadLevelFile(levelFile);
-	//playerbase->addNewPlayer(keyboardAndMouse);
-	//gameplay->connectPlayerbase(inputManager->GetPlayerbase());
+
+	if (!online)
+	{
+		playerbase->addNewPlayer(keyboardAndMouse, 0);
+		gameplay->connectPlayerbase(inputManager->GetPlayerbase());
+	}
+
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	//gameplay->compileFSMScript("../Data/FSM Scripts\testFSM.xml");
 }
@@ -135,13 +140,12 @@ void Startup::unloadLevel()
 	level->unloadLevel();
 }
 
-void Startup::beginOnlineLobby(std::string levelFile)
+void Startup::beginOnlineLobby()
 {
 	engine->addSubsystem(network);
 	network->waitForOtherClients(3);
 	network->connectToServer();
 	DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
-	loadLevel(levelFile);
 }
 
 void Startup::startGameLoop()
