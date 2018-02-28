@@ -1,44 +1,75 @@
 #include "GameObjectLogic.h"
 
-GameObjectLogic::GameObjectLogic(Database* database, MessageProcessor* messages)
+void changeResource(Node** node, std::string id)
+{
+	if((*node)->nodeType == "resource" || (*node)->nodeType == "objectIdentifier")
+	{
+		if((*node)->value == "var")
+		{
+			(*node)->value = id;
+			return;
+		}
+		
+	}
+	for each (Node* child in (*node)->children)
+	{
+		changeResource(&child, id);
+	}
+}
+
+GameObjectLogic::GameObjectLogic(Database* database, MessageProcessor* messages, std::string script)
 {
 	this->database = database;
-	logic = GameLogic(messages);
+	this->messages = messages;
+
+	XMLParser parser;
+	parser.loadFile(script);
+	parsedScript = parser.parsedXml;
 }
 
 GameObjectLogic::~GameObjectLogic()
 {
 }
 
-void GameObjectLogic::compileParsedXMLIntoScript(Node* xmlNode)
+void GameObjectLogic::compileResources(Node* node)
 {
-	//child 0 -> is my resource...retrieve it.
-	//logic.compileParsedXMLIntoScript(/*child 1*/)
-	//compile game object logic with chidl 2
-
-	Node* nodeOne = xmlNode->children[0];
-	Node* nodeTwo = xmlNode->children[1];
-	Node* nodeThree = xmlNode->children[2];
-
-	gameObject = static_cast<GameObject*>(database->getTable("GameObject")->getResource(nodeOne->value));
-
-
-	logic.compileParsedXMLIntoScript(nodeTwo);
-
 	
-	//Function to compile third node into hard coded c++
-
-	logic.executeActionsOnStart();
 }
 
-void notify(message from gameplay subsystem)
+
+
+
+void GameObjectLogic::compileParsedXMLIntoScript()
 {
-	logic.notfiy
-	notify all hard coded stuff
+	Node* resources = parsedScript->children[0];
+	
+	//Node* cStuff = parsedScript->children[2];
+
+	for each (Node* resource in resources->children)
+	{
+		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(resource->value));
+
+		Node* gameLogic = parsedScript->children[1];
+
+		changeResource(&(gameLogic), resource->value);
+		
+		logicToGameObjects[gObj] = GameLogic(messages);
+		logicToGameObjects[gObj].compileParsedXMLIntoScript(gameLogic);
+	}
+
+	//iterate map
+	//logicToGameObjects[gObj].executeActionsOnStart();
 }
 
-void updatelogic(...)
+void GameObjectLogic::notify(const std::string& messageType, Message* message)
 {
-	update logic
-	update hardcoded c++ stuff
+	//logic.notifyMessageActions(messageType, message);
+	//notify myself of messages which need to be acted upon via hard coded functions
+}
+
+void GameObjectLogic::updatelogic(const float& deltaTime)
+{
+	/*logic.executeMessageBasedActions();
+	logic.executeTimeBasedActions(deltaTime);
+	logic.clearNotifications();*/
 }

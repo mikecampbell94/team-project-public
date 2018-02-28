@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Communication/Message.h"
 #include "../Gameplay/GameObject.h"
 #include "../Gameplay/Scripting/ActionBuilder.h"
 #include "../Resource Management/Database/Database.h"
@@ -10,21 +11,21 @@ class Database;
 class GameObjectLogic
 {
 public:
-	GameObjectLogic(Database* database, MessageProcessor* messages);
+	GameObjectLogic(Database* database, MessageProcessor* messages, std::string script);
 	~GameObjectLogic();
 
-	void compileParsedXMLIntoScript(Node* xmlNode);
-	/*{
-		GameLogic.compile[0]...
-		MyClass.compile[1]
-	}*/
-
-	
+	void compileParsedXMLIntoScript();
+	void notify(const std::string& messageType, Message* message);
+	void updatelogic(const float& deltaTime);
 	
 
 private:
-	GameLogic logic;
-	GameObject* gameObject;
+	void compileResources(Node* node);
+	void compileFunctions(Node* node);
+
+	Node* parsedScript;
+	//GameLogic logic;
+	std::map<GameObject*, GameLogic> logicToGameObjects;
 	Database* database;
 };
 

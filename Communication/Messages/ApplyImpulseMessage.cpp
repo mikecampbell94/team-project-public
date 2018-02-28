@@ -18,11 +18,11 @@ ApplyImpulseMessage ApplyImpulseMessage::builder(Node* node)
 
 	for each (Node* childNode in node->children)
 	{
-		if(childNode->nodeType == destination)
+		if(childNode->nodeType == "destination")
 		{
 			destination = childNode->value;
 		}
-		else if (childNode->nodeType == "gameObjectID")
+		else if (childNode->nodeType == "resource")
 		{
 			object = childNode->value;
 		}
