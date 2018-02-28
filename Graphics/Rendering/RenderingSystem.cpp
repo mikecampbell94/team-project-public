@@ -30,7 +30,7 @@ RenderingSystem::~RenderingSystem()
 void RenderingSystem::initialise(Database* database)
 {
 
-	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM,
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::TEXT_MESH_MESSAGE, MessageType::RELATIVE_TRANSFORM,
 		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
 		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT};
 
@@ -42,12 +42,12 @@ void RenderingSystem::initialise(Database* database)
 		std::cout << textMessage->text << std::endl;
 	});
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)
 	{
-		PlayerInputMessage* playerMessage = static_cast<PlayerInputMessage*>(message);
-		std::cout << "Player : " << playerMessage->player->getPlayerID() << std::endl;
-		std::cout << "key : " << playerMessage->data.key << std::endl;
-		std::cout << "State : " << playerMessage->data.currentState << std::endl;
+		TextMeshMessage* textMessage = static_cast<TextMeshMessage*>(message);
+
+		static_cast<GameText*>(renderer->getGraphicsModule("GameText"))->bufferText(
+			textMessage->text, textMessage->position, textMessage->scale, textMessage->orthographic);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)

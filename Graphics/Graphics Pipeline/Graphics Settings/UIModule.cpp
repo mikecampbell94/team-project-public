@@ -3,6 +3,7 @@
 #include "../../GraphicsCommon.h"
 #include "../Resource Management/Database/Database.h"
 #include "UserInterfaceDisplay.h"
+#include <iterator>
 
 UIModule::UIModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution,
 	Database* database) : GraphicsModule(identifier, projMatrix, resolution)

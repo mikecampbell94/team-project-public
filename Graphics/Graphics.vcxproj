@@ -143,6 +143,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\GameText.h" />
     <ClInclude Include="Graphics Pipeline\Graphics Settings\UIModule.h" />
     <ClInclude Include="Meshes\TextMesh.h" />
     <ClInclude Include="Graphics Pipeline\Graphics Settings\PaintTrail.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Shaders\Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\GameText.cpp" />
     <ClCompile Include="Graphics Pipeline\Graphics Settings\PaintTrail.cpp" />
     <ClCompile Include="Rendering\RenderingSystem.cpp" />
     <ClCompile Include="Graphics Pipeline\Graphics Settings\UIModule.cpp" />

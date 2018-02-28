@@ -49,5 +49,8 @@ private:
 	float timeSinceLastBroadcast = 0.0f;
 	float msCounter = 0.0f;
 	float updateRealTimeAccum = 0.0f;
+
+	int numberOfFramesInLobby = 0;
+	int numDots = 0;
 };
 

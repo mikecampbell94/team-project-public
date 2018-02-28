@@ -138,6 +138,7 @@
     <ClInclude Include="Messages\PreparePaintSurfaceMessage.h" />
     <ClInclude Include="Messages\PaintTrailForGameObjectMessage.h" />
     <ClInclude Include="Messages\UpdatePositionMessage.h" />
+    <ClInclude Include="Messages\TextMeshMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Messages\CollisionMessage.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Messages\PreparePaintSurfaceMessage.cpp" />
     <ClCompile Include="Messages\PaintTrailForGameObjectMessage.cpp" />
     <ClCompile Include="Messages\UpdatePositionMessage.cpp" />
+    <ClCompile Include="Messages\TextMeshMessage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

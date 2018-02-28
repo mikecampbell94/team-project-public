@@ -18,6 +18,7 @@
 #include "Graphics Settings/BasicGeometry.h"
 #include "Graphics Settings/UIModule.h"
 #include "Graphics Settings/PaintTrail.h"
+#include "Graphics Settings/GameText.h"
 
 class Database;
 class Camera;
@@ -50,5 +51,6 @@ private:
 	BPLighting *bpLighting;
 	UIModule* uiModule;
 	PaintTrail* paintTrail;
+	GameText* gameText;
 };
 

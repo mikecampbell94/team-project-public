@@ -62,6 +62,29 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 			updateRealTimeAccum = 0.0f;
 		}
 	}
+	else
+	{
+		if (numberOfFramesInLobby == 30)
+		{
+			++numDots;
+			numberOfFramesInLobby = 0;
+		}
+
+		if (numDots == 4)
+		{
+			numDots = 0;
+		}
+
+		std::string wait = "Waiting for players";
+		for (int i = 0; i < numDots; ++i)
+		{
+			wait += ".";
+		}
+
+		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", wait,
+			Vector3(-200, 0, 0), Vector3(20, 20, 1), true));
+		++numberOfFramesInLobby;
+	}
 
 	if (connectedToServer)
 	{
@@ -105,6 +128,9 @@ void NetworkClient::updateDeadReckoningForConnectedClients()
 {
 	for (auto client = clientDeadReckonings.begin(); client != clientDeadReckonings.end(); ++client)
 	{
+		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", client->first->getName(),
+			client->first->getSceneNode()->GetWorldTransform().getPositionVector(), Vector3(5, 5, 1), false));
+
 		client->second.predictPosition(UPDATE_TIMESTEP);
 		client->second.blendStates(client->first->getPhysicsNode());
 	}

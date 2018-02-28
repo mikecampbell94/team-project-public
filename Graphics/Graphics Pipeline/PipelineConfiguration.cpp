@@ -59,6 +59,10 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthog
 	uiModule = new UIModule("UIModule", orthographicMatrix, resolution, database);
 	uiModule->linkShaders();
 	uiModule->initialise();
+
+	gameText = new GameText("GameText", orthographicMatrix, projmatrix, resolution, camera);
+	gameText->linkShaders();
+	gameText->initialise();
 }
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
@@ -70,4 +74,5 @@ void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 	pipeline->addModule(ssao);
 	pipeline->addModule(bpLighting);
 	pipeline->addModule(uiModule);
+	pipeline->addModule(gameText);
 }
