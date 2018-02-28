@@ -10,6 +10,8 @@
 #include "Resource Management/Level.h"
 #include "../../Input/Recorders/KeyboardMouseRecorder.h"
 
+class NetworkClient;
+
 class Database;
 
 class Startup
@@ -26,6 +28,8 @@ public:
 	void loadLevel(std::string levelFile);
 	void switchLevel();
 	void unloadLevel();
+
+	void beginOnlineLobby(std::string levelFile);
 
 private:
 	void initialiseRenderingSystem();
@@ -54,6 +58,7 @@ private:
 	AudioSystem* audio;
 	PhysicsEngine* physics;
 	UserInterface* userInterface;
+	NetworkClient* network;
 
 	GameTimer* loopTimer;
 	Window* window;

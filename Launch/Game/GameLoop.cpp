@@ -11,6 +11,7 @@
 #include "../../Input/Recorders/KeyboardMouseRecorder.h"
 #include "Communication/Messages/PlaySoundMessage.h"
 #include "../Startup.h"
+#include <iterator>
 
 GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 {
@@ -78,18 +79,42 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 	incomingMessages = MessageProcessor(std::vector<MessageType>{ MessageType::TEXT},
 		DeliverySystem::getPostman()->getDeliveryPoint("GameLoop"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [startup = startup, &quit = quit](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [startup = startup, &quit = quit,
+		&deltaTimeMultiplier = deltaTimeMultiplier](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
-		if (textMessage->text == "Quit")
+		istringstream iss(textMessage->text);
+		vector<string> tokens{ istream_iterator<string>{iss},
+			std::istream_iterator<string>{} };
+
+		if (tokens[0] == "Quit")
 		{
 			quit = true;
 		}
-		else if (textMessage->text == "Start")
+		else if (tokens[0] == "Start")
 		{
 			startup->switchLevel();
-			startup->loadLevel("TestLevel.txt");
+
+			if (tokens[1] == "True")
+			{
+				startup->beginOnlineLobby(tokens[2]);
+			}
+			else
+			{
+				startup->loadLevel(tokens[2]);
+			}
+		}
+		else if (tokens[0] == "deltatime")
+		{
+			if (tokens[1] == "enable")
+			{
+				deltaTimeMultiplier = 1.0f;
+			}
+			else if (tokens[1] == "disable")
+			{
+				deltaTimeMultiplier = 0.0f;
+			}
 		}
 	});
 }
@@ -108,7 +133,7 @@ void GameLoop::executeGameLoop()
 
 	while (window->updateWindow() && !quit)
 	{
-		float deltaTime = loopTimer->getTimeSinceLastRetrieval();
+		float deltaTime = loopTimer->getTimeSinceLastRetrieval() * deltaTimeMultiplier;
 
 		engine->updateNextSystemFrame(deltaTime);
 		updateGameObjects();

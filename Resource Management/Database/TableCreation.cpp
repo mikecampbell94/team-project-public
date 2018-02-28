@@ -8,7 +8,7 @@
 
 #include "../../Audio/Sound.h"
 
-const size_t MAX_MEMORY_PER_TABLE = 5000;
+const size_t MAX_MEMORY_PER_TABLE = 50000;
 
 TableCreation::TableCreation(Database* database)
 {

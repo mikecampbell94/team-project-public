@@ -1,24 +1,65 @@
-<ReceiveMessage type="PlayerInputMessage">
-	<Action>
-		<Condition bool ="OR">
-			<playerID>0</playerID>
-			<playerID>1</playerID>
-		</Condition>
-		<SendMessage type="DUMMY_TYPE">
+<GameplayScript>
+  <OnStart>
+    <SendMessage type="TOGGLE_GRAPHICS_MODULE">
+      <destination>RenderingSystem</destination>
+      <moduleName>PaintTrail</moduleName>
+      <enabled>True</enabled>
+    </SendMessage>
+    
+    <SendMessage type="PREPARE_PAINT_SURFACE">
+      <destination>RenderingSystem</destination>
+      <resource>floor</resource>
+    </SendMessage>
+  </OnStart>
+  
+  <ReceiveMessage type="CollisionMessage">
+    <Action>
+      <Condition type="AND">
+        <objectIdentifier>player0</objectIdentifier>
+        <colliderIdentifier>floor</colliderIdentifier>
+      </Condition>
+
+      <SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
+        <destination>RenderingSystem</destination>
+        <resource>player0</resource>
+      </SendMessage>
+    </Action>
+  </ReceiveMessage>
+
+  <ReceiveMessage type="CollisionMessage">
+    <Action>
+      <Condition type="AND">
+        <objectIdentifier>enemy</objectIdentifier>
+        <colliderIdentifier>floor</colliderIdentifier>
+      </Condition>
+
+      <SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
+        <destination>RenderingSystem</destination>
+        <resource>enemy</resource>
+      </SendMessage>
+    </Action>
+  </ReceiveMessage>
+  
+  <Timed interval="0.01">
+    <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
+      <destination>RenderingSystem</destination>
+      <resource>player0</resource>
+      <translation>
+        <x>0</x>
+        <y>100</y>
+        <z>-60</z>
+      </translation>
+      <rotation>
+        <pitch>-40</pitch>
+        <yaw>180</yaw>
+      </rotation>
+    </SendMessage>
+	</Timed>
+  
+	<Timed interval="2.0">
+		<SendMessage type="TEXT">
 			<destination>RenderingSystem</destination>
+			<text>every 2 seconds</text>
 		</SendMessage>
-	</Action>
-</ReceiveMessage>
-<Timed interval=5.0>
-	<Action>
-		<SendMessage type="DUMMY_TYPE">
-			<destination>RenderingSystem</destination>
-		</SendMessage>
-	</Action>
-</Timed>
-	<Action>
-		<SendMessage type="TRANSLATE_SCENE_NODE">
-			<destination>RenderingSystem</destination>
-		
-		</SendMessage>
-	</Action>
+	</Timed>
+</GameplayScript>

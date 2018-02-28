@@ -21,7 +21,7 @@ BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
 
 	this->shadowData = shadowData;
 
-	lightingPassShader = new Shader(SHADERDIR"/SSAO/ssao_lightingvert.glsl", SHADERDIR"/SSAO/ssao_lightingfrag.glsl", "", true);
+	lightingPassShader = new Shader(SHADERDIR"/SSAO/ssao_lightingvert.glsl", SHADERDIR"/SSAO/ssao_lightingfrag.glsl");
 }
 
 

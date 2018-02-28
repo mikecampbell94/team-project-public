@@ -2,6 +2,7 @@
 
 #include "UserInterfaceBuilder.h"
 #include "../Communication/DeliverySystem.h"
+#include "../Resource Management/XMLParser.h"
 
 ButtonActionCreator::ButtonActionCreator()
 {
@@ -12,12 +13,6 @@ ButtonActionCreator::ButtonActionCreator()
 	actions.insert({"PrintText", []()
 	{
 		std::cout << "Button pressed" << std::endl;
-	} });
-
-	actions.insert({ "Start", []()
-	{
-		DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "Start"));
-		DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", false));
 	} });
 
 	actions.insert({ "Quit", []()
@@ -60,7 +55,18 @@ ButtonActionCreator::~ButtonActionCreator()
 {
 }
 
-ButtonAction ButtonActionCreator::createButtonAction(std::string action)
+ButtonAction ButtonActionCreator::createButtonAction(Node* actionNode)
 {
-	return actions.at(action);
+	if (actionNode->name == "Start")
+	{
+		return [node = actionNode]()
+		{
+			DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "Start " + node->children[0]->value + " " + node->children[1]->value));
+			DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", false));
+		};
+	}
+	else 
+	{
+		return actions.at(actionNode->value);
+	}
 }

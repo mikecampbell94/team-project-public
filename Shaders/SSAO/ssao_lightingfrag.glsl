@@ -81,7 +81,7 @@ void AddLighting(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 
 
 				//Shadow
 				vec4 shadowProj = (texMatrices * inverse(camMatrix) *
-					vec4(position + (normal * 1.5), 1));
+					vec4(position + (normal * 1.0), 1));
 
 				float shadow = 0.0;
 

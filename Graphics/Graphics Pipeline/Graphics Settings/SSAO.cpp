@@ -21,8 +21,8 @@ SSAO::SSAO(const std::string identifier, const Matrix4 projmatrix,
 	this->resolution = resolution;
 
 	//SSAO Shaders
-	SSAOCol = new Shader(SHADERDIR"/SSAO/ssao_vert.glsl", SHADERDIR"/SSAO/ssao_frag.glsl", "", true);
-	SSAOBlur = new Shader(SHADERDIR"/SSAO/ssao_vert.glsl", SHADERDIR"/SSAO/ssao_blurfrag.glsl", "", true);
+	SSAOCol = new Shader(SHADERDIR"/SSAO/ssao_vert.glsl", SHADERDIR"/SSAO/ssao_frag.glsl");
+	SSAOBlur = new Shader(SHADERDIR"/SSAO/ssao_vert.glsl", SHADERDIR"/SSAO/ssao_blurfrag.glsl");
 
 	ambientTextures->textures[CommonGraphicsData::SSAO_INDEX] = &ssaoColorBufferBlur;
 	ambientTextures->texUnit = new int(3);

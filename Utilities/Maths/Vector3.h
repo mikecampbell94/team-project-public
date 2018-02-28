@@ -41,6 +41,11 @@ public:
 	float y;
 	float z;
 
+	static Vector3 interpolate(const Vector3& a, const Vector3& b, float factor)
+	{
+		return a + ((b - a) * factor);
+	}
+
 	const Vector3&	normalise() {
 		float currentLength = length();
 

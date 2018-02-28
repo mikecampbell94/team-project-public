@@ -14,6 +14,7 @@ public:
 	void processPlayerInputMessage(const PlayerInputMessage& message);
 
 private:
-	std::vector<InputActionMap> actionsForEachPlayer;
+	//std::vector<InputActionMap> actionsForEachPlayer;
+	std::unordered_map<int, InputActionMap> actionsForEachPlayer;
 };
 

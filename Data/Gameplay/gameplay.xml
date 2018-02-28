@@ -15,13 +15,41 @@
   <ReceiveMessage type="CollisionMessage">
     <Action>
       <Condition type="AND">
-        <objectIdentifier>playerBall</objectIdentifier>
+        <objectIdentifier>player0</objectIdentifier>
         <colliderIdentifier>floor</colliderIdentifier>
       </Condition>
 
       <SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
         <destination>RenderingSystem</destination>
-        <resource>playerBall</resource>
+        <resource>player0</resource>
+      </SendMessage>
+    </Action>
+  </ReceiveMessage>
+
+  <ReceiveMessage type="CollisionMessage">
+    <Action>
+      <Condition type="AND">
+        <objectIdentifier>player1</objectIdentifier>
+        <colliderIdentifier>floor</colliderIdentifier>
+      </Condition>
+
+      <SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
+        <destination>RenderingSystem</destination>
+        <resource>player1</resource>
+      </SendMessage>
+    </Action>
+  </ReceiveMessage>
+
+  <ReceiveMessage type="CollisionMessage">
+    <Action>
+      <Condition type="AND">
+        <objectIdentifier>player2</objectIdentifier>
+        <colliderIdentifier>floor</colliderIdentifier>
+      </Condition>
+
+      <SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
+        <destination>RenderingSystem</destination>
+        <resource>player2</resource>
       </SendMessage>
     </Action>
   </ReceiveMessage>
@@ -43,7 +71,6 @@
   <Timed interval="0.01">
     <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
       <destination>RenderingSystem</destination>
-      <resource>playerBall</resource>
       <translation>
         <x>0</x>
         <y>100</y>

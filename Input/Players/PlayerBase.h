@@ -17,7 +17,7 @@ public:
 
 	void initializePlayers(std::vector<InputRecorder*> allRecorders);
 
-	Player* addNewPlayer(InputRecorder* recorder);
+	Player* addNewPlayer(InputRecorder* recorder, int id);
 	void removePlayer(int playerID);
 	void removePlayer(Player* playerRef);
 

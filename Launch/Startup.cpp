@@ -1,5 +1,6 @@
 #include "Startup.h"
 #include "Resource Management/Database/Database.h"
+#include "Networking/NetworkClient.h"
 
 Startup::Startup()
 {
@@ -23,6 +24,7 @@ void Startup::initialiseSubsystems()
 	initialiseInputSystem();
 	initialiseGameplaySystem();
 	userInterface = new UserInterface(window->getKeyboard(), Vector2(screenWidth, screenHeight));
+	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
 
 	game->addWindowToGameLoop(window);
@@ -115,10 +117,10 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile)
 {
-	physics->InitialiseOctrees(5);
+	physics->InitialiseOctrees(10);
 	level->loadLevelFile(levelFile);
-	playerbase->addNewPlayer(keyboardAndMouse);
-	gameplay->connectPlayerbase(inputManager->GetPlayerbase());
+	//playerbase->addNewPlayer(keyboardAndMouse);
+	//gameplay->connectPlayerbase(inputManager->GetPlayerbase());
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	//gameplay->compileFSMScript("../Data/FSM Scripts\testFSM.xml");
 }
@@ -131,6 +133,15 @@ void Startup::switchLevel()
 void Startup::unloadLevel()
 {
 	level->unloadLevel();
+}
+
+void Startup::beginOnlineLobby(std::string levelFile)
+{
+	engine->addSubsystem(network);
+	network->waitForOtherClients(3);
+	network->connectToServer();
+	DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
+	loadLevel(levelFile);
 }
 
 void Startup::startGameLoop()

@@ -56,5 +56,6 @@ private:
 	bool quit = false;
 	float pitch = 0.0f;
 	float yaw   = 0.0f;
+	float deltaTimeMultiplier = 1.0f;
 };
 

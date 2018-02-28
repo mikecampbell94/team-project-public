@@ -1,4 +1,3 @@
-
 #pragma comment(lib, "Interface.lib")
 #pragma comment(lib, "Utilities.lib")
 #pragma comment(lib, "Input.lib")
@@ -8,6 +7,11 @@
 #pragma comment(lib, "Resource Management.lib")
 #pragma comment(lib, "Audio.lib")
 #pragma comment(lib, "Physics.lib")
+//#pragma comment(lib, "IPHLPAPI.lib")
+
+#include <enet\enet.h>
+
+
 
 #include "Systems\System.h"
 #include "Game/GameLoop.h"
@@ -16,8 +20,17 @@
 
 #include "Launch/Startup.h"
 
+//#include <iphlpapi.h>
+#include <Utilities/NetworkBase.h>
+//#include "../Tuts_Network_Server/NetworkBase.h"
+//#include <ENET/include/enet/enet.h>
+
 int main()
 {
+	if (enet_initialize() != 0)
+	{
+		std::cout << "ENET failed to initialize!" << std::endl;
+	}
 
 	Startup startup;
 	startup.initialiseSubsystems();
