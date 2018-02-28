@@ -116,7 +116,7 @@
     </PhysicsNode>
   </GameObjects>
 
-  <GameObjects name="player2" >
+  <GameObjects name="player3" >
     <SceneNode>
       <Mesh>SphereMesh</Mesh>
       <Colour>
