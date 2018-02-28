@@ -340,7 +340,7 @@
       <CollisionShape>Sphere</CollisionShape>
       <Mass>1</Mass>
       <isCollision>True</isCollision>
-      <Elasticity>0.5</Elasticity>
+      <Elasticity>0</Elasticity>
       <Friction>0.9</Friction>
     </PhysicsNode>
   </GameObjects>
@@ -378,7 +378,7 @@
       <CollisionShape>Sphere</CollisionShape>
       <Mass>1</Mass>
       <isCollision>True</isCollision>
-      <Elasticity>0.5</Elasticity>
+      <Elasticity>0</Elasticity>
       <Friction>0.9</Friction>
     </PhysicsNode>
   </GameObjects>

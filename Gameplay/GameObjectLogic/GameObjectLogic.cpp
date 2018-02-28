@@ -55,7 +55,9 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 		std::string second = gameLogicNode->children[0]->children[0]->children[0]->children[0]->value;
 
 		logicToGameObjects.insert({ gObj, GameLogic(messages) });
-		logicToGameObjects.at(gObj).compileParsedXMLIntoScript(gameLogicNode);
+		logics.push_back(&(logicToGameObjects.at(gObj)));
+
+		logics[logics.size() - 1]->compileParsedXMLIntoScript(gameLogicNode);
 
 		changeResourceBack(&(gameLogicNode), resource->value);
 		
@@ -64,29 +66,46 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 		int x = 0;
 	}
 
-	for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)
+	//for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)
+	//{
+	//	logicToObject->second->executeActionsOnStart();
+	//}
+
+	for each (GameLogic* logic in logics)
 	{
-		logicToObject->second.executeActionsOnStart();
+		logic->executeActionsOnStart();
 	}
 }
 
 void GameObjectLogic::notify(const std::string& messageType, Message* message)
 {
-	for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)
+	//for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)
+	//{
+	//	logicToObject->second->notifyMessageActions(messageType, message);
+	//	//notify myself of messages which need to be acted upon via hard coded functions
+	//}
+
+	for each (GameLogic* logic in logics)
 	{
-		logicToObject->second.notifyMessageActions(messageType, message);
-		//notify myself of messages which need to be acted upon via hard coded functions
+		logic->notifyMessageActions(messageType, message);
 	}
 }
 
 void GameObjectLogic::updatelogic(const float& deltaTime)
 {
-	for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)
-	{
-		logicToObject->second.executeMessageBasedActions();
-		logicToObject->second.executeTimeBasedActions(deltaTime);
-		logicToObject->second.clearNotifications();
+	//for (auto logicToObject = logicToGameObjects.begin(); logicToObject != logicToGameObjects.end(); ++logicToObject)
+	//{
+	//	logicToObject->second->executeMessageBasedActions();
+	//	logicToObject->second->executeTimeBasedActions(deltaTime);
+	//	logicToObject->second->clearNotifications();
 
-		//update hard coded stuff here
+	//	//update hard coded stuff here
+	//}
+
+	for each (GameLogic* logic in logics)
+	{
+		logic->executeMessageBasedActions();
+		logic->executeTimeBasedActions(deltaTime);
+		logic->clearNotifications();
 	}
 }

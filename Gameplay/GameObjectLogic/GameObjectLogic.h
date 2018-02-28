@@ -24,6 +24,7 @@ private:
 
 	Node* parsedScript;
 	std::map<GameObject*, GameLogic> logicToGameObjects;
+	std::vector<GameLogic*> logics;
 	Database* database;
 	MessageProcessor* messages;
 };
