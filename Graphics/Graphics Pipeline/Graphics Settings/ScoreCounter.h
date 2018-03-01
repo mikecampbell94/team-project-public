@@ -2,6 +2,7 @@
 
 #include "../GraphicsModule.h"
 #include "../../Shaders/ComputeShader.h"
+#include "../../Meshes/TextMesh.h"
 
 class Database;
 
@@ -25,6 +26,8 @@ private:
 	void locateUniforms() override;
 
 	ComputeShader* computeShader;
+	Shader* textShader;
+	Font* font;
 	Database* database;
 
 	GLuint playerScoresSSBO;

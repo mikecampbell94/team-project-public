@@ -64,7 +64,7 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthog
 	gameText->linkShaders();
 	gameText->initialise();
 
-	scoreCounter = new ScoreCounter("ScoreCounter", projmatrix, resolution, database);
+	scoreCounter = new ScoreCounter("ScoreCounter", orthographicMatrix, resolution, database);
 	scoreCounter->linkShaders();
 	scoreCounter->initialise();
 	scoreCounter->paintTrailTexture = &paintTrail->paintTrailTexture;

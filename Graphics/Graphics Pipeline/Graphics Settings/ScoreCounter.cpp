@@ -6,26 +6,22 @@
 #include "../../Resource Management/Database/Database.h"
 #include "../../Gameplay/GameObject.h"
 
-ScoreCounter::ScoreCounter(const std::string identifier, const Matrix4 projmatrix, const Vector2 resolution, Database* database)
-	: GraphicsModule(identifier, projmatrix, resolution)
+#include <math.h>
+
+ScoreCounter::ScoreCounter(const std::string identifier, const Matrix4 orthographicMatrix, const Vector2 resolution, Database* database)
+	: GraphicsModule(identifier, orthographicMatrix, resolution)
 {
 	computeShader = new ComputeShader(SHADERDIR"/Compute/compute.glsl", true);
+	textShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"/ScoreText/textFrag.glsl", "", true);
 	this->database = database;
 
-	//ScoreHolder scoreHolder;
-	//scoreHolder.name = "poop";
-	//scoreHolder.colour = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-	//bufferScoreHolder(scoreHolder);
-
-	//ScoreHolder scoreHolder1;
-	//scoreHolder1.name = "wee";
-	//scoreHolder1.colour = Vector4(1.0f, 1.0f, 0.0f, 1.0f);
-	//bufferScoreHolder(scoreHolder1);
+	font = new Font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
 }
 
 ScoreCounter::~ScoreCounter()
 {
 	delete computeShader;
+	delete textShader;
 }
 
 void ScoreCounter::bufferScoreHolder(std::string scoreHoldername)
@@ -40,6 +36,7 @@ void ScoreCounter::bufferScoreHolder(std::string scoreHoldername)
 void ScoreCounter::linkShaders()
 {
 	computeShader->LinkProgram();
+	textShader->LinkProgram();
 }
 
 void ScoreCounter::regenerateShaders()
@@ -87,12 +84,53 @@ void ScoreCounter::apply()
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
+	//for (int i = 0; i < scoreHolders.size(); ++i)
+	//{
+	//	Vector3 colour(coloursToCount[i].x, coloursToCount[i].y, coloursToCount[i].z);
+	//	DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", scoreHolders[i] + " : " + std::to_string(scores[i]),
+	//		Vector3(0, i * 30.0f, 0), Vector3(30, 30, 1), colour, true));
+	//}
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//viewMatrix.toIdentity();
+	textureMatrix.toIdentity();
+
+
+	setCurrentShader(textShader);
+	updateShaderMatrices();
+
 	for (int i = 0; i < scoreHolders.size(); ++i)
 	{
+		viewMatrix.toIdentity();
+		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
+
 		Vector3 colour(coloursToCount[i].x, coloursToCount[i].y, coloursToCount[i].z);
-		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", scoreHolders[i] + " : " + std::to_string(scores[i]),
-			Vector3(0, i * 30.0f, 0), Vector3(30, 30, 1), colour, true));
+		glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);
+
+
+		float percentage = scores[i] / 15000.0f;
+		int score = int(percentage * 100.0f);
+
+		std::string name = scoreHolders[i] + " : " + std::to_string(score);
+
+		int numDigits = score > 0 ? (int)log10((double)score) + 1 : 1;
+		int numSpacesToAdd = 5 - numDigits;
+		for (int j = 0; j < numSpacesToAdd; ++j)
+		{
+			name += " ";
+		}
+
+		TextMesh textMesh(name, *font);
+		textMesh.Draw(*currentShader, Matrix4::translation(Vector3(290, (i * -20.0f) + 320, 0)) * Matrix4::scale(Vector3(20, 20, 1)));
 	}
+
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 }
 
 void ScoreCounter::locateUniforms()
