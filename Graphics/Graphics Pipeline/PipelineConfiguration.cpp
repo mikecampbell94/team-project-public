@@ -63,6 +63,11 @@ void PipelineConfiguration::initialiseModules(Matrix4 projmatrix, Matrix4 orthog
 	gameText = new GameText("GameText", orthographicMatrix, projmatrix, resolution, camera);
 	gameText->linkShaders();
 	gameText->initialise();
+
+	scoreCounter = new ScoreCounter("ScoreCounter", projmatrix, resolution);
+	scoreCounter->linkShaders();
+	scoreCounter->initialise();
+	scoreCounter->paintTrailTexture = &paintTrail->paintTrailTexture;
 }
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
@@ -75,4 +80,5 @@ void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 	pipeline->addModule(bpLighting);
 	pipeline->addModule(uiModule);
 	pipeline->addModule(gameText);
+	pipeline->addModule(scoreCounter);
 }

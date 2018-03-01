@@ -111,6 +111,12 @@
     <ClInclude Include="Graphics Pipeline\Graphics Settings\GameText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics Pipeline\Graphics Settings\ScoreCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\ComputeShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\OGLRenderer.cpp">
@@ -192,6 +198,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics Pipeline\Graphics Settings\GameText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics Pipeline\Graphics Settings\ScoreCounter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\ComputeShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

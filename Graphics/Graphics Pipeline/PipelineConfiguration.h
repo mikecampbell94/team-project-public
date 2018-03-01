@@ -19,6 +19,7 @@
 #include "Graphics Settings/UIModule.h"
 #include "Graphics Settings/PaintTrail.h"
 #include "Graphics Settings/GameText.h"
+#include "Graphics Settings/ScoreCounter.h"
 
 class Database;
 class Camera;
@@ -52,5 +53,6 @@ private:
 	UIModule* uiModule;
 	PaintTrail* paintTrail;
 	GameText* gameText;
+	ScoreCounter* scoreCounter;
 };
 
