@@ -57,18 +57,13 @@ void Win32_PrintAllAdapterIPAddresses();
 
 struct KinematicState
 {
-	int id;
+	int clientID;
+	int serverID;
 
 	Vector3 position;
 	Vector3 linearVelocity;
 	Vector3 linearAcceleration;
 };
-
-struct CurrentlyJoinedPlayers
-{
-	std::vector<int> joinedPlayers;
-};
-
 enum
 {
 	NEW_ID,

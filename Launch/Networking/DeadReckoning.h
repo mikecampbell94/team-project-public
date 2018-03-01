@@ -6,7 +6,8 @@ class PhysicsNode;
 
 struct KinematicState
 {
-	int id;
+	int clientID;
+	int serverID;
 
 	Vector3 position;
 	Vector3 linearVelocity;

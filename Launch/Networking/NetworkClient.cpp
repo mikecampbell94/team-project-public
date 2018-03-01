@@ -37,6 +37,8 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 	connectedToServer = false;
 	joinedGame = false;
 	updateRealTimeAccum = 0.0f;
+
+	waitingInLobbyText = PeriodicTextModifier("Waiting for players", ".", 3);
 }
 
 NetworkClient::~NetworkClient()
@@ -68,31 +70,15 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 			GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
 
 			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", playerName,
-				client->getPhysicsNode()->getPosition() + Vector3(-3.5, 1, 0), Vector3(7, 7, 1), false));
+				client->getPhysicsNode()->getPosition() + Vector3(24, 14, 0), Vector3(7, 7, 1), false));
 		}
 	}
 	else
 	{
-		if (numberOfFramesInLobby == 30)
-		{
-			++numDots;
-			numberOfFramesInLobby = 0;
-		}
+		waitingInLobbyText.addTextWhenTimeHasReachedMaximum(30);
 
-		if (numDots == 4)
-		{
-			numDots = 0;
-		}
-
-		std::string wait = "Waiting for players";
-		for (int i = 0; i < numDots; ++i)
-		{
-			wait += ".";
-		}
-
-		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", wait,
+		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", waitingInLobbyText.getCurrentString(),
 			Vector3(-200, 0, 0), Vector3(20, 20, 1), true));
-		++numberOfFramesInLobby;
 	}
 
 	if (connectedToServer)
@@ -124,7 +110,7 @@ void NetworkClient::broadcastKinematicState()
 	GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
 
 	KinematicState state;
-	state.id = clientID;
+	state.clientID = clientID;
 	state.position = client->getPhysicsNode()->getPosition();
 	state.linearVelocity = client->getPhysicsNode()->getLinearVelocity();
 	state.linearAcceleration = client->getPhysicsNode()->getAcceleration();
@@ -176,9 +162,9 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 				KinematicState recievedState;
 				memcpy(&recievedState, evnt.packet->data, sizeof(KinematicState));
 
-				if (recievedState.id != clientID)
+				if (recievedState.clientID != clientID)
 				{
-					const std::string playerName = "player" + to_string(recievedState.id);
+					const std::string playerName = "player" + to_string(recievedState.clientID);
 
 					GameObject* client = NetworkMessageProcessor::getUpdatedDeadReckoningGameObject(playerName,
 						recievedState, database);

@@ -48,6 +48,9 @@
     <ClInclude Include="NetworkBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Text\PeriodicTextModifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameTimer.cpp">
@@ -66,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NetworkBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\PeriodicTextModifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

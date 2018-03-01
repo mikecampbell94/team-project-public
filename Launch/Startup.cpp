@@ -142,7 +142,7 @@ void Startup::unloadLevel()
 void Startup::beginOnlineLobby()
 {
 	engine->addSubsystem(network);
-	network->waitForOtherClients(4);
+	network->waitForOtherClients(2);
 	network->connectToServer();
 	DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
 }
