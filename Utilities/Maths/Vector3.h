@@ -15,7 +15,7 @@ _-_-_-_-_-_-_-""  ""
 #include <iostream>
 #include "../../Resource Management/XMLParser.h"
 #include "Vector2.h"
-#include "../VectorBuilder.h"
+#include "VectorBuilder.h"
 
 class Vector3	{
 public:
