@@ -117,7 +117,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Messages\ApplyRandomImpulseMessage.h" />
     <ClInclude Include="Messages\CollisionMessage.h" />
     <ClInclude Include="MessageBuffer.h" />
     <ClInclude Include="Messages\ApplyImpulseMessage.h" />
@@ -141,7 +140,6 @@
     <ClInclude Include="Messages\UpdatePositionMessage.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Messages\ApplyRandomImpulseMessage.cpp" />
     <ClCompile Include="Messages\CollisionMessage.cpp" />
     <ClCompile Include="MessageStorage.cpp" />
     <ClCompile Include="Messages\ApplyImpulseMessage.cpp" />

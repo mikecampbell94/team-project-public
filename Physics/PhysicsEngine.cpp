@@ -32,7 +32,27 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyImpulseMessage->gameObjectID));
 
-		gObj->getPhysicsNode()->applyImpulse(applyImpulseMessage->impulse);
+		Vector3 impulse = applyImpulseMessage->impulse;
+
+		if (applyImpulseMessage->isRandom)
+		{
+			if (applyImpulseMessage->xmin != applyImpulseMessage->xmax)
+			{
+				impulse.x = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->xmin, applyImpulseMessage->xmax);
+			}
+			if (applyImpulseMessage->ymin != applyImpulseMessage->ymax)
+			{
+				impulse.y = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->ymin, applyImpulseMessage->ymax);
+			}
+			if (applyImpulseMessage->zmin != applyImpulseMessage->zmax)
+			{
+				impulse.z = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->zmin, applyImpulseMessage->zmax);
+			}
+		}
+
+		gObj->getPhysicsNode()->applyImpulse(impulse);
+
+		
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [database](Message* message)
@@ -43,7 +63,6 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 		gObj->getPhysicsNode()->setPosition(positionMessage->position);
 	});
-
 
 	updateTimestep = 1.0f / 60.f;
 	updateRealTimeAccum = 0.0f;

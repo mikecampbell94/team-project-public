@@ -89,6 +89,7 @@ void LetterBox::insertMessage(UpdatePositionMessage message)
 	updatePositionBuffer.insertOutgoingMessage(message);
 }
 
+
 void LetterBox::deliverAllMessages()
 {
 	messageBuffer.sendMessages(messageStorage);

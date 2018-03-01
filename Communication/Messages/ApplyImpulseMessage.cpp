@@ -1,9 +1,18 @@
 #include "ApplyImpulseMessage.h"
 
-ApplyImpulseMessage::ApplyImpulseMessage(const std::string& desinationName, std::string gameObjectID, Vector3 impulse) : Message(desinationName, APPLY_IMPULSE)
+ApplyImpulseMessage::ApplyImpulseMessage(const std::string& desinationName, std::string gameObjectID, bool isRandom,
+	Vector3 impulse, float xmin, float xmax, float ymin, float ymax,
+	float zmin, float zmax) : Message(desinationName, APPLY_IMPULSE)
 {
 	this->gameObjectID = gameObjectID;
+	this->isRandom = isRandom;
 	this->impulse = impulse;
+	this->xmin = xmin;
+	this->xmax = xmax;
+	this->ymin = ymin;
+	this->ymax = ymax;
+	this->zmin = zmin;
+	this->zmax = zmax;
 }
 
 ApplyImpulseMessage::~ApplyImpulseMessage()
@@ -14,7 +23,12 @@ ApplyImpulseMessage ApplyImpulseMessage::builder(Node* node)
 {
 	std::string destination = "";
 	std::string object = "";
+	bool rand = false;
 	Vector3 impulse;
+
+	float xmin, xmax;
+	float ymin, ymax;
+	float zmin, zmax;
 
 	for each (Node* childNode in node->children)
 	{
@@ -26,14 +40,29 @@ ApplyImpulseMessage ApplyImpulseMessage::builder(Node* node)
 		{
 			object = childNode->value;
 		}
+		else if (childNode->nodeType == "isRandom")
+		{
+			if (childNode->value == "True")
+			{
+				rand = true;
+			}
+			else
+			{
+				rand = false;
+			}
+		}
 		else if (childNode->nodeType == "impulse")
 		{
-			impulse.x = std::stof(childNode->children[0]->value);
-			impulse.y = std::stof(childNode->children[1]->value);
-			impulse.z = std::stof(childNode->children[2]->value);
+			impulse.x = VectorBuilder::getVectorComponentFromNode(childNode->children[0], &xmin, &xmax);
+			impulse.y = VectorBuilder::getVectorComponentFromNode(childNode->children[1], &ymin, &ymax);
+			impulse.z = VectorBuilder::getVectorComponentFromNode(childNode->children[2], &zmin, &zmax);
 		}
 	}
 
-	return ApplyImpulseMessage(destination, object, impulse);
+	if(rand)
+	{
+		return ApplyImpulseMessage(destination, object, rand, impulse, xmin, xmax, ymin, ymax, zmin, zmax);
+	}
+	return ApplyImpulseMessage(destination, object, rand, impulse);
 }
 

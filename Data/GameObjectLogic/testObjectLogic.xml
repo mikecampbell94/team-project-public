@@ -15,17 +15,17 @@
         <colliderIdentifier>floor</colliderIdentifier>
       </Condition>
 
-	  <!--
+	  
       <SendMessage type="APPLY_IMPULSE">
         <destination>Physics</destination>
         <resource>var</resource>
 		    <impulse>
 		      <X>0</X>
-		      <Y>0</Y>
+		      <Y>10</Y>
 		      <Z>0</Z>
 		    </impulse>
       </SendMessage>
-	  -->
+	 
 	  
 
     </Action>
@@ -46,19 +46,17 @@
   </ReceiveMessage>
 	
 	
-	<Timed interval="2.0">
-		<SendMessage type="APPLY_RANDOM_IMPULSE">
+	<Timed interval="1.0">
+		<SendMessage type="APPLY_IMPULSE">
 			<destination>Physics</destination>
 			<resource>var</resource>
-		    <impulse>
+			<isRandom>True</isRandom>
+			<impulse>
 				<random>
 					<min>-10</min>
 					<max>10</max>
 				</random>
-				<random>
-					<min>0</min>
-					<max>1</max>
-				</random>
+				<Y>0</Y>
 				<random>
 					<min>-10</min>
 					<max>10</max>

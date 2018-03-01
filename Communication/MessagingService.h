@@ -18,6 +18,7 @@
 #include "Messages/PaintTrailForGameObjectMessage.h"
 #include "Messages/UpdatePositionMessage.h"
 
+
 //exposed interface
 class MessagingService 
 {
