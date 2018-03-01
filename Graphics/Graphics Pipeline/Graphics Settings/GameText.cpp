@@ -11,7 +11,7 @@ GameText::GameText(const std::string identifier, const Matrix4 orthographicMatri
 	tex = SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
 
 	UIShader = new Shader(SHADERDIR"/UIVertex.glsl", SHADERDIR"/UIFrag.glsl");
-	UITextShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"UITextFrag.glsl");
+	UITextShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"UITextFrag.glsl", "", true);
 
 	this->camera = camera;
 	this->orthographicMatrix = orthographicMatrix;
@@ -32,7 +32,7 @@ void GameText::apply()
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//viewMatrix.toIdentity();
 	textureMatrix.toIdentity();
@@ -54,6 +54,8 @@ void GameText::apply()
 			bufferedScales[i].x = -bufferedScales[i].x;
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&perspectiveMatrix);
 		}
+
+		glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&bufferedColours[i]);
 
 		TextMesh textMesh(bufferedText[i], *font);
 		textMesh.Draw(*currentShader, Matrix4::translation(bufferedPositions[i]) * Matrix4::scale(Vector3(bufferedScales[i].x, bufferedScales[i].y, 1)));
@@ -80,11 +82,12 @@ void GameText::regenerateShaders()
 	UIShader->Regenerate();
 }
 
-void GameText::bufferText(std::string text, Vector3 position, Vector3 scale, bool orthographic)
+void GameText::bufferText(std::string text, Vector3 position, Vector3 scale, Vector3 colour, bool orthographic)
 {
 	bufferedText.push_back(text);
 	bufferedPositions.push_back(position);
 	bufferedScales.push_back(scale);
+	bufferedColours.push_back(colour);
 	bufferedOrthographicUsage.push_back(orthographic);
 }
 

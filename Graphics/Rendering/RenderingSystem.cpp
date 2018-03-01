@@ -15,6 +15,7 @@
 #include "../../Communication/Messages/ToggleGraphicsModuleMessage.h"
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
+#include "../../Communication/Messages/AddScoreHolderMessage.h"
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
@@ -32,7 +33,7 @@ void RenderingSystem::initialise(Database* database)
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::TEXT_MESH_MESSAGE, MessageType::RELATIVE_TRANSFORM,
 		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
-		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT};
+		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -47,7 +48,7 @@ void RenderingSystem::initialise(Database* database)
 		TextMeshMessage* textMessage = static_cast<TextMeshMessage*>(message);
 
 		static_cast<GameText*>(renderer->getGraphicsModule("GameText"))->bufferText(
-			textMessage->text, textMessage->position, textMessage->scale, textMessage->orthographic);
+			textMessage->text, textMessage->position, textMessage->scale, textMessage->colour, textMessage->orthographic);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)
@@ -102,6 +103,13 @@ void RenderingSystem::initialise(Database* database)
 			database->getTable("GameObjects")->getResource(paintMessage->resourceName));
 
 		static_cast<PaintTrail*>(renderer->getGraphicsModule("PaintTrail"))->addPainterObjectForNextFrame(painterGameObject);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ADD_SCORE_HOLDER, [&renderer = renderer](Message* message)
+	{
+		AddScoreHolderMessage* scoreMessage = static_cast<AddScoreHolderMessage*>(message);
+
+		static_cast<ScoreCounter*>(renderer->getGraphicsModule("ScoreCounter"))->bufferScoreHolder(scoreMessage->name);
 	});
 }
 

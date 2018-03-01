@@ -18,6 +18,7 @@
 #include "Messages/PaintTrailForGameObjectMessage.h"
 #include "Messages/UpdatePositionMessage.h"
 #include "Messages/TextMeshMessage.h"
+#include "Messages/AddScoreHolderMessage.h"
 
 //exposed interface
 class MessagingService 
@@ -40,6 +41,7 @@ public:
 	virtual void insertMessage(PaintTrailForGameObjectMessage message) = 0;
 	virtual void insertMessage(UpdatePositionMessage message) = 0;
 	virtual void insertMessage(TextMeshMessage message) = 0;
+	virtual void insertMessage(AddScoreHolderMessage message) = 0;
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;
 };

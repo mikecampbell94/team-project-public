@@ -20,7 +20,7 @@ public:
 	void linkShaders() override;
 	void regenerateShaders() override;
 
-	void bufferText(std::string text, Vector3 position, Vector3 scale, bool orthographic);
+	void bufferText(std::string text, Vector3 position, Vector3 scale, Vector3 colour, bool orthographic);
 
 protected:
 	void locateUniforms() override;
@@ -37,6 +37,7 @@ protected:
 	std::vector<std::string> bufferedText;
 	std::vector<Vector3> bufferedPositions;
 	std::vector<Vector3> bufferedScales;
+	std::vector<Vector3> bufferedColours;
 	std::vector<bool> bufferedOrthographicUsage;
 };
 

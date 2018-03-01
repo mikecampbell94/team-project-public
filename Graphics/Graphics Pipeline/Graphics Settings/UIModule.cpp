@@ -57,6 +57,9 @@ void UIModule::apply()
 	setCurrentShader(UITextShader);
 	updateShaderMatrices();
 
+	Vector3 colour(1.0f, 1.0f, 1.0f);
+	glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);
+
 	for each (Button* button in *UIObjects)
 	{
 		Vector2 buttonSize = button->scale / Vector2(4.0f, 1.5f);
