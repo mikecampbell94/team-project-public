@@ -73,6 +73,16 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
 	gameLogic.executeActionsOnStart();
 
+	/*objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/testObjectLogic.xml"));
+
+	for (GameObjectLogic& object : objects)
+	{
+		object.compileParsedXMLIntoScript();
+	}*/
+}
+
+void GameplaySystem::compileGameObjectScript()
+{
 	objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/testObjectLogic.xml"));
 
 	for (GameObjectLogic& object : objects)

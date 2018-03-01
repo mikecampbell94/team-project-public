@@ -127,7 +127,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	}
 
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
-	//gameplay->compileFSMScript("../Data/FSM Scripts\testFSM.xml");
+	gameplay->compileGameObjectScript();
 }
 
 void Startup::switchLevel()

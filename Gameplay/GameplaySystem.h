@@ -20,6 +20,7 @@ public:
 
 	void connectPlayerbase(PlayerBase* playerbase);
 	void compileGameplayScript(std::string levelScript);
+	void compileGameObjectScript();
 
 private:
 	GameLogic gameLogic;
