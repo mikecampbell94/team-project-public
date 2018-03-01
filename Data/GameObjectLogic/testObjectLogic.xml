@@ -28,7 +28,7 @@
   </ReceiveMessage>
 </GameplayScript>
 
-
+<!--
 <ObjectLogic>
 	<flipDirection>
 	<>
@@ -37,6 +37,7 @@
 		<>
 	<>
 </ObjectLogic>
+-->
 
 
 </GameObjectLogic>

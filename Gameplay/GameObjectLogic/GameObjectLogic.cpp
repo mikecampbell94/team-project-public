@@ -42,7 +42,7 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 {
 	Node* resources = parsedScript->children[0];
 	Node* gameLogicNode = parsedScript->children[1];
-	Node* objectSpecificLogic = parsedScript->children[2];
+	//Node* objectSpecificLogic = parsedScript->children[2];
 
 	for each (Node* resource in resources->children)
 	{
