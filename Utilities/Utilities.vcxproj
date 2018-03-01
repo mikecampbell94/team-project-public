@@ -146,6 +146,7 @@
     <ClInclude Include="Maths\Vector3.h" />
     <ClInclude Include="Maths\Vector4.h" />
     <ClInclude Include="Maths\Matrix3.h" />
+    <ClInclude Include="Maths\VectorBuilder.h" />
     <ClInclude Include="NetworkBase.h" />
   </ItemGroup>
   <ItemGroup>
