@@ -103,6 +103,10 @@ Executable ActionBuilder::compileActionSectionWithoutCondition(Node* section)
 	{
 		return buildSendMessageExecutable(section);
 	}
+	else
+	{
+		//Lookup the function in a map and return
+	}
 }
 
 Condition ActionBuilder::buildIfStatement(Node* node)
@@ -126,9 +130,9 @@ Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 	if (node->name == "DUMMY_TYPE")
 	{
 		Node* destination = node->children[0];
-		return [destination]()
+		return [destination = destination->value]()
 		{
-			DeliverySystem::getPostman()->insertMessage(Message(destination->value, DUMMY_TYPE));
+			DeliverySystem::getPostman()->insertMessage(Message(destination, DUMMY_TYPE));
 		};
 	}
 	else if (node->name == "TEXT")
@@ -180,6 +184,24 @@ Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 	else if (node->name == "PAINT_TRAIL_FOR_GAMEOBJECT")
 	{
 		PaintTrailForGameObjectMessage message = PaintTrailForGameObjectMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	}
+	else if (node->name == "APPLY_IMPULSE")
+	{
+		ApplyImpulseMessage message = ApplyImpulseMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	}
+	else if (node->name == "APPLY_FORCE")
+	{
+		ApplyForceMessage message = ApplyForceMessage::builder(node);
 
 		return [message = message]()
 		{

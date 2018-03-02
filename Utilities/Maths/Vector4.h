@@ -44,10 +44,10 @@ public:
 
 	static Vector4 builder(Node* node)
 	{
-		const float x = std::stof(node->children[0]->value);
-		const float y = std::stof(node->children[1]->value);
-		const float z = std::stof(node->children[2]->value);
-		const float w = std::stof(node->children[3]->value);
+		const float x = VectorBuilder::getVectorComponentFromNode(node->children[0]);
+		const float y = VectorBuilder::getVectorComponentFromNode(node->children[1]);
+		const float z = VectorBuilder::getVectorComponentFromNode(node->children[2]);
+		const float w = VectorBuilder::getVectorComponentFromNode(node->children[3]);
 		return Vector4(x, y, z, w);
 	}
 };

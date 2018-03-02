@@ -103,7 +103,7 @@ void Startup::initialiseLevelSystem()
 
 void Startup::initialiseGameplaySystem()
 {
-	gameplay = new GameplaySystem();
+	gameplay = new GameplaySystem(database);
 }
 
 void Startup::addSystemsToEngine()
@@ -135,6 +135,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	}
 
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
+	gameplay->compileGameObjectScripts();
 }
 
 void Startup::switchLevel()
