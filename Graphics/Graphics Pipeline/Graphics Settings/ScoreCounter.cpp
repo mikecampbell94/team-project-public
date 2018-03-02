@@ -26,9 +26,10 @@ ScoreCounter::~ScoreCounter()
 
 void ScoreCounter::bufferScoreHolder(std::string scoreHoldername)
 {
-	scoreHolders.push_back(scoreHoldername);
+	const Vector4 scoreHolderColour = static_cast<GameObject*>(
+		database->getTable("GameObjects")->getResource(scoreHoldername))->getSceneNode()->getColour();
 
-	Vector4 scoreHolderColour = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(scoreHoldername))->getSceneNode()->getColour();
+	scoreHolders.push_back(scoreHoldername);
 	coloursToCount.push_back(scoreHolderColour);
 	scores.push_back(0);
 }
@@ -50,6 +51,12 @@ void ScoreCounter::initialise()
 }
 
 void ScoreCounter::apply()
+{
+	calculateScores();
+	displayScores();
+}
+
+void ScoreCounter::calculateScores()
 {
 	GLuint zero = 0;
 
@@ -83,22 +90,16 @@ void ScoreCounter::apply()
 	memcpy(&scores[0], p, sizeof(int) * scores.size());
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
 
-	//for (int i = 0; i < scoreHolders.size(); ++i)
-	//{
-	//	Vector3 colour(coloursToCount[i].x, coloursToCount[i].y, coloursToCount[i].z);
-	//	DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", scoreHolders[i] + " : " + std::to_string(scores[i]),
-	//		Vector3(0, i * 30.0f, 0), Vector3(30, 30, 1), colour, true));
-	//}
-
+void ScoreCounter::displayScores()
+{
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//viewMatrix.toIdentity();
 	textureMatrix.toIdentity();
-
 
 	setCurrentShader(textShader);
 	updateShaderMatrices();

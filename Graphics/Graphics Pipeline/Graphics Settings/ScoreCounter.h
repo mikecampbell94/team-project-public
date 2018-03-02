@@ -23,6 +23,8 @@ public:
 
 	GLuint* paintTrailTexture;
 private:
+	void calculateScores();
+	void displayScores();
 	void locateUniforms() override;
 
 	ComputeShader* computeShader;
