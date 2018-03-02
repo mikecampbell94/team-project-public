@@ -1,74 +1,36 @@
 #version 430 core
 
-#include ../Shaders/compute/configuration.glsl
+layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 
-uniform int numZTiles;
-uniform int numLightsInFrustum;
+uniform sampler2D paintTrailTexture;
+uniform int arraySize;
 
-layout(local_size_x = 10, local_size_y = 10, local_size_z = 10) in;
-
-struct Tile
+layout(std430, binding = 4) buffer PlayerScoresBuffer
 {
-	float x;
-	float y;
-	float z;
-	float width;
-	float height;
-	float length;
-
-	float _padding[6];
+	int scores[];
 };
 
-//faces - xyz is normal, w is distance from origin
-struct CubePlanes
+layout(std430, binding = 5) buffer ColourBuffer
 {
-	vec4 faces[6];
-	vec4 positions[6];
+	vec4 colours[];
 };
-
-layout (std430, binding = 3) buffer TileLightsBuffer
-{
-	int lightIndexes[numTiles];
-	int tileLights[numTiles][numLights];
-};
-
-layout(std430, binding = 4) buffer CubePlanesBuffer
-{
-	CubePlanes cubePlanes[];
-};
-
-layout(std430, binding = 5) buffer ScreenSpaceDataBuffer
-{
-	float indexes[numLights];
-	vec4 numLightsIn;
-	vec4 NDCCoords[];
-};
-
-layout(binding = 0) uniform atomic_uint count;
-
-#include ../Shaders/compute/collisionFunctions.glsl
 
 void main()
 {
-	int xIndex = int(gl_GlobalInvocationID.x);
-	int yIndex = int(gl_GlobalInvocationID.y);
-	int zIndex = int(gl_GlobalInvocationID.z);
+	int xCoord = int(gl_GlobalInvocationID.x);
+	int yCoord = int(gl_GlobalInvocationID.y);
 
-	int tile = xIndex + (yIndex * int(tilesOnAxes.x)) + (zIndex * (int(tilesOnAxes.x * tilesOnAxes.y)));
+	float textureCoordX = float(xCoord) / 1280.0f;
+	float textureCoordY = float(yCoord) / 720.0f;
 
-	uint index = uint(tile);
+	vec4 colour = texture2D(paintTrailTexture, vec2(textureCoordX, textureCoordY));
 
-	int intersections = 0;
-
-	uint lightsOnScreen = atomicCounter(count);
-	for (int i = 0; i < lightsOnScreen; i++)
+	for (int i = 0; i < arraySize; i++)
 	{
-		int lightIndex = int(indexes[i]);
-
-		tileLights[index][intersections] = lightIndex;
-		intersections++;
+		if (colour.rgb == colours[i].rgb)
+		{
+			atomicAdd(scores[i], 1);
+		}
 	}
-
-	lightIndexes[index] = intersections;
 }
 

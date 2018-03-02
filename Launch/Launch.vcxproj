@@ -71,16 +71,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\Interface\;..\Physics\;..\Audio\;..\Gameplay\;..\Graphics\;..\Input\;..\Utilities\;..\ASSIMP\include\assimp;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>..\Interface\$(Configuration);..\Physics\$(Configuration);..\Audio\$(Configuration);..\Gameplay\$(Configuration);..\Graphics\$(Configuration);..\Input\$(Configuration);..\Utilities\$(Configuration);..\ASSIMP\lib;..\GLEW\lib;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Tuts_Network_Server\;..\ENET\include;..\Interface\;..\Physics\;..\Audio\;..\Gameplay\;..\Graphics\;..\Input\;..\Utilities\;..\ASSIMP\include\assimp;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\ENET\lib;..\Interface\$(Configuration);..\Physics\$(Configuration);..\Audio\$(Configuration);..\Gameplay\$(Configuration);..\Graphics\$(Configuration);..\Input\$(Configuration);..\Utilities\$(Configuration);..\ASSIMP\lib;..\GLEW\lib;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\Interface\;..\Physics\;..\Audio\;..\Gameplay\;..\Graphics\;..\Input\;..\Utilities\;..\ASSIMP\include\assimp;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>..\Interface\$(Configuration);..\Physics\$(Configuration);..\Audio\$(Configuration);..\Gameplay\$(Configuration);..\Graphics\$(Configuration);..\Input\$(Configuration);..\Utilities\$(Configuration);..\ASSIMP\lib;..\GLEW\lib;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Tuts_Network_Server\;..\ENET\include;..\Interface\;..\Physics\;..\Audio\;..\Gameplay\;..\Graphics\;..\Input\;..\Utilities\;..\ASSIMP\include\assimp;..\SOIL\;..\GLEW\include;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>..\ENET\lib;..\Interface\$(Configuration);..\Physics\$(Configuration);..\Audio\$(Configuration);..\Gameplay\$(Configuration);..\Graphics\$(Configuration);..\Input\$(Configuration);..\Utilities\$(Configuration);..\ASSIMP\lib;..\GLEW\lib;$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -96,7 +96,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>OpenAL32.lib;Graphics.lib;Audio.lib;Input.lib;Utilities.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib;Resource Management.lib;Physics.lib;Interface.lib</AdditionalDependencies>
+      <AdditionalDependencies>enet.lib;OpenAL32.lib;Graphics.lib;Audio.lib;Input.lib;Utilities.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib;Resource Management.lib;Physics.lib;Interface.lib;ws2_32.lib;Winmm.lib;winspool.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -127,7 +127,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OpenAL32.lib;Graphics.lib;Audio.lib;Input.lib;Utilities.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib;Resource Management.lib;Physics.lib;Interface.lib</AdditionalDependencies>
+      <AdditionalDependencies>enet.lib;OpenAL32.lib;Graphics.lib;Audio.lib;Input.lib;Utilities.lib;Gameplay.lib;Communication.lib;User32.lib;Gdi32.lib;Resource Management.lib;Physics.lib;Interface.lib;ws2_32.lib;Winmm.lib;winspool.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -151,13 +151,19 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Networking\DeadReckoning.cpp" />
     <ClCompile Include="Game\GameLoop.cpp" />
     <ClCompile Include="Launch.cpp" />
+    <ClCompile Include="Networking\NetworkClient.cpp" />
+    <ClCompile Include="Networking\NetworkMessageProcessor.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Systems\System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Networking\DeadReckoning.h" />
     <ClInclude Include="Game\GameLoop.h" />
+    <ClInclude Include="Networking\NetworkClient.h" />
+    <ClInclude Include="Networking\NetworkMessageProcessor.h" />
     <ClInclude Include="Startup.h" />
     <ClInclude Include="Systems\Subsystem.h" />
     <ClInclude Include="Systems\System.h" />

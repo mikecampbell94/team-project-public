@@ -49,13 +49,11 @@ float skyboxVertices[] = {
 	1.0f, -1.0f,  1.0f
 };
 
-Skybox::Skybox(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Matrix4* viewMatrix)
-	: GraphicsModule(identifier, projMatrix, resolution)
+Skybox::Skybox(const std::string identifier, const Vector2 resolution, Matrix4* viewMatrix)
+	: GraphicsModule(identifier, resolution)
 {
 	skyboxShader = new Shader(SHADERDIR"/Skybox/SkyboxVert.glsl", SHADERDIR"/Skybox/SkyboxFrag.glsl");
 	this->viewMatrix = viewMatrix;
-	this->projMatrix = projmatrix;
 }
 
 Skybox::~Skybox()
@@ -101,7 +99,7 @@ void Skybox::apply()
 	glUniformMatrix4fv(glGetUniformLocation(skyboxShader->GetProgram(),
 		"viewMatrix"), 1, false, (float*)viewMatrix);
 	glUniformMatrix4fv(glGetUniformLocation(skyboxShader->GetProgram(),
-		"projMatrix"), 1, false, (float*)&projMatrix);
+		"projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(glGetUniformLocation(skyboxShader->GetProgram(), "skybox"), 0);

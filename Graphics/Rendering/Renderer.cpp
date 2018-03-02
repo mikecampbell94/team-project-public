@@ -20,7 +20,7 @@ Renderer::Renderer(Window* window, Camera* camera)
 	this->camera = camera;
 	this->resolution = window->getScreenSize();
 
-	globalProjectionMatrix = Matrix4::perspective(1.0f, 150000.0f, resolution.x / resolution.y, 60.0f);
+	//globalProjectionMatrix = Matrix4::perspective(1.0f, 150000.0f, resolution.x / resolution.y, 60.0f);
 	globalOrthographicMatrix = Matrix4::orthographic(-1.0f,10000.0f, width / 2.0f, -width / 2.0f, height / 2.0f, -height / 2.0f);
 
 	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
@@ -34,7 +34,7 @@ Renderer::~Renderer()
 void Renderer::initialise(SceneManager* sceneManager, Database* database)
 {
 	graphicsConfig = PipelineConfiguration(sceneManager, window, camera, resolution);
-	graphicsConfig.initialiseModules(globalProjectionMatrix, globalOrthographicMatrix, database);
+	graphicsConfig.initialiseModules(database);
 	graphicsConfig.buildPipeline(&pipeline);
 
 	XMLParser graphicsconfigParser;
@@ -68,6 +68,13 @@ void Renderer::update(const float& deltatime)
 	renderScene();
 }
 
+void Renderer::changeResolution(Vector2 resolution)
+{
+	//Resize(resolution.x, resolution.y);
+
+	//for each (GraphicsModule* module in pipeline.)
+}
+
 void Renderer::toggleModule(const std::string& moduleName, bool enabled)
 {
 	pipeline.toggleModule(moduleName, enabled);
@@ -82,7 +89,7 @@ void Renderer::updateScene(const float& msec)
 {
 	camera->updateCamera();
 	camera->buildViewMatrix();
-	camera->updateViewFrustum(globalProjectionMatrix);
+	camera->updateViewFrustum(CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
 	sceneManager->clearMeshLists();
 	sceneManager->buildMeshLists();

@@ -11,7 +11,7 @@ class Camera;
 class Matrix4;
 class Database;
 
-class Renderer : OGLRenderer
+class Renderer : public OGLRenderer
 {
 public:
 	Renderer();
@@ -20,6 +20,8 @@ public:
 
 	void initialise(SceneManager* sceneManager, Database* database);
 	void update(const float& deltatime);
+
+	void changeResolution(Vector2 resolution);
 
 	void toggleModule(const std::string& moduleName, bool enabled);
 	GraphicsModule* getGraphicsModule(const std::string& moduleName);

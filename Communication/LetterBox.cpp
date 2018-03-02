@@ -84,6 +84,21 @@ void LetterBox::insertMessage(PaintTrailForGameObjectMessage message)
 	paintTrailForGameObjectBuffer.insertOutgoingMessage(message);
 }
 
+void LetterBox::insertMessage(UpdatePositionMessage message)
+{
+	updatePositionBuffer.insertOutgoingMessage(message);
+}
+
+void LetterBox::insertMessage(TextMeshMessage message)
+{
+	textMeshBuffer.insertOutgoingMessage(message);
+}
+
+void LetterBox::insertMessage(AddScoreHolderMessage message)
+{
+	scoreBuffer.insertOutgoingMessage(message);
+}
+
 void LetterBox::deliverAllMessages()
 {
 	messageBuffer.sendMessages(messageStorage);
@@ -99,6 +114,9 @@ void LetterBox::deliverAllMessages()
 	preparePaintSurfaceBuffer.sendMessages(messageStorage);
 	applyImpulseMessageBuffer.sendMessages(messageStorage);
 	paintTrailForGameObjectBuffer.sendMessages(messageStorage);
+	updatePositionBuffer.sendMessages(messageStorage);
+	textMeshBuffer.sendMessages(messageStorage);
+	scoreBuffer.sendMessages(messageStorage);
 }
 
 void LetterBox::clearAllMessages()
@@ -118,4 +136,7 @@ void LetterBox::clearAllMessages()
 	collisionBuffer.clearSentMessages();
 	preparePaintSurfaceBuffer.clearSentMessages();
 	paintTrailForGameObjectBuffer.clearSentMessages();
+	updatePositionBuffer.clearSentMessages();
+	textMeshBuffer.clearSentMessages();
+	scoreBuffer.clearSentMessages();
 }

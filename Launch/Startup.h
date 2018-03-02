@@ -10,6 +10,8 @@
 #include "Resource Management/Level.h"
 #include "../../Input/Recorders/KeyboardMouseRecorder.h"
 
+class NetworkClient;
+
 class Database;
 
 class Startup
@@ -23,9 +25,11 @@ public:
 	void startGameLoop();
 
 	void loadMainMenu();
-	void loadLevel(std::string levelFile);
+	void loadLevel(std::string levelFile, bool online);
 	void switchLevel();
 	void unloadLevel();
+
+	void beginOnlineLobby();
 
 private:
 	void initialiseRenderingSystem();
@@ -54,6 +58,7 @@ private:
 	AudioSystem* audio;
 	PhysicsEngine* physics;
 	UserInterface* userInterface;
+	NetworkClient* network;
 
 	GameTimer* loopTimer;
 	Window* window;
@@ -65,8 +70,6 @@ private:
 
 	SceneNode* node;
 	std::vector<SceneNode*>* nodes;
-
-	int screenWidth = 1280;
-	int screenHeight = 720;
+	Vector2 resolution;
 };
 

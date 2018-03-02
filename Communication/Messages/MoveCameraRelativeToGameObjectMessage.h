@@ -10,7 +10,7 @@ public:
 		Vector3 translation, float pitch, float yaw);
 	~MoveCameraRelativeToGameObjectMessage();
 
-	std::string resourceName;
+	static std::string resourceName;
 	Vector3 translation;
 	float pitch;
 	float yaw;

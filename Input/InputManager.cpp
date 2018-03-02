@@ -4,6 +4,8 @@
 #include "../Communication/DeliverySystem.h"
 #include "Communication/Messages/PlayerInputMessage.h"
 #include "Communication/LetterBox.h"
+#include "../Gameplay/GameObject.h"
+#include "../Physics/PhysicsNode.h"
 
 InputManager::InputManager(PlayerBase* playerbase)
 	: Subsystem("InputManager")

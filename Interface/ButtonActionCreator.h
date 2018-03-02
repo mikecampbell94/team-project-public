@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <functional>
 
+struct Node;
 struct Button;
 
 typedef std::function<void()> ButtonAction;
@@ -14,7 +15,7 @@ public:
 	ButtonActionCreator();
 	~ButtonActionCreator();
 
-	ButtonAction createButtonAction(std::string action);
+	ButtonAction createButtonAction(Node* actionNode);
 
 private:
 	std::unordered_map<std::string, ButtonAction> actions;

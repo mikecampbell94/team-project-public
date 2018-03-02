@@ -14,7 +14,7 @@ PlayerBase::PlayerBase(Database* database)
 PlayerBase::PlayerBase(Database* database, std::vector<InputRecorder*> allRecorders)
 {
 	this->database = database;
-	initializePlayers(allRecorders);
+	//initializePlayers(allRecorders);
 }
 
 PlayerBase::~PlayerBase()
@@ -26,15 +26,18 @@ void PlayerBase::initializePlayers(std::vector<InputRecorder*> allRecorders)
 {
 	wipeStoredPlayers();
 
+	int i = 0;
 	for each (InputRecorder* recorder in allRecorders)
 	{
-		addNewPlayer(recorder);
+		addNewPlayer(recorder, i);
+
+		++i;
 	}
 }
 
-Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
+Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 {
-	int playerID = players.size();
+	int playerID = id;// players.size();
 	Player* player = new Player(playerID, recorder);
 	players.push_back(player);
 
@@ -42,7 +45,10 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 	inputParser.loadFile("../Data/Resources/Input/configXML.xml");
 	Node* node = inputParser.parsedXml;
 	//NOW ATTACH NODE
-	GameObject* playerGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource("playerBall"));
+	std::string playerName = "player" + std::to_string(id);
+	MoveCameraRelativeToGameObjectMessage::resourceName = playerName;
+
+	GameObject* playerGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
 	player->setGameObject(playerGameObject);
 
 	std::string seperator = "|";
@@ -63,7 +69,7 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 
 		Node* magnitude = node->children[i]->children[1]->children[0];
 
-		newPlayersActions.attachKeyToAction(InputUtility::getKeyID(keyName), [magnitude = magnitude](Player* player)
+		newPlayersActions.attachKeyToAction(InputUtility::getKeyID(keyName), [magnitude = magnitude, playerName](Player* player)
 		{
 			float xPosition = stof(magnitude->children[0]->value);
 			float yPosition = stof(magnitude->children[1]->value);
@@ -72,11 +78,11 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder)
 			Vector3 translation(xPosition, yPosition, zPosition);
 			if (magnitude->nodeType == "Move")
 			{
-				DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", "playerBall", translation));
+				DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", playerName, false, translation));
 			}
 			else if (magnitude->nodeType == "Impulse")
 			{
-				DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Gameplay", "playerBall", translation));
+				DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Gameplay", playerName, false, translation));
 			}
 		});
 	}

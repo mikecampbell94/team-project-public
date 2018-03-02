@@ -20,7 +20,7 @@ uniform sampler2D texNoise;
 
 void main(void){
 	//Generate noise scale based on screen resolution
-	vec2 noiseScale = vec2(1280 / 4.0f, 720 / 4.0f);
+	vec2 noiseScale = vec2(resolutionX / 4.0f, resolutionY / 4.0f);
 
 	float b = 0.1f;
 	float r = 50.0f;

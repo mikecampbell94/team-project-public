@@ -18,6 +18,8 @@
 #include "Graphics Settings/BasicGeometry.h"
 #include "Graphics Settings/UIModule.h"
 #include "Graphics Settings/PaintTrail.h"
+#include "Graphics Settings/GameText.h"
+#include "Graphics Settings/ScoreCounter.h"
 
 class Database;
 class Camera;
@@ -31,7 +33,7 @@ public:
 		Camera* camera, Vector2 resolution);
 	~PipelineConfiguration();
 
-	void initialiseModules(Matrix4 projmatrix, Matrix4 orthographicMatrix, Database* database);
+	void initialiseModules(Database* database);
 	void buildPipeline(GraphicsPipeline* pipeline);
 
 private:
@@ -50,5 +52,7 @@ private:
 	BPLighting *bpLighting;
 	UIModule* uiModule;
 	PaintTrail* paintTrail;
+	GameText* gameText;
+	ScoreCounter* scoreCounter;
 };
 

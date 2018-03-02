@@ -19,7 +19,7 @@ GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 	gameObject->setSceneNode(sceneNode);
 	
 	gameObject->setScale(buildVector3(node->children[4]));
-	
+
 	if (node->children.size() >= 6)
 	{
 
@@ -28,6 +28,7 @@ GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 	}
 
 	gameObject->setPosition(buildVector3(node->children[2]));
+	gameObject->setRotation(buildVector4(node->children[3]));
 
 	return gameObject;
 }
@@ -37,6 +38,7 @@ SceneNode * GameObjectBuilder::buildSceneNode(Node * node, Database* database)
 	std::string meshName = node->children[0]->value;
 	SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getResource(meshName)));
 	sceneNode->SetColour(buildVector4(node->children[1]));
+
 	return sceneNode;
 }
 

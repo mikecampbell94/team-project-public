@@ -9,4 +9,5 @@
 	<Settings name="Skybox">Enabled</Settings>
 	<Settings name="SSAO">Enabled</Settings>
   <Settings name="PaintTrail">Disabled</Settings>
+  <Settings name="ScoreCounter">Disabled</Settings>
 </Config>

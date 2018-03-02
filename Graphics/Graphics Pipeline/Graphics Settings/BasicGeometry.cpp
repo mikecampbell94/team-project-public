@@ -5,7 +5,7 @@
 
 BasicGeometry::BasicGeometry(const std::string identifier, 
 	const Matrix4 projmatrix, const Vector2 resolution, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
-	: GraphicsModule(identifier, projmatrix, resolution)
+	: GraphicsModule(identifier, resolution)
 {
 	this->nodesInFrame = nodesInFrame;
 	basicShader = new Shader(SHADERDIR"/basicVertex.glsl", SHADERDIR"/basicFrag.glsl");

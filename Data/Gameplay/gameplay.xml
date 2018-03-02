@@ -5,45 +5,37 @@
       <moduleName>PaintTrail</moduleName>
       <enabled>True</enabled>
     </SendMessage>
+
+    <SendMessage type="TOGGLE_GRAPHICS_MODULE">
+      <destination>RenderingSystem</destination>
+      <moduleName>ScoreCounter</moduleName>
+      <enabled>True</enabled>
+    </SendMessage>
     
     <SendMessage type="PREPARE_PAINT_SURFACE">
       <destination>RenderingSystem</destination>
       <resource>floor</resource>
     </SendMessage>
+
+    <SendMessage type="ADD_SCORE_HOLDER">
+      <destination>RenderingSystem</destination>
+      <name>player0</name>
+    </SendMessage>
+
+    <SendMessage type="ADD_SCORE_HOLDER">
+      <destination>RenderingSystem</destination>
+      <name>player1</name>
+    </SendMessage>
+
+    <SendMessage type="ADD_SCORE_HOLDER">
+      <destination>RenderingSystem</destination>
+      <name>player2</name>
+    </SendMessage>
   </OnStart>
-  
-  <ReceiveMessage type="CollisionMessage">
-    <Action>
-      <Condition type="AND">
-        <objectIdentifier>playerBall</objectIdentifier>
-        <colliderIdentifier>floor</colliderIdentifier>
-      </Condition>
-
-      <SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-        <destination>RenderingSystem</destination>
-        <resource>playerBall</resource>
-      </SendMessage>
-    </Action>
-  </ReceiveMessage>
-
-  <ReceiveMessage type="CollisionMessage">
-    <Action>
-      <Condition type="AND">
-        <objectIdentifier>enemy</objectIdentifier>
-        <colliderIdentifier>floor</colliderIdentifier>
-      </Condition>
-
-      <SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-        <destination>RenderingSystem</destination>
-        <resource>enemy</resource>
-      </SendMessage>
-    </Action>
-  </ReceiveMessage>
   
   <Timed interval="0.01">
     <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
       <destination>RenderingSystem</destination>
-      <resource>playerBall</resource>
       <translation>
         <x>0</x>
         <y>100</y>
@@ -54,12 +46,6 @@
         <yaw>180</yaw>
       </rotation>
     </SendMessage>
-	</Timed>
-  
-	<Timed interval="2.0">
-		<SendMessage type="TEXT">
-			<destination>RenderingSystem</destination>
-			<text>every 2 seconds</text>
-		</SendMessage>
-	</Timed>
+  </Timed>
+
 </GameplayScript>

@@ -10,7 +10,7 @@ float vertices[] =
 
 ParticleSystem::ParticleSystem(const std::string identifier, const Matrix4 projmatrix,
 	const Vector2 resolution, Matrix4* viewMatrix)
-	: GraphicsModule(identifier, projMatrix, resolution)
+	: GraphicsModule(identifier, resolution)
 {
 	particleShader = new Shader(SHADERDIR"/Particles/pointVert.glsl",
 		SHADERDIR"/Particles/pointFrag.glsl",

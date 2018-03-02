@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);..\ENET\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)$(Configuration);..\ENET\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);..\ENET\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)$(Configuration);..\ENET\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -146,6 +146,9 @@
     <ClInclude Include="Maths\Vector3.h" />
     <ClInclude Include="Maths\Vector4.h" />
     <ClInclude Include="Maths\Matrix3.h" />
+    <ClInclude Include="Maths\VectorBuilder.h" />
+    <ClInclude Include="NetworkBase.h" />
+    <ClInclude Include="Text\PeriodicTextModifier.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameTimer.cpp" />
@@ -153,6 +156,8 @@
     <ClCompile Include="Maths\Plane.cpp" />
     <ClCompile Include="Maths\Quaternion.cpp" />
     <ClCompile Include="Maths\Matrix3.cpp" />
+    <ClCompile Include="NetworkBase.cpp" />
+    <ClCompile Include="Text\PeriodicTextModifier.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

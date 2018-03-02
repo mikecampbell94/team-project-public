@@ -1,5 +1,6 @@
 #include "Startup.h"
 #include "Resource Management/Database/Database.h"
+#include "Networking/NetworkClient.h"
 
 Startup::Startup()
 {
@@ -22,7 +23,8 @@ void Startup::initialiseSubsystems()
 	initialiseLevelSystem();
 	initialiseInputSystem();
 	initialiseGameplaySystem();
-	userInterface = new UserInterface(window->getKeyboard(), Vector2(screenWidth, screenHeight));
+	userInterface = new UserInterface(window->getKeyboard(), resolution);
+	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
 
 	game->addWindowToGameLoop(window);
@@ -32,8 +34,16 @@ void Startup::initialiseSubsystems()
 
 void Startup::initialiseRenderingSystem()
 {
-	window = new Window("Game Window", screenWidth, screenHeight);
+	XMLParser windowConfiguration;
+	windowConfiguration.loadFile("../Data/Resources/Config/Graphics/windowConfigXML.xml");
+	Node* node = windowConfiguration.parsedXml;
+	resolution.x = std::stof(node->children[0]->children[0]->value);
+	resolution.y = std::stof(node->children[0]->children[1]->value);
+	bool fullScreen = node->children[1]->value == "Enabled";
+
+	window = new Window("Game Window", resolution.x, resolution.y, fullScreen);
 	window->lockMouseToWindow(true);
+	window->showOSPointer(false);
 
 	camera = new Camera(0, 90, Vector3(0, 0, 0));
 
@@ -93,7 +103,7 @@ void Startup::initialiseLevelSystem()
 
 void Startup::initialiseGameplaySystem()
 {
-	gameplay = new GameplaySystem();
+	gameplay = new GameplaySystem(database);
 }
 
 void Startup::addSystemsToEngine()
@@ -113,13 +123,19 @@ void Startup::loadMainMenu()
 	userInterface->initialise(database);
 }
 
-void Startup::loadLevel(std::string levelFile)
+void Startup::loadLevel(std::string levelFile, bool online)
 {
-	physics->InitialiseOctrees(5);
+	physics->InitialiseOctrees(10);
 	level->loadLevelFile(levelFile);
-	playerbase->addNewPlayer(keyboardAndMouse);
-	gameplay->connectPlayerbase(inputManager->GetPlayerbase());
+
+	if (!online)
+	{
+		playerbase->addNewPlayer(keyboardAndMouse, 0);
+		gameplay->connectPlayerbase(inputManager->GetPlayerbase());
+	}
+
 	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
+	gameplay->compileGameObjectScripts();
 }
 
 void Startup::switchLevel()
@@ -130,6 +146,14 @@ void Startup::switchLevel()
 void Startup::unloadLevel()
 {
 	level->unloadLevel();
+}
+
+void Startup::beginOnlineLobby()
+{
+	engine->addSubsystem(network);
+	network->waitForOtherClients(3);
+	network->connectToServer();
+	DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
 }
 
 void Startup::startGameLoop()

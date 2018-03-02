@@ -27,19 +27,19 @@ public:
 				float minB = GetMinXCoordOfNode(nodes[y]);
 
 				//Are they possibly colliding?
-				if (maxA > minB)
-				{
+				//if (maxA > minB)
+				//{
 					//Yes, get Narrow phase to check this pair properly...
 					CollisionPair pair;
 					pair.pObjectA = nodes[x];
 					pair.pObjectB = nodes[y];
 					
 					pairs.push_back(pair);
-				}
-				else
-				{
-					break;
-				}
+				//}
+				//else
+				//{
+				//	break;
+				//}
 			}
 		}
 	}

@@ -10,19 +10,39 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
 	this->database = database;
 
-	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE };
+	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, 
+		MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE, MessageType::UPDATE_POSITION };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database, &incomingMessages = incomingMessages](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
 	{
-		MessageProcessor* m = &incomingMessages;
-
 		ApplyForceMessage* applyForceMessage = static_cast<ApplyForceMessage*>(message);
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyForceMessage->gameObjectID));
 
-		gObj->getPhysicsNode()->setAppliedForce(applyForceMessage->force);
+		Vector3 force = applyForceMessage->force;
+
+		if (applyForceMessage->isRandom)
+		{
+			if (applyForceMessage->xmin != applyForceMessage->xmax)
+			{
+				force.x = VectorBuilder::getRandomVectorComponent(applyForceMessage->xmin, applyForceMessage->xmax) * 50.0f; 
+				//These * 50.0f are needed because currently rand() doesn't give good results for large ranges. 
+				//So a smaller range is needed when choosing random min and max values for vectors, which should then be scaled to the appropriate value
+				//Get rid of them though as any random force component will now be scaled and this isn't good!
+			}
+			if (applyForceMessage->ymin != applyForceMessage->ymax)
+			{
+				force.y = VectorBuilder::getRandomVectorComponent(applyForceMessage->ymin, applyForceMessage->ymax) * 50.0f;
+			}
+			if (applyForceMessage->zmin != applyForceMessage->zmax)
+			{
+				force.z = VectorBuilder::getRandomVectorComponent(applyForceMessage->zmin, applyForceMessage->zmax) * 50.0f;
+			}
+		}
+
+		gObj->getPhysicsNode()->setAppliedForce(force);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_IMPULSE, [database](Message* message)
@@ -31,7 +51,33 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyImpulseMessage->gameObjectID));
 
-		gObj->getPhysicsNode()->applyImpulse(applyImpulseMessage->impulse);
+		Vector3 impulse = applyImpulseMessage->impulse;
+
+		if (applyImpulseMessage->isRandom)
+		{
+			if (applyImpulseMessage->xmin != applyImpulseMessage->xmax)
+			{
+				impulse.x = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->xmin, applyImpulseMessage->xmax);
+			}
+			if (applyImpulseMessage->ymin != applyImpulseMessage->ymax)
+			{
+				impulse.y = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->ymin, applyImpulseMessage->ymax);
+			}
+			if (applyImpulseMessage->zmin != applyImpulseMessage->zmax)
+			{
+				impulse.z = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->zmin, applyImpulseMessage->zmax);
+			}
+		}
+		gObj->getPhysicsNode()->applyImpulse(impulse);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [database](Message* message)
+	{
+		UpdatePositionMessage* positionMessage = static_cast<UpdatePositionMessage*>(message);
+
+		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(positionMessage->gameObjectID));
+
+		gObj->getPhysicsNode()->setPosition(positionMessage->position);
 	});
 
 	updateTimestep = 1.0f / 60.f;
@@ -195,6 +241,35 @@ void PhysicsEngine::broadPhaseCollisions()
 			broadphaseColPairs = octree->GetAllCollisionPairs();
 		}
 	}
+
+	//broadphaseColPairs.clear();
+
+	//PhysicsNode* nodeA;
+	//PhysicsNode* nodeB;
+
+	//if (physicsNodes.size() > 0)
+	//{
+	//	for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
+	//	{
+	//		for (size_t j = i + 1; j < physicsNodes.size(); j++)
+	//		{
+	//			nodeA = physicsNodes[i];
+	//			nodeB = physicsNodes[j];
+
+	//			if (nodeA->getCollisionShape() && nodeB->getCollisionShape())
+	//			{
+	//				CollisionPair pair;
+	//				pair.pObjectA = nodeA;
+	//				pair.pObjectB = nodeB;
+
+	//				if (pair.pObjectA->getIsCollision() && pair.pObjectB->getIsCollision())
+	//				{
+	//					broadphaseColPairs.push_back(pair);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 void PhysicsEngine::narrowPhaseCollisions()
@@ -247,7 +322,7 @@ void PhysicsEngine::narrowPhaseCollisions()
 
 void PhysicsEngine::InitialiseOctrees(int entityLimit)
 {
-	octree = new OctreePartitioning(physicsNodes, Vector3(400, 400, 400), Vector3(0, 0, 0));
+	octree = new OctreePartitioning(physicsNodes, Vector3(600, 400, 600), Vector3(0, 0, 0));
 	octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
 
 	if (physicsNodes.size() > 0)

@@ -75,6 +75,15 @@
     <ClInclude Include="Messages\PaintTrailForGameObjectMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Messages\UpdatePositionMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages\TextMeshMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages\AddScoreHolderMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp">
@@ -129,6 +138,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\PaintTrailForGameObjectMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\UpdatePositionMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\TextMeshMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\AddScoreHolderMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

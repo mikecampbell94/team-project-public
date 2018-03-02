@@ -13,6 +13,7 @@
 #include "CuboidCollisionShape.h"
 
 #include "CollisionDetectionSAT.h"
+#include "../Launch/Networking/DeadReckoning.h"
 
 class PhysicsNode;
 
@@ -40,7 +41,9 @@ public:
 		, enabled(true)
 		, isCollision(true)
 		, appliedForce(0.0f, 0.0f, 0.0f)
+		, acceleration(0.0f, 0.0f, 0.0f)
 	{
+
 	}
 	~PhysicsNode()
 	{
@@ -112,7 +115,24 @@ public:
 		return isCollision;
 	}
 
+	void setRotation(Vector4 rotation)
+	{
+		worldTransform = (Matrix4::translation(position) *
+			Matrix4::rotation(rotation.w, Vector3(rotation.x, rotation.y, rotation.z)) *
+			Matrix4::scale(worldTransform.getScalingVector()));
 
+		orientation = Quaternion::axisAngleToQuaterion(Vector3(rotation.x, rotation.y, rotation.z), rotation.w);
+	}
+
+	Vector3 getAcceleration()
+	{
+		return acceleration;
+	}
+
+	void setAcceleration(Vector3 newAcceleration)
+	{
+		acceleration = newAcceleration;
+	}
 
 	inline void setParent(GameObject* obj) 
 	{ 
@@ -252,6 +272,11 @@ public:
 		linVelocity += impulse;
 	}
 	
+	bool constantAcceleration = false;
+
+	Vector3 startPosition;
+	Vector3 startVelocity;
+	Vector3 startAcceleration;
 
 private:
 	GameObject*				parent;
@@ -264,6 +289,7 @@ private:
 	Vector3		position;
 	Vector3		linVelocity;
 	Vector3		force;
+	Vector3		acceleration;
 	float		invMass;
 
 	Quaternion  orientation;

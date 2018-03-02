@@ -8,9 +8,11 @@
 #include "../Resource Management/XMLParser.h"
 #include "../Input/Devices/Keyboard.h"
 
-GameplaySystem::GameplaySystem()
+GameplaySystem::GameplaySystem(Database* database)
 	: Subsystem("Gameplay")
 {
+	this->database = database;
+ 
 	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, 
 		MessageType::COLLISION, MessageType::APPLY_IMPULSE},
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
@@ -28,13 +30,19 @@ GameplaySystem::GameplaySystem()
 		}
 	});
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::COLLISION, [&gameLogic = gameLogic, &canjump = canjump](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::COLLISION, [&gameLogic = gameLogic, &objects = objects, &canjump = canjump](Message* message)
 	{
 		//CollisionMessage* collisionMessage = static_cast<CollisionMessage*>(message);
 		//std::cout << "Obj : " << collisionMessage->objectIdentifier << std::endl;
 		//std::cout << "Collider : " << collisionMessage->colliderIdentifier << std::endl;
 
 		gameLogic.notifyMessageActions("CollisionMessage", message);
+		
+		for (GameObjectLogic& object : objects)
+		{
+			object.notify("CollisionMessage", message);
+		}
+
 		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
 		if ((collisionmessage->colliderIdentifier == "playerBall" || collisionmessage->objectIdentifier == "playerBall"))
 		{
@@ -63,6 +71,11 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 	gameLogic.executeMessageBasedActions();
 	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
 	gameLogic.clearNotifications();
+
+	for each (GameObjectLogic object in objects)
+	{
+		object.updatelogic(deltaTime * 0.001f);
+	}
 }
 
 void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
@@ -77,9 +90,30 @@ void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
 
 void GameplaySystem::compileGameplayScript(std::string levelScript)
 {
+	objects.clear();
+
 	XMLParser xmlParser;
 	xmlParser.loadFile(levelScript);
 	gameLogic = GameLogic(&incomingMessages);
 	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
 	gameLogic.executeActionsOnStart();
+
+	/*objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/testObjectLogic.xml"));
+
+	for (GameObjectLogic& object : objects)
+	{
+		object.compileParsedXMLIntoScript();
+	}*/
 }
+
+void GameplaySystem::compileGameObjectScripts()
+{
+	objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/aiObjectLogic.xml"));
+	objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/playerObjectLogic.xml"));
+
+	for (GameObjectLogic& object : objects)
+	{
+		object.compileParsedXMLIntoScript();
+	}
+}
+

@@ -15,6 +15,7 @@ _-_-_-_-_-_-_-""  ""
 #include <iostream>
 #include "../../Resource Management/XMLParser.h"
 #include "Vector2.h"
+#include "VectorBuilder.h"
 
 class Vector3	{
 public:
@@ -40,6 +41,11 @@ public:
 	float x;
 	float y;
 	float z;
+
+	static Vector3 interpolate(const Vector3& a, const Vector3& b, float factor)
+	{
+		return a + ((b - a) * factor);
+	}
 
 	const Vector3&	normalise() {
 		float currentLength = length();
@@ -135,9 +141,9 @@ public:
 
 	static Vector3 builder(Node* node)
 	{
-		const float x = std::stof(node->children[0]->value);
-		const float y = std::stof(node->children[1]->value);
-		const float z = std::stof(node->children[2]->value);
+		const float x = VectorBuilder::getVectorComponentFromNode(node->children[0]);
+		const float y = VectorBuilder::getVectorComponentFromNode(node->children[1]);
+		const float z = VectorBuilder::getVectorComponentFromNode(node->children[2]);
 		return Vector3(x, y, z);
 	}
 };

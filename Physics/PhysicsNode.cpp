@@ -1,23 +1,29 @@
 #include "PhysicsNode.h"
+#include "../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
+#include "../Communication/DeliverySystem.h"
 
 static const Vector3 gravity = Vector3(0.0f, -9.8f, 0.0f);
 static const float MAX_SPEED = 50.0f;
+
+Vector3 interpolate(Vector3 a, Vector3 b, float factor)
+{
+	return a + ((b - a) * factor);
+}
 
 void PhysicsNode::integrateForVelocity(float dt)
 {
 	if (invMass > 0.f) 
 	{
-		appliedForce += gravity;
-
-		force = appliedForce;
+		linVelocity += gravity * dt;
 	}
 
-	if (force.z == 50.f)
+	if(!constantAcceleration)
 	{
-		int x = 0;
+		force = appliedForce;
+		acceleration = force * invMass;
 	}
 
-	linVelocity += force * invMass * dt;
+	linVelocity += acceleration * dt;
 
 	linVelocity = linVelocity * damping;
 
@@ -37,6 +43,21 @@ void PhysicsNode::integrateForPosition(float dt)
 {
 	position += linVelocity * dt;
 
+	//if (constantForce)
+	//{
+	//	msCounter += dt;
+	//	float factor = (msCounter - deadReckoningState.timeStamp) / 15.0f;
+
+	//	if (factor <= 1.0f && factor >= 0.0f)
+	//	{
+	//		position = interpolate(position, deadReckoningState.position, factor);
+
+	//		linVelocity = interpolate(linVelocity, deadReckoningState.linearVelocity, factor);
+
+	//		acceleration = interpolate(acceleration, deadReckoningState.linearAcceleration, factor);
+	//	}
+	//}
+
 	orientation = orientation + Quaternion(angVelocity * dt * .5f, 0.f) * orientation;
 
 	orientation.normalise();
@@ -45,4 +66,10 @@ void PhysicsNode::integrateForPosition(float dt)
 
 	worldTransform.setPositionVector(position);
 	fireOnUpdateCallback();
+
+	//if (parent->getName() == MoveCameraRelativeToGameObjectMessage::resourceName)
+	//{
+	//	DeliverySystem::getPostman()->insertMessage(UpdatePositionMessage("NetworkClient", parent->getName(), position));
+	//}
 }
+
