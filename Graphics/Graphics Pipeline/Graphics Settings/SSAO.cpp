@@ -179,6 +179,9 @@ void SSAO::generateSSAOTex()
 	glUniform1i(loc_gNormal, CommonGraphicsData::GNORMAL);
 	glUniform1i(loc_texNoise, NOISE_TEX);
 
+	glUniform1f(glGetUniformLocation(SSAOCol->GetProgram(), "resolutionX"), resolution.x);
+	glUniform1f(glGetUniformLocation(SSAOCol->GetProgram(), "resolutionY"), resolution.y);
+
 	currentShader->ApplyTexture(CommonGraphicsData::GPOSITION, *SGBuffer->gPosition);
 	currentShader->ApplyTexture(CommonGraphicsData::GNORMAL, *SGBuffer->gNormal);
 	currentShader->ApplyTexture(NOISE_TEX, noiseTexture);

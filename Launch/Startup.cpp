@@ -23,7 +23,7 @@ void Startup::initialiseSubsystems()
 	initialiseLevelSystem();
 	initialiseInputSystem();
 	initialiseGameplaySystem();
-	userInterface = new UserInterface(window->getKeyboard(), Vector2(screenWidth, screenHeight));
+	userInterface = new UserInterface(window->getKeyboard(), resolution);
 	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
 
@@ -34,8 +34,16 @@ void Startup::initialiseSubsystems()
 
 void Startup::initialiseRenderingSystem()
 {
-	window = new Window("Game Window", screenWidth, screenHeight);
+	XMLParser windowConfiguration;
+	windowConfiguration.loadFile("../Data/Resources/Config/Graphics/windowConfigXML.xml");
+	Node* node = windowConfiguration.parsedXml;
+	resolution.x = std::stof(node->children[0]->children[0]->value);
+	resolution.y = std::stof(node->children[0]->children[1]->value);
+	bool fullScreen = node->children[1]->value == "Enabled";
+
+	window = new Window("Game Window", resolution.x, resolution.y, fullScreen);
 	window->lockMouseToWindow(true);
+	window->showOSPointer(false);
 
 	camera = new Camera(0, 90, Vector3(0, 0, 0));
 

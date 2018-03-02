@@ -70,8 +70,6 @@ private:
 
 	SceneNode* node;
 	std::vector<SceneNode*>* nodes;
-
-	int screenWidth = 1280;
-	int screenHeight = 720;
+	Vector2 resolution;
 };
 
