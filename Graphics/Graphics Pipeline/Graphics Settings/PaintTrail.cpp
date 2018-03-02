@@ -8,9 +8,8 @@
 
 #define SHADOWSIZE 4096
 
-PaintTrail::PaintTrail(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Database* database)
-	: GraphicsModule(identifier, projmatrix, resolution)
+PaintTrail::PaintTrail(const std::string identifier, const Vector2 resolution, Database* database)
+	: GraphicsModule(identifier, resolution)
 {
 	paintTrailShader = new Shader(SHADERDIR"PaintTrail/paintTrailVert.glsl", SHADERDIR"PaintTrail/paintTrailFrag.glsl");
 	this->database = database;
@@ -28,10 +27,10 @@ void PaintTrail::preparePaintSurface(std::vector<GameObject*> surfaceObjects)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
 	viewMatrix = Matrix4::buildViewMatrix(Vector3(1, 800, 1), Vector3(0, 0, 0));
-	textureMatrices = biasMatrix * (projMatrix * viewMatrix);
+	textureMatrices = biasMatrix * (CommonGraphicsData::SHARED_PROJECTION_MATRIX * viewMatrix);
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
 
 	for each (GameObject* surfaceObject in surfaceObjects)
@@ -90,10 +89,10 @@ void PaintTrail::apply()
 	glBindFramebuffer(GL_FRAMEBUFFER, buffer);
 
 	viewMatrix = Matrix4::buildViewMatrix(Vector3(1, 800, 1), Vector3(0, 0, 0));
-	textureMatrices = biasMatrix * (projMatrix * viewMatrix);
+	textureMatrices = biasMatrix * (CommonGraphicsData::SHARED_PROJECTION_MATRIX * viewMatrix);
 
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
 	glDisable(GL_DEPTH_TEST);
 	while (!painters.empty()) 

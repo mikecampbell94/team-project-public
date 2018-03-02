@@ -8,8 +8,8 @@
 
 #include <math.h>
 
-ScoreCounter::ScoreCounter(const std::string identifier, const Matrix4 orthographicMatrix, const Vector2 resolution, Database* database)
-	: GraphicsModule(identifier, orthographicMatrix, resolution)
+ScoreCounter::ScoreCounter(const std::string identifier, const Vector2 resolution, Database* database)
+	: GraphicsModule(identifier, resolution)
 {
 	computeShader = new ComputeShader(SHADERDIR"/Compute/compute.glsl", true);
 	textShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"/ScoreText/textFrag.glsl", "", true);
@@ -107,7 +107,7 @@ void ScoreCounter::displayScores()
 	for (int i = 0; i < scoreHolders.size(); ++i)
 	{
 		viewMatrix.toIdentity();
-		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
+		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 
 		Vector3 colour(coloursToCount[i].x, coloursToCount[i].y, coloursToCount[i].z);
 		glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);

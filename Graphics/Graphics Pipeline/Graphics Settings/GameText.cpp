@@ -3,9 +3,8 @@
 #include "../../GraphicsCommon.h"
 #include "../Graphics/Utility/Camera.h"
 
-GameText::GameText(const std::string identifier, const Matrix4 orthographicMatrix, Matrix4 perspectiveMatrix,
-	const Vector2 resolution, Camera* camera)
-	: GraphicsModule(identifier, perspectiveMatrix, resolution)
+GameText::GameText(const std::string identifier, const Vector2 resolution, Camera* camera)
+	: GraphicsModule(identifier, resolution)
 {
 	font = new Font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
 	tex = SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
@@ -14,8 +13,6 @@ GameText::GameText(const std::string identifier, const Matrix4 orthographicMatri
 	UITextShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"UITextFrag.glsl", "", true);
 
 	this->camera = camera;
-	this->orthographicMatrix = orthographicMatrix;
-	this->perspectiveMatrix = perspectiveMatrix;
 }
 
 
@@ -46,13 +43,13 @@ void GameText::apply()
 		if (bufferedOrthographicUsage[i] == true)
 		{
 			viewMatrix.toIdentity();
-			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&orthographicMatrix);
+			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 		}
 		else
 		{
 			viewMatrix = camera->buildViewMatrix();
 			bufferedScales[i].x = -bufferedScales[i].x;
-			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&perspectiveMatrix);
+			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 		}
 
 		glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&bufferedColours[i]);

@@ -14,8 +14,7 @@ const int SSAO_TEX = 0;
 class SSAO : public GraphicsModule
 {
 public:
-	SSAO(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Camera* cam, GBufferData* SGBuffer);
+	SSAO(const std::string identifier, const Vector2 resolution, Camera* cam, GBufferData* SGBuffer);
 
 	virtual ~SSAO()
 	{

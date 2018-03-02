@@ -9,8 +9,7 @@
 class Skybox : public GraphicsModule
 {
 public:
-	Skybox(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Matrix4* viewMatrix);
+	Skybox(const std::string identifier, const Vector2 resolution, Matrix4* viewMatrix);
 	~Skybox();
 
 	void linkShaders() override;

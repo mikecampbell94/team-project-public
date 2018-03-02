@@ -98,7 +98,10 @@
           <x>50.0</x>
           <y>20.0</y>
         </scale>
-        <action>None</action>
+        <action type="Resolution">
+          <x>1920</x>
+          <y>1080</y>
+        </action>
         <text>1920 x 1080</text>
         <mesh>UIQuad</mesh>
       </Button>
@@ -118,7 +121,10 @@
           <x>50.0</x>
           <y>20.0</y>
         </scale>
-        <action>None</action>
+        <action type="Resolution">
+          <x>1280</x>
+          <y>720</y>
+        </action>
         <text>1280 x 720</text>
         <mesh>UIQuad</mesh>
       </Button>
@@ -138,7 +144,10 @@
           <x>50.0</x>
           <y>20.0</y>
         </scale>
-        <action>None</action>
+        <action type="Resolution">
+          <x>800</x>
+          <y>600</y>
+        </action>
         <text>800 x 600</text>
         <mesh>UIQuad</mesh>
       </Button>

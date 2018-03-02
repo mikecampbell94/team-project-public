@@ -10,6 +10,7 @@
 #include "../Shaders/Shader.h"
 #include "../Utilities/Maths/Matrix4.h"
 #include "../Utilities/Maths/Vector2.h"
+#include "../GraphicsCommon.h"
 
 struct ShadowData
 {
@@ -33,9 +34,8 @@ class GraphicsModule
 {
 public:
 
-	GraphicsModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution)
+	GraphicsModule(const std::string identifier, const Vector2 resolution)
 	{
-		this->projMatrix = projMatrix;
 		this->resolution = resolution;
 		this->identifier = identifier;
 		this->enabled = true;
@@ -64,7 +64,7 @@ public:
 		{
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "modelMatrix"), 1, false, (float*)&modelMatrix);
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
-			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
+			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "textureMatrix"), 1, false, (float*)&textureMatrix);
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "camMatrix"), 1, false, (float*)&viewMatrix);
 			glUniform1i(glGetUniformLocation(currentShader->GetProgram(), "resolutionY"), (GLint)resolution.y);
@@ -129,7 +129,6 @@ protected:
 
 	Shader* currentShader;
 	Vector2 resolution;
-	Matrix4 projMatrix;
 	Matrix4 modelMatrix;
 	Matrix4 viewMatrix;
 	Matrix4 textureMatrix;

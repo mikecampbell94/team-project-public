@@ -5,6 +5,8 @@
 #define TEXTUREDIR  "../Data/Textures/"
 #define SOUNDSDIR	"../Data/Sounds/"
 
+#include "Maths/Matrix4.h"
+
 class CommonGraphicsData
 {
 public:
@@ -19,4 +21,7 @@ public:
 	{
 		SSAO_INDEX
 	};
+
+	static Matrix4 SHARED_PROJECTION_MATRIX;
+	static Matrix4 SHARED_ORTHOGRAPHIC_MATRIX;
 };

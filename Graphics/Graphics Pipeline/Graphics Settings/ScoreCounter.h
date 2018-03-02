@@ -9,8 +9,7 @@ class Database;
 class ScoreCounter : public GraphicsModule
 {
 public:
-	ScoreCounter(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Database* database);
+	ScoreCounter(const std::string identifier, const Vector2 resolution, Database* database);
 	~ScoreCounter();
 
 	void bufferScoreHolder(std::string scoreHoldername);

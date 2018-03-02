@@ -4,15 +4,14 @@
 #include "../../GraphicsUtility.h"
 #include "../../Rendering/OGLRenderer.h"
 
-Shadows::Shadows(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, std::vector<Light*>** lights, std::vector<SceneNode*>** models)
-	: GraphicsModule(identifier, projMatrix, resolution)
+Shadows::Shadows(const std::string identifier, const Vector2 resolution, 
+	std::vector<Light*>** lights, std::vector<SceneNode*>** models)
+	: GraphicsModule(identifier, resolution)
 {
 	shadowData = new ShadowData();
 
 	shadowShader = new Shader(SHADERDIR"shadowvert.glsl", SHADERDIR"shadowfrag.glsl");
 
-	this->projMatrix = projmatrix;
 	this->resolution = resolution;
 	this->lights = lights;
 	this->models = models;
@@ -82,7 +81,7 @@ void Shadows::drawShadowScene()
 	glViewport(0, 0, SHADOWSIZE, SHADOWSIZE);
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
 	for (auto i = (**lights).begin(); i != (**lights).end(); ++i)
 	{
@@ -92,7 +91,7 @@ void Shadows::drawShadowScene()
 			glClear(GL_DEPTH_BUFFER_BIT);
 
 			viewMatrix = Matrix4::buildViewMatrix((*i)->GetPosition(), Vector3(0, 0, 0));
-			shadowData->textureMatrices = biasMatrix * (projMatrix * viewMatrix);
+			shadowData->textureMatrices = biasMatrix * (CommonGraphicsData::SHARED_PROJECTION_MATRIX * viewMatrix);
 
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
 

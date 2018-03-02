@@ -10,8 +10,7 @@ class Camera;
 class GameText : public GraphicsModule
 {
 public:
-	GameText(const std::string identifier, const Matrix4 orthographicMatrix, Matrix4 perspectiveMatrix,
-		const Vector2 resolution, Camera* camera);
+	GameText(const std::string identifier, const Vector2 resolution, Camera* camera);
 	~GameText();
 
 	void initialise() override;
@@ -26,9 +25,6 @@ protected:
 	void locateUniforms() override;
 	Shader* UIShader;
 	Shader* UITextShader;
-
-	Matrix4 orthographicMatrix;
-	Matrix4 perspectiveMatrix;
 
 	Camera* camera;
 

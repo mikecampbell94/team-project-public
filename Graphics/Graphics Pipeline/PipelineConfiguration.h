@@ -33,7 +33,7 @@ public:
 		Camera* camera, Vector2 resolution);
 	~PipelineConfiguration();
 
-	void initialiseModules(Matrix4 projmatrix, Matrix4 orthographicMatrix, Database* database);
+	void initialiseModules(Database* database);
 	void buildPipeline(GraphicsPipeline* pipeline);
 
 private:

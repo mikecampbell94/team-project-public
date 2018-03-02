@@ -5,8 +5,8 @@
 #include "UserInterfaceDisplay.h"
 #include <iterator>
 
-UIModule::UIModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution,
-	Database* database) : GraphicsModule(identifier, projMatrix, resolution)
+UIModule::UIModule(const std::string identifier, const Vector2 resolution,
+	Database* database) : GraphicsModule(identifier, resolution)
 {
 	font = new Font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
 	tex = SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
@@ -38,6 +38,7 @@ void UIModule::apply()
 	textureMatrix.toIdentity();
 
 	updateShaderMatrices();
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 
 	for each (Button* button in *UIObjects)
 	{
@@ -56,6 +57,7 @@ void UIModule::apply()
 
 	setCurrentShader(UITextShader);
 	updateShaderMatrices();
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 
 	Vector3 colour(1.0f, 1.0f, 1.0f);
 	glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);

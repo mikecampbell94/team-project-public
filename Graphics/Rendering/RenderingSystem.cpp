@@ -16,6 +16,7 @@
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
+#include <iterator>
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
@@ -37,9 +38,20 @@ void RenderingSystem::initialise(Database* database)
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&renderer = renderer](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
+
+		istringstream iss(textMessage->text);
+		vector<string> tokens{ istream_iterator<string>{iss},
+			std::istream_iterator<string>{} };
+
+		if (tokens[0] == "Resolution")
+		{
+			Vector2 resolution(stof(tokens[1]), stof(tokens[2]));
+			renderer->changeResolution(resolution);
+		}
+
 		std::cout << textMessage->text << std::endl;
 	});
 

@@ -128,9 +128,9 @@ public:
 		return textureMatrix;
 	}
 
+	virtual void	Resize(int x, int y);
 
 protected:
-	virtual void	Resize(int x, int y);
 	void			UpdateShaderMatrices();
 	void			UpdateShaderMatrices(Shader* shader);
 	void			SetCurrentShader(Shader*s);

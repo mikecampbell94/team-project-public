@@ -17,8 +17,8 @@ class Window;
 class GBuffer : public GraphicsModule
 {
 public:
-	GBuffer(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame);
+	GBuffer(const std::string identifier, const Vector2 resolution, 
+		Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame);
 	virtual ~GBuffer();
 
 	void linkShaders() override;
