@@ -1,93 +1,4 @@
 <MainMenu>
-  <Button name="Start Solo">
-    <colour>
-      <r>1.0</r>
-      <g>0.0</g>
-      <b>0.0</b>
-      <a>0.5</a>
-    </colour>
-    <position>
-      <x>-450</x>
-      <y>0</y>
-    </position>
-    <scale>
-      <x>50.0</x>
-      <y>20.0</y>
-    </scale>
-    <action>None</action>
-    <text>Solo</text>
-    <mesh>UIQuad</mesh>
-
-    <Button name="Start Level 1">
-      <colour>
-        <r>1.0</r>
-        <g>0.0</g>
-        <b>0.0</b>
-        <a>0.5</a>
-      </colour>
-      <position>
-        <x>-340</x>
-        <y>50</y>
-      </position>
-      <scale>
-        <x>50.0</x>
-        <y>20.0</y>
-      </scale>
-      <action type="Start">
-        <Online>False</Online>
-        <Level>TestLevel.txt</Level>
-      </action>
-      <text>Level 1</text>
-      <mesh>UIQuad</mesh>
-    </Button>
-    
-    <Button name="Start Level 2">
-      <colour>
-        <r>1.0</r>
-        <g>0.0</g>
-        <b>0.0</b>
-        <a>0.5</a>
-      </colour>
-      <position>
-        <x>-340</x>
-        <y>0</y>
-      </position>
-      <scale>
-        <x>50.0</x>
-        <y>20.0</y>
-      </scale>
-      <action type="Start">
-        <Online>False</Online>
-        <Level>Level2.txt</Level>
-      </action>
-      <text>Level 2</text>
-      <mesh>UIQuad</mesh>
-    </Button>
-  </Button>
-
-  <Button name="Start Online">
-    <colour>
-      <r>1.0</r>
-      <g>0.0</g>
-      <b>0.0</b>
-      <a>0.5</a>
-    </colour>
-    <position>
-      <x>-450</x>
-      <y>-50</y>
-    </position>
-    <scale>
-      <x>50.0</x>
-      <y>20.0</y>
-    </scale>
-    <action type="Start">
-      <Online>True</Online>
-      <Level>TestLevel.txt</Level>
-    </action>
-    <text>Online</text>
-    <mesh>UIQuad</mesh>
-  </Button>
-
   <Button name ="Settings">
     <colour>
       <r>1.0</r>
@@ -300,8 +211,11 @@
       <x>50.0</x>
       <y>20.0</y>
     </scale>
-    <action>Quit</action>
-    <text>Quit</text>
+    <action type="Start">
+      <Online>False</Online>
+      <Level>MainMenu.txt</Level>
+    </action>
+    <text>Main Menu</text>
     <mesh>UIQuad</mesh>
   </Button>
 </MainMenu>

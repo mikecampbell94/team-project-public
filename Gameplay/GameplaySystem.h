@@ -20,6 +20,9 @@ public:
 
 	void connectPlayerbase(PlayerBase* playerbase);
 	void compileGameplayScript(std::string levelScript);
+
+	void addGameObjectScript(std::string scriptFile);
+	void deleteGameObjectScripts();
 	void compileGameObjectScripts();
 
 private:

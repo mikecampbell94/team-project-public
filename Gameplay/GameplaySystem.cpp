@@ -81,10 +81,20 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	}*/
 }
 
+void GameplaySystem::addGameObjectScript(std::string scriptFile)
+{
+	objects.push_back(GameObjectLogic(database, &incomingMessages, scriptFile));
+}
+
+void GameplaySystem::deleteGameObjectScripts()
+{
+	objects.clear();
+}
+
 void GameplaySystem::compileGameObjectScripts()
 {
-	objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/aiObjectLogic.xml"));
-	objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/playerObjectLogic.xml"));
+	//objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/aiObjectLogic.xml"));
+	//objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/playerObjectLogic.xml"));
 
 	for (GameObjectLogic& object : objects)
 	{

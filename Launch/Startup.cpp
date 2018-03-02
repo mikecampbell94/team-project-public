@@ -20,10 +20,10 @@ void Startup::initialiseSubsystems()
 	initialiseDatabaseAndTables();
 	initialiseAudioSystem();
 	physics = new PhysicsEngine(database);
+	userInterface = new UserInterface(window->getKeyboard(), resolution);
 	initialiseLevelSystem();
 	initialiseInputSystem();
 	initialiseGameplaySystem();
-	userInterface = new UserInterface(window->getKeyboard(), resolution);
 	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
 
@@ -98,7 +98,7 @@ void Startup::initialiseDatabaseAndTables()
 
 void Startup::initialiseLevelSystem()
 {
-	level = new Level(database, scene, physics);
+	level = new Level(database, scene, physics, userInterface);
 }
 
 void Startup::initialiseGameplaySystem()
@@ -118,15 +118,15 @@ void Startup::addSystemsToEngine()
 
 void Startup::loadMainMenu()
 {
-	level->loadLevelFile("MainMenu.txt");
-	gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
-	userInterface->initialise(database);
+	level->loadLevelFile("MainMenu.txt", gameplay);
+	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
+	//userInterface->initialise(database);
 }
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
 	physics->InitialiseOctrees(10);
-	level->loadLevelFile(levelFile);
+	level->loadLevelFile(levelFile, gameplay);
 
 	if (!online)
 	{
@@ -134,7 +134,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 		gameplay->connectPlayerbase(inputManager->GetPlayerbase());
 	}
 
-	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
+	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
 }
 

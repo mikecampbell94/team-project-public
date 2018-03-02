@@ -152,7 +152,7 @@ void PhysicsEngine::removeAllPhysicsObjects()
 	{
 		if (obj->getParent())
 			obj->getParent()->setPhysicsNode(nullptr);
-		delete obj;
+		//delete obj;
 	}
 	physicsNodes.clear();
 }
