@@ -1,0 +1,28 @@
+<GameObjectLogic>
+
+<Resources>
+	<resource>player0</resource>
+	<resource>player1</resource>
+	<resource>player2</resource>
+</Resources>
+
+
+<GameplayScript>
+  
+	<ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>var</objectIdentifier>
+				<colliderIdentifier>floor</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
+				<destination>RenderingSystem</destination>
+				<resource>var</resource>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
+	 
+</GameplayScript>
+
+</GameObjectLogic>

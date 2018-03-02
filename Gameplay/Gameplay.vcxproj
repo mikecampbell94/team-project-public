@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjectLogic\GameObjectLogic.h" />
+    <ClInclude Include="PaintingGameMechanics.h" />
     <ClInclude Include="Scripting\ConditionalStatementBuilder.h" />
     <ClInclude Include="Scripting\ActionBuilder.h" />
     <ClInclude Include="Scripting\GameLogic.h" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjectLogic\GameObjectLogic.cpp" />
+    <ClCompile Include="PaintingGameMechanics.cpp" />
     <ClCompile Include="Scripting\ConditionalStatementBuilder.cpp" />
     <ClCompile Include="Scripting\ActionBuilder.cpp" />
     <ClCompile Include="Scripting\GameLogic.cpp" />

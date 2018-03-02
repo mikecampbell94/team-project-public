@@ -15,15 +15,34 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database, &incomingMessages = incomingMessages](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
 	{
-		MessageProcessor* m = &incomingMessages;
-
 		ApplyForceMessage* applyForceMessage = static_cast<ApplyForceMessage*>(message);
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyForceMessage->gameObjectID));
 
-		gObj->getPhysicsNode()->setAppliedForce(applyForceMessage->force);
+		Vector3 force = applyForceMessage->force;
+
+		if (applyForceMessage->isRandom)
+		{
+			if (applyForceMessage->xmin != applyForceMessage->xmax)
+			{
+				force.x = VectorBuilder::getRandomVectorComponent(applyForceMessage->xmin, applyForceMessage->xmax) * 50.0f; 
+				//These * 50.0f are needed because currently rand() doesn't give good results for large ranges. 
+				//So a smaller range is needed when choosing random min and max values for vectors, which should then be scaled to the appropriate value
+				//Get rid of them though as any random force component will now be scaled and this isn't good!
+			}
+			if (applyForceMessage->ymin != applyForceMessage->ymax)
+			{
+				force.y = VectorBuilder::getRandomVectorComponent(applyForceMessage->ymin, applyForceMessage->ymax) * 50.0f;
+			}
+			if (applyForceMessage->zmin != applyForceMessage->zmax)
+			{
+				force.z = VectorBuilder::getRandomVectorComponent(applyForceMessage->zmin, applyForceMessage->zmax) * 50.0f;
+			}
+		}
+
+		gObj->getPhysicsNode()->setAppliedForce(force);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_IMPULSE, [database](Message* message)
@@ -49,10 +68,7 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 				impulse.z = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->zmin, applyImpulseMessage->zmax);
 			}
 		}
-
 		gObj->getPhysicsNode()->applyImpulse(impulse);
-
-		
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [database](Message* message)

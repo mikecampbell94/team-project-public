@@ -15,9 +15,13 @@ public:
 		else
 		{
 			if(min != nullptr)
-				*min = 0.f;
+			{
+				*min = 0.0f;
+			}
 			if(max != nullptr)
-				*max = 0.f;
+			{
+				*max = 0.0f;
+			}
 			return std::stof(node->value);
 		}
 	}

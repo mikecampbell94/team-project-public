@@ -39,10 +39,10 @@
     <ClInclude Include="Scripting\ConditionalStatementBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FiniteStateMachine\FiniteStateMachine.h">
+    <ClInclude Include="GameObjectLogic\GameObjectLogic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectLogic\GameObjectLogic.h">
+    <ClInclude Include="PaintingGameMechanics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,10 +68,10 @@
     <ClCompile Include="Scripting\ConditionalStatementBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FiniteStateMachine\FiniteStateMachine.cpp">
+    <ClCompile Include="GameObjectLogic\GameObjectLogic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjectLogic\GameObjectLogic.cpp">
+    <ClCompile Include="PaintingGameMechanics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

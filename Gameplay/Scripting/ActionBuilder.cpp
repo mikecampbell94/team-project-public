@@ -102,6 +102,10 @@ Executable ActionBuilder::compileActionSectionWithoutCondition(Node* section)
 	{
 		return buildSendMessageExecutable(section);
 	}
+	else
+	{
+		//Lookup the function in a map and return
+	}
 }
 
 Condition ActionBuilder::buildIfStatement(Node* node)
