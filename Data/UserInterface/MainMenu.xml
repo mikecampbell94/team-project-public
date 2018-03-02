@@ -64,6 +64,87 @@
     <text>Settings</text>
     <mesh>UIQuad</mesh>
 
+    <Button name ="Resolution">
+      <colour>
+        <r>1.0</r>
+        <g>0.0</g>
+        <b>0.0</b>
+        <a>0.5</a>
+      </colour>
+      <position>
+        <x>-330</x>
+        <y>10</y>
+      </position>
+      <scale>
+        <x>50.0</x>
+        <y>20.0</y>
+      </scale>
+      <action>None</action>
+      <text>Resolution</text>
+      <mesh>UIQuad</mesh>
+
+      <Button name ="1080p">
+        <colour>
+          <r>1.0</r>
+          <g>0.0</g>
+          <b>0.0</b>
+          <a>0.5</a>
+        </colour>
+        <position>
+          <x>-220</x>
+          <y>10</y>
+        </position>
+        <scale>
+          <x>50.0</x>
+          <y>20.0</y>
+        </scale>
+        <action>None</action>
+        <text>1920 x 1080</text>
+        <mesh>UIQuad</mesh>
+      </Button>
+
+      <Button name ="720p">
+        <colour>
+          <r>1.0</r>
+          <g>0.0</g>
+          <b>0.0</b>
+          <a>0.5</a>
+        </colour>
+        <position>
+          <x>-220</x>
+          <y>-50</y>
+        </position>
+        <scale>
+          <x>50.0</x>
+          <y>20.0</y>
+        </scale>
+        <action>None</action>
+        <text>1280 x 720</text>
+        <mesh>UIQuad</mesh>
+      </Button>
+
+      <Button name ="600p">
+        <colour>
+          <r>1.0</r>
+          <g>0.0</g>
+          <b>0.0</b>
+          <a>0.5</a>
+        </colour>
+        <position>
+          <x>-220</x>
+          <y>-100</y>
+        </position>
+        <scale>
+          <x>50.0</x>
+          <y>20.0</y>
+        </scale>
+        <action>None</action>
+        <text>800 x 600</text>
+        <mesh>UIQuad</mesh>
+      </Button>
+      
+     </Button>
+
     <Button name ="SSAO">
       <colour>
         <r>1.0</r>

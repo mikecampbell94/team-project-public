@@ -285,11 +285,59 @@ void Mesh::Draw(Shader& shader, Matrix4 worldTransform)
 		}
 }
 
-void Mesh::loadTexture(std::string filepath)
+void Mesh::loadTexture(std::string textureFile)
 {
-	unsigned int texId = SOIL_load_OGL_texture(filepath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_MIPMAPS);
-	for (SubMesh *subMesh : this->meshes) {
-		subMesh->addTexture(texId);
+	//unsigned int texId = SOIL_load_OGL_texture(filepath.c_str(),SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_MIPMAPS);
+	//for (SubMesh *subMesh : this->meshes) {
+	//	subMesh->addTexture(texId);
+	//}
+
+	Texture texture;
+
+	string filename = textureFile;
+
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+
+	int width, height, nrComponents;
+	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Texture failed to load at path: " << textureFile << std::endl;
+		stbi_image_free(data);
 	}
 
+	texture.id = textureID;
+	texture.type = "texture_diffuse";
+	texture.path = textureFile;
+
+	for each (SubMesh* submesh in meshes)
+	{
+		submesh->textures.push_back(texture);
+		submesh->hasTexture = 1;
+	}
+
+	hasTexture = 1;
 }

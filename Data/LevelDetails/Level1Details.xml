@@ -1,13 +1,13 @@
 <LevelDetails>
 <GameObjects name="player0" >
-        <SceneNode>
-		<Mesh>SphereMesh</Mesh>
-		<Colour>
-		  <R>1</R>
-		  <G>0</G>
-		  <B>0</B>
-		  <A>1</A>
-		</Colour>
+    <SceneNode>
+		  <Mesh>player0Mesh</Mesh>
+		  <Colour>
+		    <R>1</R>
+		    <G>0</G>
+		    <B>0</B>
+		    <A>1</A>
+		  </Colour>
 		</SceneNode>
 		<Enabled>True/False</Enabled>
 		<Position>

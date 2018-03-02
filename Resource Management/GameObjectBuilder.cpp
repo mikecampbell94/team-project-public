@@ -38,6 +38,7 @@ SceneNode * GameObjectBuilder::buildSceneNode(Node * node, Database* database)
 	std::string meshName = node->children[0]->value;
 	SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getResource(meshName)));
 	sceneNode->SetColour(buildVector4(node->children[1]));
+
 	return sceneNode;
 }
 
