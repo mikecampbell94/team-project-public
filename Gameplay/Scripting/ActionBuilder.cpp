@@ -10,6 +10,7 @@
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 #include "../../Communication/Messages/PaintTrailForGameObjectMessage.h"
+#include "../../Communication/Messages/AddScoreHolderMessage.h"
 
 const std::string CONDITIONAL_STATEMENT = "Condition";
 const std::string SEND_MESSAGE_STATEMENT = "SendMessage";
@@ -201,6 +202,15 @@ Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 	else if (node->name == "APPLY_FORCE")
 	{
 		ApplyForceMessage message = ApplyForceMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	}
+	else if (node->name == "ADD_SCORE_HOLDER")
+	{
+		AddScoreHolderMessage message = AddScoreHolderMessage::builder(node);
 
 		return [message = message]()
 		{

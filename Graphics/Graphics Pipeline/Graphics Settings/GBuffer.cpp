@@ -4,12 +4,11 @@
 #include "../../GraphicsUtility.h"
 #include "../../GraphicsCommon.h"
 
-GBuffer::GBuffer(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
-	: GraphicsModule(identifier, projmatrix, resolution)
+GBuffer::GBuffer(const std::string identifier, const Vector2 resolution, 
+	Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
+	: GraphicsModule(identifier, resolution)
 {
 	this->nodesInFrame = nodesInFrame;
-	this->projMatrix = projmatrix;
 	this->camera = camera;
 	this->window = window;
 
@@ -125,6 +124,7 @@ void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 	setCurrentShader(geometryPass);
 	viewMatrix = camera->buildViewMatrix();
 	updateShaderMatrices();
+	glUniformMatrix4fv(glGetUniformLocation(geometryPass->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
 	glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "paintTrailTexture"), 6);
 	glUniformMatrix4fv(glGetUniformLocation(geometryPass->GetProgram(), "paintTrailTextureMatrix"), 1, false, (float*)paintTextureMatrix);

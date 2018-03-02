@@ -193,5 +193,8 @@ void GameLoop::updateGameObjects()
 		{
 			gObj->updatePosition();
 		}
+
+		//DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "thing",
+		//	gObj->getSceneNode()->GetWorldTransform().getPositionVector(), Vector3(10, 10, 1), false));
 	}
 }

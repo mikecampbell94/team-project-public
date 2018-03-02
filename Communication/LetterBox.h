@@ -37,8 +37,10 @@ public:
 	void insertMessage(PreparePaintSurfaceMessage message) override;
 	void insertMessage(PaintTrailForGameObjectMessage message) override;
 	void insertMessage(UpdatePositionMessage message) override;
-
+	void insertMessage(TextMeshMessage message) override;
+	void insertMessage(AddScoreHolderMessage message) override;
 	void insertMessage(ApplyImpulseMessage message) override;
+
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
 
@@ -59,5 +61,7 @@ private:
 	MessageBuffer<PreparePaintSurfaceMessage> preparePaintSurfaceBuffer;
 	MessageBuffer<PaintTrailForGameObjectMessage> paintTrailForGameObjectBuffer;
 	MessageBuffer<UpdatePositionMessage> updatePositionBuffer;
+	MessageBuffer<TextMeshMessage> textMeshBuffer;
+	MessageBuffer<AddScoreHolderMessage> scoreBuffer;
 };
 

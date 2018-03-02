@@ -115,6 +115,15 @@ public:
 		return isCollision;
 	}
 
+	void setRotation(Vector4 rotation)
+	{
+		worldTransform = (Matrix4::translation(position) *
+			Matrix4::rotation(rotation.w, Vector3(rotation.x, rotation.y, rotation.z)) *
+			Matrix4::scale(worldTransform.getScalingVector()));
+
+		orientation = Quaternion::axisAngleToQuaterion(Vector3(rotation.x, rotation.y, rotation.z), rotation.w);
+	}
+
 	Vector3 getAcceleration()
 	{
 		return acceleration;

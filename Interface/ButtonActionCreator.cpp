@@ -65,6 +65,16 @@ ButtonAction ButtonActionCreator::createButtonAction(Node* actionNode)
 			DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", false));
 		};
 	}
+	else if (actionNode->name == "Resolution")
+	{
+		float xResolution = std::stof(actionNode->children[0]->value);
+		float yResolution = std::stof(actionNode->children[1]->value);
+
+		return [node = actionNode, xResolution, yResolution]()
+		{
+			DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "Resolution " + std::to_string(xResolution) + " " + std::to_string(yResolution)));
+		};
+	}
 	else 
 	{
 		return actions.at(actionNode->value);

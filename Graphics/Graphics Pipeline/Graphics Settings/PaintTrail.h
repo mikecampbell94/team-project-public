@@ -10,8 +10,7 @@ class GameObject;
 class PaintTrail : public GraphicsModule
 {
 public:
-	PaintTrail(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Database* database);
+	PaintTrail(const std::string identifier, const Vector2 resolution, Database* database);
 	~PaintTrail();
 
 	void preparePaintSurface(std::vector<GameObject*> surfaceObjects);

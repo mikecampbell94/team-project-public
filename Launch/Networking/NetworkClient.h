@@ -6,6 +6,7 @@
 #include <enet\enet.h>
 #include <set>
 #include "DeadReckoning.h"
+#include "../Utilities/Text/PeriodicTextModifier.h"
 
 class GameplaySystem;
 class PlayerBase;
@@ -49,5 +50,9 @@ private:
 	float timeSinceLastBroadcast = 0.0f;
 	float msCounter = 0.0f;
 	float updateRealTimeAccum = 0.0f;
+
+	PeriodicTextModifier waitingInLobbyText;
+	int numberOfFramesInLobby = 0;
+	int numDots = 0;
 };
 

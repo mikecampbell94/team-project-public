@@ -9,7 +9,7 @@ const int BLOOM_BLUR = 1;
 
 Bloom::Bloom(const std::string identifier, const Matrix4 projmatrix,
 	const Vector2 resolution, int strength) 
-	: GraphicsModule(identifier, projMatrix, resolution)
+	: GraphicsModule(identifier, resolution)
 {
 	blurStrength = strength;
 

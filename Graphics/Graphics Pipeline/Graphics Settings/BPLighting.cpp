@@ -3,10 +3,10 @@
 #include "../../GraphicsCommon.h"
 #include "../../GraphicsUtility.h"
 
-BPLighting::BPLighting(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights,
+BPLighting::BPLighting(const std::string identifier, const Vector2 resolution,
+	Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights,
 	SSAOTextures* ssaoTextures, ShadowData* shadowData)
-	: GraphicsModule(identifier, projMatrix, resolution)
+	: GraphicsModule(identifier, resolution)
 {
 	camera = cam;
 	this->lights = lights;
@@ -112,6 +112,7 @@ void BPLighting::lightingPass()
 	glUniformMatrix4fv(loc_camMatrix, 1, false, (float*)&viewMatrix);
 
 	updateShaderMatrices();
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
 	currentShader->ApplyTexture(CommonGraphicsData::GPOSITION, *gBuffer->gPosition);
 	currentShader->ApplyTexture(CommonGraphicsData::GNORMAL, *gBuffer->gNormal);

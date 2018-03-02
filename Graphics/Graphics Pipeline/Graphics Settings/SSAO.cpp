@@ -7,9 +7,8 @@ const int KERNEL_SIZE = 32;
 const int RESOLUTION_SCALE_X = 640;
 const int RESOLUTION_SCALE_Y = 360;
 
-SSAO::SSAO(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, Camera* cam, GBufferData* SGBuffer)
-	: GraphicsModule(identifier, projMatrix, resolution)
+SSAO::SSAO(const std::string identifier, const Vector2 resolution, Camera* cam, GBufferData* SGBuffer)
+	: GraphicsModule(identifier, resolution)
 {
 	ambientTextures = new SSAOTextures();
 	ambientTextures->textures = new GLuint*[1];
@@ -17,7 +16,6 @@ SSAO::SSAO(const std::string identifier, const Matrix4 projmatrix,
 
 	this->SGBuffer = SGBuffer;
 	camera = cam;
-	projMatrix = projmatrix;
 	this->resolution = resolution;
 
 	//SSAO Shaders
@@ -170,6 +168,7 @@ void SSAO::generateSSAOTex()
 
 	//Basic uniforms
 	updateShaderMatrices();
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
 	glUniform1i(loc_ssaoRadius, (GLint)ssaoRadius);
 	glUniform1i(loc_ssaoBias, (GLint)ssaoBias);
@@ -178,6 +177,9 @@ void SSAO::generateSSAOTex()
 	glUniform1i(loc_gPosition, CommonGraphicsData::GPOSITION);
 	glUniform1i(loc_gNormal, CommonGraphicsData::GNORMAL);
 	glUniform1i(loc_texNoise, NOISE_TEX);
+
+	glUniform1f(glGetUniformLocation(SSAOCol->GetProgram(), "resolutionX"), resolution.x);
+	glUniform1f(glGetUniformLocation(SSAOCol->GetProgram(), "resolutionY"), resolution.y);
 
 	currentShader->ApplyTexture(CommonGraphicsData::GPOSITION, *SGBuffer->gPosition);
 	currentShader->ApplyTexture(CommonGraphicsData::GNORMAL, *SGBuffer->gNormal);

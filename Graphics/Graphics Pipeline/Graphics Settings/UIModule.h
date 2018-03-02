@@ -9,7 +9,7 @@
 class UIModule : public GraphicsModule
 {
 public:
-	UIModule(const std::string identifier, const Matrix4 projMatrix, const Vector2 resolution,
+	UIModule(const std::string identifier, const Vector2 resolution,
 		Database* database);
 	~UIModule();
 

@@ -148,6 +148,7 @@
     <ClInclude Include="Maths\Matrix3.h" />
     <ClInclude Include="Maths\VectorBuilder.h" />
     <ClInclude Include="NetworkBase.h" />
+    <ClInclude Include="Text\PeriodicTextModifier.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameTimer.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Maths\Quaternion.cpp" />
     <ClCompile Include="Maths\Matrix3.cpp" />
     <ClCompile Include="NetworkBase.cpp" />
+    <ClCompile Include="Text\PeriodicTextModifier.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
