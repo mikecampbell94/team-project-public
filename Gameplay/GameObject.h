@@ -19,7 +19,7 @@ public:
 
 	void updatePosition();
 	void setPosition(Vector3 position);
-	void setRotation();
+	void setRotation(Vector4 rotation);
 	void setScale(Vector3 scale);
 
 	const Vector3& getScale() const

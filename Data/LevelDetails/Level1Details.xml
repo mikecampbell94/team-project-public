@@ -326,9 +326,9 @@
 		</Position>
 		<Rotation>
 			<X>000</X>
-			<Y>000</Y>
+			<Y>1</Y>
 			<Z>000</Z>
-			<W>000</W>
+			<W>45</W>
 		</Rotation>
 		<Scale>
 			<X>180</X>

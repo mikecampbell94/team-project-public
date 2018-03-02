@@ -19,7 +19,7 @@ GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 	gameObject->setSceneNode(sceneNode);
 	
 	gameObject->setScale(buildVector3(node->children[4]));
-	
+
 	if (node->children.size() >= 6)
 	{
 
@@ -28,6 +28,7 @@ GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 	}
 
 	gameObject->setPosition(buildVector3(node->children[2]));
+	gameObject->setRotation(buildVector4(node->children[3]));
 
 	return gameObject;
 }
