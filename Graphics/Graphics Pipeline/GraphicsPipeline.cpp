@@ -1,8 +1,10 @@
 #include "GraphicsPipeline.h"
 
-GraphicsPipeline::GraphicsPipeline()
-{
+#include "../Utilities/GameTimer.h"
 
+GraphicsPipeline::GraphicsPipeline(GameTimer* parentTimer)
+{
+	this->parentTimer = parentTimer;
 }
 
 GraphicsPipeline::~GraphicsPipeline()
@@ -55,14 +57,17 @@ void GraphicsPipeline::executeModules()
 	{
 		if (module->isEnabled())
 		{
+			parentTimer->beginChildTimedSection(module->getIdentifier());
 			module->apply();
+			parentTimer->endChildTimedSection(module->getIdentifier());
 		}
 	}
 }
 
 
-void GraphicsPipeline::addModule(GraphicsModule * module)
+void GraphicsPipeline::addModule(GraphicsModule* module)
 {
+	parentTimer->addChildTimer(module->getIdentifier());
 	modules.push_back(module);
 }
 

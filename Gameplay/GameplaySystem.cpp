@@ -6,6 +6,7 @@
 #include "../Graphics/Scene Management/SceneNode.h"
 #include "../Input/InputUtility.h"
 #include "../Resource Management/XMLParser.h"
+#include "../Utilities/GameTimer.h"
 
 GameplaySystem::GameplaySystem(Database* database)
 	: Subsystem("Gameplay")
@@ -35,6 +36,9 @@ GameplaySystem::GameplaySystem(Database* database)
 		}
 
 	});
+
+	timer->addChildTimer("Level Logic");
+	timer->addChildTimer("Object Logic");
 }
 
 GameplaySystem::~GameplaySystem()
@@ -43,14 +47,22 @@ GameplaySystem::~GameplaySystem()
 
 void GameplaySystem::updateSubsystem(const float& deltaTime)
 {
+	timer->beginTimedSection();
+
+	timer->beginChildTimedSection("Level Logic");
 	gameLogic.executeMessageBasedActions();
 	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
 	gameLogic.clearNotifications();
+	timer->endChildTimedSection("Level Logic");
 
+	timer->beginChildTimedSection("Object Logic");
 	for each (GameObjectLogic object in objects)
 	{
 		object.updatelogic(deltaTime * 0.001f);
 	}
+	timer->endChildTimedSection("Object Logic");
+
+	timer->endTimedSection();
 }
 
 void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)

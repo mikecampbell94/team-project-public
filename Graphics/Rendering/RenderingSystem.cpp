@@ -16,13 +16,14 @@
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
+#include "../Utilities/GameTimer.h"
 #include <iterator>
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
 {
 	this->camera = camera;
-	renderer = std::make_unique<Renderer>(window, camera);
+	renderer = std::make_unique<Renderer>(timer, window, camera);
 }
 
 RenderingSystem::~RenderingSystem()
@@ -132,5 +133,7 @@ void RenderingSystem::SetSceneToRender(SceneManager* scene, Database* database)
 
 void RenderingSystem::updateSubsystem(const float& deltaTime)
 {
+	timer->beginTimedSection();
 	renderer->update(deltaTime);
+	timer->endTimedSection();
 }

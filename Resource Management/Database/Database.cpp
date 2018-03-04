@@ -27,3 +27,27 @@ void Database::addResourceToTable(const std::string tableName, Node* node)
 {
 	tables.at(tableName)->addNewResource(node);
 }
+
+const size_t Database::CurrentSize() const
+{
+	size_t memory = 0;
+
+	for each (auto table in tables)
+	{
+		memory += table.second->getAllResources()->getCurrentSize();
+	}
+
+	return memory;
+}
+
+const size_t Database::MaxSize() const
+{
+	size_t memory = 0;
+
+	for each (auto table in tables)
+	{
+		memory += table.second->getAllResources()->getMaxSize();
+	}
+
+	return memory;
+}

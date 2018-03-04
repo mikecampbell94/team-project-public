@@ -18,6 +18,8 @@ public:
 	void addResourceToTable(const std::string tableName, Resource* resource);
 	void addResourceToTable(const std::string tableName, Node* node);
 
+	const size_t CurrentSize() const;
+	const size_t MaxSize() const;
 private:
 	std::map<std::string, Table<Resource>*> tables;
 };

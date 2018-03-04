@@ -5,6 +5,7 @@
 
 #include "../Communication/Messages/ApplyForceMessage.h"
 #include "../Communication/Messages/CollisionMessage.h"
+#include "../Utilities/GameTimer.h"
 
 PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
@@ -82,6 +83,12 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 	updateTimestep = 1.0f / 60.f;
 	updateRealTimeAccum = 0.0f;
+
+	timer->addChildTimer("Broadphase");
+	timer->addChildTimer("Narrowphase");
+	timer->addChildTimer("Solver");
+	timer->addChildTimer("Integrate Position");
+	timer->addChildTimer("Integrate Velocity");
 }
 
 
@@ -159,6 +166,8 @@ void PhysicsEngine::removeAllPhysicsObjects()
 
 void PhysicsEngine::updateSubsystem(const float& deltaTime)
 {
+	timer->beginTimedSection();
+
 	const int maxUpdatesPerFrame = 5;
 	
 	updateRealTimeAccum += deltaTime;
@@ -178,6 +187,8 @@ void PhysicsEngine::updateSubsystem(const float& deltaTime)
 	{
 		physicsNode->hasTransmittedCollision = false;
 	}
+
+	timer->endTimedSection();
 }
 
 void PhysicsEngine::updatePhysics()
@@ -193,16 +204,21 @@ void PhysicsEngine::updatePhysics()
 
 	//-- Using positions from last frame --
 	//1. Broadphase Collision Detection (Fast and dirty)
+	timer->beginChildTimedSection("Broadphase");
 	broadPhaseCollisions();
+	timer->endChildTimedSection("Broadphase");
 	
 	//2. Narrowphase Collision Detection (Accurate but slow)
+	timer->beginChildTimedSection("Narrowphase");
 	narrowPhaseCollisions();
+	timer->endChildTimedSection("Narrowphase");
 	
 	//3. Initialize Constraint Params (precompute elasticity/baumgarte factor etc)	
 	for (Manifold* m : manifolds)
 	{
 		m->preSolverStep(updateTimestep);
 	}
+
 	for (Constraint* c : constraints)
 	{
 		c->preSolverStep(updateTimestep);
@@ -210,23 +226,29 @@ void PhysicsEngine::updatePhysics()
 
 
 	//4. Update Velocities
+	timer->beginChildTimedSection("Integrate Velocity");
 	for (PhysicsNode* obj : physicsNodes) 
 	{
 		obj->integrateForVelocity(updateTimestep);
 	}
+	timer->endChildTimedSection("Integrate Velocity");
 	
 	//5. Constraint Solver
+	timer->beginChildTimedSection("Solver");
 	for (size_t i = 0; i < SOLVER_ITERATIONS; ++i) 
 	{
 		for (Manifold* m : manifolds) m->applyImpulse();
 		for (Constraint* c : constraints) c->applyImpulse(updateTimestep);
 	}
+	timer->endChildTimedSection("Solver");
 	
 	//6. Update Positions (with final 'real' velocities)
+	timer->beginChildTimedSection("Integrate Position");
 	for (PhysicsNode* obj : physicsNodes)
 	{
 		obj->integrateForPosition(updateTimestep);
 	}
+	timer->endChildTimedSection("Integrate Position");
 	
 }
 

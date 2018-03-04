@@ -1,6 +1,7 @@
 #include "Startup.h"
 #include "Resource Management/Database/Database.h"
 #include "Networking/NetworkClient.h"
+#include "Profiler/FPSCounter.h"
 
 Startup::Startup()
 {
@@ -93,6 +94,7 @@ void Startup::initialiseDatabaseAndTables()
 {
 	database = new Database();
 	tableCreation = new TableCreation(database);
+	profiler = new Profiler(window->getKeyboard(), database, new FPSCounter());
 	game->database = database;
 }
 
@@ -114,6 +116,12 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(audio);
 	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
+	engine->addSubsystem(profiler);
+
+	for each (Subsystem * subsystem in engine->getSubSystems())
+	{
+		profiler->addSubsystemTimer(subsystem->getSubsystemName(), subsystem->getTimer());
+	}
 }
 
 void Startup::loadMainMenu()
