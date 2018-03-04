@@ -37,8 +37,9 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 		}
 		else if (tokens[0] == "Start")
 		{
-			startup->switchLevel();
 			DeliverySystem::getPostman()->cancelOutgoingMessages();
+			startup->switchLevel();
+			
 			//engine->processMessagesForAllSubsystems();
 			//DeliverySystem::getPostman()->clearAllMessages();
 

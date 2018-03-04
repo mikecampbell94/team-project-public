@@ -1,5 +1,21 @@
 <GameplayScript>
-	<Timed interval="0.01">
+  <OnStart>
+    <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
+      <destination>RenderingSystem</destination>
+      <resource>player0</resource>
+      <translation>
+        <x>100</x>
+        <y>0</y>
+        <z>300</z>
+      </translation>
+      <rotation>
+        <pitch>0</pitch>
+        <yaw>25</yaw>
+      </rotation>
+    </SendMessage>
+  </OnStart>
+
+  <Timed interval="0.01">
     <SendMessage type="RELATIVE_TRANSFORM">
       <destination>RenderingSystem</destination>
       <translation>
@@ -20,19 +36,5 @@
       </scale>
       <resource>player0</resource>
     </SendMessage>
-
-    <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
-      <destination>RenderingSystem</destination>
-      <resource>player0</resource>
-      <translation>
-        <x>100</x>
-        <y>0</y>
-        <z>300</z>
-      </translation>
-      <rotation>
-        <pitch>0</pitch>
-        <yaw>25</yaw>
-      </rotation>
-    </SendMessage>
-	</Timed>
+  </Timed>
 </GameplayScript>
