@@ -15,7 +15,15 @@ UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution) : Subsystem
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
-		std::cout << textMessage->text << std::endl;
+		
+		if (textMessage->text == "disable")
+		{
+
+		}
+		else if (textMessage->text == "enable")
+		{
+
+		}
 	});
 
 	menu = nullptr;
