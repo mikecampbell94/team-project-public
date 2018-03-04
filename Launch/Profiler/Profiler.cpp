@@ -6,7 +6,9 @@
 #include "FPSCounter.h"
 
 const float Y_OFFSET = 320.0f;
-const float NEXT_LINE_OFFSET = -20.0f;
+const float NEXT_LINE_OFFSET = -12.9f;
+const Vector3 TEXT_SIZE = Vector3(12.9f, 12.9f, 12.9f);
+const Vector3 TEXT_COLOUR = Vector3(0, 1, 0);
 
 Profiler::Profiler(Keyboard* keyboard, Database* database, FPSCounter* fpsCounter) : Subsystem("Profiler")
 {
@@ -61,22 +63,22 @@ void Profiler::updateProfiling()
 	nextLine = Y_OFFSET;
 
 	messages.push_back(TextMeshMessage("RenderingSystem", "FPS : " + std::to_string(fpsCounter->fps),
-		Vector3(-500.0f, nextLine, 0), Vector3(20, 20, 20), Vector3(1, 1, 1), true));
+		Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 	nextLine += NEXT_LINE_OFFSET;
 
 	messages.push_back(TextMeshMessage("RenderingSystem", "Memory Usage : " + std::to_string(memoryWatcher.percent),
-		Vector3(-500.0f, nextLine, 0), Vector3(20, 20, 20), Vector3(1, 1, 1), true));
+		Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 	nextLine += NEXT_LINE_OFFSET;
 
 	for (std::pair<std::string, GameTimer*> subsystemTimer : timers)
 	{
 		nextLine += NEXT_LINE_OFFSET;
 
-		std::string profilerText = subsystemTimer.first + std::to_string(subsystemTimer.second->getTimeTakenForSection());
+		std::string profilerText = subsystemTimer.first +"	" + std::to_string(subsystemTimer.second->getTimeTakenForSection());
 		Vector3 position(-500.0f, nextLine, 0);
 
 		messages.push_back(TextMeshMessage("RenderingSystem", profilerText,
-			position, Vector3(20, 20, 20), Vector3(1, 1, 1), true));
+			position, TEXT_SIZE, TEXT_COLOUR, true, true));
 
 		saveProfilingInfo(subsystemTimer.second, 1, -500.0f);
 	}
@@ -102,9 +104,9 @@ void Profiler::saveProfilingInfo(GameTimer* parentTimer, int currentDepth, float
 		{
 			nextLine += NEXT_LINE_OFFSET;
 
-			std::string profilerText = childTimer->getTimerName() + std::to_string(childTimer->getTimeTakenForSection());
+			std::string profilerText = childTimer->getTimerName() + "	" + std::to_string(childTimer->getTimeTakenForSection());
 			messages.push_back(TextMeshMessage("RenderingSystem", profilerText,
-				Vector3(xOffset, nextLine, 0), Vector3(20, 20, 20), Vector3(1, 1, 1), true));
+				Vector3(xOffset, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 
 			saveProfilingInfo(childTimer, ++currentDepth, xOffset);
 		}

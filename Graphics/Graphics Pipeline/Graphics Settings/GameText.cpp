@@ -11,6 +11,7 @@ GameText::GameText(const std::string identifier, const Vector2 resolution, Camer
 
 	UIShader = new Shader(SHADERDIR"/UIVertex.glsl", SHADERDIR"/UIFrag.glsl");
 	UITextShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"UITextFrag.glsl", "", true);
+	textWithBackgrounShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"/ScoreText/textFrag.glsl", "", true);
 
 	this->camera = camera;
 }
@@ -18,6 +19,9 @@ GameText::GameText(const std::string identifier, const Vector2 resolution, Camer
 
 GameText::~GameText()
 {
+	delete UIShader;
+	delete UITextShader;
+	delete textWithBackgrounShader;
 }
 
 void GameText::initialise()
@@ -62,6 +66,39 @@ void GameText::apply()
 	bufferedPositions.clear();
 	bufferedScales.clear();
 	bufferedOrthographicUsage.clear();
+	bufferedColours.clear();
+
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	textureMatrix.toIdentity();
+
+	setCurrentShader(textWithBackgrounShader);
+	updateShaderMatrices();
+
+	for (int i = 0; i < bufferedBackgroundText.size(); ++i)
+	{
+		viewMatrix.toIdentity();
+		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
+
+		Vector3 colour(bufferedBackgroundColours[i].x, bufferedBackgroundColours[i].y, bufferedBackgroundColours[i].z);
+		glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);
+
+		TextMesh textMesh(bufferedBackgroundText[i], *font);
+		textMesh.Draw(*currentShader, Matrix4::translation(bufferedBackgroundPositions[i]) * Matrix4::scale(bufferedBackgroundScales[i]));
+	}
+
+	bufferedBackgroundText.clear();
+	bufferedBackgroundPositions.clear();
+	bufferedBackgroundScales.clear();
+	bufferedOBackgroundrthographicUsage.clear();
+	bufferedBackgroundColours.clear();
 
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
@@ -72,6 +109,7 @@ void GameText::linkShaders()
 {
 	UIShader->LinkProgram();
 	UITextShader->LinkProgram();
+	textWithBackgrounShader->LinkProgram();
 }
 
 void GameText::regenerateShaders()
@@ -79,13 +117,24 @@ void GameText::regenerateShaders()
 	UIShader->Regenerate();
 }
 
-void GameText::bufferText(std::string text, Vector3 position, Vector3 scale, Vector3 colour, bool orthographic)
+void GameText::bufferText(std::string text, Vector3 position, Vector3 scale, Vector3 colour, bool orthographic, bool hasBackground)
 {
-	bufferedText.push_back(text);
-	bufferedPositions.push_back(position);
-	bufferedScales.push_back(scale);
-	bufferedColours.push_back(colour);
-	bufferedOrthographicUsage.push_back(orthographic);
+	if (hasBackground)
+	{
+		bufferedBackgroundText.push_back(text);
+		bufferedBackgroundPositions.push_back(position);
+		bufferedBackgroundScales.push_back(scale);
+		bufferedBackgroundColours.push_back(colour);
+		bufferedOBackgroundrthographicUsage.push_back(orthographic);
+	}
+	else
+	{
+		bufferedText.push_back(text);
+		bufferedPositions.push_back(position);
+		bufferedScales.push_back(scale);
+		bufferedColours.push_back(colour);
+		bufferedOrthographicUsage.push_back(orthographic);
+	}
 }
 
 void GameText::locateUniforms()

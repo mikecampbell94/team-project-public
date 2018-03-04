@@ -61,7 +61,7 @@ void RenderingSystem::initialise(Database* database)
 		TextMeshMessage* textMessage = static_cast<TextMeshMessage*>(message);
 
 		static_cast<GameText*>(renderer->getGraphicsModule("GameText"))->bufferText(
-			textMessage->text, textMessage->position, textMessage->scale, textMessage->colour, textMessage->orthographic);
+			textMessage->text, textMessage->position, textMessage->scale, textMessage->colour, textMessage->orthographic, textMessage->hasBackground);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)
