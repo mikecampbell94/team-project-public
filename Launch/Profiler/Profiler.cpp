@@ -16,7 +16,14 @@ Profiler::Profiler(Keyboard* keyboard, Database* database, FPSCounter* fpsCounte
 	this->database = database;
 	this->keyboard = keyboard;
 
-	incomingMessages = MessageProcessor::MessageProcessor(std::vector<MessageType>{}, DeliverySystem::getPostman()->getDeliveryPoint("Profiler"));
+	incomingMessages = MessageProcessor::MessageProcessor(std::vector<MessageType>{MessageType::TEXT}, DeliverySystem::getPostman()->getDeliveryPoint("Profiler"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&externalText = externalText](Message* message)
+	{
+		TextMessage* textMessage = static_cast<TextMessage*>(message);
+
+		externalText.push_back(textMessage->text);
+	});
 
 	memoryWatcher = MemoryWatcher(database->MaxSize(), database);
 }
@@ -70,6 +77,13 @@ void Profiler::updateProfiling()
 		Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 	nextLine += NEXT_LINE_OFFSET;
 
+	for each (std::string text in externalText)
+	{
+		messages.push_back(TextMeshMessage("RenderingSystem", text,
+			Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
+		nextLine += NEXT_LINE_OFFSET;
+	}
+
 	for (std::pair<std::string, GameTimer*> subsystemTimer : timers)
 	{
 		nextLine += NEXT_LINE_OFFSET;
@@ -90,6 +104,7 @@ void Profiler::displayChildTimers()
 	{
 		DeliverySystem::getPostman()->insertMessage(text);
 	}
+	externalText.clear();
 }
 
 void Profiler::saveProfilingInfo(GameTimer* parentTimer, int currentDepth, float parentXOffset)

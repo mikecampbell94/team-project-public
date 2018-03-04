@@ -8,6 +8,7 @@
 #include "../Physics/PhysicsNode.h"
 #include "NetworkMessageProcessor.h"
 #include <ctime>
+#include "../Utilities/GameTimer.h"
 
 enum
 {
@@ -39,6 +40,10 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 	updateRealTimeAccum = 0.0f;
 
 	waitingInLobbyText = PeriodicTextModifier("Waiting for players", ".", 3);
+
+	timer->addChildTimer("Broadcast Kinematic State");
+	timer->addChildTimer("Dead Reckoning");
+	timer->addChildTimer("Process Network Messages");
 }
 
 NetworkClient::~NetworkClient()
@@ -47,22 +52,28 @@ NetworkClient::~NetworkClient()
 
 void NetworkClient::updateSubsystem(const float& deltaTime)
 {
+	timer->beginTimedSection();
+
 	if (!inLobby)
 	{
 		timeSinceLastBroadcast += deltaTime;
 		msCounter += deltaTime;
 		updateRealTimeAccum += deltaTime;
 
+		timer->beginChildTimedSection("Broadcast Kinematic State");
 		if (timeSinceLastBroadcast >= UPDATE_FREQUENCY && joinedGame)
 		{
 			broadcastKinematicState();
 		}
+		timer->endChildTimedSection("Broadcast Kinematic State");
 
+		timer->beginChildTimedSection("Dead Reckoning");
 		if (updateRealTimeAccum >= UPDATE_TIMESTEP)
 		{
 			updateDeadReckoningForConnectedClients();
 			updateRealTimeAccum = 0.0f;
 		}
+		timer->endChildTimedSection("Dead Reckoning");
 
 		for (int i = 0; i < numberOfOtherPlayersToWaitFor; ++i)
 		{
@@ -81,10 +92,16 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 			Vector3(-200, 0, 0), Vector3(20, 20, 1), Vector3(1, 1, 1), true));
 	}
 
+	timer->beginChildTimedSection("Process Network Messages");
 	if (connectedToServer)
 	{
 		processNetworkMessages(deltaTime);
+		DeliverySystem::getPostman()->insertMessage(TextMessage("Profiler", "Incoming K/Bs : " + std::to_string(network.m_IncomingKb)));
+		DeliverySystem::getPostman()->insertMessage(TextMessage("Profiler", "Outgoing K/Bs : " + std::to_string(network.m_OutgoingKb)));
 	}
+	timer->endChildTimedSection("Process Network Messages");
+
+	timer->endTimedSection();
 }
 
 void NetworkClient::connectToServer()

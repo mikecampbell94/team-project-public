@@ -37,6 +37,7 @@ private:
 	FPSCounter* fpsCounter;
 	map<string, GameTimer*> timers;
 	std::vector<TextMeshMessage> messages;
+	std::vector<std::string> externalText;
 
 	int depth = -1;
 	bool profilerEnabled = false;
