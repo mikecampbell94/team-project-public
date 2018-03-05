@@ -66,3 +66,15 @@ ApplyImpulseMessage ApplyImpulseMessage::builder(Node* node)
 	return ApplyImpulseMessage(destination, object, rand, impulse);
 }
 
+//APPLY_FORCE Physics player0 impulse=5,5,5
+ApplyImpulseMessage ApplyImpulseMessage::tokensToMessage(std::vector<std::string> lineTokens)
+{
+	std::string nodeDestination = lineTokens[1];
+	std::string nodeResourcename = lineTokens[2];
+
+	std::string impulseString = lineTokens[3].substr(8);
+	Vector3 impulse = Vector3::builder(impulseString);
+
+	return ApplyImpulseMessage(nodeDestination, nodeResourcename, false, impulse);
+}
+

@@ -29,3 +29,11 @@ AddScoreHolderMessage AddScoreHolderMessage::builder(Node* node)
 
 	return AddScoreHolderMessage(nodeDestination, nodeResourceName);
 }
+
+AddScoreHolderMessage AddScoreHolderMessage::tokensToMessage(std::vector<std::string> lineTokens)
+{
+	std::string destination = lineTokens[1];
+	std::string resource = lineTokens[2];
+
+	return AddScoreHolderMessage(destination, resource);
+}

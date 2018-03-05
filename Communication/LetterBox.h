@@ -40,6 +40,10 @@ public:
 	void insertMessage(TextMeshMessage message) override;
 	void insertMessage(AddScoreHolderMessage message) override;
 	void insertMessage(ApplyImpulseMessage message) override;
+	void insertMessage(AbsoluteTransformMessage message) override;
+	void insertMessage(MoveGameObjectMessage message) override;
+	void insertMessage(ScaleGameObjectMessage message) override;
+	void insertMessage(RotateGameObjectMessage message) override;
 
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
@@ -64,5 +68,9 @@ private:
 	MessageBuffer<UpdatePositionMessage> updatePositionBuffer;
 	MessageBuffer<TextMeshMessage> textMeshBuffer;
 	MessageBuffer<AddScoreHolderMessage> scoreBuffer;
+	MessageBuffer<AbsoluteTransformMessage> absoluteTransformBuffer;
+	MessageBuffer<MoveGameObjectMessage> moveGameObjectBuffer;
+	MessageBuffer<ScaleGameObjectMessage> scaleGameObjectBuffer;
+	MessageBuffer<RotateGameObjectMessage> rotateGameObjectBuffer;
 };
 

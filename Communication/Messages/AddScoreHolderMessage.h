@@ -12,6 +12,7 @@ public:
 	~AddScoreHolderMessage();
 
 	static AddScoreHolderMessage builder(Node* node);
+	static AddScoreHolderMessage tokensToMessage(std::vector<std::string> lineTokens);
 
 	std::string name;
 };

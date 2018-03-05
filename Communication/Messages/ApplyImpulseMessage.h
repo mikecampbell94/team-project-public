@@ -13,6 +13,7 @@ public:
 	~ApplyImpulseMessage();
 
 	static ApplyImpulseMessage builder(Node* node);
+	static ApplyImpulseMessage tokensToMessage(std::vector<std::string> lineTokens);
 
 	std::string gameObjectID;
 	bool isRandom;

@@ -1,20 +1,18 @@
-#include "RelativeTransformMessage.h"
+#include "AbsoluteTransformMessage.h"
 
-#include "../Resource Management/XMLParser.h"
-
-RelativeTransformMessage::RelativeTransformMessage(const std::string& destinationName,
-	const std::string& resourceName, Matrix4 transform)
-	: Message(destinationName, RELATIVE_TRANSFORM)
+AbsoluteTransformMessage::AbsoluteTransformMessage(const std::string& destinationName, const std::string& resourceName,
+	Matrix4 transform)
+	: Message(destinationName, ABSOLUTE_TRANSFORM)
 {
 	this->transform = transform;
 	this->resourceName = resourceName;
 }
 
-RelativeTransformMessage::~RelativeTransformMessage()
+AbsoluteTransformMessage::~AbsoluteTransformMessage()
 {
 }
 
-RelativeTransformMessage RelativeTransformMessage::builder(Node* node)
+AbsoluteTransformMessage AbsoluteTransformMessage::builder(Node* node)
 {
 	std::string nodeDestination = "";
 	std::string nodeResourcename = "";
@@ -47,14 +45,13 @@ RelativeTransformMessage RelativeTransformMessage::builder(Node* node)
 	}
 
 	Matrix4 nodeTransform = Matrix4::translation(nodeTranslation)
-	* Matrix4::rotation(nodeRotation.w, Vector3(nodeRotation.x, nodeRotation.y, nodeRotation.z))
-	* Matrix4::scale(nodeScale);
+		* Matrix4::rotation(nodeRotation.w, Vector3(nodeRotation.x, nodeRotation.y, nodeRotation.z))
+		* Matrix4::scale(nodeScale);
 
-	return RelativeTransformMessage(nodeDestination, nodeResourcename, nodeTransform);
+	return AbsoluteTransformMessage(nodeDestination, nodeResourcename, nodeTransform);
 }
 
-//RELATIVE_TRANSFORM RenderingSystem cube  translation=1,1,1 rotation=0,0,0,0 scale=1,1,1
-RelativeTransformMessage RelativeTransformMessage::tokensToMessage(std::vector<std::string> lineTokens)
+AbsoluteTransformMessage AbsoluteTransformMessage::tokensToMessage(std::vector<std::string> lineTokens)
 {
 	std::string nodeDestination = lineTokens[1];
 	std::string nodeResourcename = lineTokens[2];
@@ -66,5 +63,5 @@ RelativeTransformMessage RelativeTransformMessage::tokensToMessage(std::vector<s
 		* Matrix4::rotation(nodeRotation.w, Vector3(nodeRotation.x, nodeRotation.y, nodeRotation.z))
 		* Matrix4::scale(nodeScale);
 
-	return RelativeTransformMessage(nodeDestination, nodeResourcename, nodeTransform);
+	return AbsoluteTransformMessage(nodeDestination, nodeResourcename, nodeTransform);
 }

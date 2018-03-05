@@ -1,7 +1,7 @@
 <LevelDetails>
 <GameObjects name="player0" >
     <SceneNode>
-		  <Mesh>player0Mesh</Mesh>
+		  <Mesh>SphereMesh</Mesh>
 		  <Colour>
 		    <R>1</R>
 		    <G>0</G>

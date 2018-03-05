@@ -6,15 +6,58 @@
 #include "../Communication/Messages/ApplyForceMessage.h"
 #include "../Communication/Messages/CollisionMessage.h"
 #include "../Utilities/GameTimer.h"
+#include "../Communication/Messages/AbsoluteTransformMessage.h"
 
 PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
 	this->database = database;
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, 
-		MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE, MessageType::UPDATE_POSITION };
+		MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE, MessageType::UPDATE_POSITION, MessageType::ABSOLUTE_TRANSFORM,
+		MessageType::MOVE_GAMEOBJECT, MessageType::SCALE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ABSOLUTE_TRANSFORM, [database = database](Message* message)
+	{
+		AbsoluteTransformMessage* translationMessage = static_cast<AbsoluteTransformMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(translationMessage->resourceName));
+
+		gameObject->getPhysicsNode()->setPosition(translationMessage->transform.getPositionVector());
+		//gameObject->getPhysicsNode()->setOrientation();
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_GAMEOBJECT, [database = database](Message* message)
+	{
+		MoveGameObjectMessage* moveMessage = static_cast<MoveGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(moveMessage->gameObjectID));
+
+		gameObject->getPhysicsNode()->setPosition(moveMessage->position);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::SCALE_GAMEOBJECT, [database = database](Message* message)
+	{
+		ScaleGameObjectMessage* scaleMessage = static_cast<ScaleGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(scaleMessage->gameObjectID));
+
+		gameObject->getPhysicsNode()->getCollisionShape()->setScale(scaleMessage->scale, gameObject->getPhysicsNode()->getInverseMass());
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ROTATE_GAMEOBJECT, [database = database](Message* message)
+	{
+		RotateGameObjectMessage* rotateMessage = static_cast<RotateGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(rotateMessage->gameObjectID));
+
+		gameObject->getPhysicsNode()->setOrientation(
+			Quaternion::axisAngleToQuaterion(Vector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z), rotateMessage->rotation.w));
+	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
 	{

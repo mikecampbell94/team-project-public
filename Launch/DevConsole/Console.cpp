@@ -2,6 +2,7 @@
 
 #include "../../Input/Devices/Keyboard.h"
 #include "../../Input/InputControl.h"
+#include "Communication/SendMessageActionBuilder.h"
 
 int consoleKeys[] =
 {
@@ -41,7 +42,10 @@ int consoleKeys[] =
 	KEYBOARD_B,
 	KEYBOARD_N,
 	KEYBOARD_M,
-	KEYBOARD_SPACE
+	KEYBOARD_SPACE,
+	KEYBOARD_COMMA,
+	KEYBOARD_PLUS,
+	KEYBOARD_MINUS
 };
 
 Console::Console(Keyboard* keyboard) : Subsystem("Console")
@@ -99,6 +103,9 @@ Console::Console(Keyboard* keyboard) : Subsystem("Console")
 	keyMapping.insert({ KEYBOARD_N, "n" });
 	keyMapping.insert({ KEYBOARD_M, "m" });
 	keyMapping.insert({ KEYBOARD_SPACE, " " });
+	keyMapping.insert({ KEYBOARD_COMMA, "," });
+	keyMapping.insert({ KEYBOARD_PLUS, "=" });
+	keyMapping.insert({ KEYBOARD_MINUS, "-" });
 }
 
 Console::~Console()
@@ -115,6 +122,18 @@ void Console::updateSubsystem(const float & deltaTime)
 	if (enabled && !blocked)
 	{
 		recordKeyPresses();
+
+		if (keyboard->keyTriggered(KEYBOARD_RETURN))
+		{
+			try
+			{
+				SendMessageActionBuilder::buildSendMessageAction(input)();
+			}
+			catch(...)
+			{
+				input = "error";
+			}
+		}
 	}
 }
 
@@ -134,18 +153,47 @@ void Console::toggleConsoleEnabled()
 
 void Console::recordKeyPresses()
 {
-	if (keyboard->keyStates[KEYBOARD_BACK] && !(keyboard->keyStates[KEYBOARD_BACK] && keyboard->holdStates[KEYBOARD_BACK]))
+	++frameCount;
+
+	if(keyboard->keyTriggered(KEYBOARD_CAPITAL))
 	{
-		input.pop_back();
+		capslock =  !capslock;
+	}
+
+	if (keyboard->keyDown(KEYBOARD_BACK) && frameCount >= 5)
+	{
+		frameCount = 0;
+
+		if (input.size() > 0)
+		{
+			input.pop_back();
+		}
 	}
 
 	for (int key : consoleKeys)
 	{
 		if (keyboard->keyStates[key] && !(keyboard->keyStates[key] && keyboard->holdStates[key]))
 		{
-			input += keyMapping.at(key);
+			if (capslock)
+			{
+				std::string str = keyMapping.at(key);
+				std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+				input += str;
+			}
+			else
+			{
+				input += keyMapping.at(key);
+			}
 		}
 	}
 
-	std::cout << input << std::endl;
+	std::string displayLine = input;
+
+	for (int i = 0; i < 100 - input.size(); ++i)
+	{
+		displayLine += " ";
+	}
+
+	DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", displayLine,
+		Vector3(-620.0f, -320, 0), Vector3(12.9f, 12.9f, 12.9f), Vector3(0, 1, 0), true, true));
 }
