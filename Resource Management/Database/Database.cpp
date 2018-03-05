@@ -11,11 +11,17 @@ Database::~Database()
 void Database::addTable(const std::string tableName, Table<Resource>* table)
 {
 	tables[tableName] = table;
+	tablesVector.push_back(table);
 }
 
 Table<Resource>* Database::getTable(const std::string tableName)
 {
 	return tables.at(tableName);
+}
+
+std::vector<Table<Resource>*> Database::getAllTables()
+{
+	return tablesVector;
 }
 
 void Database::addResourceToTable(const std::string tableName, Resource* resource)
