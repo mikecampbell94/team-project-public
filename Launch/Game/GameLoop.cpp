@@ -39,7 +39,7 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 		{
 			DeliverySystem::getPostman()->cancelOutgoingMessages();
 			startup->switchLevel();
-			
+			deltaTimeMultiplier = 1.0f;
 			//engine->processMessagesForAllSubsystems();
 			//DeliverySystem::getPostman()->clearAllMessages();
 
