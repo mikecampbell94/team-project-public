@@ -206,6 +206,9 @@ public:
 	}
 	//	CSC3224 NCODE BLOCK ENDS
 
+	bool keyStates[KEYBOARD_MAX];		//Is the key down?
+	bool holdStates[KEYBOARD_MAX];		//Has the key been down for multiple updates?
+
 protected:
 	Keyboard(HWND &hwnd);
 	~Keyboard(void) {}
@@ -215,9 +218,6 @@ protected:
 	virtual void update(RAWINPUT* raw);
 	//Sends the keyboard to sleep
 	virtual void Sleep();
-
-	bool keyStates[KEYBOARD_MAX];		//Is the key down?
-	bool holdStates[KEYBOARD_MAX];		//Has the key been down for multiple updates?
 
 										//	CSC3224 NCODE [Kiyavash Kandar] [140245239]
 	std::map<std::string, KeyboardKeys> button_mapping;

@@ -117,6 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="SendMessageActionBuilder.h" />
     <ClInclude Include="Messages\AddScoreHolderMessage.h" />
     <ClInclude Include="Messages\CollisionMessage.h" />
     <ClInclude Include="MessageBuffer.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="Messages\TextMeshMessage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SendMessageActionBuilder.cpp" />
     <ClCompile Include="Messages\AddScoreHolderMessage.cpp" />
     <ClCompile Include="Messages\CollisionMessage.cpp" />
     <ClCompile Include="MessageStorage.cpp" />

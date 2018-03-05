@@ -31,6 +31,11 @@
       <destination>RenderingSystem</destination>
       <name>player2</name>
     </SendMessage>
+
+    <SendMessage type="TEXT">
+      <destination>UserInterface</destination>
+      <text>Toggle</text>
+    </SendMessage>
   </OnStart>
   
   <Timed interval="0.01">

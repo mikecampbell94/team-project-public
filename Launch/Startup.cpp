@@ -2,6 +2,7 @@
 #include "Resource Management/Database/Database.h"
 #include "Networking/NetworkClient.h"
 #include "Profiler/FPSCounter.h"
+#include "DevConsole\Console.h"
 
 Startup::Startup()
 {
@@ -117,6 +118,7 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
 	engine->addSubsystem(profiler);
+	engine->addSubsystem(new Console(window->getKeyboard()));
 
 	for each (Subsystem * subsystem in engine->getSubSystems())
 	{
