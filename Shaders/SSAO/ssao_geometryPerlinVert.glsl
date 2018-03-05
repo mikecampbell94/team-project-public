@@ -75,10 +75,15 @@ float noise(vec3 p) {
 
 void main(void) 
 {
-	float n = /*noise(vec3(aPos.x*100 + time / 20,aPos.z*100 + time / 20,time / 20)/ 170.0) / 1.0 +*/ noise(vec3(aPos.x*100 + time / 10,aPos.z*100 + time / 10,time / 10)/64.0) / 2.0
-	+ noise(vec3(aPos.x*100 + time / 7,aPos.z + time / 7,time / 7)/32.0) / 10.0;
 	vec3 newPos = aPos;
-	newPos.y += n * 10;
+
+	if(perlin == 1)
+	{
+		float n = noise(vec3(aPos.x*100 + time / 50,aPos.z*100 + time / 50,time / 50)/ 170.0) / 1.0 + noise(vec3(aPos.x*100 + time / 30,aPos.z*100 + time / 30,time / 30)/64.0) / 2.0
+		+ noise(vec3(aPos.x*100 + time / 30,aPos.z + time / 30,time / 30)/32.0) / 10.0;
+		newPos.y += n*5;
+	}
+	
 	
 	vec4 viewPos = viewMatrix * modelMatrix * vec4(newPos, 1.0);
 	FragPos = viewPos.xyz;

@@ -122,11 +122,11 @@ public:
 
 	GLuint modelMatricesSSBO;
 
-protected:
-	Matrix4 transform;
-
 	void SetupMesh();
 
+
+protected:
+	Matrix4 transform;
 	unsigned int VAO, VBO, EBO; //Render data
 
 	float boundingRadius;

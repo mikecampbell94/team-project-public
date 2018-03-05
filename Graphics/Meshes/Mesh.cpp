@@ -182,7 +182,9 @@ Mesh * Mesh::GenerateHeightMap(int width, int height)
 
 			vertex.Position = Vector3(x,0,z);
 			vertex.Normal = Vector3(0, 1, 0);
-			vertex.TexCoords = Vector2(x, z);
+			vertex.TexCoords = Vector2((float)x/width, (float)z/height);
+			vertex.Tangent = Vector3(1, 0, 0);
+			vertex.Bitangent = Vector3(0, 0, 1);
 			//maybe need to generate tangents, bitangents?
 
 			heightMap->vertices.push_back(vertex);
@@ -209,9 +211,11 @@ Mesh * Mesh::GenerateHeightMap(int width, int height)
 
 		}
 	}
-
+	heightMap->SetupMesh();
 	heightMap->BufferData();
 	Mesh* mesh = new Mesh();
+	mesh->radius = 100;
+	mesh->numModels = 1;
 	mesh->meshes.push_back(heightMap);
 
 	return mesh;

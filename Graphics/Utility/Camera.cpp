@@ -37,7 +37,8 @@ bool Camera::sceneNodeIsInCameraView(SceneNode * sceneNode)
 	const float radius = sceneNode->getRadius();
 
 
-	return viewFrustum.insideFrustum(position, radius);
+	//return viewFrustum.insideFrustum(position, radius);
+	return true;
 }
 
 /*

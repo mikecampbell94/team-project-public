@@ -49,20 +49,21 @@ void TableCreation::addMesh() const
 	{
 		Mesh* mesh;
 
-		if (node->nodeType.compare("PreBuiltMesh") == 0)
+		if (node->children[0]->nodeType.compare("MeshType") == 0)
 		{
-			mesh = Mesh::GenerateHeightMap(100,100);
+			mesh = Mesh::GenerateHeightMap(30,30);
 			mesh->setName(node->name);
+			mesh->loadTexture(node->children[1]->value);
+			mesh->perlin = stoi(node->children[2]->value);
+
 		}
 		else
 		{
 			mesh = new Mesh(node->children[0]->value, 1);
-
-
-
 			if (node->children.size() > 1)
 			{
 				mesh->loadTexture(node->children[1]->value);
+
 			}
 
 			mesh->setName(node->name);
