@@ -2,6 +2,7 @@
 
 #include "../../Input/Devices/Keyboard.h"
 #include "../../Input/InputControl.h"
+#include "Communication/SendMessageActionBuilder.h"
 
 int consoleKeys[] =
 {
@@ -41,7 +42,10 @@ int consoleKeys[] =
 	KEYBOARD_B,
 	KEYBOARD_N,
 	KEYBOARD_M,
-	KEYBOARD_SPACE
+	KEYBOARD_SPACE,
+	KEYBOARD_COMMA,
+	KEYBOARD_PLUS,
+	KEYBOARD_MINUS
 };
 
 Console::Console(Keyboard* keyboard) : Subsystem("Console")
@@ -99,6 +103,9 @@ Console::Console(Keyboard* keyboard) : Subsystem("Console")
 	keyMapping.insert({ KEYBOARD_N, "n" });
 	keyMapping.insert({ KEYBOARD_M, "m" });
 	keyMapping.insert({ KEYBOARD_SPACE, " " });
+	keyMapping.insert({ KEYBOARD_COMMA, "," });
+	keyMapping.insert({ KEYBOARD_PLUS, "=" });
+	keyMapping.insert({ KEYBOARD_MINUS, "-" });
 }
 
 Console::~Console()
@@ -115,6 +122,11 @@ void Console::updateSubsystem(const float & deltaTime)
 	if (enabled && !blocked)
 	{
 		recordKeyPresses();
+
+		if (keyboard->keyTriggered(KEYBOARD_RETURN))
+		{
+			SendMessageActionBuilder::buildSendMessageAction(input)();
+		}
 	}
 }
 
@@ -134,6 +146,10 @@ void Console::toggleConsoleEnabled()
 
 void Console::recordKeyPresses()
 {
+	if(keyboard->keyTriggered(KEYBOARD_CAPITAL))
+	{
+		capslock =  !capslock;
+	}
 	if (keyboard->keyStates[KEYBOARD_BACK] && !(keyboard->keyStates[KEYBOARD_BACK] && keyboard->holdStates[KEYBOARD_BACK]))
 	{
 		input.pop_back();
@@ -143,7 +159,16 @@ void Console::recordKeyPresses()
 	{
 		if (keyboard->keyStates[key] && !(keyboard->keyStates[key] && keyboard->holdStates[key]))
 		{
-			input += keyMapping.at(key);
+			if (capslock)
+			{
+				std::string str = keyMapping.at(key);
+				std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+				input += str;
+			}
+			else
+			{
+				input += keyMapping.at(key);
+			}
 		}
 	}
 

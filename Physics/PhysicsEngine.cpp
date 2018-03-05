@@ -6,15 +6,36 @@
 #include "../Communication/Messages/ApplyForceMessage.h"
 #include "../Communication/Messages/CollisionMessage.h"
 #include "../Utilities/GameTimer.h"
+#include "../Communication/Messages/AbsoluteTransformMessage.h"
 
 PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
 	this->database = database;
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, 
-		MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE, MessageType::UPDATE_POSITION };
+		MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE, MessageType::UPDATE_POSITION, MessageType::ABSOLUTE_TRANSFORM,
+		MessageType::MOVE_GAMEOBJECT};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ABSOLUTE_TRANSFORM, [database = database](Message* message)
+	{
+		AbsoluteTransformMessage* translationMessage = static_cast<AbsoluteTransformMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(translationMessage->resourceName));
+
+		gameObject->getPhysicsNode()->setPosition(translationMessage->transform.getPositionVector());
+		//gameObject->getPhysicsNode()->setOrientation();
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_GAMEOBJECT, [database = database](Message* message)
+	{
+		MoveGameObjectMessage* moveMessage = static_cast<MoveGameObjectMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(moveMessage->gameObjectID));
+
+		gameObject->getPhysicsNode()->setPosition(moveMessage->position);
+	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
 	{

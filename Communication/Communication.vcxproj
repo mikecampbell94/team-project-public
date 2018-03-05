@@ -117,6 +117,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Messages\AbsoluteTransformMessage.h" />
+    <ClInclude Include="Messages\MoveGameObjectMessage.h" />
     <ClInclude Include="SendMessageActionBuilder.h" />
     <ClInclude Include="Messages\AddScoreHolderMessage.h" />
     <ClInclude Include="Messages\CollisionMessage.h" />
@@ -143,6 +145,8 @@
     <ClInclude Include="Messages\TextMeshMessage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Messages\AbsoluteTransformMessage.cpp" />
+    <ClCompile Include="Messages\MoveGameObjectMessage.cpp" />
     <ClCompile Include="SendMessageActionBuilder.cpp" />
     <ClCompile Include="Messages\AddScoreHolderMessage.cpp" />
     <ClCompile Include="Messages\CollisionMessage.cpp" />

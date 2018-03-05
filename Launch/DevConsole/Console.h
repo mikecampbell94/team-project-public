@@ -21,6 +21,7 @@ private:
 	std::string input;
 	bool enabled;
 	bool blocked;
+	bool capslock = false;
 
 	std::unordered_map<int, std::string> keyMapping;
 };

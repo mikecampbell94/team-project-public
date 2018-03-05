@@ -18,6 +18,7 @@
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
 #include "../Utilities/GameTimer.h"
 #include <iterator>
+#include "../../Communication/Messages/AbsoluteTransformMessage.h"
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
@@ -35,7 +36,7 @@ void RenderingSystem::initialise(Database* database)
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::TEXT_MESH_MESSAGE, MessageType::RELATIVE_TRANSFORM,
 		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
-		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER};
+		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER, MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -56,6 +57,15 @@ void RenderingSystem::initialise(Database* database)
 		std::cout << textMessage->text << std::endl;
 	});
 
+	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_GAMEOBJECT, [database = database](Message* message)
+	{
+		MoveGameObjectMessage* moveMessage = static_cast<MoveGameObjectMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(moveMessage->gameObjectID));
+
+		gameObject->getSceneNode()->setPosition(moveMessage->position);
+	});
+
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)
 	{
 		TextMeshMessage* textMessage = static_cast<TextMeshMessage*>(message);
@@ -72,7 +82,15 @@ void RenderingSystem::initialise(Database* database)
 
 		gameObject->getSceneNode()->SetTransform(gameObject->getSceneNode()->GetTransform()
 			* translationMessage->transform);
+	});
 
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ABSOLUTE_TRANSFORM, [database = database](Message* message)
+	{
+		AbsoluteTransformMessage* translationMessage = static_cast<AbsoluteTransformMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(translationMessage->resourceName));
+
+		gameObject->getSceneNode()->SetTransform(translationMessage->transform);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TOGGLE_GRAPHICS_MODULE, [&renderer = renderer](Message* message)

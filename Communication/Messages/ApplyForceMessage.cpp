@@ -63,5 +63,18 @@ ApplyForceMessage ApplyForceMessage::builder(Node* node)
 	{
 		return ApplyForceMessage(destination, object, rand, force, xmin, xmax, ymin, ymax, zmin, zmax);
 	}
+
 	return ApplyForceMessage(destination, object, rand, force);
+}
+
+//APPLY_FORCE Physics player0 force=5,5,5
+ApplyForceMessage ApplyForceMessage::tokensToMessage(std::vector<std::string> lineTokens)
+{
+	std::string nodeDestination = lineTokens[1];
+	std::string nodeResourcename = lineTokens[2];
+
+	std::string forceString = lineTokens[3].substr(6);
+	Vector3 force = Vector3::builder(forceString);
+
+	return ApplyForceMessage(nodeDestination, nodeResourcename, false, force);
 }

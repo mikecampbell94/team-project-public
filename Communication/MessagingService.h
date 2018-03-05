@@ -19,6 +19,8 @@
 #include "Messages/UpdatePositionMessage.h"
 #include "Messages/TextMeshMessage.h"
 #include "Messages/AddScoreHolderMessage.h"
+#include "Messages/AbsoluteTransformMessage.h"
+#include "Messages/MoveGameObjectMessage.h"
 
 
 //exposed interface
@@ -43,6 +45,8 @@ public:
 	virtual void insertMessage(UpdatePositionMessage message) = 0;
 	virtual void insertMessage(TextMeshMessage message) = 0;
 	virtual void insertMessage(AddScoreHolderMessage message) = 0;
+	virtual void insertMessage(AbsoluteTransformMessage message) = 0;
+	virtual void insertMessage(MoveGameObjectMessage message) = 0;
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;
 	virtual void cancelOutgoingMessages() = 0;
