@@ -23,7 +23,7 @@ void main()
 	float textureCoordX = float(xCoord) / 1280.0f;
 	float textureCoordY = float(yCoord) / 720.0f;
 
-	vec4 colour = texture2D(paintTrailTexture, vec2(textureCoordX, textureCoordY));
+	vec4 colour = texture(paintTrailTexture, vec2(textureCoordX, textureCoordY));
 
 	for (int i = 0; i < arraySize; i++)
 	{

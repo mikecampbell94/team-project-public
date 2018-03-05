@@ -29,7 +29,7 @@ void main(void) {
 
 	if (hasTexture == 1)
 	{
-		col = texture2D(texture_diffuse, TexCoords);
+		col = texture(texture_diffuse, TexCoords);
 	}
 	//
 	//if (isreflective == 1) 

@@ -51,6 +51,9 @@ public:
 	void ProcessNode(aiNode *node, const aiScene *scene);
 	SubMesh* ProcessMesh(aiMesh *mesh, const aiScene *scene);
 
+
+	static Mesh* GenerateHeightMap(int width, int height);
+
 	std::vector<Texture> LoadMaterialTextures(aiMaterial *mat, aiTextureType type,
 		string typeName);
 
