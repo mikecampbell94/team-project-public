@@ -31,12 +31,17 @@
       <destination>RenderingSystem</destination>
       <name>player2</name>
     </SendMessage>
+
+    <SendMessage type="TEXT">
+      <destination>UserInterface</destination>
+      <text>Toggle</text>
+    </SendMessage>
   </OnStart>
   
   <Timed interval="0.01">
     <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
       <destination>RenderingSystem</destination>
-      <resource>MenuCube</resource>
+      <resource>player0</resource>
       <translation>
         <x>0</x>
         <y>100</y>

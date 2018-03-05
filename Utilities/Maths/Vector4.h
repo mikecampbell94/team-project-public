@@ -50,5 +50,19 @@ public:
 		const float w = VectorBuilder::getVectorComponentFromNode(node->children[3]);
 		return Vector4(x, y, z, w);
 	}
+
+	static Vector4 builder(std::string text)
+	{
+		std::stringstream ss(text);
+		std::string item;
+		std::vector<std::string> tokens;
+
+		while (std::getline(ss, item, ','))
+		{
+			tokens.push_back(item);
+		}
+
+		return Vector4(stof(tokens[0]), stof(tokens[1]), stof(tokens[2]), stof(tokens[3]));
+	}
 };
 

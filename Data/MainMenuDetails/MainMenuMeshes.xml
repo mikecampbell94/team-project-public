@@ -1,7 +1,6 @@
 <LevelMeshes>
 	<Meshes name="CubeMesh" >
 		<MeshFile>../Data/Meshes/centeredcube.obj</MeshFile>
-		<Texture>../Data/Textures/hell.jpg</Texture>
 	</Meshes>
 
 	<Meshes name="SphereMesh" >

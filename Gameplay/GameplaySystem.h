@@ -25,11 +25,24 @@ public:
 	void deleteGameObjectScripts();
 	void compileGameObjectScripts();
 
+	//hardcoded test stuff REMOVE!
+	void setTimedLevel(float maxTime)
+	{
+		gameLogic.maxTime = maxTime;
+		gameLogic.isTimed = true;
+	}
+	void setUnTimedLevel()
+	{
+		gameLogic.isTimed = false;
+	}
+
 private:
 	GameLogic gameLogic;
 	std::vector<GameObjectLogic> objects;
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
 	Database* database;
+
+	bool levelFinished = false;
 };
 

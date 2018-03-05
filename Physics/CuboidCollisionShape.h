@@ -10,6 +10,12 @@ public:
 	CuboidCollisionShape(const Vector3& halfdims);
 	~CuboidCollisionShape();
 
+	void setScale(Vector3 scale, float invMass) override
+	{
+		halfDims = scale;
+		buildInverseInertia(invMass);
+	}
+
 	void setHalfWidth(float half_width) 
 	{ 
 		halfDims.x = fabs(half_width); 

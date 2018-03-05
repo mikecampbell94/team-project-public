@@ -10,12 +10,13 @@ class Window;
 class Camera;
 class Matrix4;
 class Database;
+class GameTimer;
 
 class Renderer : public OGLRenderer
 {
 public:
 	Renderer();
-	Renderer(Window* window, Camera* camera);
+	Renderer(GameTimer* parentTimer, Window* window, Camera* camera);
 	~Renderer();
 
 	void initialise(SceneManager* sceneManager, Database* database);
@@ -36,6 +37,8 @@ private:
 	SceneManager* sceneManager; 
 	Window* window; 
 	Camera* camera; 
+	GameTimer* parentTimer;
+
 	Vector2 resolution;
 	Matrix4 globalProjectionMatrix;
 	Matrix4 globalOrthographicMatrix;

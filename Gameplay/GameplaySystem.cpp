@@ -6,28 +6,33 @@
 #include "../Graphics/Scene Management/SceneNode.h"
 #include "../Input/InputUtility.h"
 #include "../Resource Management/XMLParser.h"
+#include "../Utilities/GameTimer.h"
+#include "../Input/Devices/Keyboard.h"
 
 GameplaySystem::GameplaySystem(Database* database)
 	: Subsystem("Gameplay")
 {
 	this->database = database;
-
-	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION }, 
+ 
+	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION },
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge](Message* message)
+	
+	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge, &objects = objects](Message* message)
 	{
-		//gameLogic.notifyMessageActions("PlayerInputMessage", message);
 		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
+
+		for (GameObjectLogic& object : objects)
+		{
+			object.notify("InputMessage", message);
+		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::COLLISION, [&gameLogic = gameLogic, &objects = objects](Message* message)
 	{
-		//CollisionMessage* collisionMessage = static_cast<CollisionMessage*>(message);
-		//std::cout << "Obj : " << collisionMessage->objectIdentifier << std::endl;
-		//std::cout << "Collider : " << collisionMessage->colliderIdentifier << std::endl;
-
 		gameLogic.notifyMessageActions("CollisionMessage", message);
+
+		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
 		
 		for (GameObjectLogic& object : objects)
 		{
@@ -35,6 +40,9 @@ GameplaySystem::GameplaySystem(Database* database)
 		}
 
 	});
+
+	timer->addChildTimer("Level Logic");
+	timer->addChildTimer("Object Logic");
 }
 
 GameplaySystem::~GameplaySystem()
@@ -43,13 +51,61 @@ GameplaySystem::~GameplaySystem()
 
 void GameplaySystem::updateSubsystem(const float& deltaTime)
 {
-	gameLogic.executeMessageBasedActions();
-	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
-	gameLogic.clearNotifications();
-
-	for each (GameObjectLogic object in objects)
+	if (gameLogic.isTimed) 
 	{
-		object.updatelogic(deltaTime * 0.001f);
+		if (gameLogic.elapsedTime < gameLogic.maxTime)
+		{
+			timer->beginTimedSection();
+
+			timer->beginChildTimedSection("Level Logic");
+			gameLogic.executeMessageBasedActions();
+			gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
+			gameLogic.clearNotifications();
+			timer->endChildTimedSection("Level Logic");
+
+			timer->beginChildTimedSection("Object Logic");
+			for each (GameObjectLogic object in objects)
+			{
+				object.updatelogic(deltaTime * 0.001f);
+			}
+			timer->endChildTimedSection("Object Logic");
+
+			timer->endTimedSection();
+
+			gameLogic.elapsedTime += (deltaTime * 0.001f);
+			std::cout << gameLogic.elapsedTime << endl;
+		}
+		else if(!levelFinished)
+		{
+			levelFinished = true;
+			DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
+			DeliverySystem::getPostman()->insertMessage(TextMessage("UserInterface", "Toggle"));
+		}
+		else
+		{
+			//send messages
+			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "GAME OVER!",
+				Vector3(-50, -50, 0), Vector3(50, 50, 50), Vector3(1, 0, 0), true, true));
+		}
+	}
+	else
+	{
+		timer->beginTimedSection();
+
+		timer->beginChildTimedSection("Level Logic");
+		gameLogic.executeMessageBasedActions();
+		gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
+		gameLogic.clearNotifications();
+		timer->endChildTimedSection("Level Logic");
+
+		timer->beginChildTimedSection("Object Logic");
+		for each (GameObjectLogic object in objects)
+		{
+			object.updatelogic(deltaTime * 0.001f);
+		}
+		timer->endChildTimedSection("Object Logic");
+
+		timer->endTimedSection();
 	}
 }
 
@@ -72,13 +128,6 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	gameLogic = GameLogic(&incomingMessages);
 	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
 	gameLogic.executeActionsOnStart();
-
-	/*objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/testObjectLogic.xml"));
-
-	for (GameObjectLogic& object : objects)
-	{
-		object.compileParsedXMLIntoScript();
-	}*/
 }
 
 void GameplaySystem::addGameObjectScript(std::string scriptFile)

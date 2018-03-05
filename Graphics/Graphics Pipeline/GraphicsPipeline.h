@@ -4,10 +4,13 @@
 
 #include "GraphicsModule.h"
 
+class GameTimer;
+
 class GraphicsPipeline
 {
 public:
-	GraphicsPipeline();
+	GraphicsPipeline() = default;
+	GraphicsPipeline(GameTimer* parentTimer);
 	~GraphicsPipeline();
 
 	void toggleModule(std::string moduleIdentifier);
@@ -22,5 +25,5 @@ public:
 
 private:
 	std::vector<GraphicsModule*> modules;
-
+	GameTimer* parentTimer;
 };

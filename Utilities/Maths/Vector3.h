@@ -16,6 +16,8 @@ _-_-_-_-_-_-_-""  ""
 #include "../../Resource Management/XMLParser.h"
 #include "Vector2.h"
 #include "VectorBuilder.h"
+#include <iterator>
+#include <sstream>
 
 class Vector3	{
 public:
@@ -145,6 +147,20 @@ public:
 		const float y = VectorBuilder::getVectorComponentFromNode(node->children[1]);
 		const float z = VectorBuilder::getVectorComponentFromNode(node->children[2]);
 		return Vector3(x, y, z);
+	}
+
+	static Vector3 builder(std::string text)
+	{
+		std::stringstream ss(text);
+		std::string item;
+		std::vector<std::string> tokens;
+
+		while (std::getline(ss, item, ','))
+		{
+			tokens.push_back(item);
+		}
+
+		return Vector3(stof(tokens[0]), stof(tokens[1]), stof(tokens[2]));
 	}
 };
 

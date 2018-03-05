@@ -5,15 +5,59 @@
 
 #include "../Communication/Messages/ApplyForceMessage.h"
 #include "../Communication/Messages/CollisionMessage.h"
+#include "../Utilities/GameTimer.h"
+#include "../Communication/Messages/AbsoluteTransformMessage.h"
 
 PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
 	this->database = database;
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, 
-		MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE, MessageType::UPDATE_POSITION };
+		MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE, MessageType::UPDATE_POSITION, MessageType::ABSOLUTE_TRANSFORM,
+		MessageType::MOVE_GAMEOBJECT, MessageType::SCALE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ABSOLUTE_TRANSFORM, [database = database](Message* message)
+	{
+		AbsoluteTransformMessage* translationMessage = static_cast<AbsoluteTransformMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(translationMessage->resourceName));
+
+		gameObject->getPhysicsNode()->setPosition(translationMessage->transform.getPositionVector());
+		//gameObject->getPhysicsNode()->setOrientation();
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_GAMEOBJECT, [database = database](Message* message)
+	{
+		MoveGameObjectMessage* moveMessage = static_cast<MoveGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(moveMessage->gameObjectID));
+
+		gameObject->getPhysicsNode()->setPosition(moveMessage->position);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::SCALE_GAMEOBJECT, [database = database](Message* message)
+	{
+		ScaleGameObjectMessage* scaleMessage = static_cast<ScaleGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(scaleMessage->gameObjectID));
+
+		gameObject->getPhysicsNode()->getCollisionShape()->setScale(scaleMessage->scale, gameObject->getPhysicsNode()->getInverseMass());
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ROTATE_GAMEOBJECT, [database = database](Message* message)
+	{
+		RotateGameObjectMessage* rotateMessage = static_cast<RotateGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(rotateMessage->gameObjectID));
+
+		gameObject->getPhysicsNode()->setOrientation(
+			Quaternion::axisAngleToQuaterion(Vector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z), rotateMessage->rotation.w));
+	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
 	{
@@ -82,6 +126,12 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 	updateTimestep = 1.0f / 60.f;
 	updateRealTimeAccum = 0.0f;
+
+	timer->addChildTimer("Broadphase");
+	timer->addChildTimer("Narrowphase");
+	timer->addChildTimer("Solver");
+	timer->addChildTimer("Integrate Position");
+	timer->addChildTimer("Integrate Velocity");
 }
 
 
@@ -159,6 +209,8 @@ void PhysicsEngine::removeAllPhysicsObjects()
 
 void PhysicsEngine::updateSubsystem(const float& deltaTime)
 {
+	timer->beginTimedSection();
+
 	const int maxUpdatesPerFrame = 5;
 	
 	updateRealTimeAccum += deltaTime;
@@ -178,6 +230,8 @@ void PhysicsEngine::updateSubsystem(const float& deltaTime)
 	{
 		physicsNode->hasTransmittedCollision = false;
 	}
+
+	timer->endTimedSection();
 }
 
 void PhysicsEngine::updatePhysics()
@@ -193,16 +247,21 @@ void PhysicsEngine::updatePhysics()
 
 	//-- Using positions from last frame --
 	//1. Broadphase Collision Detection (Fast and dirty)
+	timer->beginChildTimedSection("Broadphase");
 	broadPhaseCollisions();
+	timer->endChildTimedSection("Broadphase");
 	
 	//2. Narrowphase Collision Detection (Accurate but slow)
+	timer->beginChildTimedSection("Narrowphase");
 	narrowPhaseCollisions();
+	timer->endChildTimedSection("Narrowphase");
 	
 	//3. Initialize Constraint Params (precompute elasticity/baumgarte factor etc)	
 	for (Manifold* m : manifolds)
 	{
 		m->preSolverStep(updateTimestep);
 	}
+
 	for (Constraint* c : constraints)
 	{
 		c->preSolverStep(updateTimestep);
@@ -210,23 +269,29 @@ void PhysicsEngine::updatePhysics()
 
 
 	//4. Update Velocities
+	timer->beginChildTimedSection("Integrate Velocity");
 	for (PhysicsNode* obj : physicsNodes) 
 	{
 		obj->integrateForVelocity(updateTimestep);
 	}
+	timer->endChildTimedSection("Integrate Velocity");
 	
 	//5. Constraint Solver
+	timer->beginChildTimedSection("Solver");
 	for (size_t i = 0; i < SOLVER_ITERATIONS; ++i) 
 	{
 		for (Manifold* m : manifolds) m->applyImpulse();
 		for (Constraint* c : constraints) c->applyImpulse(updateTimestep);
 	}
+	timer->endChildTimedSection("Solver");
 	
 	//6. Update Positions (with final 'real' velocities)
+	timer->beginChildTimedSection("Integrate Position");
 	for (PhysicsNode* obj : physicsNodes)
 	{
 		obj->integrateForPosition(updateTimestep);
 	}
+	timer->endChildTimedSection("Integrate Position");
 	
 }
 

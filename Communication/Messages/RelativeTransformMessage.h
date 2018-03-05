@@ -13,6 +13,7 @@ public:
 	~RelativeTransformMessage();
 
 	static RelativeTransformMessage builder(Node* node);
+	static RelativeTransformMessage tokensToMessage(std::vector<std::string> lineTokens);
 
 	Matrix4 transform;
 	std::string resourceName;

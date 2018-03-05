@@ -16,9 +16,12 @@ public:
 	void updateSubsystem(const float& deltaTime) override;
 
 private:
+	void toggleModule();
+
 	Keyboard* keyboard;
 	Vector2 resolution;
 	Menu* menu = nullptr;
-	bool interfaceDisplaying = true;
+	bool enabled = true;
+	bool blocked;
 };
 

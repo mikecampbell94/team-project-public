@@ -18,6 +18,7 @@ public:
 	void processMessagesForAllSubsystems();
 
 	void addSubsystem(Subsystem* subsystem);
+	std::vector<Subsystem*> getSubSystems();
 
 private:
 	std::vector<Subsystem*> subsystems;

@@ -11,14 +11,24 @@ Renderer::Renderer() : OGLRenderer(0, Vector2())
 	window = nullptr;
 	camera = nullptr;
 	resolution = Vector2();
+	pipeline = GraphicsPipeline(nullptr);
 }
 
-Renderer::Renderer(Window* window, Camera* camera)
+Renderer::Renderer(GameTimer* parentTimer, Window* window, Camera* camera)
 	: OGLRenderer(window->getHandle(), window->getScreenSize())
 {
 	this->window = window;
 	this->camera = camera;
 	this->resolution = window->getScreenSize();
+	this->parentTimer = parentTimer;
+
+	parentTimer->addChildTimer("Update Scene Management");
+	parentTimer->addChildTimer("Render Modules");
+	//parentTimer->addChildTimer("Render");
+
+	//parentTimer->getChildTimer("Render Modules")->addChildTimer("hELLO");
+
+	pipeline = GraphicsPipeline(parentTimer->getChildTimer("Render Modules"));
 
 	//globalProjectionMatrix = Matrix4::perspective(1.0f, 150000.0f, resolution.x / resolution.y, 60.0f);
 	globalOrthographicMatrix = Matrix4::orthographic(-1.0f,10000.0f, width / 2.0f, -width / 2.0f, height / 2.0f, -height / 2.0f);
@@ -87,17 +97,25 @@ GraphicsModule* Renderer::getGraphicsModule(const std::string& moduleName)
 
 void Renderer::updateScene(const float& msec)
 {
+	parentTimer->beginChildTimedSection("Update Scene Management");
+
 	camera->updateCamera();
 	camera->buildViewMatrix();
 	camera->updateViewFrustum(CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 	pipeline.updateModules(msec);
 	sceneManager->clearMeshLists();
 	sceneManager->buildMeshLists();
+
+	parentTimer->endChildTimedSection("Update Scene Management");
 }
 
 void Renderer::renderScene()
 {
+	parentTimer->beginChildTimedSection("Render Modules");
+
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	pipeline.executeModules();
 	swapBuffers();
+
+	parentTimer->endChildTimedSection("Render Modules");
 }

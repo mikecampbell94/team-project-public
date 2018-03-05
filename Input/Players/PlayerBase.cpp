@@ -44,8 +44,6 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 	InputActionMap newPlayersActions(playerID);
 	inputParser.loadFile("../Data/Resources/Input/configXML.xml");
 	Node* node = inputParser.parsedXml;
-
-
 	//NOW ATTACH NODE
 	std::string playerName = "player" + std::to_string(id);
 	MoveCameraRelativeToGameObjectMessage::resourceName = playerName;
@@ -78,7 +76,17 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 			float zPosition = stof(magnitude->children[2]->value);
 
 			Vector3 translation(xPosition, yPosition, zPosition);
-			DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", playerName, false, translation));
+			if (magnitude->nodeType == "Move")
+			{
+				DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", playerName, false, translation));
+			}
+			else if (magnitude->nodeType == "Impulse")
+			{
+				if (player->getGameObject()->canJump)
+				{
+					DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Physics", playerName, false, translation));
+				}	
+			}
 		});
 	}
 

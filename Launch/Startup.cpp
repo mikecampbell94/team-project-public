@@ -1,6 +1,8 @@
 #include "Startup.h"
 #include "Resource Management/Database/Database.h"
 #include "Networking/NetworkClient.h"
+#include "Profiler/FPSCounter.h"
+#include "DevConsole\Console.h"
 
 Startup::Startup()
 {
@@ -93,6 +95,7 @@ void Startup::initialiseDatabaseAndTables()
 {
 	database = new Database();
 	tableCreation = new TableCreation(database);
+	profiler = new Profiler(window->getKeyboard(), database, new FPSCounter());
 	game->database = database;
 }
 
@@ -114,6 +117,13 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(audio);
 	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
+	engine->addSubsystem(profiler);
+	engine->addSubsystem(new Console(window->getKeyboard()));
+
+	for each (Subsystem * subsystem in engine->getSubSystems())
+	{
+		profiler->addSubsystemTimer(subsystem->getSubsystemName(), subsystem->getTimer());
+	}
 }
 
 void Startup::loadMainMenu()
@@ -121,6 +131,8 @@ void Startup::loadMainMenu()
 	level->loadLevelFile("MainMenu.txt", gameplay);
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
+
+	gameplay->setUnTimedLevel();
 }
 
 void Startup::loadLevel(std::string levelFile, bool online)
@@ -136,6 +148,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
+	gameplay->setTimedLevel(30.f);
 }
 
 void Startup::switchLevel()

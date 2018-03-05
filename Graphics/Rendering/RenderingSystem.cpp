@@ -16,13 +16,15 @@
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
+#include "../Utilities/GameTimer.h"
 #include <iterator>
+#include "../../Communication/Messages/AbsoluteTransformMessage.h"
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
 {
 	this->camera = camera;
-	renderer = std::make_unique<Renderer>(window, camera);
+	renderer = std::make_unique<Renderer>(timer, window, camera);
 }
 
 RenderingSystem::~RenderingSystem()
@@ -33,8 +35,8 @@ void RenderingSystem::initialise(Database* database)
 {
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::TEXT_MESH_MESSAGE, MessageType::RELATIVE_TRANSFORM,
-		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
-		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER};
+		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE, MessageType::SCALE_GAMEOBJECT,
+		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER, MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -55,12 +57,46 @@ void RenderingSystem::initialise(Database* database)
 		std::cout << textMessage->text << std::endl;
 	});
 
+	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_GAMEOBJECT, [database = database](Message* message)
+	{
+		MoveGameObjectMessage* moveMessage = static_cast<MoveGameObjectMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(moveMessage->gameObjectID));
+
+		gameObject->getSceneNode()->setPosition(moveMessage->position);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::SCALE_GAMEOBJECT, [database = database](Message* message)
+	{
+		ScaleGameObjectMessage* scaleMessage = static_cast<ScaleGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(scaleMessage->gameObjectID));
+
+		gameObject->setScale(scaleMessage->scale);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ROTATE_GAMEOBJECT, [database = database](Message* message)
+	{
+		RotateGameObjectMessage* rotateMessage = static_cast<RotateGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(rotateMessage->gameObjectID));
+
+		Vector3 position = gameObject->getSceneNode()->GetTransform().getPositionVector();
+		Vector3 scale = gameObject->getSceneNode()->GetTransform().getScalingVector();
+
+		gameObject->getSceneNode()->SetTransform(Matrix4::translation(position) *
+			Matrix4::rotation(rotateMessage->rotation.w, Vector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z)) *
+			Matrix4::scale(scale));
+	});
+
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)
 	{
 		TextMeshMessage* textMessage = static_cast<TextMeshMessage*>(message);
 
 		static_cast<GameText*>(renderer->getGraphicsModule("GameText"))->bufferText(
-			textMessage->text, textMessage->position, textMessage->scale, textMessage->colour, textMessage->orthographic);
+			textMessage->text, textMessage->position, textMessage->scale, textMessage->colour, textMessage->orthographic, textMessage->hasBackground);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)
@@ -71,7 +107,15 @@ void RenderingSystem::initialise(Database* database)
 
 		gameObject->getSceneNode()->SetTransform(gameObject->getSceneNode()->GetTransform()
 			* translationMessage->transform);
+	});
 
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ABSOLUTE_TRANSFORM, [database = database](Message* message)
+	{
+		AbsoluteTransformMessage* translationMessage = static_cast<AbsoluteTransformMessage*>(message);
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(translationMessage->resourceName));
+
+		gameObject->getSceneNode()->SetTransform(translationMessage->transform);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TOGGLE_GRAPHICS_MODULE, [&renderer = renderer](Message* message)
@@ -132,5 +176,7 @@ void RenderingSystem::SetSceneToRender(SceneManager* scene, Database* database)
 
 void RenderingSystem::updateSubsystem(const float& deltaTime)
 {
+	timer->beginTimedSection();
 	renderer->update(deltaTime);
+	timer->endTimedSection();
 }

@@ -9,9 +9,9 @@
 #include "Resource Management/Database/TableCreation.h"
 #include "Resource Management/Level.h"
 #include "../../Input/Recorders/KeyboardMouseRecorder.h"
+#include "Profiler/Profiler.h"
 
 class NetworkClient;
-
 class Database;
 
 class Startup
@@ -59,6 +59,7 @@ private:
 	PhysicsEngine* physics;
 	UserInterface* userInterface;
 	NetworkClient* network;
+	Profiler* profiler;
 
 	GameTimer* loopTimer;
 	Window* window;

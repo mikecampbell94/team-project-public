@@ -1,7 +1,7 @@
 <LevelDetails>
 <GameObjects name="player0" >
     <SceneNode>
-		  <Mesh>player0Mesh</Mesh>
+		  <Mesh>SphereMesh</Mesh>
 		  <Colour>
 		    <R>1</R>
 		    <G>0</G>
@@ -28,13 +28,14 @@
 		</Scale>
 		<PhysicsNode>
 			<Enabled>True</Enabled>
-      <TransmitCollision>True</TransmitCollision>
+			<TransmitCollision>True</TransmitCollision>
 			<CollisionShape>Sphere</CollisionShape>
 			<Mass>1</Mass>
 			<isCollision>True</isCollision>
 			<Elasticity>0.5</Elasticity>
 			<Friction>0.9</Friction>
       <Damping>0.995</Damping>
+	  <isStatic>False</isStatic>
 		</PhysicsNode>
 </GameObjects>
 
@@ -74,6 +75,7 @@
       <Elasticity>0.5</Elasticity>
       <Friction>0.9</Friction>
       <Damping>0.995</Damping>
+	  <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
 
@@ -113,6 +115,7 @@
       <Elasticity>0.5</Elasticity>
       <Friction>0.9</Friction>
       <Damping>0.995</Damping>
+	  <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
   
@@ -152,6 +155,7 @@
       <Elasticity>0.5</Elasticity>
       <Friction>0.9</Friction>
 	  <Damping>0.995</Damping>
+	  <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
 
@@ -191,6 +195,7 @@
       <isCollision>True</isCollision>
       <Elasticity>0.5</Elasticity>
       <Friction>0.9</Friction>
+	  <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
 
@@ -229,6 +234,7 @@
       <isCollision>True</isCollision>
       <Elasticity>0.5</Elasticity>
       <Friction>0.9</Friction>
+	  <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
 
@@ -267,6 +273,7 @@
       <isCollision>True</isCollision>
       <Elasticity>0.5</Elasticity>
       <Friction>0.9</Friction>
+	  <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
 
@@ -305,6 +312,7 @@
       <isCollision>True</isCollision>
       <Elasticity>0.5</Elasticity>
       <Friction>0.9</Friction>
+	  <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
   
@@ -344,6 +352,7 @@
       <Elasticity>0</Elasticity>
       <Friction>0.9</Friction>
 	  <Damping>0.995</Damping>
+	  <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
   
@@ -383,6 +392,7 @@
       <Elasticity>0</Elasticity>
       <Friction>0.9</Friction>
 	  <Damping>0.995</Damping>
+	  <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
 
@@ -421,10 +431,9 @@
 		<isCollision>True</isCollision>
 		<Elasticity>0.5</Elasticity>
 		<Friction>0.9</Friction>
+	  <isStatic>True</isStatic>
 		</PhysicsNode>
 </GameObjects>
-
-
 
 <GameObjects id ="paintPool" >
 		<SceneNode>
@@ -463,10 +472,4 @@
 		<Friction>0.9</Friction>
 		</PhysicsNode>
 </GameObjects> 
-
-
-
-
-
-
 </LevelDetails>

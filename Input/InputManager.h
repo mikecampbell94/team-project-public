@@ -7,6 +7,7 @@
 #include "Players/PlayerBase.h"
 #include "Players/Player.h"
 #include "../Input/Devices/Window.h"
+#include "InputControl.h"
 
 
 class InputManager : public Subsystem//, public Resource - uncomment this once resource class is added
@@ -28,4 +29,7 @@ public:
 private:
 	PlayerBase* playerbase;
 	Window* window;
+	InputControl inputControl;
+
+	bool blocked;
 };

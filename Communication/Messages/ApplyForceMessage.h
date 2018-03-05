@@ -12,6 +12,7 @@ public:
 	~ApplyForceMessage();
 
 	static ApplyForceMessage builder(Node* node);
+	static ApplyForceMessage tokensToMessage(std::vector<std::string> lineTokens);
 
 	std::string gameObjectID;
 	bool isRandom;

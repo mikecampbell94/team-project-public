@@ -198,6 +198,7 @@ public:
 		button_mapping.insert({ "Y", KEYBOARD_Y });
 		button_mapping.insert({ "Z", KEYBOARD_Z });
 		button_mapping.insert({ "ESC", KEYBOARD_ESCAPE });
+		button_mapping.insert({ "SPACE",KEYBOARD_SPACE });
 	}
 
 	KeyboardKeys Mapper(std::string key)
@@ -205,6 +206,9 @@ public:
 		return button_mapping.find(key)->second;
 	}
 	//	CSC3224 NCODE BLOCK ENDS
+
+	bool keyStates[KEYBOARD_MAX];		//Is the key down?
+	bool holdStates[KEYBOARD_MAX];		//Has the key been down for multiple updates?
 
 protected:
 	Keyboard(HWND &hwnd);
@@ -215,9 +219,6 @@ protected:
 	virtual void update(RAWINPUT* raw);
 	//Sends the keyboard to sleep
 	virtual void Sleep();
-
-	bool keyStates[KEYBOARD_MAX];		//Is the key down?
-	bool holdStates[KEYBOARD_MAX];		//Has the key been down for multiple updates?
 
 										//	CSC3224 NCODE [Kiyavash Kandar] [140245239]
 	std::map<std::string, KeyboardKeys> button_mapping;
