@@ -43,6 +43,7 @@ public:
 
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
+	void cancelOutgoingMessages() override;
 
 private:
 	MessageStorage messageStorage;

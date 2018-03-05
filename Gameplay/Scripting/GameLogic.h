@@ -25,6 +25,9 @@ public:
 	void notifyMessageActions(const std::string& messageType, Message* message);
 	void clearNotifications();
 
+	std::unordered_map<std::string, std::vector<GameplayAction>> getMessageBasedActionsMap() { return messageBasedActions; }
+	
+
 private:
 	MessageProcessor* messages;
 	std::vector<std::pair<std::string, Message>> publishers;

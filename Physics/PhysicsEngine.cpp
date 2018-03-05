@@ -5,6 +5,7 @@
 
 #include "../Communication/Messages/ApplyForceMessage.h"
 #include "../Communication/Messages/CollisionMessage.h"
+#include "../Utilities/GameTimer.h"
 
 PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 {
@@ -15,15 +16,34 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database, &incomingMessages = incomingMessages](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
 	{
-		MessageProcessor* m = &incomingMessages;
-
 		ApplyForceMessage* applyForceMessage = static_cast<ApplyForceMessage*>(message);
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyForceMessage->gameObjectID));
 
-		gObj->getPhysicsNode()->setAppliedForce(applyForceMessage->force);
+		Vector3 force = applyForceMessage->force;
+
+		if (applyForceMessage->isRandom)
+		{
+			if (applyForceMessage->xmin != applyForceMessage->xmax)
+			{
+				force.x = VectorBuilder::getRandomVectorComponent(applyForceMessage->xmin, applyForceMessage->xmax) * 50.0f; 
+				//These * 50.0f are needed because currently rand() doesn't give good results for large ranges. 
+				//So a smaller range is needed when choosing random min and max values for vectors, which should then be scaled to the appropriate value
+				//Get rid of them though as any random force component will now be scaled and this isn't good!
+			}
+			if (applyForceMessage->ymin != applyForceMessage->ymax)
+			{
+				force.y = VectorBuilder::getRandomVectorComponent(applyForceMessage->ymin, applyForceMessage->ymax) * 50.0f;
+			}
+			if (applyForceMessage->zmin != applyForceMessage->zmax)
+			{
+				force.z = VectorBuilder::getRandomVectorComponent(applyForceMessage->zmin, applyForceMessage->zmax) * 50.0f;
+			}
+		}
+
+		gObj->getPhysicsNode()->setAppliedForce(force);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_IMPULSE, [database](Message* message)
@@ -32,7 +52,24 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyImpulseMessage->gameObjectID));
 
-		gObj->getPhysicsNode()->applyImpulse(applyImpulseMessage->impulse);
+		Vector3 impulse = applyImpulseMessage->impulse;
+
+		if (applyImpulseMessage->isRandom)
+		{
+			if (applyImpulseMessage->xmin != applyImpulseMessage->xmax)
+			{
+				impulse.x = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->xmin, applyImpulseMessage->xmax);
+			}
+			if (applyImpulseMessage->ymin != applyImpulseMessage->ymax)
+			{
+				impulse.y = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->ymin, applyImpulseMessage->ymax);
+			}
+			if (applyImpulseMessage->zmin != applyImpulseMessage->zmax)
+			{
+				impulse.z = VectorBuilder::getRandomVectorComponent(applyImpulseMessage->zmin, applyImpulseMessage->zmax);
+			}
+		}
+		gObj->getPhysicsNode()->applyImpulse(impulse);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [database](Message* message)
@@ -44,9 +81,14 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 		gObj->getPhysicsNode()->setPosition(positionMessage->position);
 	});
 
-
 	updateTimestep = 1.0f / 60.f;
 	updateRealTimeAccum = 0.0f;
+
+	timer->addChildTimer("Broadphase");
+	timer->addChildTimer("Narrowphase");
+	timer->addChildTimer("Solver");
+	timer->addChildTimer("Integrate Position");
+	timer->addChildTimer("Integrate Velocity");
 }
 
 
@@ -117,13 +159,15 @@ void PhysicsEngine::removeAllPhysicsObjects()
 	{
 		if (obj->getParent())
 			obj->getParent()->setPhysicsNode(nullptr);
-		delete obj;
+		//delete obj;
 	}
 	physicsNodes.clear();
 }
 
 void PhysicsEngine::updateSubsystem(const float& deltaTime)
 {
+	timer->beginTimedSection();
+
 	const int maxUpdatesPerFrame = 5;
 	
 	updateRealTimeAccum += deltaTime;
@@ -143,6 +187,8 @@ void PhysicsEngine::updateSubsystem(const float& deltaTime)
 	{
 		physicsNode->hasTransmittedCollision = false;
 	}
+
+	timer->endTimedSection();
 }
 
 void PhysicsEngine::updatePhysics()
@@ -158,16 +204,21 @@ void PhysicsEngine::updatePhysics()
 
 	//-- Using positions from last frame --
 	//1. Broadphase Collision Detection (Fast and dirty)
+	timer->beginChildTimedSection("Broadphase");
 	broadPhaseCollisions();
+	timer->endChildTimedSection("Broadphase");
 	
 	//2. Narrowphase Collision Detection (Accurate but slow)
+	timer->beginChildTimedSection("Narrowphase");
 	narrowPhaseCollisions();
+	timer->endChildTimedSection("Narrowphase");
 	
 	//3. Initialize Constraint Params (precompute elasticity/baumgarte factor etc)	
 	for (Manifold* m : manifolds)
 	{
 		m->preSolverStep(updateTimestep);
 	}
+
 	for (Constraint* c : constraints)
 	{
 		c->preSolverStep(updateTimestep);
@@ -175,23 +226,29 @@ void PhysicsEngine::updatePhysics()
 
 
 	//4. Update Velocities
+	timer->beginChildTimedSection("Integrate Velocity");
 	for (PhysicsNode* obj : physicsNodes) 
 	{
 		obj->integrateForVelocity(updateTimestep);
 	}
+	timer->endChildTimedSection("Integrate Velocity");
 	
 	//5. Constraint Solver
+	timer->beginChildTimedSection("Solver");
 	for (size_t i = 0; i < SOLVER_ITERATIONS; ++i) 
 	{
 		for (Manifold* m : manifolds) m->applyImpulse();
 		for (Constraint* c : constraints) c->applyImpulse(updateTimestep);
 	}
+	timer->endChildTimedSection("Solver");
 	
 	//6. Update Positions (with final 'real' velocities)
+	timer->beginChildTimedSection("Integrate Position");
 	for (PhysicsNode* obj : physicsNodes)
 	{
 		obj->integrateForPosition(updateTimestep);
 	}
+	timer->endChildTimedSection("Integrate Position");
 	
 }
 

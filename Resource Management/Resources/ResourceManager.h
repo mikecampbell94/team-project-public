@@ -71,6 +71,15 @@ public:
 		return resourceBuffer;
 	}
 
+	size_t getMaxSize() const
+	{
+		return maxSize;
+	}
+
+	size_t getCurrentSize() const
+	{
+		return currentSize;
+	}
 
 private:
 	std::string resourceManagerID;

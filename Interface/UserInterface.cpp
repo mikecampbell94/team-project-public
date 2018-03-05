@@ -17,6 +17,8 @@ UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution) : Subsystem
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 		std::cout << textMessage->text << std::endl;
 	});
+
+	menu = nullptr;
 }
 
 UserInterface::~UserInterface()
@@ -24,9 +26,14 @@ UserInterface::~UserInterface()
 	delete menu;
 }
 
-void UserInterface::initialise(Database* database)
+void UserInterface::initialise(std::string menuFile, Database* database)
 {
-	menu = new Menu("../Data/UserInterface/MainMenu.xml", database);
+	if (menu != nullptr)
+	{
+		delete menu;
+	}
+
+	menu = new Menu(menuFile, database);
 	UserInterfaceDisplay::provide(menu);
 }
 

@@ -1,6 +1,7 @@
 #include "Startup.h"
 #include "Resource Management/Database/Database.h"
 #include "Networking/NetworkClient.h"
+#include "Profiler/FPSCounter.h"
 
 Startup::Startup()
 {
@@ -20,10 +21,10 @@ void Startup::initialiseSubsystems()
 	initialiseDatabaseAndTables();
 	initialiseAudioSystem();
 	physics = new PhysicsEngine(database);
+	userInterface = new UserInterface(window->getKeyboard(), resolution);
 	initialiseLevelSystem();
 	initialiseInputSystem();
 	initialiseGameplaySystem();
-	userInterface = new UserInterface(window->getKeyboard(), resolution);
 	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
 
@@ -93,17 +94,18 @@ void Startup::initialiseDatabaseAndTables()
 {
 	database = new Database();
 	tableCreation = new TableCreation(database);
+	profiler = new Profiler(window->getKeyboard(), database, new FPSCounter());
 	game->database = database;
 }
 
 void Startup::initialiseLevelSystem()
 {
-	level = new Level(database, scene, physics);
+	level = new Level(database, scene, physics, userInterface);
 }
 
 void Startup::initialiseGameplaySystem()
 {
-	gameplay = new GameplaySystem();
+	gameplay = new GameplaySystem(database);
 }
 
 void Startup::addSystemsToEngine()
@@ -114,19 +116,25 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(audio);
 	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
+	engine->addSubsystem(profiler);
+
+	for each (Subsystem * subsystem in engine->getSubSystems())
+	{
+		profiler->addSubsystemTimer(subsystem->getSubsystemName(), subsystem->getTimer());
+	}
 }
 
 void Startup::loadMainMenu()
 {
-	level->loadLevelFile("MainMenu.txt");
-	gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
-	userInterface->initialise(database);
+	level->loadLevelFile("MainMenu.txt", gameplay);
+	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
+	//userInterface->initialise(database);
 }
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
 	physics->InitialiseOctrees(10);
-	level->loadLevelFile(levelFile);
+	level->loadLevelFile(levelFile, gameplay);
 
 	if (!online)
 	{
@@ -134,7 +142,8 @@ void Startup::loadLevel(std::string levelFile, bool online)
 		gameplay->connectPlayerbase(inputManager->GetPlayerbase());
 	}
 
-	gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
+	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
+	gameplay->compileGameObjectScripts();
 }
 
 void Startup::switchLevel()

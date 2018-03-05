@@ -24,6 +24,8 @@ InputManager::~InputManager()
 //Fill the buffers and use them!
 void InputManager::updateSubsystem(const float& deltatime)
 {
+	timer->beginTimedSection();
+
 	for (Player* player : playerbase->getPlayers())
 	{
 		player->getInputRecorder()->clearInputs();
@@ -36,6 +38,8 @@ void InputManager::updateSubsystem(const float& deltatime)
 			DeliverySystem::getPostman()->insertMessage(PlayerInputMessage("Gameplay", player, singleInput));
 		}
 	}
+
+	timer->endTimedSection();
 }
 
 

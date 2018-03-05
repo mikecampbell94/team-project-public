@@ -41,13 +41,16 @@ void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
 
 void GameLogic::executeMessageBasedActions()
 {
-	for (int i = 0; i < publishers.size(); ++i)
+	if(!messageBasedActions.empty())
 	{
-		std::vector<GameplayAction>* executables = &messageBasedActions.at(publishers[i].first);
-
-		for each (GameplayAction executable in *executables)
+		for (int i = 0; i < publishers.size(); ++i)
 		{
-			executable(publishers[i].second);
+			std::vector<GameplayAction>* executables = &messageBasedActions.at(publishers[i].first);
+
+			for each (GameplayAction executable in *executables)
+			{
+				executable(publishers[i].second);
+			}
 		}
 	}
 }

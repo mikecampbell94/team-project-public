@@ -4,11 +4,16 @@
 #include "InputGameplay/GameplayInputBridge.h"
 #include "Scripting/GameLogic.h"
 #include "../Resource Management/XMLParser.h"
+#include "GameObjectLogic/GameObjectLogic.h"
+#include "../Resource Management/Database/Database.h"
+
+
+class Database;
 
 class GameplaySystem : public Subsystem
 {
 public:
-	GameplaySystem();
+	GameplaySystem(Database* database);
 	~GameplaySystem();
 
 	void updateSubsystem(const float& deltaTime) override;
@@ -16,9 +21,15 @@ public:
 	void connectPlayerbase(PlayerBase* playerbase);
 	void compileGameplayScript(std::string levelScript);
 
+	void addGameObjectScript(std::string scriptFile);
+	void deleteGameObjectScripts();
+	void compileGameObjectScripts();
+
 private:
 	GameLogic gameLogic;
+	std::vector<GameObjectLogic> objects;
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
+	Database* database;
 };
 

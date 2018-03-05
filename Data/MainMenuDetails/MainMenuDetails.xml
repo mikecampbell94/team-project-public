@@ -1,5 +1,5 @@
 <LevelDetails>
-<GameObjects name="MenuCube" >
+<GameObjects name="player0" >
      <SceneNode>
 		  <Mesh>CubeMesh</Mesh>
 		  <Colour>

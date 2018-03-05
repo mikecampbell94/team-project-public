@@ -34,6 +34,14 @@ public:
 		}
 	}
 
+	void clearOutgoingMessages()
+	{
+		while (!outgoingMessages.empty())
+		{
+			outgoingMessages.pop();
+		}
+	}
+
 private:
 	std::queue<MessageType> outgoingMessages;
 	std::queue<MessageType> sentMessages;
