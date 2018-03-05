@@ -77,6 +77,17 @@ void Profiler::updateProfiling()
 		Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 	nextLine += NEXT_LINE_OFFSET;
 
+	for (int i = 0; i < database->getAllTables().size(); i++)
+	{
+		//std::vector<size_t> tableSizes;
+		//tableSizes.push_back(database->getAllTables()[i]->getAllResources()->getCurrentSize());
+		std::string text = database->getAllTables()[i]->getName() + ": " +
+			std::to_string(database->getAllTables()[i]->getAllResources()->getCurrentSize());
+		messages.push_back(TextMeshMessage("RenderingSystem", text,
+			Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
+		nextLine += NEXT_LINE_OFFSET;
+	}
+
 	for each (std::string text in externalText)
 	{
 		messages.push_back(TextMeshMessage("RenderingSystem", text,
@@ -96,6 +107,8 @@ void Profiler::updateProfiling()
 
 		saveProfilingInfo(subsystemTimer.second, 1, -500.0f);
 	}
+
+
 }
 
 void Profiler::displayChildTimers()
