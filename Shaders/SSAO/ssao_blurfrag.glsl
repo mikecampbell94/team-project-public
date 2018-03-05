@@ -1,6 +1,6 @@
 #version 330 core
 
-out float gl_FragColor;
+out float FragColor;
 
 in vec2 TexCoords;
 
@@ -22,5 +22,5 @@ void main(void){
         }
     }
 
-	gl_FragColor = result / ((xSize * 2) * (ySize * 2)); //texture(ssaoInput, TexCoords);
+	FragColor = result / ((xSize * 2) * (ySize * 2)); //texture(ssaoInput, TexCoords);
 }

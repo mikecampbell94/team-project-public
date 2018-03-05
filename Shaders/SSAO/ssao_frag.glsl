@@ -12,7 +12,7 @@ uniform float resolutionY;
 
 in vec2 TexCoords;
 
-out float gl_FragColor;
+out float FragColor;
 
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
@@ -59,5 +59,5 @@ void main(void){
 
     occlusion = 1.0f - (occlusion / kernelSize);
     
-    gl_FragColor = pow(occlusion, 2.0f);
+    FragColor = pow(occlusion, 2.0f);
 }

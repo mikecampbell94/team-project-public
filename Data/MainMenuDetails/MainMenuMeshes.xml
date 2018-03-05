@@ -3,6 +3,11 @@
 		<MeshFile>../Data/Meshes/centeredcube.obj</MeshFile>
 	</Meshes>
 
+	<Meshes name="SphereMesh" >
+		<MeshFile>../Data/Meshes/sphere.obj</MeshFile>
+	</Meshes>
+	
+	
    <UIMeshes name="UIQuad">
      <MeshFile>../Data/Meshes/centeredcube.obj</MeshFile>
      <Colour>

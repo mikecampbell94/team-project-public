@@ -49,7 +49,10 @@ public:
 	virtual void linkShaders() = 0;
 	virtual void regenerateShaders() = 0;
 
-	
+	void update(float dt)
+	{
+		this->time += dt;
+	}
 
 	void setCurrentShader(Shader*s)
 	{
@@ -136,6 +139,7 @@ protected:
 	std::string identifier;
 
 	bool enabled;
+	float time;
 
 };
 

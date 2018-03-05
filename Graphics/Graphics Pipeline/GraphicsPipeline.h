@@ -17,6 +17,7 @@ public:
 	void toggleModule(std::string moduleIdentifier, bool enabled);
 
 	void intialisePipeline();
+	void updateModules(float dt);
 	void executeModules();
 
 	void addModule(GraphicsModule* module);

@@ -74,5 +74,9 @@ private:
 	GLint loc_isReflective;
 	GLint loc_reflectionStrength;
 	GLint loc_baseColour;
+	GLint loc_time;
+	GLint loc_perlin;
+
+	GLint noiseTexture;
 };
 

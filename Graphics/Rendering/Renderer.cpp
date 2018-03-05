@@ -102,7 +102,7 @@ void Renderer::updateScene(const float& msec)
 	camera->updateCamera();
 	camera->buildViewMatrix();
 	camera->updateViewFrustum(CommonGraphicsData::SHARED_PROJECTION_MATRIX);
-
+	pipeline.updateModules(msec);
 	sceneManager->clearMeshLists();
 	sceneManager->buildMeshLists();
 

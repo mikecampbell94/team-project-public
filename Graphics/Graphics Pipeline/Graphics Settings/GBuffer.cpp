@@ -8,12 +8,15 @@ GBuffer::GBuffer(const std::string identifier, const Vector2 resolution,
 	Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
 	: GraphicsModule(identifier, resolution)
 {
+	time = 0;
 	this->nodesInFrame = nodesInFrame;
 	this->camera = camera;
 	this->window = window;
 
-	geometryPass = new Shader(SHADERDIR"/SSAO/ssao_geometryvert.glsl",
-		SHADERDIR"/SSAO/ssao_geometryfrag.glsl");
+	geometryPass = new Shader(SHADERDIR"/SSAO/ssao_geometryPerlinVert.glsl",
+		SHADERDIR"/SSAO/ssao_geometryfrag.glsl","", true);
+
+	noiseTexture = SOIL_load_OGL_texture(TEXTUREDIR"noiseSampler.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
 
 	SGBuffer = new GBufferData();
 	SGBuffer->gAlbedo = &gAlbedo;
@@ -75,6 +78,8 @@ void GBuffer::locateUniforms()
 	loc_isReflective = glGetUniformLocation(geometryPass->GetProgram(), "isReflective");
 	loc_reflectionStrength = glGetUniformLocation(geometryPass->GetProgram(), "reflectionStrength");
 	loc_baseColour = glGetUniformLocation(geometryPass->GetProgram(), "baseColour");
+	loc_time = glGetUniformLocation(geometryPass->GetProgram(), "time");
+	loc_perlin = glGetUniformLocation(geometryPass->GetProgram(), "perlin");
 }
 
 void GBuffer::initGBuffer()
@@ -130,10 +135,18 @@ void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 	glUniformMatrix4fv(glGetUniformLocation(geometryPass->GetProgram(), "paintTrailTextureMatrix"), 1, false, (float*)paintTextureMatrix);
 	currentShader->ApplyTexture(6, *paintTrailTexture);
 
+
+	//Perlin noise
+	glUniform1f(loc_time, time);
+	glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "perlinTex"), 7);
+	currentShader->ApplyTexture(7, noiseTexture);
+
+
 	glUniform3fv(loc_cameraPos, 1, (float*)&camera->getPosition());
 
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
+		glUniform1i(loc_perlin, nodesInFrame->at(i)->GetMesh()->perlin);
 		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "hasTexture"), nodesInFrame->at(i)->GetMesh()->hasTexture);
 		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "isPaintSurface"), nodesInFrame->at(i)->isPaintSurface);
 		glUniform4fv(loc_baseColour, 1, (float*)&nodesInFrame->at(i)->getColour()); 

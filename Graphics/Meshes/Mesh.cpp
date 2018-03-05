@@ -168,6 +168,59 @@ SubMesh* Mesh::ProcessMesh(aiMesh *mesh, const aiScene *scene)
 	return modelMesh;
 }
 
+Mesh * Mesh::GenerateHeightMap(int width, int height)
+{
+	SubMesh * heightMap = new SubMesh();
+	
+	for (int x = 0; x < width; ++x)
+	{
+		for (int z = 0; z < height; ++z)
+		{
+			int indexOffset = (x * width) + z;
+
+			Vertex vertex;
+
+			vertex.Position = Vector3(x,0,z);
+			vertex.Normal = Vector3(0, 1, 0);
+			vertex.TexCoords = Vector2((float)x/width, (float)z/height);
+			vertex.Tangent = Vector3(1, 0, 0);
+			vertex.Bitangent = Vector3(0, 0, 1);
+			//maybe need to generate tangents, bitangents?
+
+			heightMap->vertices.push_back(vertex);
+		}
+	}
+
+
+	for (int x = 0; x < width; ++x)
+	{
+		for (int z = 0; z < height; ++z)
+		{
+			int a = x * width + z;
+			int b = (x + 1) * width + z;
+			int c = (x + 1) * width + (z + 1);
+			int d = (x * width) + (z + 1);
+
+			heightMap->indices.push_back(c);
+			heightMap->indices.push_back(b);
+			heightMap->indices.push_back(a);
+
+			heightMap->indices.push_back(a);
+			heightMap->indices.push_back(d);
+			heightMap->indices.push_back(c);
+
+		}
+	}
+	heightMap->SetupMesh();
+	heightMap->BufferData();
+	Mesh* mesh = new Mesh();
+	mesh->radius = 100;
+	mesh->numModels = 1;
+	mesh->meshes.push_back(heightMap);
+
+	return mesh;
+}
+
 vector<Texture> Mesh::LoadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName)
 {
 	vector<Texture> textures;

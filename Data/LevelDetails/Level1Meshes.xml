@@ -15,4 +15,10 @@
     <Meshes name="CrateMesh" >
       <MeshFile>../Data/Meshes/box/Crate/Crate1.obj</MeshFile>
       </Meshes>
+
+   <Meshes name = "HeightMap">
+	<MeshType>HeightMap</MeshType>
+	<texture>../Data/textures/lava.png</texture>
+	<Perlin>1</Perlin>
+    </Meshes> 
 </LevelMeshes>

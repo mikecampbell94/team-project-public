@@ -47,14 +47,30 @@ void TableCreation::addMesh() const
 {
 	database->addTable("Meshes", new Table<Resource>("Meshes", MAX_MEMORY_PER_TABLE, [](Node* node)
 	{
-		Mesh* mesh = new Mesh(node->children[0]->value,1);
+		Mesh* mesh;
 
-		if (node->children.size() > 1)
+		if (node->children[0]->nodeType.compare("MeshType") == 0)
 		{
+			mesh = Mesh::GenerateHeightMap(30,30);
+			mesh->setName(node->name);
 			mesh->loadTexture(node->children[1]->value);
+			mesh->perlin = stoi(node->children[2]->value);
+
+		}
+		else
+		{
+			mesh = new Mesh(node->children[0]->value, 1);
+			if (node->children.size() > 1)
+			{
+				mesh->loadTexture(node->children[1]->value);
+
+			}
+
+			mesh->setName(node->name);
 		}
 
-		mesh->setName(node->name);
+		
+		
 		return mesh;
 	}));
 }

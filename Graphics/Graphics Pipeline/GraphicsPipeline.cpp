@@ -51,6 +51,14 @@ void GraphicsPipeline::intialisePipeline()
 	}
 }
 
+void GraphicsPipeline::updateModules(float dt)
+{
+	for (GraphicsModule* module : modules)
+	{
+		module->update(dt);
+	}
+}
+
 void GraphicsPipeline::executeModules()
 {
 	for (GraphicsModule* module : modules)

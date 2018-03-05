@@ -435,4 +435,41 @@
 		</PhysicsNode>
 </GameObjects>
 
+<GameObjects id ="paintPool" >
+		<SceneNode>
+		<Mesh>HeightMap</Mesh>
+		<Colour>
+		  <R>1</R>
+		  <G>0</G>
+		  <B>1</B>
+		  <A>1</A>
+		</Colour>
+		</SceneNode>
+		<Enabled>True</Enabled>
+		<Position>
+			<X>100</X>
+			<Y>70</Y>
+			<Z>100</Z>
+		</Position>
+		<Rotation>
+			<X>000</X>
+			<Y>1</Y>
+			<Z>000</Z>
+			<W>45</W>
+		</Rotation>
+		<Scale>
+			<X>1.5</X>
+			<Y>1.5</Y>
+			<Z>1.5</Z>
+		</Scale>
+		<PhysicsNode>
+		<Enabled>True</Enabled>
+		<TransmitCollision>False</TransmitCollision>
+		<CollisionShape>Box</CollisionShape>
+		<Mass>0</Mass>
+		<isCollision>True</isCollision>
+		<Elasticity>0.5</Elasticity>
+		<Friction>0.9</Friction>
+		</PhysicsNode>
+</GameObjects> 
 </LevelDetails>
