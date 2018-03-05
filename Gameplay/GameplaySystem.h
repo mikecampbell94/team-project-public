@@ -20,7 +20,21 @@ public:
 
 	void connectPlayerbase(PlayerBase* playerbase);
 	void compileGameplayScript(std::string levelScript);
+
+	void addGameObjectScript(std::string scriptFile);
+	void deleteGameObjectScripts();
 	void compileGameObjectScripts();
+
+	//hardcoded test stuff REMOVE!
+	void setTimedLevel(float maxTime)
+	{
+		gameLogic.maxTime = maxTime;
+		gameLogic.isTimed = true;
+	}
+	void setUnTimedLevel()
+	{
+		gameLogic.isTimed = false;
+	}
 
 private:
 	GameLogic gameLogic;
@@ -28,5 +42,7 @@ private:
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
 	Database* database;
+
+	bool levelFinished = false;
 };
 

@@ -84,6 +84,9 @@
     <ClInclude Include="Messages\AddScoreHolderMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SendMessageActionBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp">
@@ -147,6 +150,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\AddScoreHolderMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SendMessageActionBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

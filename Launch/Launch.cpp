@@ -22,6 +22,7 @@
 
 //#include <iphlpapi.h>
 #include <Utilities/NetworkBase.h>
+#include "Communication/SendMessageActionBuilder.h"
 //#include "../Tuts_Network_Server/NetworkBase.h"
 //#include <ENET/include/enet/enet.h>
 
@@ -31,6 +32,8 @@ int main()
 	{
 		std::cout << "ENET failed to initialize!" << std::endl;
 	}
+
+	SendMessageActionBuilder::initialiseBuilders();
 
 	Startup startup;
 	startup.initialiseSubsystems();

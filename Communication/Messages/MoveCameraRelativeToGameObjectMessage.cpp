@@ -2,7 +2,7 @@
 
 #include "../Resource Management/XMLParser.h"
 
-std::string MoveCameraRelativeToGameObjectMessage::resourceName = "player0";
+std::string MoveCameraRelativeToGameObjectMessage::resourceName = "";
 
 MoveCameraRelativeToGameObjectMessage::MoveCameraRelativeToGameObjectMessage(const std::string& destinationName, const std::string& resourceName,
 	Vector3 translation, float pitch, float yaw)
@@ -21,7 +21,7 @@ MoveCameraRelativeToGameObjectMessage::~MoveCameraRelativeToGameObjectMessage()
 MoveCameraRelativeToGameObjectMessage MoveCameraRelativeToGameObjectMessage::builder(Node* node)
 {
 	std::string nodeDestination = "";
-	//std::string nodeResourcename = "";
+	//std::string nodeResourcename = MoveCameraRelativeToGameObjectMessage::resourceName;
 	Vector3 nodeTranslation(0, 0, 0);
 	float nodePitch = 0.0f;
 	float nodeYaw = 0.0f;
@@ -44,6 +44,7 @@ MoveCameraRelativeToGameObjectMessage MoveCameraRelativeToGameObjectMessage::bui
 		else if (childNode->nodeType == "resource")
 		{
 			//nodeResourcename = childNode->value;
+			MoveCameraRelativeToGameObjectMessage::resourceName = childNode->value;
 		}
 	}
 

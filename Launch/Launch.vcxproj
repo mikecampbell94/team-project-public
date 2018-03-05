@@ -151,15 +151,24 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DevConsole\Console.cpp" />
+    <ClCompile Include="Profiler\Profiler.cpp" />
+    <ClCompile Include="Profiler\MemoryWatcher.cpp" />
+    <ClCompile Include="Profiler\FPSCounter.cpp" />
     <ClCompile Include="Networking\DeadReckoning.cpp" />
     <ClCompile Include="Game\GameLoop.cpp" />
     <ClCompile Include="Launch.cpp" />
     <ClCompile Include="Networking\NetworkClient.cpp" />
     <ClCompile Include="Networking\NetworkMessageProcessor.cpp" />
     <ClCompile Include="Startup.cpp" />
+    <ClCompile Include="Systems\Subsystem.cpp" />
     <ClCompile Include="Systems\System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DevConsole\Console.h" />
+    <ClInclude Include="Profiler\Profiler.h" />
+    <ClInclude Include="Profiler\MemoryWatcher.h" />
+    <ClInclude Include="Profiler\FPSCounter.h" />
     <ClInclude Include="Networking\DeadReckoning.h" />
     <ClInclude Include="Game\GameLoop.h" />
     <ClInclude Include="Networking\NetworkClient.h" />

@@ -11,14 +11,17 @@ public:
 	UserInterface(Keyboard* mouse, Vector2 resolution);
 	~UserInterface();
 
-	void initialise(Database* database);
+	void initialise(std::string menuFile, Database* database);
 
 	void updateSubsystem(const float& deltaTime) override;
 
 private:
+	void toggleModule();
+
 	Keyboard* keyboard;
 	Vector2 resolution;
-	Menu* menu;
-	bool interfaceDisplaying = true;
+	Menu* menu = nullptr;
+	bool enabled = true;
+	bool blocked;
 };
 

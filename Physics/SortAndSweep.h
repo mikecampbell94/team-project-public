@@ -31,10 +31,12 @@ public:
 				//{
 					//Yes, get Narrow phase to check this pair properly...
 					CollisionPair pair;
-					pair.pObjectA = nodes[x];
-					pair.pObjectB = nodes[y];
-					
-					pairs.push_back(pair);
+						pair.pObjectA = nodes[x];
+						pair.pObjectB = nodes[y];
+					if (pair.pObjectA->getIsStatic() == false || pair.pObjectB->getIsStatic() == false)
+					{
+						pairs.push_back(pair);
+					}
 				//}
 				//else
 				//{

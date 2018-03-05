@@ -14,13 +14,17 @@
 #define LEVELDIR "../Data/Levels/"
 
 
+class UserInterface;
+class GameplaySystem;
+
 class Level
 {
 public:
-	Level(Database* database, SceneManager* sceneManager, PhysicsEngine* physics);
+	Level(Database* database, SceneManager* sceneManager, 
+		PhysicsEngine* physics, UserInterface* userInterface);
 	~Level();
 
-	void loadLevelFile(std::string levelFilePath);
+	void loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay);
 
 	void unloadLevelWhileKeepingUserInterface();
 	void unloadLevel();
@@ -34,5 +38,6 @@ private:
 	Database *database;
 	SceneManager* sceneManager;
 	PhysicsEngine* physics;
+	UserInterface* userInterface;
 };
 

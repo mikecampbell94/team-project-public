@@ -1,6 +1,7 @@
 #include "AudioSystem.h"
 
 #include "../Communication/Messages/PlaySoundMessage.h"
+#include "../Utilities/GameTimer.h"
 
 AudioSystem::AudioSystem(Database *database, Camera *camera) : Subsystem("AudioSystem")
 {
@@ -23,5 +24,9 @@ AudioSystem::AudioSystem(Database *database, Camera *camera) : Subsystem("AudioS
 
 void AudioSystem::updateSubsystem(const float& deltaTime)
 {
+	timer->beginTimedSection();
+
 	soundManager->update(deltaTime);
+
+	timer->endTimedSection();
 }

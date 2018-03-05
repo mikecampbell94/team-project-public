@@ -62,7 +62,6 @@ ButtonAction ButtonActionCreator::createButtonAction(Node* actionNode)
 		return [node = actionNode]()
 		{
 			DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "Start " + node->children[0]->value + " " + node->children[1]->value));
-			DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", false));
 		};
 	}
 	else if (actionNode->name == "Resolution")

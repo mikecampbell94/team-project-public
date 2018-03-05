@@ -7,9 +7,10 @@ class TextMeshMessage : public Message
 {
 public:
 	TextMeshMessage(const std::string& destinationName, const std::string& text, 
-		Vector3 position, Vector3 scale, Vector3 colour, bool orthographic);
+		Vector3 position, Vector3 scale, Vector3 colour, bool orthographic, bool hasBackground = false);
 	~TextMeshMessage();
 
+	bool hasBackground;
 	bool orthographic;
 	std::string text;
 	Vector3 position;

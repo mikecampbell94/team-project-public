@@ -34,3 +34,8 @@ void System::addSubsystem(Subsystem* subsystem)
 {
 	subsystems.push_back(subsystem);
 }
+
+std::vector<Subsystem*> System::getSubSystems()
+{
+	return subsystems;
+}

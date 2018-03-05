@@ -20,7 +20,7 @@ void main(void){
 	}
 	else
 	{
-		textColour.a = 0.2f;
+		textColour.a = 0.4f;
 	}
 
 	FragColor = textColour;

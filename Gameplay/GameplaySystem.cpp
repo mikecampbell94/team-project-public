@@ -6,6 +6,7 @@
 #include "../Graphics/Scene Management/SceneNode.h"
 #include "../Input/InputUtility.h"
 #include "../Resource Management/XMLParser.h"
+#include "../Utilities/GameTimer.h"
 #include "../Input/Devices/Keyboard.h"
 
 GameplaySystem::GameplaySystem(Database* database)
@@ -37,7 +38,11 @@ GameplaySystem::GameplaySystem(Database* database)
 		{
 			object.notify("CollisionMessage", message);
 		}
-	});	
+
+	});
+
+	timer->addChildTimer("Level Logic");
+	timer->addChildTimer("Object Logic");
 }
 
 GameplaySystem::~GameplaySystem()
@@ -46,13 +51,61 @@ GameplaySystem::~GameplaySystem()
 
 void GameplaySystem::updateSubsystem(const float& deltaTime)
 {
-	gameLogic.executeMessageBasedActions();
-	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
-	gameLogic.clearNotifications();
-
-	for each (GameObjectLogic object in objects)
+	if (gameLogic.isTimed) 
 	{
-		object.updatelogic(deltaTime * 0.001f);
+		if (gameLogic.elapsedTime < gameLogic.maxTime)
+		{
+			timer->beginTimedSection();
+
+			timer->beginChildTimedSection("Level Logic");
+			gameLogic.executeMessageBasedActions();
+			gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
+			gameLogic.clearNotifications();
+			timer->endChildTimedSection("Level Logic");
+
+			timer->beginChildTimedSection("Object Logic");
+			for each (GameObjectLogic object in objects)
+			{
+				object.updatelogic(deltaTime * 0.001f);
+			}
+			timer->endChildTimedSection("Object Logic");
+
+			timer->endTimedSection();
+
+			gameLogic.elapsedTime += (deltaTime * 0.001f);
+			std::cout << gameLogic.elapsedTime << endl;
+		}
+		else if(!levelFinished)
+		{
+			levelFinished = true;
+			DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
+			DeliverySystem::getPostman()->insertMessage(TextMessage("UserInterface", "Toggle"));
+		}
+		else
+		{
+			//send messages
+			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "GAME OVER!",
+				Vector3(-50, -50, 0), Vector3(50, 50, 50), Vector3(1, 0, 0), true, true));
+		}
+	}
+	else
+	{
+		timer->beginTimedSection();
+
+		timer->beginChildTimedSection("Level Logic");
+		gameLogic.executeMessageBasedActions();
+		gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
+		gameLogic.clearNotifications();
+		timer->endChildTimedSection("Level Logic");
+
+		timer->beginChildTimedSection("Object Logic");
+		for each (GameObjectLogic object in objects)
+		{
+			object.updatelogic(deltaTime * 0.001f);
+		}
+		timer->endChildTimedSection("Object Logic");
+
+		timer->endTimedSection();
 	}
 }
 
@@ -77,10 +130,20 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	gameLogic.executeActionsOnStart();
 }
 
+void GameplaySystem::addGameObjectScript(std::string scriptFile)
+{
+	objects.push_back(GameObjectLogic(database, &incomingMessages, scriptFile));
+}
+
+void GameplaySystem::deleteGameObjectScripts()
+{
+	objects.clear();
+}
+
 void GameplaySystem::compileGameObjectScripts()
 {
-	objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/aiObjectLogic.xml"));
-	objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/playerObjectLogic.xml"));
+	//objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/aiObjectLogic.xml"));
+	//objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/playerObjectLogic.xml"));
 
 	for (GameObjectLogic& object : objects)
 	{

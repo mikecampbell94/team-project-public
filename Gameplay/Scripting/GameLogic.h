@@ -27,6 +27,11 @@ public:
 
 	std::unordered_map<std::string, std::vector<GameplayAction>> getMessageBasedActionsMap() { return messageBasedActions; }
 	
+	float maxTime = 0.0f;
+	float elapsedTime = 0.0f;
+
+	bool isTimed = false;
+
 
 private:
 	MessageProcessor* messages;
@@ -36,7 +41,8 @@ private:
 	std::vector<Executable> actionsOnStart;
 
 	std::vector<float> timers;
-	float totalTime = 0.0f;
+	
+
 };
 
 

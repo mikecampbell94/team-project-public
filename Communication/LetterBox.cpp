@@ -121,8 +121,6 @@ void LetterBox::deliverAllMessages()
 
 void LetterBox::clearAllMessages()
 {
-	messageStorage.clearMessageStorage();
-
 	messageBuffer.clearSentMessages();
 	playerInputMessageBuffer.clearSentMessages();
 	textMessageBuffer.clearSentMessages();
@@ -139,4 +137,27 @@ void LetterBox::clearAllMessages()
 	updatePositionBuffer.clearSentMessages();
 	textMeshBuffer.clearSentMessages();
 	scoreBuffer.clearSentMessages();
+	
+	messageStorage.clearMessageStorage();
+}
+
+void LetterBox::cancelOutgoingMessages()
+{
+	messageBuffer.clearOutgoingMessages();
+	playerInputMessageBuffer.clearOutgoingMessages();
+	textMessageBuffer.clearOutgoingMessages();
+	relativeTransformMessageBuffer.clearOutgoingMessages();
+	playSoundMessageBuffer.clearOutgoingMessages();
+	stopSoundMessageBuffer.clearOutgoingMessages();
+	toggleGraphicsModuleMessageBuffer.clearOutgoingMessages();
+	applyForceMessageBuffer.clearOutgoingMessages();
+	applyImpulseMessageBuffer.clearOutgoingMessages();
+	moveCameraBuffer.clearOutgoingMessages();
+	collisionBuffer.clearOutgoingMessages();
+	preparePaintSurfaceBuffer.clearOutgoingMessages();
+	paintTrailForGameObjectBuffer.clearOutgoingMessages();
+	updatePositionBuffer.clearOutgoingMessages();
+	textMeshBuffer.clearOutgoingMessages();
+	scoreBuffer.clearOutgoingMessages();
+
 }

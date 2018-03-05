@@ -2,21 +2,35 @@
 
 #include "../../Input/Devices/Keyboard.h"
 #include "UserInterfaceDisplay.h"
+#include "../Input/InputControl.h"
 
 UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution) : Subsystem("UserInterface")
 {
 	this->keyboard = keyboard;
 	this->resolution = resolution;
+	blocked = false;
 
 	std::vector<MessageType> types = { MessageType::TEXT };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("UserInterface"));
+	DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "RegisterInputUser UserInterface"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&blocked = blocked, this](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
-		std::cout << textMessage->text << std::endl;
+
+		if (textMessage->text == "Toggle")
+		{
+			this->toggleModule();
+		}
+		else
+		{
+			blocked = InputControl::isBlocked(textMessage->text);
+		}
 	});
+
+	menu = nullptr;
+	DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs UserInterface"));
 }
 
 UserInterface::~UserInterface()
@@ -24,9 +38,14 @@ UserInterface::~UserInterface()
 	delete menu;
 }
 
-void UserInterface::initialise(Database* database)
+void UserInterface::initialise(std::string menuFile, Database* database)
 {
-	menu = new Menu("../Data/UserInterface/MainMenu.xml", database);
+	if (menu != nullptr)
+	{
+		delete menu;
+	}
+
+	menu = new Menu(menuFile, database);
 	UserInterfaceDisplay::provide(menu);
 }
 
@@ -34,11 +53,10 @@ void UserInterface::updateSubsystem(const float& deltaTime)
 {
 	if (keyboard->keyTriggered(KEYBOARD_ESCAPE))
 	{
-		interfaceDisplaying = !interfaceDisplaying;
-		DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", interfaceDisplaying));
+		toggleModule();
 	}
 
-	if (interfaceDisplaying)
+	if (enabled && !blocked)
 	{
 		if (keyboard->keyTriggered(KEYBOARD_DOWN))
 		{
@@ -62,4 +80,22 @@ void UserInterface::updateSubsystem(const float& deltaTime)
 			UserInterfaceDisplay::getInterface()->ExecuteSelectedButton();
 		}
 	}
+}
+
+void UserInterface::toggleModule()
+{
+	if (enabled)
+	{
+		enabled = false;
+		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "UnblockAll"));
+		DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime enable"));
+	}
+	else
+	{
+		enabled = true;
+		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs UserInterface"));
+		DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
+	}
+
+	DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", enabled));
 }

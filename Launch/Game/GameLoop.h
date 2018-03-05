@@ -53,7 +53,9 @@ private:
 	Window* window;
 	Camera* camera;
 
+	bool loadingLevel = false;
 	bool quit = false;
+	bool paused = false;
 	float pitch = 0.0f;
 	float yaw   = 0.0f;
 	float deltaTimeMultiplier = 1.0f;

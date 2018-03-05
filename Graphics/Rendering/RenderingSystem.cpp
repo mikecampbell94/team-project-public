@@ -16,13 +16,14 @@
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
+#include "../Utilities/GameTimer.h"
 #include <iterator>
 
 RenderingSystem::RenderingSystem(Window* window, Camera* camera)
 	: Subsystem("RenderingSystem")
 {
 	this->camera = camera;
-	renderer = std::make_unique<Renderer>(window, camera);
+	renderer = std::make_unique<Renderer>(timer, window, camera);
 }
 
 RenderingSystem::~RenderingSystem()
@@ -60,7 +61,7 @@ void RenderingSystem::initialise(Database* database)
 		TextMeshMessage* textMessage = static_cast<TextMeshMessage*>(message);
 
 		static_cast<GameText*>(renderer->getGraphicsModule("GameText"))->bufferText(
-			textMessage->text, textMessage->position, textMessage->scale, textMessage->colour, textMessage->orthographic);
+			textMessage->text, textMessage->position, textMessage->scale, textMessage->colour, textMessage->orthographic, textMessage->hasBackground);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::RELATIVE_TRANSFORM, [database = database](Message* message)
@@ -85,7 +86,7 @@ void RenderingSystem::initialise(Database* database)
 		MoveCameraRelativeToGameObjectMessage* movementMessage = static_cast<MoveCameraRelativeToGameObjectMessage*>(message);
 
 		GameObject* gameObject = static_cast<GameObject*>(
-			database->getTable("GameObjects")->getResource(MoveCameraRelativeToGameObjectMessage::resourceName));
+			database->getTable("GameObjects")->getResource(movementMessage->resourceName));
 
 		camera->setPosition(gameObject->getSceneNode()->GetTransform().getPositionVector() + movementMessage->translation);
 		camera->setPitch(movementMessage->pitch);
@@ -132,5 +133,7 @@ void RenderingSystem::SetSceneToRender(SceneManager* scene, Database* database)
 
 void RenderingSystem::updateSubsystem(const float& deltaTime)
 {
+	timer->beginTimedSection();
 	renderer->update(deltaTime);
+	timer->endTimedSection();
 }
