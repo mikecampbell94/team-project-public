@@ -1,9 +1,11 @@
 <GameObjectLogic>
 
 <Resources>
+
 	<resource>player0</resource>
 	<resource>player1</resource>
 	<resource>player2</resource>
+	
 </Resources>
 
 
@@ -24,5 +26,47 @@
 	 </ReceiveMessage>
 	 
 </GameplayScript>
+
+<HardCodedLogic>
+		
+	<OnStart>
+		<SetJump>
+			<resource>player0</resource>
+			<canJump>true</canJump>
+		</SetJump>
+	</OnStart>
+	
+	<ReceiveMessage type="PlayerInputMessage">
+		<Condition>
+			<key>0x20</key>
+		</Condition>
+		<Action>
+			<canJump>False</canJump>
+		</Action>
+	</ReceiveMessage>
+	
+	<ReceiveMessage type="CollisionMessage">
+		<Condition type="AND">
+				<objectIdentifier>player0</objectIdentifier>
+				<colliderIdentifier>floor</colliderIdentifier>
+			</Condition>
+		<Action>
+			<canJump>True</canJump>
+		</Action>
+	</ReceiveMessage>
+	
+	
+	<!--
+	<Function type="">
+		<Capture>
+			<capture></capture>
+		</Capture>
+		<Parameter>
+			<parameter></parameter>
+		</Parameter>
+	</Function>
+	-->
+	
+</HardCodedLogic>
 
 </GameObjectLogic>

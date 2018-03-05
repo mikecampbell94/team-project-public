@@ -7,28 +7,32 @@
 #include "../Input/InputUtility.h"
 #include "../Resource Management/XMLParser.h"
 #include "../Utilities/GameTimer.h"
+#include "../Input/Devices/Keyboard.h"
 
 GameplaySystem::GameplaySystem(Database* database)
 	: Subsystem("Gameplay")
 {
 	this->database = database;
-
-	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION }, 
+ 
+	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION },
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge](Message* message)
+	
+	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge, &objects = objects](Message* message)
 	{
-		//gameLogic.notifyMessageActions("PlayerInputMessage", message);
 		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
+
+		for (GameObjectLogic& object : objects)
+		{
+			object.notify("InputMessage", message);
+		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::COLLISION, [&gameLogic = gameLogic, &objects = objects](Message* message)
 	{
-		//CollisionMessage* collisionMessage = static_cast<CollisionMessage*>(message);
-		//std::cout << "Obj : " << collisionMessage->objectIdentifier << std::endl;
-		//std::cout << "Collider : " << collisionMessage->colliderIdentifier << std::endl;
-
 		gameLogic.notifyMessageActions("CollisionMessage", message);
+
+		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
 		
 		for (GameObjectLogic& object : objects)
 		{
@@ -124,13 +128,6 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	gameLogic = GameLogic(&incomingMessages);
 	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
 	gameLogic.executeActionsOnStart();
-
-	/*objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/testObjectLogic.xml"));
-
-	for (GameObjectLogic& object : objects)
-	{
-		object.compileParsedXMLIntoScript();
-	}*/
 }
 
 void GameplaySystem::addGameObjectScript(std::string scriptFile)

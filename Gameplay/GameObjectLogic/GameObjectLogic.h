@@ -5,6 +5,7 @@
 #include "../Gameplay/Scripting/ActionBuilder.h"
 #include "../Resource Management/Database/Database.h"
 #include "../Gameplay/Scripting/GameLogic.h"
+#include "../../Communication/Messages/PlayerInputMessage.h"
 
 class Database;
 
@@ -21,11 +22,22 @@ public:
 
 private:
 	void compileFunctions(Node* node);
+	void compileFunctionsOnStart(Node* node);
+	void updateHardCodedLogic(const float& deltaTime);
+	void updateInputMessageLogic();
 
 	Node* parsedScript;
 	std::map<GameObject*, GameLogic> logicToGameObjects;
 	std::vector<GameLogic*> logics;
 	Database* database;
 	MessageProcessor* messages;
+
+	std::map<std::string, std::function<void()>> fucntionsOnStart;
+	//std::map<std::string, std::function<void()>> functions;
+
+	std::vector<std::function<void()>> functions;
+	
+
+	std::vector<PlayerInputMessage*> inputMessages;
 };
 
