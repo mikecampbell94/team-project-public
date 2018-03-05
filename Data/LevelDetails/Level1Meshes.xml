@@ -16,7 +16,9 @@
       <MeshFile>../Data/Meshes/box/Crate/Crate1.obj</MeshFile>
       </Meshes>
 
-    <!---<PreBuiltMesh> 
+   <!--  <PreBuiltMesh name = "HeightMap">
+	<Perlin>True</Perlin>
 	<MeshType>HeightMap</MeshType>
-    </PreBuiltMesh>--->
+	<texture>../Data/texturs/lava.png</texture>
+    </PreBuiltMesh> -->
 </LevelMeshes>

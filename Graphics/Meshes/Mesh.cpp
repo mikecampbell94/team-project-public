@@ -211,7 +211,7 @@ Mesh * Mesh::GenerateHeightMap(int width, int height)
 	}
 
 	heightMap->BufferData();
-	Mesh* mesh;
+	Mesh* mesh = new Mesh();
 	mesh->meshes.push_back(heightMap);
 
 	return mesh;

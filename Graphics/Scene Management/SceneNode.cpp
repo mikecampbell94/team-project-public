@@ -7,6 +7,7 @@ SceneNode::SceneNode(string meshFile, Vector4 colour)
 	parent = NULL;
 
 	boundingRadius = 10.0f;
+	this->mesh->radius = boundingRadius;
 	distanceFromCamera = 0.0f;
 }
 

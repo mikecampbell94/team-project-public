@@ -36,6 +36,11 @@ public:
 		setSize(sizeof(*this));
 	}
 
+	Mesh()
+	{
+
+	}
+
 	~Mesh()
 	{
 		for each (SubMesh* mesh in meshes)
@@ -86,6 +91,8 @@ public:
 	int numModels;
 
 	float radius;
+
+	bool perlin = false;
 
 };
 

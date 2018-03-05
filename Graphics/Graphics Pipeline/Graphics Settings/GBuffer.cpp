@@ -138,7 +138,6 @@ void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 
 	//Perlin noise
 	glUniform1f(loc_time, time);
-	glUniform1i(loc_perlin, 1);
 	glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "perlinTex"), 7);
 	currentShader->ApplyTexture(7, noiseTexture);
 
@@ -147,6 +146,7 @@ void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
+		glUniform1i(loc_perlin, nodesInFrame->at(i)->GetMesh()->perlin);
 		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "hasTexture"), nodesInFrame->at(i)->GetMesh()->hasTexture);
 		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "isPaintSurface"), nodesInFrame->at(i)->isPaintSurface);
 		glUniform4fv(loc_baseColour, 1, (float*)&nodesInFrame->at(i)->getColour()); 
