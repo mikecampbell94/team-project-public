@@ -40,6 +40,7 @@ public:
 		, elasticity(0.9f)
 		, enabled(true)
 		, isCollision(true)
+		, isStatic(true)
 		, appliedForce(0.0f, 0.0f, 0.0f)
 		, acceleration(0.0f, 0.0f, 0.0f)
 	{
@@ -113,6 +114,11 @@ public:
 	inline const bool getIsCollision() const
 	{
 		return isCollision;
+	}
+
+	inline const bool getIsStatic() const
+	{
+		return isStatic;
 	}
 
 	void setRotation(Vector4 rotation)
@@ -226,6 +232,10 @@ public:
 		isCollision = isCol;
 	}
 
+	inline void setStatic(bool isStat)
+	{
+		isStatic = isStat;
+	}
 
 	inline void setOnCollisionCallback(PhysicsCollisionCallback callback) 
 	{ 
@@ -306,6 +316,7 @@ private:
 
 	bool enabled;
 	bool isCollision;
+	bool isStatic;
 
 	Vector3 appliedForce;
 };
