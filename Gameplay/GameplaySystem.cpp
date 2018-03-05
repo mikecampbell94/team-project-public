@@ -13,48 +13,57 @@ GameplaySystem::GameplaySystem(Database* database)
 {
 	this->database = database;
  
-	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, 
-		MessageType::COLLISION, MessageType::APPLY_IMPULSE},
+	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION, MessageType::APPLY_IMPULSE},
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 
 	
-	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge,&canjump = canjump](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge](Message* message)
 	{
-		//gameLogic.notifyMessageActions("PlayerInputMessage", message);
 		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
 		
 		PlayerInputMessage* playerInputMessage = static_cast<PlayerInputMessage*>(message);
+
+		GameObject* player = playerInputMessage->player->getGameObject();
+
 		if (playerInputMessage->data.key == KeyboardKeys::KEYBOARD_SPACE)
 		{
-			canjump = false;			
+			player->canJump = false;
 		}
 	});
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::COLLISION, [&gameLogic = gameLogic, &objects = objects, &canjump = canjump](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::COLLISION, [&gameLogic = gameLogic, &objects = objects](Message* message)
 	{
-		//CollisionMessage* collisionMessage = static_cast<CollisionMessage*>(message);
-		//std::cout << "Obj : " << collisionMessage->objectIdentifier << std::endl;
-		//std::cout << "Collider : " << collisionMessage->colliderIdentifier << std::endl;
-
 		gameLogic.notifyMessageActions("CollisionMessage", message);
+
+		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
 		
 		for (GameObjectLogic& object : objects)
 		{
 			object.notify("CollisionMessage", message);
-		}
 
-		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
-		if ((collisionmessage->colliderIdentifier == "playerBall" || collisionmessage->objectIdentifier == "playerBall"))
-		{
-			canjump = true;
-		}		
+			for each (auto temp in object.getLogicsToObjects())
+			{
+				if (temp.first->getName() == collisionmessage->colliderIdentifier || temp.first->getName() == collisionmessage->objectIdentifier)
+				{
+					temp.first->canJump = true;
+				}
+			}
+		}
 	});	
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_IMPULSE, [&canjump = canjump](Message* message)
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_IMPULSE, [&objects = objects](Message* message)
 	{
-		if (canjump)
+
+		for (GameObjectLogic& object : objects)
 		{
-			ApplyImpulseMessage* applyImpulseMessage = static_cast<ApplyImpulseMessage*>(message);
-			DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Physics", "playerBall", applyImpulseMessage->impulse));
+			for each (auto it in object.getLogicsToObjects())
+			{
+				if (it.first->canJump && it.first->getName() == "player0")
+				{
+					ApplyImpulseMessage* applyImpulseMessage = static_cast<ApplyImpulseMessage*>(message);
+					DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Physics", it.first->getName(), false, applyImpulseMessage->impulse));
+				}
+			}
 		}
 	});
 	
@@ -97,13 +106,6 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	gameLogic = GameLogic(&incomingMessages);
 	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
 	gameLogic.executeActionsOnStart();
-
-	/*objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/testObjectLogic.xml"));
-
-	for (GameObjectLogic& object : objects)
-	{
-		object.compileParsedXMLIntoScript();
-	}*/
 }
 
 void GameplaySystem::compileGameObjectScripts()

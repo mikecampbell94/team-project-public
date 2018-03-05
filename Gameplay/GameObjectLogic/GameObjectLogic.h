@@ -17,6 +17,13 @@ public:
 	void compileParsedXMLIntoScript();
 	void notify(const std::string& messageType, Message* message);
 	void updatelogic(const float& deltaTime);
+
+	
+
+	std::map<GameObject*, GameLogic> getLogicsToObjects()
+	{
+		return logicToGameObjects;
+	}
 	
 
 private:
@@ -27,5 +34,7 @@ private:
 	std::vector<GameLogic*> logics;
 	Database* database;
 	MessageProcessor* messages;
+
+	std::vector<std::pair<std::string, Message>> publishers;
 };
 

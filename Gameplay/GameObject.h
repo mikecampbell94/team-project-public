@@ -27,6 +27,8 @@ public:
 		return scale;
 	}
 
+	bool canJump;
+
 private: 
 	SceneNode *sceneNode;
 	PhysicsNode *physicsNode = nullptr;

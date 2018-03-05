@@ -48,22 +48,14 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 	{
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(resource->value));
 
-		//std::string first = gameLogicNode->children[0]->children[0]->children[0]->children[0]->value;
-
 		changeResource(&(gameLogicNode), resource->value);
 		
-		//std::string second = gameLogicNode->children[0]->children[0]->children[0]->children[0]->value;
-
 		logicToGameObjects.insert({ gObj, GameLogic(messages) });
 		logics.push_back(&(logicToGameObjects.at(gObj)));
 
 		logics[logics.size() - 1]->compileParsedXMLIntoScript(gameLogicNode);
 
 		changeResourceBack(&(gameLogicNode), resource->value);
-		
-		//std::string third = gameLogicNode->children[0]->children[0]->children[0]->children[0]->value;
-
-
 	}
 
 	for each (GameLogic* logic in logics)
@@ -71,6 +63,12 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 		logic->executeActionsOnStart();
 	}
 }
+
+void GameObjectLogic::compileFunctions(Node* node)
+{
+	
+}
+
 
 void GameObjectLogic::notify(const std::string& messageType, Message* message)
 {

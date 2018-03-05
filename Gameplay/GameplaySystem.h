@@ -28,6 +28,5 @@ private:
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
 	Database* database;
-	bool canjump = false;
 };
 
