@@ -15,11 +15,18 @@ UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution) : Subsystem
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("UserInterface"));
 	DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "RegisterInputUser UserInterface"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&blocked = blocked](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&blocked = blocked, this](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
-		blocked = InputControl::isBlocked(textMessage->text);
+		if (textMessage->text == "Toggle")
+		{
+			this->toggleModule();
+		}
+		else
+		{
+			blocked = InputControl::isBlocked(textMessage->text);
+		}
 	});
 
 	menu = nullptr;
@@ -46,18 +53,7 @@ void UserInterface::updateSubsystem(const float& deltaTime)
 {
 	if (keyboard->keyTriggered(KEYBOARD_ESCAPE))
 	{
-		if (enabled)
-		{
-			enabled = false;
-			DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "UnblockAll"));
-		}
-		else
-		{
-			enabled = true;
-			DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs UserInterface"));
-		}
-
-		DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", enabled));
+		toggleModule();
 	}
 
 	if (enabled && !blocked)
@@ -84,4 +80,20 @@ void UserInterface::updateSubsystem(const float& deltaTime)
 			UserInterfaceDisplay::getInterface()->ExecuteSelectedButton();
 		}
 	}
+}
+
+void UserInterface::toggleModule()
+{
+	if (enabled)
+	{
+		enabled = false;
+		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "UnblockAll"));
+	}
+	else
+	{
+		enabled = true;
+		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs UserInterface"));
+	}
+
+	DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", enabled));
 }

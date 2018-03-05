@@ -16,6 +16,8 @@ public:
 	void updateSubsystem(const float& deltaTime) override;
 
 private:
+	void toggleModule();
+
 	Keyboard* keyboard;
 	Vector2 resolution;
 	Menu* menu = nullptr;

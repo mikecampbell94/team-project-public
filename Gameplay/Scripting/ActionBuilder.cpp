@@ -11,6 +11,7 @@
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 #include "../../Communication/Messages/PaintTrailForGameObjectMessage.h"
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
+#include "../../Communication/SendMessageActionBuilder.h"
 
 const std::string CONDITIONAL_STATEMENT = "Condition";
 const std::string SEND_MESSAGE_STATEMENT = "SendMessage";
@@ -127,94 +128,5 @@ Condition ActionBuilder::buildIfStatement(Node* node)
 
 Executable ActionBuilder::buildSendMessageExecutable(Node* node)
 {
-	if (node->name == "DUMMY_TYPE")
-	{
-		Node* destination = node->children[0];
-		return [destination = destination->value]()
-		{
-			DeliverySystem::getPostman()->insertMessage(Message(destination, DUMMY_TYPE));
-		};
-	}
-	else if (node->name == "TEXT")
-	{
-		Node* destination = node->children[0];
-		Node* data = node->children[1];
-
-		return [destination = destination->value, text = data->value]()
-		{
-			DeliverySystem::getPostman()->insertMessage(TextMessage(destination, text));
-		};
-	}
-	else if (node->name == "RELATIVE_TRANSFORM")
-	{
-		RelativeTransformMessage message = RelativeTransformMessage::builder(node);
-
-		return [message = message]()
-		{
-				DeliverySystem::getPostman()->insertMessage(message);
-		};
-	}
-	else if (node->name == "MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT")
-	{
-		MoveCameraRelativeToGameObjectMessage message = MoveCameraRelativeToGameObjectMessage::builder(node);
-
-		return [message = message]()
-		{
-			DeliverySystem::getPostman()->insertMessage(message);
-		};
-	}
-	else if (node->name == "TOGGLE_GRAPHICS_MODULE")
-	{
-		ToggleGraphicsModuleMessage message = ToggleGraphicsModuleMessage::builder(node);
-
-		return [message = message]()
-		{
-			DeliverySystem::getPostman()->insertMessage(message);
-		};
-	}
-	else if (node->name == "PREPARE_PAINT_SURFACE")
-	{
-		PreparePaintSurfaceMessage message = PreparePaintSurfaceMessage::builder(node);
-
-		return [message = message]()
-		{
-			DeliverySystem::getPostman()->insertMessage(message);
-		};
-	}
-	else if (node->name == "PAINT_TRAIL_FOR_GAMEOBJECT")
-	{
-		PaintTrailForGameObjectMessage message = PaintTrailForGameObjectMessage::builder(node);
-
-		return [message = message]()
-		{
-			DeliverySystem::getPostman()->insertMessage(message);
-		};
-	}
-	else if (node->name == "APPLY_IMPULSE")
-	{
-		ApplyImpulseMessage message = ApplyImpulseMessage::builder(node);
-
-		return [message = message]()
-		{
-			DeliverySystem::getPostman()->insertMessage(message);
-		};
-	}
-	else if (node->name == "APPLY_FORCE")
-	{
-		ApplyForceMessage message = ApplyForceMessage::builder(node);
-
-		return [message = message]()
-		{
-			DeliverySystem::getPostman()->insertMessage(message);
-		};
-	}
-	else if (node->name == "ADD_SCORE_HOLDER")
-	{
-		AddScoreHolderMessage message = AddScoreHolderMessage::builder(node);
-
-		return [message = message]()
-		{
-			DeliverySystem::getPostman()->insertMessage(message);
-		};
-	}
+	return SendMessageActionBuilder::buildSendMessageAction(node);
 }
