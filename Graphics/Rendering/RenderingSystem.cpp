@@ -35,8 +35,8 @@ void RenderingSystem::initialise(Database* database)
 {
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::TEXT_MESH_MESSAGE, MessageType::RELATIVE_TRANSFORM,
-		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
-		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER, MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT };
+		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE, MessageType::SCALE_GAMEOBJECT,
+		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER, MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -64,6 +64,31 @@ void RenderingSystem::initialise(Database* database)
 			database->getTable("GameObjects")->getResource(moveMessage->gameObjectID));
 
 		gameObject->getSceneNode()->setPosition(moveMessage->position);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::SCALE_GAMEOBJECT, [database = database](Message* message)
+	{
+		ScaleGameObjectMessage* scaleMessage = static_cast<ScaleGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(scaleMessage->gameObjectID));
+
+		gameObject->setScale(scaleMessage->scale);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::ROTATE_GAMEOBJECT, [database = database](Message* message)
+	{
+		RotateGameObjectMessage* rotateMessage = static_cast<RotateGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(rotateMessage->gameObjectID));
+
+		Vector3 position = gameObject->getSceneNode()->GetTransform().getPositionVector();
+		Vector3 scale = gameObject->getSceneNode()->GetTransform().getScalingVector();
+
+		gameObject->getSceneNode()->SetTransform(Matrix4::translation(position) *
+			Matrix4::rotation(rotateMessage->rotation.w, Vector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z)) *
+			Matrix4::scale(scale));
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)

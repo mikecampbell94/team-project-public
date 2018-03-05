@@ -7,9 +7,10 @@ public:
 	SphereCollisionShape(float newRadius);
 	~SphereCollisionShape();
 
-	void setRadius(float newRadius)
+	void setScale(Vector3 scale, float invMass) override
 	{
-		radius = newRadius;
+		radius = scale.x;
+		buildInverseInertia(invMass);
 	}
 	float getRadius()
 	{

@@ -41,6 +41,8 @@ public:
 		return m_Parent; 
 	}
 
+	virtual void setScale(Vector3 scale, float invMass) = 0;
+
 	virtual void getCollisionAxes(
 		const PhysicsNode* otherObject,
 		std::vector<Vector3>& out_axes) const = 0;

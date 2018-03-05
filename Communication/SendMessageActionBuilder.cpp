@@ -8,6 +8,7 @@
 #include <sstream>
 #include "Messages/AbsoluteTransformMessage.h"
 #include "Messages/MoveGameObjectMessage.h"
+#include "Messages/ScaleGameObjectMessage.h"
 
 std::unordered_map<std::string, Builder>SendMessageActionBuilder::builders 
 	= std::unordered_map<std::string, Builder>();
@@ -150,6 +151,26 @@ void SendMessageActionBuilder::initialiseNodeBuilders()
 			DeliverySystem::getPostman()->insertMessage(message);
 		};
 	} });
+
+	builders.insert({ "SCALE_GAMEOBJECT" , [](Node* node)
+	{
+		ScaleGameObjectMessage message = ScaleGameObjectMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	} });
+
+	builders.insert({ "ROTATE_GAMEOBJECT" , [](Node* node)
+	{
+		RotateGameObjectMessage message = RotateGameObjectMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	} });
 }
 
 void SendMessageActionBuilder::initialiseDevConsoleBuilders()
@@ -208,6 +229,26 @@ void SendMessageActionBuilder::initialiseDevConsoleBuilders()
 	devConsoleBuilder.insert({ "movegameobject" , [](std::vector<std::string> line)
 	{
 		MoveGameObjectMessage message = MoveGameObjectMessage::tokensToMessage(line);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	} });
+
+	devConsoleBuilder.insert({ "scalegameobject" , [](std::vector<std::string> line)
+	{
+		ScaleGameObjectMessage message = ScaleGameObjectMessage::tokensToMessage(line);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	} });
+
+	devConsoleBuilder.insert({ "rotategameobject" , [](std::vector<std::string> line)
+	{
+		RotateGameObjectMessage message = RotateGameObjectMessage::tokensToMessage(line);
 
 		return [message = message]()
 		{

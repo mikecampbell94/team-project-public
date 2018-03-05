@@ -12,7 +12,6 @@
 #include "Messages/ApplyForceMessage.h"
 #include "Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "Messages/ApplyImpulseMessage.h"
-
 #include "Messages/CollisionMessage.h"
 #include "Messages/PreparePaintSurfaceMessage.h"
 #include "Messages/PaintTrailForGameObjectMessage.h"
@@ -21,7 +20,8 @@
 #include "Messages/AddScoreHolderMessage.h"
 #include "Messages/AbsoluteTransformMessage.h"
 #include "Messages/MoveGameObjectMessage.h"
-
+#include "Messages/ScaleGameObjectMessage.h"
+#include "Messages/RotateGameObjectMessage.h"
 
 //exposed interface
 class MessagingService 
@@ -47,6 +47,9 @@ public:
 	virtual void insertMessage(AddScoreHolderMessage message) = 0;
 	virtual void insertMessage(AbsoluteTransformMessage message) = 0;
 	virtual void insertMessage(MoveGameObjectMessage message) = 0;
+	virtual void insertMessage(ScaleGameObjectMessage message) = 0;
+	virtual void insertMessage(RotateGameObjectMessage message) = 0;
+
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;
 	virtual void cancelOutgoingMessages() = 0;
