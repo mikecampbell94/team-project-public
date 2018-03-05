@@ -22,6 +22,7 @@ private:
 	bool enabled;
 	bool blocked;
 	bool capslock = false;
+	int frameCount = 0;
 
 	std::unordered_map<int, std::string> keyMapping;
 };

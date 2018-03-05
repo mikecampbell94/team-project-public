@@ -125,7 +125,14 @@ void Console::updateSubsystem(const float & deltaTime)
 
 		if (keyboard->keyTriggered(KEYBOARD_RETURN))
 		{
-			SendMessageActionBuilder::buildSendMessageAction(input)();
+			try
+			{
+				SendMessageActionBuilder::buildSendMessageAction(input)();
+			}
+			catch(...)
+			{
+				input = "error";
+			}
 		}
 	}
 }
@@ -146,13 +153,21 @@ void Console::toggleConsoleEnabled()
 
 void Console::recordKeyPresses()
 {
+	++frameCount;
+
 	if(keyboard->keyTriggered(KEYBOARD_CAPITAL))
 	{
 		capslock =  !capslock;
 	}
-	if (keyboard->keyStates[KEYBOARD_BACK] && !(keyboard->keyStates[KEYBOARD_BACK] && keyboard->holdStates[KEYBOARD_BACK]))
+
+	if (keyboard->keyDown(KEYBOARD_BACK) && frameCount >= 5)
 	{
-		input.pop_back();
+		frameCount = 0;
+
+		if (input.size() > 0)
+		{
+			input.pop_back();
+		}
 	}
 
 	for (int key : consoleKeys)
@@ -172,5 +187,13 @@ void Console::recordKeyPresses()
 		}
 	}
 
-	std::cout << input << std::endl;
+	std::string displayLine = input;
+
+	for (int i = 0; i < 100 - input.size(); ++i)
+	{
+		displayLine += " ";
+	}
+
+	DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", displayLine,
+		Vector3(-620.0f, -320, 0), Vector3(12.9f, 12.9f, 12.9f), Vector3(0, 1, 0), true, true));
 }
