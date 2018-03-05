@@ -19,6 +19,7 @@ private:
 	Keyboard* keyboard;
 	Vector2 resolution;
 	Menu* menu = nullptr;
-	bool interfaceDisplaying = true;
+	bool enabled = true;
+	bool blocked;
 };
 

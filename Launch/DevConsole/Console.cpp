@@ -1,6 +1,7 @@
 #include "Console.h"
 
 #include "../../Input/Devices/Keyboard.h"
+#include "../../Input/InputControl.h"
 
 int consoleKeys[] =
 {
@@ -45,11 +46,21 @@ int consoleKeys[] =
 
 Console::Console(Keyboard* keyboard) : Subsystem("Console")
 {
-	incomingMessages = MessageProcessor(std::vector<MessageType> {},
+	incomingMessages = MessageProcessor(std::vector<MessageType> {MessageType::TEXT},
 		DeliverySystem::getPostman()->getDeliveryPoint("Console"));
 
 	this->keyboard = keyboard;
 	enabled = false;
+	blocked = false;
+
+	DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "RegisterInputUser Console"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&blocked = blocked](Message* message)
+	{
+		TextMessage* textMessage = static_cast<TextMessage*>(message);
+
+		blocked = InputControl::isBlocked(textMessage->text);
+	});
 
 	keyMapping.insert({ KEYBOARD_0, "0" });
 	keyMapping.insert({ KEYBOARD_1, "1" });
@@ -98,33 +109,43 @@ void Console::updateSubsystem(const float & deltaTime)
 {
 	if (keyboard->keyTriggered(KEYBOARD_F7))
 	{
-		if (enabled)
-		{
-			//return control to UI, profiler, and player.
-			enabled = false;
-		}
-		else
-		{
-			//block UI, profiler, and player.
-			enabled = true;
-		}
+		toggleConsoleEnabled();
 	}
 
+	if (enabled && !blocked)
+	{
+		recordKeyPresses();
+	}
+}
+
+void Console::toggleConsoleEnabled()
+{
 	if (enabled)
 	{
-		if (keyboard->keyStates[KEYBOARD_BACK] && !(keyboard->keyStates[KEYBOARD_BACK] && keyboard->holdStates[KEYBOARD_BACK]))
-		{
-			input.pop_back();
-		}
-
-		for (int key : consoleKeys)
-		{
-			if (keyboard->keyStates[key] && !(keyboard->keyStates[key] && keyboard->holdStates[key]))
-			{
-				input += keyMapping.at(key);
-			}
-		}
-
-		std::cout << input << std::endl;
+		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "UnblockAll"));
+		enabled = false;
 	}
+	else
+	{
+		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs Console"));
+		enabled = true;
+	}
+}
+
+void Console::recordKeyPresses()
+{
+	if (keyboard->keyStates[KEYBOARD_BACK] && !(keyboard->keyStates[KEYBOARD_BACK] && keyboard->holdStates[KEYBOARD_BACK]))
+	{
+		input.pop_back();
+	}
+
+	for (int key : consoleKeys)
+	{
+		if (keyboard->keyStates[key] && !(keyboard->keyStates[key] && keyboard->holdStates[key]))
+		{
+			input += keyMapping.at(key);
+		}
+	}
+
+	std::cout << input << std::endl;
 }

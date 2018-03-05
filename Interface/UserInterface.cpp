@@ -2,31 +2,28 @@
 
 #include "../../Input/Devices/Keyboard.h"
 #include "UserInterfaceDisplay.h"
+#include "../Input/InputControl.h"
 
 UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution) : Subsystem("UserInterface")
 {
 	this->keyboard = keyboard;
 	this->resolution = resolution;
+	blocked = false;
 
 	std::vector<MessageType> types = { MessageType::TEXT };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("UserInterface"));
+	DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "RegisterInputUser UserInterface"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&blocked = blocked](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
-		
-		if (textMessage->text == "disable")
-		{
 
-		}
-		else if (textMessage->text == "enable")
-		{
-
-		}
+		blocked = InputControl::isBlocked(textMessage->text);
 	});
 
 	menu = nullptr;
+	DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs UserInterface"));
 }
 
 UserInterface::~UserInterface()
@@ -49,11 +46,21 @@ void UserInterface::updateSubsystem(const float& deltaTime)
 {
 	if (keyboard->keyTriggered(KEYBOARD_ESCAPE))
 	{
-		interfaceDisplaying = !interfaceDisplaying;
-		DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", interfaceDisplaying));
+		if (enabled)
+		{
+			enabled = false;
+			DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "UnblockAll"));
+		}
+		else
+		{
+			enabled = true;
+			DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs UserInterface"));
+		}
+
+		DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", enabled));
 	}
 
-	if (interfaceDisplaying)
+	if (enabled && !blocked)
 	{
 		if (keyboard->keyTriggered(KEYBOARD_DOWN))
 		{
