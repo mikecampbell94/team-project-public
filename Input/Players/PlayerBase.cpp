@@ -82,7 +82,10 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 			}
 			else if (magnitude->nodeType == "Impulse")
 			{
-				DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Gameplay", playerName, false, translation));
+				if (player->getGameObject()->canJump)
+				{
+					DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Physics", playerName, false, translation));
+				}	
 			}
 		});
 	}

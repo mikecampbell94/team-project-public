@@ -13,21 +13,17 @@ GameplaySystem::GameplaySystem(Database* database)
 {
 	this->database = database;
  
-	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION, MessageType::APPLY_IMPULSE},
+	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION },
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 
 	
-	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge, &objects = objects](Message* message)
 	{
 		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
-		
-		PlayerInputMessage* playerInputMessage = static_cast<PlayerInputMessage*>(message);
 
-		GameObject* player = playerInputMessage->player->getGameObject();
-
-		if (playerInputMessage->data.key == KeyboardKeys::KEYBOARD_SPACE)
+		for (GameObjectLogic& object : objects)
 		{
-			player->canJump = false;
+			object.notify("InputMessage", message);
 		}
 	});
 
@@ -40,35 +36,8 @@ GameplaySystem::GameplaySystem(Database* database)
 		for (GameObjectLogic& object : objects)
 		{
 			object.notify("CollisionMessage", message);
-
-			for each (auto temp in object.getLogicsToObjects())
-			{
-				if (temp.first->getName() == collisionmessage->colliderIdentifier || temp.first->getName() == collisionmessage->objectIdentifier)
-				{
-					temp.first->canJump = true;
-				}
-			}
 		}
 	});	
-
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_IMPULSE, [&objects = objects](Message* message)
-	{
-
-		for (GameObjectLogic& object : objects)
-		{
-			for each (auto it in object.getLogicsToObjects())
-			{
-				if (it.first->canJump && it.first->getName() == "player0")
-				{
-					ApplyImpulseMessage* applyImpulseMessage = static_cast<ApplyImpulseMessage*>(message);
-					DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Physics", it.first->getName(), false, applyImpulseMessage->impulse));
-				}
-			}
-		}
-	});
-	
-	
-
 }
 
 GameplaySystem::~GameplaySystem()
