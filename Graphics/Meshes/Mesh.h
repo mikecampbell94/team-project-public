@@ -43,7 +43,7 @@ public:
 
 	~Mesh()
 	{
-		for each (SubMesh* mesh in meshes)
+		for (SubMesh* mesh : meshes)
 		{
 			delete mesh;
 		}

@@ -33,7 +33,7 @@ void PaintTrail::preparePaintSurface(std::vector<GameObject*> surfaceObjects)
 	textureMatrices = biasMatrix * (CommonGraphicsData::SHARED_PROJECTION_MATRIX * viewMatrix);
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
 
-	for each (GameObject* surfaceObject in surfaceObjects)
+	for (GameObject* surfaceObject : surfaceObjects)
 	{
 		surfaceObject->getSceneNode()->isPaintSurface = true;
 		glUniform4fv(glGetUniformLocation(paintTrailShader->GetProgram(), "baseColour"), 1, (float*)&surfaceObject->getSceneNode()->getColour());

@@ -27,7 +27,7 @@ void PlayerBase::initializePlayers(std::vector<InputRecorder*> allRecorders)
 	wipeStoredPlayers();
 
 	int i = 0;
-	for each (InputRecorder* recorder in allRecorders)
+	for (InputRecorder* recorder : allRecorders)
 	{
 		addNewPlayer(recorder, i);
 
@@ -116,7 +116,7 @@ void PlayerBase::removePlayer(Player* playerRef)
 
 void PlayerBase::wipeStoredPlayers()
 {
-	for each (auto player in players)
+	for (auto player : players)
 	{
 		delete player;
 	}

@@ -40,7 +40,7 @@ void UIModule::apply()
 	updateShaderMatrices();
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 
-	for each (Button* button in *UIObjects)
+	for (Button* button : *UIObjects)
 	{
 		glUniform4fv(glGetUniformLocation(UIShader->GetProgram(), "colour"), 1, (float*)&button->colour);
 
@@ -62,7 +62,7 @@ void UIModule::apply()
 	NCLVector3 colour(1.0f, 1.0f, 1.0f);
 	glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);
 
-	for each (Button* button in *UIObjects)
+	for (Button* button : *UIObjects)
 	{
 		NCLVector2 buttonSize = button->scale / NCLVector2(4.0f, 1.5f);
 		NCLVector2 offset(button->scale.x, 0.0f);
@@ -96,7 +96,7 @@ void UIModule::locateUniforms()
 
 void UIModule::renderButtons(std::vector<Button>& buttons)
 {
-	for each (Button button in buttons)
+	for (Button button : buttons)
 	{
 		glUniform4fv(glGetUniformLocation(UIShader->GetProgram(), "colour"), 1, (float*)&button.colour);
 
@@ -111,7 +111,7 @@ void UIModule::renderButtons(std::vector<Button>& buttons)
 
 void UIModule::renderButtonsText(std::vector<Button>& buttons)
 {
-	for each (Button button in buttons)
+	for (Button button : buttons)
 	{
 		NCLVector2 buttonSize = button.scale / NCLVector2(4.0f, 1.5f);
 		NCLVector2 offset(button.scale.x, 0.0f);

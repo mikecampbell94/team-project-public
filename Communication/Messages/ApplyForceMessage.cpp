@@ -30,7 +30,7 @@ ApplyForceMessage ApplyForceMessage::builder(Node* node)
 	float ymin, ymax;
 	float zmin, zmax;
 
-	for each (Node* childNode in node->children)
+	for (Node* childNode : node->children)
 	{
 		if (childNode->nodeType == "destination")
 		{

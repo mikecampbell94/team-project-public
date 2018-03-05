@@ -21,7 +21,7 @@ public:
 		vector<PhysicsNode*> newNodes = { newNode };
 		for (Partition& partition : baseOctreePartitions)
 		{
-			for each (PhysicsNode* node in newNodes)
+			for (PhysicsNode* node : newNodes)
 			{
 				PartitionNodeIntoExistingTree(partition, node);
 			}

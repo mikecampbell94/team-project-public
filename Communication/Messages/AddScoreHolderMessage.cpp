@@ -15,7 +15,7 @@ AddScoreHolderMessage AddScoreHolderMessage::builder(Node* node)
 	std::string nodeDestination = "";
 	std::string nodeResourceName = "";
 
-	for each (Node* childNode in node->children)
+	for (Node* childNode : node->children)
 	{
 		if (childNode->nodeType == "destination")
 		{

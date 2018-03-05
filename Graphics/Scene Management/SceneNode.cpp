@@ -49,7 +49,7 @@ void SceneNode::RemoveChild(SceneNode* s) {
 */
 void SceneNode::Draw(Shader& shader) {
 	if (mesh) {
-		for each (SubMesh* submesh in mesh->meshes)
+		for (SubMesh* submesh : mesh->meshes)
 		{
 			submesh->Draw(shader, worldTransform);
 		}
@@ -59,7 +59,7 @@ void SceneNode::Draw(Shader& shader) {
 void SceneNode::DrawShadow(Shader& shader)
 {
 	if (mesh) {
-		for each (SubMesh* submesh in mesh->meshes)
+		for (SubMesh* submesh : mesh->meshes)
 		{
 			submesh->DrawShadow(shader, worldTransform);
 		}

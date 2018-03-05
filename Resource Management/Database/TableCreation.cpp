@@ -28,7 +28,7 @@ TableCreation::~TableCreation()
 
 void TableCreation::addTablesToDatabase() const
 {
-	for each (auto addTableToDatabase in tableAdditions)
+	for (auto addTableToDatabase : tableAdditions)
 	{
 		addTableToDatabase();
 	}

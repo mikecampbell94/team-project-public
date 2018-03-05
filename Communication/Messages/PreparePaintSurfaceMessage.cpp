@@ -18,7 +18,7 @@ PreparePaintSurfaceMessage PreparePaintSurfaceMessage::builder(Node* node)
 	std::string nodeDestination = "";
 	std::vector<std::string> nodeSurfaceObjectIdentifiers;
 
-	for each (Node* childNode in node->children)
+	for (Node* childNode : node->children)
 	{
 		if (childNode->nodeType == "destination")
 		{

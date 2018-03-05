@@ -15,11 +15,11 @@ GameLogic::~GameLogic()
 
 void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
 {
-	for each (Node* gameplayAction in xmlNode->children)
+	for (Node* gameplayAction : xmlNode->children)
 	{
 		if (gameplayAction->nodeType == "ReceiveMessage")
 		{
-			for each (Node* action in gameplayAction->children)
+			for (Node* action : gameplayAction->children)
 			{
 				messageBasedActions[gameplayAction->name].push_back(ActionBuilder::buildAction(action));
 			}
@@ -31,7 +31,7 @@ void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
 		}
 		else if (gameplayAction->nodeType == "OnStart")
 		{
-			for each (Node* action in gameplayAction->children)
+			for (Node* action : gameplayAction->children)
 			{
 				actionsOnStart.push_back(ActionBuilder::compileActionSectionWithoutCondition(action));
 			}
@@ -47,7 +47,7 @@ void GameLogic::executeMessageBasedActions()
 		{
 			std::vector<GameplayAction>* executables = &messageBasedActions.at(publishers[i].first);
 
-			for each (GameplayAction executable in *executables)
+			for (GameplayAction executable : *executables)
 			{
 				executable(publishers[i].second);
 			}
@@ -66,7 +66,7 @@ void GameLogic::executeTimeBasedActions(const float& deltaTime)
 
 void GameLogic::executeActionsOnStart()
 {
-	for each (Executable executable in actionsOnStart)
+	for (Executable executable : actionsOnStart)
 	{
 		executable();
 	}

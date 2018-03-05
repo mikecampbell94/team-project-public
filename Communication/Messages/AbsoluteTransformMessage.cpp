@@ -20,7 +20,7 @@ AbsoluteTransformMessage AbsoluteTransformMessage::builder(Node* node)
 	NCLVector4 nodeRotation(0, 0, 0, 0);
 	NCLVector3 nodeScale(1, 1, 1);
 
-	for each (Node* childNode in node->children)
+	for (Node* childNode : node->children)
 	{
 		if (childNode->nodeType == "destination")
 		{

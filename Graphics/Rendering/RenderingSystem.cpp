@@ -142,7 +142,7 @@ void RenderingSystem::initialise(Database* database)
 
 		std::vector<GameObject*> surfaceObjects;
 
-		for each (std::string objectIdentifiers in paintMessage->surfaceObjectIdentifiers)
+		for (std::string objectIdentifiers : paintMessage->surfaceObjectIdentifiers)
 		{
 			surfaceObjects.push_back(static_cast<GameObject*>(
 				database->getTable("GameObjects")->getResource(objectIdentifiers)));

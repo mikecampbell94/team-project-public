@@ -14,7 +14,7 @@ BPLighting::BPLighting(const std::string identifier, const NCLVector2 resolution
 	this->gBuffer = gBuffer;
 	this->ambientTextures = ssaoTextures;
 
-	for each (Light* light in **lights)
+	for (Light* light : **lights)
 	{
 		lightDatas.push_back(light->GetData());
 	}
@@ -70,7 +70,7 @@ void BPLighting::locateUniforms()
 void BPLighting::apply()
 {
 	lightDatas.clear();
-	for each (Light* light in **lights)
+	for (Light* light : **lights)
 	{
 		lightDatas.push_back(light->GetData());
 	}

@@ -16,7 +16,7 @@ System::~System()
 
 void System::updateNextSystemFrame(const float& deltaTime)
 {
-	for each (Subsystem* subsystem in subsystems)
+	for (Subsystem* subsystem : subsystems)
 	{
 		subsystem->updateSubsystem(deltaTime);
 	}
@@ -24,7 +24,7 @@ void System::updateNextSystemFrame(const float& deltaTime)
 
 void System::processMessagesForAllSubsystems()
 {
-	for each (Subsystem* subsystem in subsystems)
+	for (Subsystem* subsystem : subsystems)
 	{
 		subsystem->processMessages();
 	}

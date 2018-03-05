@@ -6,7 +6,7 @@ MessageProcessor::MessageProcessor(std::vector<MessageType> typeOfMessagesToList
 {
 	subsystemMessageBuffer = subsystemBuffer;
 
-	for each (MessageType messageType in typeOfMessagesToListenFor)
+	for (MessageType messageType : typeOfMessagesToListenFor)
 	{
 		actionsToExecute[messageType] = new std::vector<Action>();
 	}
@@ -28,7 +28,7 @@ void MessageProcessor::processMessagesInBuffer()
 	{
 		Message* message = subsystemMessageBuffer->front();
 
-		for each (Action action in *actionsToExecute.at(message->getMessageType()))
+		for (Action action : *actionsToExecute.at(message->getMessageType()))
 		{
 			action(message);
 		}

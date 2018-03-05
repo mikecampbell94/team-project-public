@@ -12,7 +12,7 @@ std::vector<Button> UserInterfaceBuilder::buildButtons(std::string UIFile, Datab
 
 	std::vector<Button> buttons;
 
-	for each (Node* buttonNode in xmlParser.parsedXml->children)
+	for (Node* buttonNode : xmlParser.parsedXml->children)
 	{
 		buttons.push_back(buildButton(buttonNode, database, actionCreator));
 	}

@@ -226,7 +226,7 @@ void PhysicsEngine::updateSubsystem(const float& deltaTime)
 		updateRealTimeAccum = 0.0f;
 	}
 
-	for each (PhysicsNode* physicsNode in physicsNodes)
+	for (PhysicsNode* physicsNode : physicsNodes)
 	{
 		physicsNode->hasTransmittedCollision = false;
 	}
@@ -398,7 +398,7 @@ void PhysicsEngine::InitialiseOctrees(int entityLimit)
 	octreeChanged = false;
 	octreeInitialised = true;
 
-	for each (PhysicsNode* node in physicsNodes)
+	for (PhysicsNode* node : physicsNodes)
 	{
 		node->movedSinceLastBroadPhase = false;
 	}

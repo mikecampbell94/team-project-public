@@ -13,7 +13,7 @@ SceneManager::SceneManager(Camera* camera, std::vector<SceneNode*>* sceneNodes)
 	transparentSceneNodesInFrustum = new vector<SceneNode*>();
 	lights = new vector<Light*>();
 
-	for each (SceneNode* node in *sceneNodes)
+	for (SceneNode* node : *sceneNodes)
 	{
 		sceneNodes->push_back(node);
 	}
@@ -34,7 +34,7 @@ void SceneManager::clearMeshLists()
 
 void SceneManager::buildMeshLists()
 {
-	for each (SceneNode* node in *sceneNodes)
+	for (SceneNode* node : *sceneNodes)
 	{
 		node->Update(0.0f);
 		allocateSubNodesToNodeLists(node);

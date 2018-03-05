@@ -120,7 +120,7 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(profiler);
 	engine->addSubsystem(new Console(window->getKeyboard()));
 
-	for each (Subsystem * subsystem in engine->getSubSystems())
+	for (Subsystem * subsystem : engine->getSubSystems())
 	{
 		profiler->addSubsystemTimer(subsystem->getSubsystemName(), subsystem->getTimer());
 	}

@@ -21,7 +21,7 @@ GameplayAction ActionBuilder::buildAction(Node* node)
 	Condition condition;
 	std::vector<Executable> executables;
 
-	for each (Node* section in node->children)
+	for (Node* section : node->children)
 	{
 		compileActionSection(section, condition, executables);
 	}
@@ -40,7 +40,7 @@ TimedGameplayAction ActionBuilder::buildTimedAction(Node* node)
 {
 	std::vector<Executable> executables;
 
-	for each (Node* section in node->children)
+	for (Node* section : node->children)
 	{
 		executables.push_back(compileActionSectionWithoutCondition(section));
 	}
@@ -53,7 +53,7 @@ TimedGameplayAction ActionBuilder::buildTimedAction(Node* node)
 		{
 			timer = 0.0f;
 
-			for each (Executable executable in executables)
+			for (Executable executable : executables)
 			{
 				executable();
 			}
@@ -67,7 +67,7 @@ GameplayAction ActionBuilder::buildFinalActionWithCondition(Condition& condition
 	{
 		if (condition(message))
 		{
-			for each (Executable executable in executables)
+			for (Executable executable : executables)
 			{
 				executable();
 			}
@@ -79,7 +79,7 @@ GameplayAction ActionBuilder::buildFinalAction(std::vector<Executable>& executab
 {
 	return [executables](Message message)
 	{
-		for each (Executable executable in executables)
+		for (Executable executable : executables)
 		{
 			executable();
 		}

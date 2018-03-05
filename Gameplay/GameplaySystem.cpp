@@ -64,7 +64,7 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 			timer->endChildTimedSection("Level Logic");
 
 			timer->beginChildTimedSection("Object Logic");
-			for each (GameObjectLogic object in objects)
+			for (GameObjectLogic object : objects)
 			{
 				object.updatelogic(deltaTime * 0.001f);
 			}
@@ -99,7 +99,7 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 		timer->endChildTimedSection("Level Logic");
 
 		timer->beginChildTimedSection("Object Logic");
-		for each (GameObjectLogic object in objects)
+		for (GameObjectLogic object : objects)
 		{
 			object.updatelogic(deltaTime * 0.001f);
 		}

@@ -54,7 +54,7 @@ void OctreePartitioning::UpdateTree()
 	}
 	
 	//Update the flags so this does not happen next frame.
-	for each (PhysicsNode* node in nodesToUpdate)
+	for (PhysicsNode* node : nodesToUpdate)
 	{
 		node->toDeleteInOctree = false;
 	}
@@ -64,7 +64,7 @@ void OctreePartitioning::UpdateTree()
 	//have branches with leaf nodes.
 	for (Partition& partition : baseOctreePartitions)
 	{
-		for each (PhysicsNode* node in nodesToUpdate)
+		for (PhysicsNode* node : nodesToUpdate)
 		{	
 			PartitionNodeIntoExistingTree(partition, node);
 		}

@@ -255,7 +255,7 @@ public:
 	{
 		if (worldTransform.getPositionVector() != previousTransform.getPositionVector())
 		{
-			for each (PhysicsUpdateCallback callback in onUpdateCallbacks)
+			for (PhysicsUpdateCallback callback : onUpdateCallbacks)
 			{
 				if (callback) callback(worldTransform);
 			}

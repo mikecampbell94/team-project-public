@@ -19,7 +19,7 @@ MoveGameObjectMessage MoveGameObjectMessage::builder(Node* node)
 	std::string object = "";
 	NCLVector3 position;
 
-	for each (Node* childNode in node->children)
+	for (Node* childNode : node->children)
 	{
 		if (childNode->nodeType == "destination")
 		{

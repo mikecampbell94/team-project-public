@@ -95,7 +95,7 @@ void Shadows::drawShadowScene()
 
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
 
-			for each (SceneNode* m in **models)
+			for (SceneNode* m : **models)
 			{
 				m->Draw(*shadowShader);
 			}

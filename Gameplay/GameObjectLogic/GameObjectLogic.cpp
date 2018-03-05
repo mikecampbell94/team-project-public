@@ -8,7 +8,7 @@ void changeResource(Node** node, std::string id)
 	{
 		(*node)->value = id;
 	}
-	for each (Node* child in (*node)->children)
+	for (Node* child : (*node)->children)
 	{
 		changeResource(&child, id);
 	}
@@ -20,7 +20,7 @@ void changeResourceBack(Node** node, std::string id)
 	{
 		(*node)->value = "var";
 	}
-	for each (Node* child in (*node)->children)
+	for (Node* child : (*node)->children)
 	{
 		changeResourceBack(&child, id);
 	}
@@ -46,7 +46,7 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 	Node* gameLogicNode = parsedScript->children[1];
 	
 
-	for each (Node* resource in resources->children)
+	for (Node* resource : resources->children)
 	{
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(resource->value));
 
@@ -74,12 +74,12 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 		
 	}
 
-	for each (GameLogic* logic in logics)
+	for (GameLogic* logic : logics)
 	{
 		logic->executeActionsOnStart();
 	}
 
-	for each (auto func in fucntionsOnStart)
+	for (auto func : fucntionsOnStart)
 	{
 		func.second();
 	}
@@ -87,7 +87,7 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 
 void GameObjectLogic::compileFunctions(Node* node)
 {
-	for each (Node* subNode in node->children)
+	for (Node* subNode : node->children)
 	{
 		compileFunctionsOnStart(subNode);
 	}
@@ -95,7 +95,7 @@ void GameObjectLogic::compileFunctions(Node* node)
 
 	if (node->nodeType == "ReceiveMessage")
 	{
-		for each (Node* action in node->children)
+		for (Node* action : node->children)
 		{
 			if (node->value == "PlayerInputMessage")
 			{
@@ -103,7 +103,7 @@ void GameObjectLogic::compileFunctions(Node* node)
 				{
 					if (action->children[0]->value == "0x20")
 					{
-						for each (auto message in inputMessages)
+						for (auto message : inputMessages)
 						{
 							if (message->data.key == KEYBOARD_SPACE)
 							{
@@ -152,7 +152,7 @@ void GameObjectLogic::compileFunctions(Node* node)
 
 void GameObjectLogic::compileFunctionsOnStart(Node* node)
 {
-	for each (Node* action in node->children)
+	for (Node* action : node->children)
 	{
 		//PUT THIS INTO A BUILDER CLASS FOR FUNCTIONS LIKE THE ACTION BUILDER FOR GAME LOGIC
 		////////////////////////////////////////////////////////////////////
@@ -182,7 +182,7 @@ void GameObjectLogic::notify(const std::string& messageType, Message* message)
 {
 	if (messageType == "CollisionMessage")
 	{
-		for each (GameLogic* logic in logics)
+		for (GameLogic* logic : logics)
 		{
 			logic->notifyMessageActions(messageType, message);
 		}
@@ -197,7 +197,7 @@ void GameObjectLogic::notify(const std::string& messageType, Message* message)
 
 void GameObjectLogic::updatelogic(const float& deltaTime)
 {
-	for each (GameLogic* logic in logics)
+	for (GameLogic* logic : logics)
 	{
 		logic->executeMessageBasedActions();
 		logic->executeTimeBasedActions(deltaTime);
@@ -213,7 +213,7 @@ void GameObjectLogic::updateHardCodedLogic(const float& deltaTime)
 {
 	//updateInputMessageLogic();
 
-	for each (auto func in functions)
+	for (auto func : functions)
 	{
 		func();
 	} 
@@ -221,7 +221,7 @@ void GameObjectLogic::updateHardCodedLogic(const float& deltaTime)
 
 void GameObjectLogic::updateInputMessageLogic()
 {
-	for each (auto message in inputMessages)
+	for (auto message : inputMessages)
 	{
 		if(message->data.key == KEYBOARD_SPACE)
 		{

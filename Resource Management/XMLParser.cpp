@@ -69,7 +69,7 @@ void XMLParser::recursivelyParse(rapidxml::xml_node<>* unParsedNode, Node** pars
 
 void XMLParser::deleteAllNodes(Node* currentNode)
 {
-	for each (Node* node in currentNode->children)
+	for (Node* node : currentNode->children)
 	{
 		deleteAllNodes(node);
 	}

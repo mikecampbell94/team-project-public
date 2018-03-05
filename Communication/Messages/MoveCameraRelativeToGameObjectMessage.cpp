@@ -26,7 +26,7 @@ MoveCameraRelativeToGameObjectMessage MoveCameraRelativeToGameObjectMessage::bui
 	float nodePitch = 0.0f;
 	float nodeYaw = 0.0f;
 
-	for each (Node* childNode in node->children)
+	for (Node* childNode : node->children)
 	{
 		if (childNode->nodeType == "destination")
 		{

@@ -20,7 +20,7 @@ ToggleGraphicsModuleMessage ToggleGraphicsModuleMessage::builder(Node* node)
 	std::string nodeModuleName = "";
 	bool nodeEnabled = false;
 
-	for each (Node* childNode in node->children)
+	for (Node* childNode : node->children)
 	{
 		if (childNode->nodeType == "destination")
 		{

@@ -88,7 +88,7 @@ void Profiler::updateProfiling()
 		nextLine += NEXT_LINE_OFFSET;
 	}
 
-	for each (std::string text in externalText)
+	for (std::string text : externalText)
 	{
 		messages.push_back(TextMeshMessage("RenderingSystem", text,
 			NCLVector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));

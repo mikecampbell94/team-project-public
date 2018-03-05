@@ -76,7 +76,7 @@ void Level::unloadLevelWhileKeepingUserInterface()
 	(*sceneManager->getAllLights())->clear();
 	physics->removeAllPhysicsObjects();
 
-	for each (std::string table in listOfObjectTypesInLevel)
+	for (std::string table : listOfObjectTypesInLevel)
 	{
 		if (table != "UIMeshes")
 		{
@@ -93,7 +93,7 @@ void Level::unloadLevel()
 	physics->removeAllPhysicsObjects();
 
 	//for (std::vector<std::string>::const_iterator it = listOfObjectTypesInLevel.begin(); it != listOfObjectTypesInLevel.end(); ++it)
-	for each (std::string table in listOfObjectTypesInLevel)
+	for (std::string table : listOfObjectTypesInLevel)
 	{
 		database->getTable(table)->getAllResources()->deleteAllResources();
 	}

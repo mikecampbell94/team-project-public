@@ -18,7 +18,7 @@ RotateGameObjectMessage RotateGameObjectMessage::builder(Node* node)
 	std::string object = "";
 	NCLVector4 rotation;
 
-	for each (Node* childNode in node->children)
+	for (Node* childNode : node->children)
 	{
 		if (childNode->nodeType == "destination")
 		{

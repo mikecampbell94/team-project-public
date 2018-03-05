@@ -18,7 +18,7 @@ ScaleGameObjectMessage ScaleGameObjectMessage::builder(Node* node)
 	std::string object = "";
 	NCLVector3 scale;
 
-	for each (Node* childNode in node->children)
+	for (Node* childNode : node->children)
 	{
 		if (childNode->nodeType == "destination")
 		{

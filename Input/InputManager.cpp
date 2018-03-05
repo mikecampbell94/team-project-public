@@ -65,7 +65,7 @@ void InputManager::updateSubsystem(const float& deltatime)
 
 			std::vector<ButtonInputData> inputData = player->getInputRecorder()->getInputs();
 
-			for each (ButtonInputData singleInput in inputData)
+			for (ButtonInputData singleInput : inputData)
 			{
 				DeliverySystem::getPostman()->insertMessage(PlayerInputMessage("Gameplay", player, singleInput));
 			}

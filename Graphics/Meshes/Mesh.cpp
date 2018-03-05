@@ -29,7 +29,7 @@ void Mesh::LoadModel(std::string path)
 
 void Mesh::SetTransformForAllSubMeshes(NCLMatrix4 transform)
 {
-	for each (SubMesh* submesh in meshes)
+	for (SubMesh* submesh : meshes)
 	{
 		submesh->SetTransform(transform);
 	}
@@ -315,7 +315,7 @@ unsigned int Mesh::TextureFromFile(const char *path, const string &directory)
 
 void Mesh::SetReflectionAttributesForAllSubMeshes(int isReflective, float strength)
 {
-	for each (SubMesh* mesh in meshes)
+	for (SubMesh* mesh : meshes)
 	{
 		mesh->isReflective = isReflective;
 		mesh->reflectionStrength = strength;
@@ -324,7 +324,7 @@ void Mesh::SetReflectionAttributesForAllSubMeshes(int isReflective, float streng
 
 void Mesh::SetbackupColourAttributeForAllSubMeshes(NCLVector4 colour)
 {
-	for each (SubMesh* mesh in meshes)
+	for (SubMesh* mesh : meshes)
 	{
 		mesh->baseColour = colour;
 	}
@@ -332,7 +332,7 @@ void Mesh::SetbackupColourAttributeForAllSubMeshes(NCLVector4 colour)
 
 void Mesh::Draw(Shader& shader, NCLMatrix4 worldTransform)
 {
-		for each (SubMesh* submesh in meshes)
+		for (SubMesh* submesh : meshes)
 		{
 			submesh->Draw(shader, worldTransform);
 		}
@@ -386,7 +386,7 @@ void Mesh::loadTexture(std::string textureFile)
 	texture.type = "texture_diffuse";
 	texture.path = textureFile;
 
-	for each (SubMesh* submesh in meshes)
+	for (SubMesh* submesh : meshes)
 	{
 		submesh->textures.push_back(texture);
 		submesh->hasTexture = 1;

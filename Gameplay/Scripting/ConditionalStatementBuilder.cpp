@@ -7,7 +7,7 @@ Condition ConditionalStatementBuilder::buildOrCondition(Node* node)
 {
 	std::vector<Node> children;
 
-	for each (Node* child in node->children)
+	for (Node* child : node->children)
 	{
 		children.push_back(*child);
 	}
@@ -16,7 +16,7 @@ Condition ConditionalStatementBuilder::buildOrCondition(Node* node)
 	{
 		bool condition = false;
 
-		for each (Node childCondition in children)
+		for (Node childCondition : children)
 		{
 			condition = condition || message.getDataField(childCondition.nodeType) == childCondition.value;
 		}
@@ -29,7 +29,7 @@ Condition ConditionalStatementBuilder::buildAndCondition(Node* node)
 {
 	std::vector<Node> children;
 
-	for each (Node* child in node->children)
+	for (Node* child : node->children)
 	{
 		children.push_back(*child);
 	}
@@ -38,7 +38,7 @@ Condition ConditionalStatementBuilder::buildAndCondition(Node* node)
 	{
 		bool condition = true;
 
-		for each (Node childCondition in children)
+		for (Node childCondition : children)
 		{
 			condition = condition && message.getDataField(childCondition.nodeType) == childCondition.value;
 		}

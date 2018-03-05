@@ -38,7 +38,7 @@ const size_t Database::CurrentSize() const
 {
 	size_t memory = 0;
 
-	for each (auto table in tables)
+	for (auto table : tables)
 	{
 		memory += table.second->getAllResources()->getCurrentSize();
 	}
@@ -50,7 +50,7 @@ const size_t Database::MaxSize() const
 {
 	size_t memory = 0;
 
-	for each (auto table in tables)
+	for (auto table : tables)
 	{
 		memory += table.second->getAllResources()->getMaxSize();
 	}
