@@ -4,7 +4,7 @@
 #include "../../GraphicsUtility.h"
 #include "../../GraphicsCommon.h"
 
-GBuffer::GBuffer(const std::string identifier, const Vector2 resolution, 
+GBuffer::GBuffer(const std::string identifier, const NCLVector2 resolution, 
 	Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
 	: GraphicsModule(identifier, resolution)
 {

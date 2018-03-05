@@ -5,7 +5,7 @@
 std::string MoveCameraRelativeToGameObjectMessage::resourceName = "";
 
 MoveCameraRelativeToGameObjectMessage::MoveCameraRelativeToGameObjectMessage(const std::string& destinationName, const std::string& resourceName,
-	Vector3 translation, float pitch, float yaw)
+	NCLVector3 translation, float pitch, float yaw)
 	: Message(destinationName, MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT)
 {
 	//this->resourceName = resourceName;
@@ -22,7 +22,7 @@ MoveCameraRelativeToGameObjectMessage MoveCameraRelativeToGameObjectMessage::bui
 {
 	std::string nodeDestination = "";
 	//std::string nodeResourcename = MoveCameraRelativeToGameObjectMessage::resourceName;
-	Vector3 nodeTranslation(0, 0, 0);
+	NCLVector3 nodeTranslation(0, 0, 0);
 	float nodePitch = 0.0f;
 	float nodeYaw = 0.0f;
 
@@ -34,7 +34,7 @@ MoveCameraRelativeToGameObjectMessage MoveCameraRelativeToGameObjectMessage::bui
 		}
 		else if (childNode->nodeType == "translation")
 		{
-			nodeTranslation = Vector3::builder(childNode);
+			nodeTranslation = NCLVector3::builder(childNode);
 		}
 		else if (childNode->nodeType == "rotation")
 		{

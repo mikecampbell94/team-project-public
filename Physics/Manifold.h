@@ -15,17 +15,17 @@ struct ContactPoint
 	float	bTerm;
 
 	//Collision Normal and Penetration depth
-	Vector3 colNormal;
+	NCLVector3 colNormal;
 	float	colPenetration;
 
-	Vector3 relPosA;			//Position relative to objectA
-	Vector3 relPosB;			//Position relative to objectB
+	NCLVector3 relPosA;			//Position relative to objectA
+	NCLVector3 relPosB;			//Position relative to objectB
 
 								//Solver - Total force added this frame
 								// - Used to clamp contact constraint over the course of the entire solver
 								//   to expected bounds.
 	float   sumImpulseContact;
-	Vector3 sumImpulseFriction;
+	NCLVector3 sumImpulseFriction;
 };
 
 class Manifold
@@ -38,7 +38,7 @@ public:
 	void initiate(PhysicsNode* nodeA, PhysicsNode* nodeB);
 
 	//Called whenever a new collision contact between A & B are found
-	void addContact(const Vector3& globalOnA, const Vector3& globalOnB, const Vector3& _normal, const float& _penetration);
+	void addContact(const NCLVector3& globalOnA, const NCLVector3& globalOnB, const NCLVector3& _normal, const float& _penetration);
 
 	//Sequentially solves each contact constraint
 	void applyImpulse();

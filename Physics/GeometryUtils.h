@@ -9,31 +9,31 @@ namespace GeometryUtils
 	struct Edge
 	{
 		Edge() : _v0(0.0f, 0.0f, 0.0f), _v1(0.0f, 0.0f, 0.0f) {}
-		Edge(Vector3 start, Vector3 end) : _v0(start), _v1(end) {}
+		Edge(NCLVector3 start, NCLVector3 end) : _v0(start), _v1(end) {}
 
 
-		Vector3 _v0;
-		Vector3 _v1;
+		NCLVector3 _v0;
+		NCLVector3 _v1;
 	};
 
 
 
 	// Gets the closest point x on the line (edge) to point (pos)
-	Vector3 getClosestPoint(
-		const Vector3& pos,
+	NCLVector3 getClosestPoint(
+		const NCLVector3& pos,
 		const Edge& edge);
 
 	// Iterates through all edges in polygon (defined as a line-loop list
 	// of vertices) and returns the closest point X to point (pos) that 
 	// resides on any of the given edges of the polygon.
-	Vector3 getClosestPointPolygon(
-		const Vector3& pos,
-		const std::list<Vector3>& polygon);
+	NCLVector3 getClosestPointPolygon(
+		const NCLVector3& pos,
+		const std::list<NCLVector3>& polygon);
 
 	// Iterates through all edges returning the the point X which is the closest
 	//   point along any of the given edges to the provided point A as possible.
-	Vector3 getClosestPoint(
-		const Vector3& pos,
+	NCLVector3 getClosestPoint(
+		const NCLVector3& pos,
 		std::vector<Edge>& edges);
 
 
@@ -41,17 +41,17 @@ namespace GeometryUtils
 	//    it will return the point on the line where it intersected the given plane.
 	bool planeEdgeIntersection(
 		const Plane& plane,
-		const Vector3& start,
-		const Vector3& end,
-		Vector3& out_point);
+		const NCLVector3& start,
+		const NCLVector3& end,
+		NCLVector3& out_point);
 
 	//Performs sutherland hodgman clipping algorithm to clip the provided polygon
 	// in regards to each of the provided clipping planes.
 	// https://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm
 	void sutherlandHodgmanClipping(
-		const std::list<Vector3>& input_polygon,
+		const std::list<NCLVector3>& input_polygon,
 		int num_clip_planes,
 		const Plane* clip_planes,
-		std::list<Vector3>* out_polygon,
+		std::list<NCLVector3>* out_polygon,
 		bool removeNotClipToPlane);
 };

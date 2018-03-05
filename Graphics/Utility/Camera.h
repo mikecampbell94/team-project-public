@@ -16,7 +16,7 @@ public:
 		pitch = 0.0f;
 	};
 
-	Camera(float pitch, float yaw, Vector3 position) {
+	Camera(float pitch, float yaw, NCLVector3 position) {
 		this->pitch = pitch;
 		this->yaw = yaw;
 		this->position = position;
@@ -33,16 +33,16 @@ public:
 
 	//Builds a view matrix for the current camera variables, suitable for sending straight
 	//to a vertex shader (i.e it's already an 'inverse camera matrix').
-	Matrix4 buildViewMatrix();
-	void updateViewFrustum(Matrix4& projectionMatrix);
+	NCLMatrix4 buildViewMatrix();
+	void updateViewFrustum(NCLMatrix4& projectionMatrix);
 
 	//Gets position in world space
-	Vector3 getPosition() const {
+	NCLVector3 getPosition() const {
 		return position;
 	}
 
 	//Sets position in world space
-	void setPosition(Vector3 val)
+	void setPosition(NCLVector3 val)
 	{
 		position = val;
 
@@ -58,12 +58,12 @@ public:
 	//Sets pitch, in degrees
 	void	setPitch(float p) { pitch = p; }
 
-	Matrix4 viewMatrix;
+	NCLMatrix4 viewMatrix;
 
 protected:
 	Frustum viewFrustum;
 
-	Vector3 position;
+	NCLVector3 position;
 	float	yaw;
 	float	pitch;
 };

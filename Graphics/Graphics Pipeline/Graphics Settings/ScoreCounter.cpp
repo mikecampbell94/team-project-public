@@ -8,7 +8,7 @@
 
 #include <math.h>
 
-ScoreCounter::ScoreCounter(const std::string identifier, const Vector2 resolution, Database* database)
+ScoreCounter::ScoreCounter(const std::string identifier, const NCLVector2 resolution, Database* database)
 	: GraphicsModule(identifier, resolution)
 {
 	computeShader = new ComputeShader(SHADERDIR"/Compute/compute.glsl", true);
@@ -26,7 +26,7 @@ ScoreCounter::~ScoreCounter()
 
 void ScoreCounter::bufferScoreHolder(std::string scoreHoldername)
 {
-	const Vector4 scoreHolderColour = static_cast<GameObject*>(
+	const NCLVector4 scoreHolderColour = static_cast<GameObject*>(
 		database->getTable("GameObjects")->getResource(scoreHoldername))->getSceneNode()->getColour();
 
 	scoreHolders.push_back(scoreHoldername);
@@ -47,7 +47,7 @@ void ScoreCounter::regenerateShaders()
 void ScoreCounter::initialise()
 {
 	playerScoresSSBO = GraphicsUtility::InitSSBO(1, 4, playerScoresSSBO, sizeof(int), &scores, GL_STATIC_COPY);
-	coloursSSBO = GraphicsUtility::InitSSBO(1, 5, coloursSSBO, sizeof(Vector4), &coloursToCount, GL_STATIC_COPY);
+	coloursSSBO = GraphicsUtility::InitSSBO(1, 5, coloursSSBO, sizeof(NCLVector4), &coloursToCount, GL_STATIC_COPY);
 }
 
 void ScoreCounter::apply()
@@ -71,7 +71,7 @@ void ScoreCounter::calculateScores()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, coloursSSBO);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Vector4) * coloursToCount.size(),
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(NCLVector4) * coloursToCount.size(),
 		&coloursToCount[0], GL_STATIC_COPY);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
@@ -82,7 +82,7 @@ void ScoreCounter::calculateScores()
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, *paintTrailTexture);
 
-	computeShader->Compute(Vector3(1280, 720, 1));
+	computeShader->Compute(NCLVector3(1280, 720, 1));
 	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_ATOMIC_COUNTER_BARRIER_BIT);
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, playerScoresSSBO);
@@ -109,7 +109,7 @@ void ScoreCounter::displayScores()
 		viewMatrix.toIdentity();
 		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 
-		Vector3 colour(coloursToCount[i].x, coloursToCount[i].y, coloursToCount[i].z);
+		NCLVector3 colour(coloursToCount[i].x, coloursToCount[i].y, coloursToCount[i].z);
 		glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);
 
 
@@ -126,7 +126,7 @@ void ScoreCounter::displayScores()
 		}
 
 		TextMesh textMesh(name, *font);
-		textMesh.Draw(*currentShader, Matrix4::translation(Vector3(290, (i * -20.0f) + 320, 0)) * Matrix4::scale(Vector3(20, 20, 1)));
+		textMesh.Draw(*currentShader, NCLMatrix4::translation(NCLVector3(290, (i * -20.0f) + 320, 0)) * NCLMatrix4::scale(NCLVector3(20, 20, 1)));
 	}
 
 	glDisable(GL_BLEND);

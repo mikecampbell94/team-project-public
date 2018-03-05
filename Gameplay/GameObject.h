@@ -18,11 +18,11 @@ public:
 	PhysicsNode* getPhysicsNode();
 
 	void updatePosition();
-	void setPosition(Vector3 position);
-	void setRotation(Vector4 rotation);
-	void setScale(Vector3 scale);
+	void setPosition(NCLVector3 position);
+	void setRotation(NCLVector4 rotation);
+	void setScale(NCLVector3 scale);
 
-	const Vector3& getScale() const
+	const NCLVector3& getScale() const
 	{
 		return scale;
 	}
@@ -33,7 +33,7 @@ private:
 	SceneNode *sceneNode;
 	PhysicsNode *physicsNode = nullptr;
 
-	Vector3 position;
-	Vector3 scale;
+	NCLVector3 position;
+	NCLVector3 scale;
 };
 

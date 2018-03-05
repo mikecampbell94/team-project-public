@@ -10,13 +10,13 @@ class MoveGameObjectMessage : public Message
 {
 public:
 	MoveGameObjectMessage(const std::string& desinationName, std::string gameObjectID,
-		Vector3 position);
+		NCLVector3 position);
 	~MoveGameObjectMessage();
 
 	static MoveGameObjectMessage builder(Node* node);
 	static MoveGameObjectMessage tokensToMessage(std::vector<std::string> lineTokens);
 
 	std::string gameObjectID;
-	Vector3 position;
+	NCLVector3 position;
 };
 

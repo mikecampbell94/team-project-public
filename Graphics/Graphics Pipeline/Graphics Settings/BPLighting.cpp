@@ -3,7 +3,7 @@
 #include "../../GraphicsCommon.h"
 #include "../../GraphicsUtility.h"
 
-BPLighting::BPLighting(const std::string identifier, const Vector2 resolution,
+BPLighting::BPLighting(const std::string identifier, const NCLVector2 resolution,
 	Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights,
 	SSAOTextures* ssaoTextures, ShadowData* shadowData)
 	: GraphicsModule(identifier, resolution)

@@ -3,7 +3,7 @@
 #include "../../GraphicsCommon.h"
 #include "../Graphics/Utility/Camera.h"
 
-GameText::GameText(const std::string identifier, const Vector2 resolution, Camera* camera)
+GameText::GameText(const std::string identifier, const NCLVector2 resolution, Camera* camera)
 	: GraphicsModule(identifier, resolution)
 {
 	font = new Font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
@@ -59,7 +59,7 @@ void GameText::apply()
 		glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&bufferedColours[i]);
 
 		TextMesh textMesh(bufferedText[i], *font);
-		textMesh.Draw(*currentShader, Matrix4::translation(bufferedPositions[i]) * Matrix4::scale(Vector3(bufferedScales[i].x, bufferedScales[i].y, 1)));
+		textMesh.Draw(*currentShader, NCLMatrix4::translation(bufferedPositions[i]) * NCLMatrix4::scale(NCLVector3(bufferedScales[i].x, bufferedScales[i].y, 1)));
 	}
 
 	bufferedText.clear();
@@ -87,11 +87,11 @@ void GameText::apply()
 		viewMatrix.toIdentity();
 		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 
-		Vector3 colour(bufferedBackgroundColours[i].x, bufferedBackgroundColours[i].y, bufferedBackgroundColours[i].z);
+		NCLVector3 colour(bufferedBackgroundColours[i].x, bufferedBackgroundColours[i].y, bufferedBackgroundColours[i].z);
 		glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);
 
 		TextMesh textMesh(bufferedBackgroundText[i], *font);
-		textMesh.Draw(*currentShader, Matrix4::translation(bufferedBackgroundPositions[i]) * Matrix4::scale(bufferedBackgroundScales[i]));
+		textMesh.Draw(*currentShader, NCLMatrix4::translation(bufferedBackgroundPositions[i]) * NCLMatrix4::scale(bufferedBackgroundScales[i]));
 	}
 
 	bufferedBackgroundText.clear();
@@ -117,7 +117,7 @@ void GameText::regenerateShaders()
 	UIShader->Regenerate();
 }
 
-void GameText::bufferText(std::string text, Vector3 position, Vector3 scale, Vector3 colour, bool orthographic, bool hasBackground)
+void GameText::bufferText(std::string text, NCLVector3 position, NCLVector3 scale, NCLVector3 colour, bool orthographic, bool hasBackground)
 {
 	if (hasBackground)
 	{

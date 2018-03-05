@@ -5,7 +5,7 @@
 #include "UserInterfaceDisplay.h"
 #include <iterator>
 
-UIModule::UIModule(const std::string identifier, const Vector2 resolution,
+UIModule::UIModule(const std::string identifier, const NCLVector2 resolution,
 	Database* database) : GraphicsModule(identifier, resolution)
 {
 	font = new Font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);
@@ -44,7 +44,7 @@ void UIModule::apply()
 	{
 		glUniform4fv(glGetUniformLocation(UIShader->GetProgram(), "colour"), 1, (float*)&button->colour);
 
-		button->UIMesh->Draw(*currentShader, Matrix4::translation(button->position) * Matrix4::scale(button->scale));
+		button->UIMesh->Draw(*currentShader, NCLMatrix4::translation(button->position) * NCLMatrix4::scale(button->scale));
 
 		if (button->childrenEnabled)
 		{
@@ -59,14 +59,14 @@ void UIModule::apply()
 	updateShaderMatrices();
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 
-	Vector3 colour(1.0f, 1.0f, 1.0f);
+	NCLVector3 colour(1.0f, 1.0f, 1.0f);
 	glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);
 
 	for each (Button* button in *UIObjects)
 	{
-		Vector2 buttonSize = button->scale / Vector2(4.0f, 1.5f);
-		Vector2 offset(button->scale.x, 0.0f);
-		button->textMesh->Draw(*currentShader, Matrix4::translation(button->position - offset) * Matrix4::scale(Vector3(buttonSize.x, buttonSize.y, 1)));
+		NCLVector2 buttonSize = button->scale / NCLVector2(4.0f, 1.5f);
+		NCLVector2 offset(button->scale.x, 0.0f);
+		button->textMesh->Draw(*currentShader, NCLMatrix4::translation(button->position - offset) * NCLMatrix4::scale(NCLVector3(buttonSize.x, buttonSize.y, 1)));
 
 		if (button->childrenEnabled)
 		{
@@ -100,7 +100,7 @@ void UIModule::renderButtons(std::vector<Button>& buttons)
 	{
 		glUniform4fv(glGetUniformLocation(UIShader->GetProgram(), "colour"), 1, (float*)&button.colour);
 
-		button.UIMesh->Draw(*currentShader, Matrix4::translation(button.position) * Matrix4::scale(button.scale));
+		button.UIMesh->Draw(*currentShader, NCLMatrix4::translation(button.position) * NCLMatrix4::scale(button.scale));
 
 		if (button.childrenEnabled)
 		{
@@ -113,9 +113,9 @@ void UIModule::renderButtonsText(std::vector<Button>& buttons)
 {
 	for each (Button button in buttons)
 	{
-		Vector2 buttonSize = button.scale / Vector2(4.0f, 1.5f);
-		Vector2 offset(button.scale.x, 0.0f);
-		button.textMesh->Draw(*currentShader, Matrix4::translation(button.position - offset) * Matrix4::scale(Vector3(buttonSize.x, buttonSize.y, 1)));
+		NCLVector2 buttonSize = button.scale / NCLVector2(4.0f, 1.5f);
+		NCLVector2 offset(button.scale.x, 0.0f);
+		button.textMesh->Draw(*currentShader, NCLMatrix4::translation(button.position - offset) * NCLMatrix4::scale(NCLVector3(buttonSize.x, buttonSize.y, 1)));
 
 		if (button.childrenEnabled)
 		{

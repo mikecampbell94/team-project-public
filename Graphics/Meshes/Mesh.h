@@ -51,7 +51,7 @@ public:
 
 	void LoadModel(std::string path);
 
-	void SetTransformForAllSubMeshes(Matrix4 transform);
+	void SetTransformForAllSubMeshes(NCLMatrix4 transform);
 
 	void ProcessNode(aiNode *node, const aiScene *scene);
 	SubMesh* ProcessMesh(aiMesh *mesh, const aiScene *scene);
@@ -65,9 +65,9 @@ public:
 	static unsigned int TextureFromFile(const char *path, const string &directory);
 
 	void SetReflectionAttributesForAllSubMeshes(int isReflective, float strength);
-	void SetbackupColourAttributeForAllSubMeshes(Vector4 colour);
+	void SetbackupColourAttributeForAllSubMeshes(NCLVector4 colour);
 
-	virtual void Draw(Shader& shader,Matrix4 worldTransform);
+	virtual void Draw(Shader& shader,NCLMatrix4 worldTransform);
 
 	float getRadius()
 	{

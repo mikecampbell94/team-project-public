@@ -4,7 +4,7 @@
 #include "../../GraphicsUtility.h"
 #include "../../Rendering/OGLRenderer.h"
 
-Shadows::Shadows(const std::string identifier, const Vector2 resolution, 
+Shadows::Shadows(const std::string identifier, const NCLVector2 resolution, 
 	std::vector<Light*>** lights, std::vector<SceneNode*>** models)
 	: GraphicsModule(identifier, resolution)
 {
@@ -90,7 +90,7 @@ void Shadows::drawShadowScene()
 			glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
 			glClear(GL_DEPTH_BUFFER_BIT);
 
-			viewMatrix = Matrix4::buildViewMatrix((*i)->GetPosition(), Vector3(0, 0, 0));
+			viewMatrix = NCLMatrix4::buildViewMatrix((*i)->GetPosition(), NCLVector3(0, 0, 0));
 			shadowData->textureMatrices = biasMatrix * (CommonGraphicsData::SHARED_PROJECTION_MATRIX * viewMatrix);
 
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);

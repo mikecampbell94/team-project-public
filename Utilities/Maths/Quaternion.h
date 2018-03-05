@@ -25,12 +25,12 @@ _-_-_-_-_-_-_-""  ""
 #include "Matrix4.h"
 #include "Matrix3.h"
 
-class Matrix4;
+class NCLMatrix4;
 
 class Quaternion	{
 public:
 	Quaternion(void);
-	Quaternion(const Vector3& vec, float w);
+	Quaternion(const NCLVector3& vec, float w);
 	Quaternion(float x, float y, float z, float w);
 
 	~Quaternion(void);
@@ -41,24 +41,24 @@ public:
 	float w;
 
 	void	normalise();
-	Matrix4 toMatrix() const;
-	Matrix3 toMatrix3() const;
+	NCLMatrix4 toMatrix() const;
+	NCLMatrix3 toMatrix3() const;
 
 
 	Quaternion	conjugate() const;
 	void		generateW();	//builds 4th component when loading in shortened, 3 component quaternions
 
 	static Quaternion eulerAnglesToQuaternion(float pitch, float yaw, float roll);
-	static Quaternion axisAngleToQuaterion(const Vector3& vector, float degrees);
+	static Quaternion axisAngleToQuaterion(const NCLVector3& vector, float degrees);
 
-	static void rotatePointByQuaternion(const Quaternion &q, Vector3 &point);
+	static void rotatePointByQuaternion(const Quaternion &q, NCLVector3 &point);
 
-	static Quaternion fromMatrix(const Matrix4 &m);
+	static Quaternion fromMatrix(const NCLMatrix4 &m);
 
 	static float dot(const Quaternion &a, const Quaternion &b);
 
 	Quaternion operator *(const Quaternion &a) const;
-	Quaternion operator *(const Vector3 &a) const;
+	Quaternion operator *(const NCLVector3 &a) const;
 
 	Quaternion operator+(const Quaternion &a) const 
 	{

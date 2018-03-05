@@ -10,24 +10,24 @@ class Plane
 {
 public:
 	Plane(void) {};
-	Plane(const Vector3 &normal, float distance, bool normalise = false, Vector3 pos = Vector3());
-	Plane(const Vector3 &normal, Vector3 pos, bool normalise = false);
+	Plane(const NCLVector3 &normal, float distance, bool normalise = false, NCLVector3 pos = NCLVector3());
+	Plane(const NCLVector3 &normal, NCLVector3 pos, bool normalise = false);
 	~Plane(void) {};
 
-	void	setNormal(const Vector3 &normal)	{ this->normal = normal; }
-	Vector3 getNormal()					const	{ return normal; }
+	void	setNormal(const NCLVector3 &normal)	{ this->normal = normal; }
+	NCLVector3 getNormal()					const	{ return normal; }
 
 	void	setDistance(float dist)				{ distance = dist; }
 	float	getDistance()				const	{ return distance; }
 
-	bool sphereInPlane(const Vector3 &position, float radius)		const;
-	bool sphereOutsidePlane(const Vector3& position, float radius)	const;
-	bool sphereIntersecting(const Vector3& position, float radius)	const;
-	bool pointInPlane(const Vector3& position) const;
+	bool sphereInPlane(const NCLVector3 &position, float radius)		const;
+	bool sphereOutsidePlane(const NCLVector3& position, float radius)	const;
+	bool sphereIntersecting(const NCLVector3& position, float radius)	const;
+	bool pointInPlane(const NCLVector3& position) const;
 
-	Vector3 position;
+	NCLVector3 position;
 protected:
-	Vector3 normal;
+	NCLVector3 normal;
 	float distance;
 
 };

@@ -10,13 +10,13 @@ class RotateGameObjectMessage : public Message
 {
 public:
 	RotateGameObjectMessage(const std::string& desinationName, std::string gameObjectID,
-		Vector4 rotation);
+		NCLVector4 rotation);
 	~RotateGameObjectMessage();
 
 	static RotateGameObjectMessage builder(Node* node);
 	static RotateGameObjectMessage tokensToMessage(std::vector<std::string> lineTokens);
 
 	std::string gameObjectID;
-	Vector4 rotation;
+	NCLVector4 rotation;
 };
 

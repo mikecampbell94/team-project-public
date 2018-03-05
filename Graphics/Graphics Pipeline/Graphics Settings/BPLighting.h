@@ -9,7 +9,7 @@
 class BPLighting : public GraphicsModule
 {
 public:
-	BPLighting(const std::string identifier, const Vector2 resolution, 
+	BPLighting(const std::string identifier, const NCLVector2 resolution, 
 		Camera* cam, GBufferData* gBuffer, std::vector<Light*>** lights,
 		SSAOTextures* ssaoTextures, ShadowData* shadowData);
 

@@ -7,7 +7,7 @@ const int KERNEL_SIZE = 32;
 const int RESOLUTION_SCALE_X = 640;
 const int RESOLUTION_SCALE_Y = 360;
 
-SSAO::SSAO(const std::string identifier, const Vector2 resolution, Camera* cam, GBufferData* SGBuffer)
+SSAO::SSAO(const std::string identifier, const NCLVector2 resolution, Camera* cam, GBufferData* SGBuffer)
 	: GraphicsModule(identifier, resolution)
 {
 	ambientTextures = new SSAOTextures();
@@ -111,7 +111,7 @@ void SSAO::generateSampleKernel()
 
 	for (unsigned int i = 0; i < KERNEL_SIZE; ++i)
 	{
-		Vector3 sample(randomFloats(generator) * 2.0f - 1.0f,
+		NCLVector3 sample(randomFloats(generator) * 2.0f - 1.0f,
 			randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator));
 
 		sample.normalise();
@@ -138,7 +138,7 @@ void SSAO::generateNoiseTexture()
 	//Generate the texture
 	for (unsigned int i = 0; i < noiseSize; i++)
 	{
-		Vector3 noise(
+		NCLVector3 noise(
 			randomFloats(generator) * 2.0f - 1.0f,
 			randomFloats(generator) * 2.0f - 1.0f,
 			0.0f); // rotate around z-axis (in tangent space)

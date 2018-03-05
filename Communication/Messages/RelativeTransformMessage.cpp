@@ -3,7 +3,7 @@
 #include "../Resource Management/XMLParser.h"
 
 RelativeTransformMessage::RelativeTransformMessage(const std::string& destinationName,
-	const std::string& resourceName, Matrix4 transform)
+	const std::string& resourceName, NCLMatrix4 transform)
 	: Message(destinationName, RELATIVE_TRANSFORM)
 {
 	this->transform = transform;
@@ -18,9 +18,9 @@ RelativeTransformMessage RelativeTransformMessage::builder(Node* node)
 {
 	std::string nodeDestination = "";
 	std::string nodeResourcename = "";
-	Vector3 nodeTranslation(0, 0, 0);
-	Vector4 nodeRotation(0, 0, 0, 0);
-	Vector3 nodeScale(1, 1, 1);
+	NCLVector3 nodeTranslation(0, 0, 0);
+	NCLVector4 nodeRotation(0, 0, 0, 0);
+	NCLVector3 nodeScale(1, 1, 1);
 
 	for each (Node* childNode in node->children)
 	{
@@ -30,15 +30,15 @@ RelativeTransformMessage RelativeTransformMessage::builder(Node* node)
 		}
 		else if (childNode->nodeType == "translation")
 		{
-			nodeTranslation = Vector3::builder(childNode);
+			nodeTranslation = NCLVector3::builder(childNode);
 		}
 		else if (childNode->nodeType == "rotation")
 		{
-			nodeRotation = Vector4::builder(childNode);
+			nodeRotation = NCLVector4::builder(childNode);
 		}
 		else if (childNode->nodeType == "scale")
 		{
-			nodeScale = Vector3::builder(childNode);
+			nodeScale = NCLVector3::builder(childNode);
 		}
 		else if (childNode->nodeType == "resource")
 		{
@@ -46,9 +46,9 @@ RelativeTransformMessage RelativeTransformMessage::builder(Node* node)
 		}
 	}
 
-	Matrix4 nodeTransform = Matrix4::translation(nodeTranslation)
-	* Matrix4::rotation(nodeRotation.w, Vector3(nodeRotation.x, nodeRotation.y, nodeRotation.z))
-	* Matrix4::scale(nodeScale);
+	NCLMatrix4 nodeTransform = NCLMatrix4::translation(nodeTranslation)
+	* NCLMatrix4::rotation(nodeRotation.w, NCLVector3(nodeRotation.x, nodeRotation.y, nodeRotation.z))
+	* NCLMatrix4::scale(nodeScale);
 
 	return RelativeTransformMessage(nodeDestination, nodeResourcename, nodeTransform);
 }
@@ -58,13 +58,13 @@ RelativeTransformMessage RelativeTransformMessage::tokensToMessage(std::vector<s
 {
 	std::string nodeDestination = lineTokens[1];
 	std::string nodeResourcename = lineTokens[2];
-	Vector3 nodeTranslation = Vector3::builder(lineTokens[3].substr(12));
-	Vector4 nodeRotation = Vector4::builder(lineTokens[4].substr(9));
-	Vector3 nodeScale = Vector3::builder(lineTokens[5].substr(6));
+	NCLVector3 nodeTranslation = NCLVector3::builder(lineTokens[3].substr(12));
+	NCLVector4 nodeRotation = NCLVector4::builder(lineTokens[4].substr(9));
+	NCLVector3 nodeScale = NCLVector3::builder(lineTokens[5].substr(6));
 
-	Matrix4 nodeTransform = Matrix4::translation(nodeTranslation)
-		* Matrix4::rotation(nodeRotation.w, Vector3(nodeRotation.x, nodeRotation.y, nodeRotation.z))
-		* Matrix4::scale(nodeScale);
+	NCLMatrix4 nodeTransform = NCLMatrix4::translation(nodeTranslation)
+		* NCLMatrix4::rotation(nodeRotation.w, NCLVector3(nodeRotation.x, nodeRotation.y, nodeRotation.z))
+		* NCLMatrix4::scale(nodeScale);
 
 	return RelativeTransformMessage(nodeDestination, nodeResourcename, nodeTransform);
 }

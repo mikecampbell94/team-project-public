@@ -19,7 +19,7 @@ public:
 	void	UseProgram();
 	bool	LinkProgram();
 
-	void Compute(Vector3 workGroups);
+	void Compute(NCLVector3 workGroups);
 
 	void Regenerate();
 protected:

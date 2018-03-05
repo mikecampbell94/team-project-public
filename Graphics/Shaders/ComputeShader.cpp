@@ -46,7 +46,7 @@ void ComputeShader::UseProgram()
 	glUseProgram(program);
 }
 
-void ComputeShader::Compute(Vector3 workGroups)
+void ComputeShader::Compute(NCLVector3 workGroups)
 {
 	glDispatchCompute(workGroups.x, workGroups.y, workGroups.z);
 	glMemoryBarrier(GL_ALL_BARRIER_BITS);

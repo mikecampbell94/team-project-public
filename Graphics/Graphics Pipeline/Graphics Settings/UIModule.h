@@ -9,7 +9,7 @@
 class UIModule : public GraphicsModule
 {
 public:
-	UIModule(const std::string identifier, const Vector2 resolution,
+	UIModule(const std::string identifier, const NCLVector2 resolution,
 		Database* database);
 	~UIModule();
 
@@ -25,7 +25,7 @@ protected:
 	Shader* UIShader;
 	Shader* UITextShader;
 
-	Matrix4 UIprojMatrix;
+	NCLMatrix4 UIprojMatrix;
 	std::vector<Button*>* UIObjects;
 
 	void renderButtons(std::vector<Button>& buttons);

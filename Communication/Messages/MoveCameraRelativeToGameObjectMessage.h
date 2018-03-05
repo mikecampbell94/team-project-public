@@ -7,11 +7,11 @@ class MoveCameraRelativeToGameObjectMessage : public Message
 {
 public:
 	MoveCameraRelativeToGameObjectMessage(const std::string& destinationName, const std::string& resourceName,
-		Vector3 translation, float pitch, float yaw);
+		NCLVector3 translation, float pitch, float yaw);
 	~MoveCameraRelativeToGameObjectMessage();
 
 	static std::string resourceName;
-	Vector3 translation;
+	NCLVector3 translation;
 	float pitch;
 	float yaw;
 

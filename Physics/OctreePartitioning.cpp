@@ -1,7 +1,7 @@
 #include "OctreePartitioning.h"
 
 OctreePartitioning::OctreePartitioning(vector<PhysicsNode*> nodes, 
-	Vector3 worldPartitionHalfDimensions, Vector3 offset)
+	NCLVector3 worldPartitionHalfDimensions, NCLVector3 offset)
 {
 	this->nodes = nodes;
 	this->offset = offset;
@@ -197,8 +197,8 @@ void OctreePartitioning:: CreateInitialOctants()
 	float bottomRowYCoord = worldPartitionHalfDimensions.y / 4 + offset.y;
 	float topRowYCoord = worldPartitionHalfDimensions.y / 2 + bottomRowYCoord + offset.y;
 
-	PartitionUtility::CreateQuadTreeRow(baseOctreePartitions, worldPartitionHalfDimensions, Vector3(offset.x, bottomRowYCoord, offset.z));
-	PartitionUtility::CreateQuadTreeRow(baseOctreePartitions, worldPartitionHalfDimensions, Vector3(offset.x, topRowYCoord, offset.z));
+	PartitionUtility::CreateQuadTreeRow(baseOctreePartitions, worldPartitionHalfDimensions, NCLVector3(offset.x, bottomRowYCoord, offset.z));
+	PartitionUtility::CreateQuadTreeRow(baseOctreePartitions, worldPartitionHalfDimensions, NCLVector3(offset.x, topRowYCoord, offset.z));
 }
 
 void OctreePartitioning::UpdateNodesPartition(PhysicsNode* node)

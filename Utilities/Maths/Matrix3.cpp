@@ -1,30 +1,30 @@
 #include "Matrix3.h"
 #include "Matrix4.h"
 
-const Matrix3 Matrix3::Identity = Matrix3(1.0f, 0.0f, 0.0f,
+const NCLMatrix3 NCLMatrix3::Identity = NCLMatrix3(1.0f, 0.0f, 0.0f,
 	0.0f, 1.0f, 0.0f,
 	0.0f, 0.0f, 1.0f);
 
-const Matrix3 Matrix3::ZeroMatrix = Matrix3(0.0f, 0.0f, 0.0f,
+const NCLMatrix3 NCLMatrix3::ZeroMatrix = NCLMatrix3(0.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 0.0f);
 
 //ctor
-Matrix3::Matrix3() :
+NCLMatrix3::NCLMatrix3() :
 	_11(1.0f), _12(0.0f), _13(0.0f),
 	_21(0.0f), _22(1.0f), _23(0.0f),
 	_31(0.0f), _32(0.0f), _33(1.0f)
 {
 }
 
-Matrix3::Matrix3(float e[9]) :
+NCLMatrix3::NCLMatrix3(float e[9]) :
 	_11(e[0]), _12(e[1]), _13(e[2]),
 	_21(e[3]), _22(e[4]), _23(e[5]),
 	_31(e[6]), _32(e[7]), _33(e[8])
 {
 }
 
-Matrix3::Matrix3(const Vector3& c1, const Vector3& c2, const Vector3& c3)
+NCLMatrix3::NCLMatrix3(const NCLVector3& c1, const NCLVector3& c2, const NCLVector3& c3)
 {
 	const unsigned int size = 3 * sizeof(float);
 	memcpy(&mat_array[0], &c1.x, size);
@@ -32,7 +32,7 @@ Matrix3::Matrix3(const Vector3& c1, const Vector3& c2, const Vector3& c3)
 	memcpy(&mat_array[6], &c3.x, size);
 }
 
-Matrix3::Matrix3(float a1, float a2, float a3,
+NCLMatrix3::NCLMatrix3(float a1, float a2, float a3,
 	float b1, float b2, float b3,
 	float c1, float c2, float c3) :
 	_11(a1), _12(a2), _13(a3),
@@ -41,7 +41,7 @@ Matrix3::Matrix3(float a1, float a2, float a3,
 {
 }
 
-Matrix3::Matrix3(const Matrix4& mat44)
+NCLMatrix3::NCLMatrix3(const NCLMatrix4& mat44)
 {
 	const unsigned int size = 3 * sizeof(float);
 	memcpy(&mat_array[0], &mat44.values[0], size);
@@ -49,7 +49,7 @@ Matrix3::Matrix3(const Matrix4& mat44)
 	memcpy(&mat_array[6], &mat44.values[8], size);
 }
 
-Matrix3::~Matrix3(void)
+NCLMatrix3::~NCLMatrix3(void)
 {
 }
 
@@ -57,12 +57,12 @@ Matrix3::~Matrix3(void)
 
 
 //Default States
-void Matrix3::ToZero()
+void NCLMatrix3::ToZero()
 {
 	memset(mat_array, 0, 9 * sizeof(float));
 }
 
-void Matrix3::ToIdentity()
+void NCLMatrix3::ToIdentity()
 {
 	_11 = 1.0f; _12 = 0.0f; _13 = 0.0f;
 	_21 = 0.0f; _22 = 1.0f; _23 = 0.0f;
@@ -72,11 +72,11 @@ void Matrix3::ToIdentity()
 
 
 //Transformation Matrix
-Matrix3 Matrix3::Rotation(float degrees, const Vector3 &inaxis)
+NCLMatrix3 NCLMatrix3::Rotation(float degrees, const NCLVector3 &inaxis)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 
-	Vector3 axis = inaxis;
+	NCLVector3 axis = inaxis;
 	axis.normalise();
 
 	float c = cosf((float)DegToRad(degrees));
@@ -97,18 +97,18 @@ Matrix3 Matrix3::Rotation(float degrees, const Vector3 &inaxis)
 	return m;
 }
 
-Matrix3 Matrix3::Rotation(const Vector3 &forward_direction, const Vector3& up_direction)
+NCLMatrix3 NCLMatrix3::Rotation(const NCLVector3 &forward_direction, const NCLVector3& up_direction)
 {
-	Vector3 f = forward_direction;
-	Vector3 u = up_direction;
+	NCLVector3 f = forward_direction;
+	NCLVector3 u = up_direction;
 
 	f.normalise();
 	u.normalise();
 
-	Vector3 x = Vector3::cross(f, u); x.normalise();
-	Vector3 y = Vector3::cross(x, f); y.normalise();
+	NCLVector3 x = NCLVector3::cross(f, u); x.normalise();
+	NCLVector3 y = NCLVector3::cross(x, f); y.normalise();
 
-	Matrix3 m;
+	NCLMatrix3 m;
 
 	m(0, 0) = x.x;
 	m(1, 0) = x.y;
@@ -125,9 +125,9 @@ Matrix3 Matrix3::Rotation(const Vector3 &forward_direction, const Vector3& up_di
 	return m;
 }
 
-Matrix3 Matrix3::Scale(const Vector3 &scale)
+NCLMatrix3 NCLMatrix3::Scale(const NCLVector3 &scale)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 	m.SetScalingVector(scale);
 	return m;
 }
@@ -135,9 +135,9 @@ Matrix3 Matrix3::Scale(const Vector3 &scale)
 
 
 // Standard Matrix Functionality
-Matrix3 Matrix3::Inverse(const Matrix3& rhs)
+NCLMatrix3 NCLMatrix3::Inverse(const NCLMatrix3& rhs)
 {
-	Matrix3 out;
+	NCLMatrix3 out;
 	float det = rhs.Determinant();
 	if (det != 0.f)
 	{
@@ -157,9 +157,9 @@ Matrix3 Matrix3::Inverse(const Matrix3& rhs)
 	return out;
 }
 
-Matrix3 Matrix3::Transpose(const Matrix3& rhs)
+NCLMatrix3 NCLMatrix3::Transpose(const NCLMatrix3& rhs)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 
 	m._11 = rhs._11;
 	m._21 = rhs._12;
@@ -176,9 +176,9 @@ Matrix3 Matrix3::Transpose(const Matrix3& rhs)
 	return m;
 }
 
-Matrix3 Matrix3::Adjugate(const Matrix3& m)
+NCLMatrix3 NCLMatrix3::Adjugate(const NCLMatrix3& m)
 {
-	Matrix3 adj;
+	NCLMatrix3 adj;
 
 	adj._11 = m._22 * m._33 - m._23 * m._32;
 	adj._12 = m._13 * m._32 - m._12 * m._33;
@@ -195,9 +195,9 @@ Matrix3 Matrix3::Adjugate(const Matrix3& m)
 	return adj;
 }
 
-Matrix3 Matrix3::OuterProduct(const Vector3& a, const Vector3& b)
+NCLMatrix3 NCLMatrix3::OuterProduct(const NCLVector3& a, const NCLVector3& b)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 
 	m._11 = a.x * b.x;
 	m._12 = a.x * b.y;
@@ -217,51 +217,51 @@ Matrix3 Matrix3::OuterProduct(const Vector3& a, const Vector3& b)
 
 
 // Additional Functionality
-float Matrix3::Trace() const
+float NCLMatrix3::Trace() const
 {
 	return _11 + _22 + _33;
 }
 
-float Matrix3::Determinant() const
+float NCLMatrix3::Determinant() const
 {
 	return _11*(_22*_33 - _32*_23) - _12*(_21*_33 - _23*_31) + _13*(_21*_32 - _22*_31);
 }
 
 
 
-Matrix3& operator+=(Matrix3& a, const Matrix3& b)
+NCLMatrix3& operator+=(NCLMatrix3& a, const NCLMatrix3& b)
 {
 	for (unsigned int i = 0; i < 9; ++i)
 		a.mat_array[i] += b.mat_array[i];
 	return a;
 }
 
-Matrix3& operator-=(Matrix3& a, const Matrix3& b)
+NCLMatrix3& operator-=(NCLMatrix3& a, const NCLMatrix3& b)
 {
 	for (unsigned int i = 0; i < 9; ++i)
 		a.mat_array[i] -= b.mat_array[i];
 	return a;
 }
 
-Matrix3 operator+(const Matrix3& a, const Matrix3& b)
+NCLMatrix3 operator+(const NCLMatrix3& a, const NCLMatrix3& b)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 	for (unsigned int i = 0; i < 9; ++i)
 		m.mat_array[i] = a.mat_array[i] + b.mat_array[i];
 	return m;
 }
 
-Matrix3 operator-(const Matrix3& a, const Matrix3& b)
+NCLMatrix3 operator-(const NCLMatrix3& a, const NCLMatrix3& b)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 	for (unsigned int i = 0; i < 9; ++i)
 		m.mat_array[i] = a.mat_array[i] - b.mat_array[i];
 	return m;
 }
 
-Matrix3 operator*(const Matrix3& a, const Matrix3& b)
+NCLMatrix3 operator*(const NCLMatrix3& a, const NCLMatrix3& b)
 {
-	Matrix3 out;
+	NCLMatrix3 out;
 
 	out._11 = a._11 * b._11 + a._12 * b._21 + a._13 * b._31;
 	out._12 = a._11 * b._12 + a._12 * b._22 + a._13 * b._32;
@@ -278,65 +278,65 @@ Matrix3 operator*(const Matrix3& a, const Matrix3& b)
 	return out;
 }
 
-Matrix3& operator+=(Matrix3& a, const float b)
+NCLMatrix3& operator+=(NCLMatrix3& a, const float b)
 {
 	for (unsigned int i = 0; i < 9; ++i)
 		a.mat_array[i] += b;
 	return a;
 }
 
-Matrix3& operator-=(Matrix3& a, const float b)
+NCLMatrix3& operator-=(NCLMatrix3& a, const float b)
 {
 	for (unsigned int i = 0; i < 9; ++i)
 		a.mat_array[i] -= b;
 	return a;
 }
-Matrix3& operator*=(Matrix3& a, const float b)
+NCLMatrix3& operator*=(NCLMatrix3& a, const float b)
 {
 	for (unsigned int i = 0; i < 9; ++i)
 		a.mat_array[i] *= b;
 	return a;
 }
-Matrix3& operator/=(Matrix3& a, const float b)
+NCLMatrix3& operator/=(NCLMatrix3& a, const float b)
 {
 	for (unsigned int i = 0; i < 9; ++i)
 		a.mat_array[i] /= b;
 	return a;
 }
 
-Matrix3 operator+(Matrix3& a, const float b)
+NCLMatrix3 operator+(NCLMatrix3& a, const float b)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 	for (unsigned int i = 0; i < 9; ++i)
 		m.mat_array[i] = a.mat_array[i] + b;
 	return m;
 }
 
-Matrix3 operator-(const Matrix3& a, const float b)
+NCLMatrix3 operator-(const NCLMatrix3& a, const float b)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 	for (unsigned int i = 0; i < 9; ++i)
 		m.mat_array[i] = a.mat_array[i] - b;
 	return m;
 }
-Matrix3 operator*(const Matrix3& a, const float b)
+NCLMatrix3 operator*(const NCLMatrix3& a, const float b)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 	for (unsigned int i = 0; i < 9; ++i)
 		m.mat_array[i] = a.mat_array[i] * b;
 	return m;
 }
-Matrix3 operator/(const Matrix3& a, const float b)
+NCLMatrix3 operator/(const NCLMatrix3& a, const float b)
 {
-	Matrix3 m;
+	NCLMatrix3 m;
 	for (unsigned int i = 0; i < 9; ++i)
 		m.mat_array[i] = a.mat_array[i] / b;
 	return m;
 }
 
-Vector3 operator*(const Matrix3& a, const Vector3& b)
+NCLVector3 operator*(const NCLMatrix3& a, const NCLVector3& b)
 {
-	Vector3 out;
+	NCLVector3 out;
 
 	out.x = a._11 * b.x
 		+ a._21 * b.y

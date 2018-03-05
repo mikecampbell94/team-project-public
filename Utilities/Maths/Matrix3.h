@@ -15,29 +15,29 @@ optimal however, so you should still be thinking about how it could be made bett
 
 #include "Vector3.h"
 
-class Matrix4;
+class NCLMatrix4;
 
-class Matrix3
+class NCLMatrix3
 {
 public:
 
-	static const Matrix3 Identity;
-	static const Matrix3 ZeroMatrix;
+	static const NCLMatrix3 Identity;
+	static const NCLMatrix3 ZeroMatrix;
 
 	//ctor
-	Matrix3();
+	NCLMatrix3();
 
-	Matrix3(float elements[9]);
+	NCLMatrix3(float elements[9]);
 
-	Matrix3(const Vector3& c1, const Vector3& c2, const Vector3& c3);
+	NCLMatrix3(const NCLVector3& c1, const NCLVector3& c2, const NCLVector3& c3);
 
-	Matrix3(float a1, float a2, float a3,
+	NCLMatrix3(float a1, float a2, float a3,
 		float b1, float b2, float b3,
 		float c1, float c2, float c3);
 
-	Matrix3(const Matrix4& mat44);
+	NCLMatrix3(const NCLMatrix4& mat44);
 
-	~Matrix3(void);
+	~NCLMatrix3(void);
 
 
 
@@ -54,33 +54,33 @@ public:
 	inline float   operator()(int row, int col) const { return mat_array[row + col * 3]; }
 	inline float&  operator()(int row, int col) { return mat_array[row + col * 3]; }
 
-	inline const Vector3&	GetCol(int idx) const { return *((Vector3*)&mat_array[idx * 3]); }
-	inline void				SetCol(int idx, const Vector3& row) { memcpy(&mat_array[idx * 3], &row.x, 3 * sizeof(float)); }
+	inline const NCLVector3&	GetCol(int idx) const { return *((NCLVector3*)&mat_array[idx * 3]); }
+	inline void				SetCol(int idx, const NCLVector3& row) { memcpy(&mat_array[idx * 3], &row.x, 3 * sizeof(float)); }
 
-	inline Vector3			GetRow(int idx)	const { return Vector3(mat_array[idx], mat_array[3 + idx], mat_array[6 + idx]); }
-	inline void				SetRow(int idx, const Vector3& col) { mat_array[idx] = col.x; mat_array[3 + idx] = col.y; mat_array[6 + idx] = col.z; }
+	inline NCLVector3			GetRow(int idx)	const { return NCLVector3(mat_array[idx], mat_array[3 + idx], mat_array[6 + idx]); }
+	inline void				SetRow(int idx, const NCLVector3& col) { mat_array[idx] = col.x; mat_array[3 + idx] = col.y; mat_array[6 + idx] = col.z; }
 
 
 
 	//Common Matrix Properties
-	inline Vector3			GetScalingVector() const { return Vector3(_11, _22, _33); }
-	inline void				SetScalingVector(const Vector3& in) { _11 = in.x, _22 = in.y, _33 = in.z; }
+	inline NCLVector3			GetScalingVector() const { return NCLVector3(_11, _22, _33); }
+	inline void				SetScalingVector(const NCLVector3& in) { _11 = in.x, _22 = in.y, _33 = in.z; }
 
 
 
 	//Transformation Matrix
-	static Matrix3 Rotation(float degrees, const Vector3 &axis);
-	static Matrix3 Rotation(const Vector3 &forward_dir, const Vector3& up_dir = Vector3(0, 1, 0));
-	static Matrix3 Scale(const Vector3 &scale);
+	static NCLMatrix3 Rotation(float degrees, const NCLVector3 &axis);
+	static NCLMatrix3 Rotation(const NCLVector3 &forward_dir, const NCLVector3& up_dir = NCLVector3(0, 1, 0));
+	static NCLMatrix3 Scale(const NCLVector3 &scale);
 
 
 
 	// Standard Matrix Functionality
-	static Matrix3 Inverse(const Matrix3& rhs);
-	static Matrix3 Transpose(const Matrix3& rhs);
-	static Matrix3 Adjugate(const Matrix3& m);
+	static NCLMatrix3 Inverse(const NCLMatrix3& rhs);
+	static NCLMatrix3 Transpose(const NCLMatrix3& rhs);
+	static NCLMatrix3 Adjugate(const NCLMatrix3& m);
 
-	static Matrix3 OuterProduct(const Vector3& a, const Vector3& b);
+	static NCLMatrix3 OuterProduct(const NCLVector3& a, const NCLVector3& b);
 
 
 
@@ -101,22 +101,22 @@ public:
 	};
 };
 
-Matrix3& operator+=(Matrix3& a, const Matrix3& rhs);
-Matrix3& operator-=(Matrix3& a, const Matrix3& rhs);
+NCLMatrix3& operator+=(NCLMatrix3& a, const NCLMatrix3& rhs);
+NCLMatrix3& operator-=(NCLMatrix3& a, const NCLMatrix3& rhs);
 
-Matrix3 operator+(const Matrix3& a, const Matrix3& rhs);
-Matrix3 operator-(const Matrix3& a, const Matrix3& rhs);
-Matrix3 operator*(const Matrix3& a, const Matrix3& rhs);
+NCLMatrix3 operator+(const NCLMatrix3& a, const NCLMatrix3& rhs);
+NCLMatrix3 operator-(const NCLMatrix3& a, const NCLMatrix3& rhs);
+NCLMatrix3 operator*(const NCLMatrix3& a, const NCLMatrix3& rhs);
 
 
-Matrix3& operator+=(Matrix3& a, const float b);
-Matrix3& operator-=(Matrix3& a, const float b);
-Matrix3& operator*=(Matrix3& a, const float b);
-Matrix3& operator/=(Matrix3& a, const float b);
+NCLMatrix3& operator+=(NCLMatrix3& a, const float b);
+NCLMatrix3& operator-=(NCLMatrix3& a, const float b);
+NCLMatrix3& operator*=(NCLMatrix3& a, const float b);
+NCLMatrix3& operator/=(NCLMatrix3& a, const float b);
 
-Matrix3 operator+(const Matrix3& a, const float b);
-Matrix3 operator-(const Matrix3& a, const float b);
-Matrix3 operator*(const Matrix3& a, const float b);
-Matrix3 operator/(const Matrix3& a, const float b);
+NCLMatrix3 operator+(const NCLMatrix3& a, const float b);
+NCLMatrix3 operator-(const NCLMatrix3& a, const float b);
+NCLMatrix3 operator*(const NCLMatrix3& a, const float b);
+NCLMatrix3 operator/(const NCLMatrix3& a, const float b);
 
-Vector3 operator*(const Matrix3& a, const Vector3& b);
+NCLVector3 operator*(const NCLMatrix3& a, const NCLVector3& b);

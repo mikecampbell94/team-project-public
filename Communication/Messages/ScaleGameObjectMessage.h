@@ -10,13 +10,13 @@ class ScaleGameObjectMessage : public Message
 {
 public:
 	ScaleGameObjectMessage(const std::string& desinationName, std::string gameObjectID,
-		Vector3 position);
+		NCLVector3 position);
 	~ScaleGameObjectMessage();
 
 	static ScaleGameObjectMessage builder(Node* node);
 	static ScaleGameObjectMessage tokensToMessage(std::vector<std::string> lineTokens);
 
 	std::string gameObjectID;
-	Vector3 scale;
+	NCLVector3 scale;
 };
 

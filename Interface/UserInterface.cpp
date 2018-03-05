@@ -4,7 +4,7 @@
 #include "UserInterfaceDisplay.h"
 #include "../Input/InputControl.h"
 
-UserInterface::UserInterface(Keyboard* keyboard, Vector2 resolution) : Subsystem("UserInterface")
+UserInterface::UserInterface(Keyboard* keyboard, NCLVector2 resolution) : Subsystem("UserInterface")
 {
 	this->keyboard = keyboard;
 	this->resolution = resolution;

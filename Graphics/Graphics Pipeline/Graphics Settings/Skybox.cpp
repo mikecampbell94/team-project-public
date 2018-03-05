@@ -49,7 +49,7 @@ float skyboxVertices[] = {
 	1.0f, -1.0f,  1.0f
 };
 
-Skybox::Skybox(const std::string identifier, const Vector2 resolution, Matrix4* viewMatrix)
+Skybox::Skybox(const std::string identifier, const NCLVector2 resolution, NCLMatrix4* viewMatrix)
 	: GraphicsModule(identifier, resolution)
 {
 	skyboxShader = new Shader(SHADERDIR"/Skybox/SkyboxVert.glsl", SHADERDIR"/Skybox/SkyboxFrag.glsl");

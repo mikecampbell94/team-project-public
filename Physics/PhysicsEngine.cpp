@@ -56,7 +56,7 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 			database->getTable("GameObjects")->getResource(rotateMessage->gameObjectID));
 
 		gameObject->getPhysicsNode()->setOrientation(
-			Quaternion::axisAngleToQuaterion(Vector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z), rotateMessage->rotation.w));
+			Quaternion::axisAngleToQuaterion(NCLVector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z), rotateMessage->rotation.w));
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
@@ -65,7 +65,7 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyForceMessage->gameObjectID));
 
-		Vector3 force = applyForceMessage->force;
+		NCLVector3 force = applyForceMessage->force;
 
 		if (applyForceMessage->isRandom)
 		{
@@ -95,7 +95,7 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyImpulseMessage->gameObjectID));
 
-		Vector3 impulse = applyImpulseMessage->impulse;
+		NCLVector3 impulse = applyImpulseMessage->impulse;
 
 		if (applyImpulseMessage->isRandom)
 		{
@@ -387,7 +387,7 @@ void PhysicsEngine::narrowPhaseCollisions()
 
 void PhysicsEngine::InitialiseOctrees(int entityLimit)
 {
-	octree = new OctreePartitioning(physicsNodes, Vector3(600, 400, 600), Vector3(0, 0, 0));
+	octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
 	octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
 
 	if (physicsNodes.size() > 0)

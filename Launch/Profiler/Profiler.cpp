@@ -7,8 +7,8 @@
 
 const float Y_OFFSET = 320.0f;
 const float NEXT_LINE_OFFSET = -12.9f;
-const Vector3 TEXT_SIZE = Vector3(12.9f, 12.9f, 12.9f);
-const Vector3 TEXT_COLOUR = Vector3(0, 1, 0);
+const NCLVector3 TEXT_SIZE = NCLVector3(12.9f, 12.9f, 12.9f);
+const NCLVector3 TEXT_COLOUR = NCLVector3(0, 1, 0);
 
 Profiler::Profiler(Keyboard* keyboard, Database* database, FPSCounter* fpsCounter) : Subsystem("Profiler")
 {
@@ -70,11 +70,11 @@ void Profiler::updateProfiling()
 	nextLine = Y_OFFSET;
 
 	messages.push_back(TextMeshMessage("RenderingSystem", "FPS : " + std::to_string(fpsCounter->fps),
-		Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
+		NCLVector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 	nextLine += NEXT_LINE_OFFSET;
 
 	messages.push_back(TextMeshMessage("RenderingSystem", "Memory Usage : " + std::to_string(memoryWatcher.percent),
-		Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
+		NCLVector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 	nextLine += NEXT_LINE_OFFSET;
 
 	for (int i = 0; i < database->getAllTables().size(); i++)
@@ -84,14 +84,14 @@ void Profiler::updateProfiling()
 		std::string text = database->getAllTables()[i]->getName() + ": " +
 			std::to_string(database->getAllTables()[i]->getAllResources()->getCurrentSize());
 		messages.push_back(TextMeshMessage("RenderingSystem", text,
-			Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
+			NCLVector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 		nextLine += NEXT_LINE_OFFSET;
 	}
 
 	for each (std::string text in externalText)
 	{
 		messages.push_back(TextMeshMessage("RenderingSystem", text,
-			Vector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
+			NCLVector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 		nextLine += NEXT_LINE_OFFSET;
 	}
 
@@ -100,7 +100,7 @@ void Profiler::updateProfiling()
 		nextLine += NEXT_LINE_OFFSET;
 
 		std::string profilerText = subsystemTimer.first +"	" + std::to_string(subsystemTimer.second->getTimeTakenForSection());
-		Vector3 position(-500.0f, nextLine, 0);
+		NCLVector3 position(-500.0f, nextLine, 0);
 
 		messages.push_back(TextMeshMessage("RenderingSystem", profilerText,
 			position, TEXT_SIZE, TEXT_COLOUR, true, true));
@@ -134,7 +134,7 @@ void Profiler::saveProfilingInfo(GameTimer* parentTimer, int currentDepth, float
 
 			std::string profilerText = childTimer->getTimerName() + "	" + std::to_string(childTimer->getTimeTakenForSection());
 			messages.push_back(TextMeshMessage("RenderingSystem", profilerText,
-				Vector3(xOffset, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
+				NCLVector3(xOffset, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 
 			saveProfilingInfo(childTimer, ++currentDepth, xOffset);
 		}

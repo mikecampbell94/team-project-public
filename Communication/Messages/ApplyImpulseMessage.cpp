@@ -1,7 +1,7 @@
 #include "ApplyImpulseMessage.h"
 
 ApplyImpulseMessage::ApplyImpulseMessage(const std::string& desinationName, std::string gameObjectID, bool isRandom,
-	Vector3 impulse, float xmin, float xmax, float ymin, float ymax,
+	NCLVector3 impulse, float xmin, float xmax, float ymin, float ymax,
 	float zmin, float zmax) : Message(desinationName, APPLY_IMPULSE)
 {
 	this->gameObjectID = gameObjectID;
@@ -24,7 +24,7 @@ ApplyImpulseMessage ApplyImpulseMessage::builder(Node* node)
 	std::string destination = "";
 	std::string object = "";
 	bool rand = false;
-	Vector3 impulse;
+	NCLVector3 impulse;
 
 	float xmin, xmax;
 	float ymin, ymax;
@@ -73,7 +73,7 @@ ApplyImpulseMessage ApplyImpulseMessage::tokensToMessage(std::vector<std::string
 	std::string nodeResourcename = lineTokens[2];
 
 	std::string impulseString = lineTokens[3].substr(8);
-	Vector3 impulse = Vector3::builder(impulseString);
+	NCLVector3 impulse = NCLVector3::builder(impulseString);
 
 	return ApplyImpulseMessage(nodeDestination, nodeResourcename, false, impulse);
 }

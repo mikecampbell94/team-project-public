@@ -50,7 +50,7 @@ void RenderingSystem::initialise(Database* database)
 
 		if (tokens[0] == "Resolution")
 		{
-			Vector2 resolution(stof(tokens[1]), stof(tokens[2]));
+			NCLVector2 resolution(stof(tokens[1]), stof(tokens[2]));
 			renderer->changeResolution(resolution);
 		}
 
@@ -83,12 +83,12 @@ void RenderingSystem::initialise(Database* database)
 		GameObject* gameObject = static_cast<GameObject*>(
 			database->getTable("GameObjects")->getResource(rotateMessage->gameObjectID));
 
-		Vector3 position = gameObject->getSceneNode()->GetTransform().getPositionVector();
-		Vector3 scale = gameObject->getSceneNode()->GetTransform().getScalingVector();
+		NCLVector3 position = gameObject->getSceneNode()->GetTransform().getPositionVector();
+		NCLVector3 scale = gameObject->getSceneNode()->GetTransform().getScalingVector();
 
-		gameObject->getSceneNode()->SetTransform(Matrix4::translation(position) *
-			Matrix4::rotation(rotateMessage->rotation.w, Vector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z)) *
-			Matrix4::scale(scale));
+		gameObject->getSceneNode()->SetTransform(NCLMatrix4::translation(position) *
+			NCLMatrix4::rotation(rotateMessage->rotation.w, NCLVector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z)) *
+			NCLMatrix4::scale(scale));
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)

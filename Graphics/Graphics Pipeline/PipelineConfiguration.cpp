@@ -7,12 +7,12 @@ PipelineConfiguration::PipelineConfiguration()
 {
 	this->sceneManager = nullptr;
 	this->window = nullptr;
-	this->resolution = Vector2();
+	this->resolution = NCLVector2();
 	this->camera = nullptr;
 }
 
 PipelineConfiguration::PipelineConfiguration(SceneManager* sceneManager, Window* window, 
-	Camera* camera, Vector2 resolution)
+	Camera* camera, NCLVector2 resolution)
 {
 	this->sceneManager = sceneManager;
 	this->window = window;

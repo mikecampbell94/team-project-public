@@ -4,9 +4,9 @@
 #include "../../GraphicsUtility.h"
 #include "../../GraphicsCommon.h"
 
-MotionBlur::MotionBlur(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, GBufferData* gBuffer,
-	Matrix4* previousView, Matrix4* currentView, float* fps)
+MotionBlur::MotionBlur(const std::string identifier, const NCLMatrix4 projmatrix,
+	const NCLVector2 resolution, GBufferData* gBuffer,
+	NCLMatrix4* previousView, NCLMatrix4* currentView, float* fps)
 	: GraphicsModule(identifier, resolution)
 {
 	blurShader = new Shader(SHADERDIR"/MotionBlur/combinevert.glsl", SHADERDIR"/MotionBlur/combinefrag.glsl");
@@ -75,7 +75,7 @@ void MotionBlur::apply()
 	//glUniformMatrix4fv(glGetUniformLocation(blurShader->GetProgram(), "projMtx"),
 	//	1, false, (float*)&projMatrix);
 
-	Matrix4 transformEyeSpace = *previousView * Matrix4::Inverse(*currentView);
+	NCLMatrix4 transformEyeSpace = *previousView * NCLMatrix4::Inverse(*currentView);
 	glUniformMatrix4fv(glGetUniformLocation(blurShader->GetProgram(), "transformEyeSpace"),
 		1, false, (float*)&transformEyeSpace);
 

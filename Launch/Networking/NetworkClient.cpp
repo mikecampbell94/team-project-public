@@ -81,7 +81,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 			GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
 
 			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", playerName,
-				client->getPhysicsNode()->getPosition() + Vector3(24, 14, 0), Vector3(7, 7, 1), Vector3(1, 1, 1), false));
+				client->getPhysicsNode()->getPosition() + NCLVector3(24, 14, 0), NCLVector3(7, 7, 1), NCLVector3(1, 1, 1), false));
 		}
 	}
 	else
@@ -89,7 +89,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 		waitingInLobbyText.addTextWhenTimeHasReachedMaximum(30);
 
 		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", waitingInLobbyText.getCurrentString(),
-			Vector3(-200, 0, 0), Vector3(20, 20, 1), Vector3(1, 1, 1), true));
+			NCLVector3(-200, 0, 0), NCLVector3(20, 20, 1), NCLVector3(1, 1, 1), true));
 	}
 
 	timer->beginChildTimedSection("Process Network Messages");

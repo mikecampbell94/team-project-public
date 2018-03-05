@@ -1,7 +1,7 @@
 #include "ScaleGameObjectMessage.h"
 
 ScaleGameObjectMessage::ScaleGameObjectMessage(const std::string& desinationName, std::string gameObjectID,
-	Vector3 scale)
+	NCLVector3 scale)
 	: Message(desinationName, SCALE_GAMEOBJECT)
 {
 	this->gameObjectID = gameObjectID;
@@ -16,7 +16,7 @@ ScaleGameObjectMessage ScaleGameObjectMessage::builder(Node* node)
 {
 	std::string destination = "";
 	std::string object = "";
-	Vector3 scale;
+	NCLVector3 scale;
 
 	for each (Node* childNode in node->children)
 	{
@@ -30,7 +30,7 @@ ScaleGameObjectMessage ScaleGameObjectMessage::builder(Node* node)
 		}
 		else if (childNode->nodeType == "scale")
 		{
-			scale = Vector3::builder(childNode);
+			scale = NCLVector3::builder(childNode);
 		}
 	}
 
@@ -43,7 +43,7 @@ ScaleGameObjectMessage ScaleGameObjectMessage::tokensToMessage(std::vector<std::
 	std::string nodeResourcename = lineTokens[2];
 
 	std::string scaleString = lineTokens[3].substr(6);
-	Vector3 scale = Vector3::builder(scaleString);
+	NCLVector3 scale = NCLVector3::builder(scaleString);
 
 	return ScaleGameObjectMessage(nodeDestination, nodeResourcename, scale);
 }

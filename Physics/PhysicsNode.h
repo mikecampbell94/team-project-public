@@ -18,7 +18,7 @@
 class PhysicsNode;
 
 typedef std::function<bool(PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData)> PhysicsCollisionCallback;
-typedef std::function<void(const Matrix4& transform)> PhysicsUpdateCallback;
+typedef std::function<void(const NCLMatrix4& transform)> PhysicsUpdateCallback;
 
 //class GameObject;
 
@@ -33,7 +33,7 @@ public:
 		, orientation(0.0f, 0.0f, 0.0f, 1.0f)
 		, angVelocity(0.0f, 0.0f, 0.0f)
 		, torque(0.0f, 0.0f, 0.0f)
-		, invInertia(Matrix3::ZeroMatrix)
+		, invInertia(NCLMatrix3::ZeroMatrix)
 		, collisionShape(NULL)
 		, friction(0.5f)
 		, damping(0.99999999f)
@@ -67,15 +67,15 @@ public:
 	{ 
 		return friction; 
 	}
-	inline const Vector3& getPosition() const 
+	inline const NCLVector3& getPosition() const 
 	{ 
 		return position; 
 	}
-	inline const Vector3& getLinearVelocity() const 
+	inline const NCLVector3& getLinearVelocity() const 
 	{ 
 		return linVelocity; 
 	}
-	inline const Vector3& getForce() const 
+	inline const NCLVector3& getForce() const 
 	{ 
 		return force; 
 	}
@@ -87,15 +87,15 @@ public:
 	{ 
 		return orientation; 
 	}
-	inline const Vector3& getAngularVelocity() const 
+	inline const NCLVector3& getAngularVelocity() const 
 	{ 
 		return angVelocity; 
 	}
-	inline const Vector3& getTorque() const 
+	inline const NCLVector3& getTorque() const 
 	{ 
 		return torque; 
 	}
-	inline const Matrix3& getInverseInertia() const 
+	inline const NCLMatrix3& getInverseInertia() const 
 	{ 
 		return invInertia; 
 	}
@@ -103,7 +103,7 @@ public:
 	{ 
 		return collisionShape; 
 	}
-	const Matrix4& getWorldSpaceTransform() const 
+	const NCLMatrix4& getWorldSpaceTransform() const 
 	{ 
 		return worldTransform; 
 	}
@@ -121,21 +121,21 @@ public:
 		return isStatic;
 	}
 
-	void setRotation(Vector4 rotation)
+	void setRotation(NCLVector4 rotation)
 	{
-		worldTransform = (Matrix4::translation(position) *
-			Matrix4::rotation(rotation.w, Vector3(rotation.x, rotation.y, rotation.z)) *
-			Matrix4::scale(worldTransform.getScalingVector()));
+		worldTransform = (NCLMatrix4::translation(position) *
+			NCLMatrix4::rotation(rotation.w, NCLVector3(rotation.x, rotation.y, rotation.z)) *
+			NCLMatrix4::scale(worldTransform.getScalingVector()));
 
-		orientation = Quaternion::axisAngleToQuaterion(Vector3(rotation.x, rotation.y, rotation.z), rotation.w);
+		orientation = Quaternion::axisAngleToQuaterion(NCLVector3(rotation.x, rotation.y, rotation.z), rotation.w);
 	}
 
-	Vector3 getAcceleration()
+	NCLVector3 getAcceleration()
 	{
 		return acceleration;
 	}
 
-	void setAcceleration(Vector3 newAcceleration)
+	void setAcceleration(NCLVector3 newAcceleration)
 	{
 		acceleration = newAcceleration;
 	}
@@ -158,7 +158,7 @@ public:
 		damping = dampingCoeff;
 	}
 
-	inline void setPosition(const Vector3& v) 
+	inline void setPosition(const NCLVector3& v) 
 	{ 
 		position = v; 
 		
@@ -166,12 +166,12 @@ public:
 
 		worldTransform.setPositionVector(position);
 	}
-	inline void setLinearVelocity(const Vector3& v) 
+	inline void setLinearVelocity(const NCLVector3& v) 
 	{ 
 		linVelocity = v; 
 	}
 
-	inline void setForce(const Vector3& v)
+	inline void setForce(const NCLVector3& v)
 	{
 		force = v;
 	}
@@ -189,15 +189,15 @@ public:
 
 		worldTransform.setPositionVector(position);
 	}
-	inline void setAngularVelocity(const Vector3& v) 
+	inline void setAngularVelocity(const NCLVector3& v) 
 	{ 
 		angVelocity = v; 
 	}
-	inline void setTorque(const Vector3& v) 
+	inline void setTorque(const NCLVector3& v) 
 	{ 
 		torque = v; 
 	}
-	inline void setInverseInertia(const Matrix3& v) 
+	inline void setInverseInertia(const NCLMatrix3& v) 
 	{ 
 		invInertia = v; 
 	}
@@ -272,40 +272,40 @@ public:
 	bool hasTransmittedCollision = false;
 
 
-	inline void setAppliedForce(Vector3 appliedForce)
+	inline void setAppliedForce(NCLVector3 appliedForce)
 	{
 		this->appliedForce += appliedForce;
 	}
 
-	inline void applyImpulse(Vector3 impulse)
+	inline void applyImpulse(NCLVector3 impulse)
 	{
 		linVelocity += impulse;
 	}
 	
 	bool constantAcceleration = false;
 
-	Vector3 startPosition;
-	Vector3 startVelocity;
-	Vector3 startAcceleration;
+	NCLVector3 startPosition;
+	NCLVector3 startVelocity;
+	NCLVector3 startAcceleration;
 
 private:
 	GameObject*				parent;
-	Matrix4					worldTransform;
-	Matrix4 previousTransform;
+	NCLMatrix4					worldTransform;
+	NCLMatrix4 previousTransform;
 	PhysicsUpdateCallback	onUpdateCallback;
 	std::vector<PhysicsUpdateCallback>	onUpdateCallbacks;
 
 
-	Vector3		position;
-	Vector3		linVelocity;
-	Vector3		force;
-	Vector3		acceleration;
+	NCLVector3		position;
+	NCLVector3		linVelocity;
+	NCLVector3		force;
+	NCLVector3		acceleration;
 	float		invMass;
 
 	Quaternion  orientation;
-	Vector3		angVelocity;
-	Vector3		torque;
-	Matrix3     invInertia;
+	NCLVector3		angVelocity;
+	NCLVector3		torque;
+	NCLMatrix3     invInertia;
 
 	CollisionShape*		collisionShape;
 	PhysicsCollisionCallback	onCollisionCallback;
@@ -318,6 +318,6 @@ private:
 	bool isCollision;
 	bool isStatic;
 
-	Vector3 appliedForce;
+	NCLVector3 appliedForce;
 };
 

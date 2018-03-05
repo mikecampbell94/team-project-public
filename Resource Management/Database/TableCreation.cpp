@@ -102,13 +102,13 @@ void TableCreation::addLightsTable() const
 		std::string resourceName = node->name;
 
 		Node* positionNode = node->children[0];
-		Vector3 position(
+		NCLVector3 position(
 			std::stof(positionNode->children[0]->value),
 			std::stof(positionNode->children[1]->value),
 			std::stof(positionNode->children[2]->value));
 
 		Node* colourNode = node->children[1];
-		Vector4 colour(
+		NCLVector4 colour(
 			std::stof(colourNode->children[0]->value),
 			std::stof(colourNode->children[1]->value),
 			std::stof(colourNode->children[2]->value),

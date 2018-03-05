@@ -8,9 +8,9 @@ struct KinematicState
 {
 	int clientID;
 
-	Vector3 position;
-	Vector3 linearVelocity;
-	Vector3 linearAcceleration;
+	NCLVector3 position;
+	NCLVector3 linearVelocity;
+	NCLVector3 linearAcceleration;
 };
 
 class DeadReckoning
@@ -25,6 +25,6 @@ public:
 
 private:
 	KinematicState prediction;
-	float calculateInterpolationFactor(const Vector3& originalPosition);
+	float calculateInterpolationFactor(const NCLVector3& originalPosition);
 };
 

@@ -11,7 +11,7 @@ class Database;
 
 struct Button
 {
-	Button(Vector4 colour, Vector2 position, Vector2 scale,
+	Button(NCLVector4 colour, NCLVector2 position, NCLVector2 scale,
 		ButtonAction action, TextMesh* textMesh, Mesh* mesh)
 	{
 		this->colour = colour;
@@ -30,9 +30,9 @@ struct Button
 	Button* parent;
 	bool childrenEnabled;
 
-	Vector4 colour;
-	Vector2 position;
-	Vector2 scale;
+	NCLVector4 colour;
+	NCLVector2 position;
+	NCLVector2 scale;
 
 	bool selected;
 
@@ -50,7 +50,7 @@ public:
 private:
 	static Button buildButton(Node* node, Database* database, ButtonActionCreator& actionCreator);
 
-	static Vector4 getColour(Node* node);
-	static Vector2 getTransformInformation(Node* node);
+	static NCLVector4 getColour(Node* node);
+	static NCLVector2 getTransformInformation(Node* node);
 };
 

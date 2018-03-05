@@ -1,6 +1,6 @@
 #include "Frustum.h"
 
-bool Frustum::insideFrustum(const Vector3& position, const float& radius)
+bool Frustum::insideFrustum(const NCLVector3& position, const float& radius)
 {
 	for (int p = 0; p < 6; ++p)
 	{
@@ -13,12 +13,12 @@ bool Frustum::insideFrustum(const Vector3& position, const float& radius)
 	return true;
 }
 
-void Frustum::fromMatrix(const Matrix4 &mat)
+void Frustum::fromMatrix(const NCLMatrix4 &mat)
 {
-	Vector3 xaxis = Vector3(mat.values[0], mat.values[4], mat.values[8]);
-	Vector3 yaxis = Vector3(mat.values[1], mat.values[5], mat.values[9]);
-	Vector3 zaxis = Vector3(mat.values[2], mat.values[6], mat.values[10]);
-	Vector3 waxis = Vector3(mat.values[3], mat.values[7], mat.values[11]);
+	NCLVector3 xaxis = NCLVector3(mat.values[0], mat.values[4], mat.values[8]);
+	NCLVector3 yaxis = NCLVector3(mat.values[1], mat.values[5], mat.values[9]);
+	NCLVector3 zaxis = NCLVector3(mat.values[2], mat.values[6], mat.values[10]);
+	NCLVector3 waxis = NCLVector3(mat.values[3], mat.values[7], mat.values[11]);
 
 	//RIGHT
 	planes[0] = Plane(waxis - xaxis, (mat.values[15] - mat.values[12]), true);

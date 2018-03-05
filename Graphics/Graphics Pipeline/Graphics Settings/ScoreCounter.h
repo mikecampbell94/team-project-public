@@ -9,7 +9,7 @@ class Database;
 class ScoreCounter : public GraphicsModule
 {
 public:
-	ScoreCounter(const std::string identifier, const Vector2 resolution, Database* database);
+	ScoreCounter(const std::string identifier, const NCLVector2 resolution, Database* database);
 	~ScoreCounter();
 
 	void bufferScoreHolder(std::string scoreHoldername);
@@ -37,7 +37,7 @@ private:
 	GLuint yellowCounter;
 
 	std::vector<int> scores;
-	std::vector<Vector4> coloursToCount;
+	std::vector<NCLVector4> coloursToCount;
 	std::vector<std::string> scoreHolders;
 };
 

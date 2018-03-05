@@ -10,7 +10,7 @@ class GameObject;
 class PaintTrail : public GraphicsModule
 {
 public:
-	PaintTrail(const std::string identifier, const Vector2 resolution, Database* database);
+	PaintTrail(const std::string identifier, const NCLVector2 resolution, Database* database);
 	~PaintTrail();
 
 	void preparePaintSurface(std::vector<GameObject*> surfaceObjects);
@@ -22,7 +22,7 @@ public:
 	void regenerateShaders() override;
 
 	GLuint paintTrailTexture;
-	Matrix4 textureMatrices;
+	NCLMatrix4 textureMatrices;
 
 private:
 	void locateUniforms() override {}

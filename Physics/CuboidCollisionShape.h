@@ -7,10 +7,10 @@ class CuboidCollisionShape :
 {
 public:
 	CuboidCollisionShape();
-	CuboidCollisionShape(const Vector3& halfdims);
+	CuboidCollisionShape(const NCLVector3& halfdims);
 	~CuboidCollisionShape();
 
-	void setScale(Vector3 scale, float invMass) override
+	void setScale(NCLVector3 scale, float invMass) override
 	{
 		halfDims = scale;
 		buildInverseInertia(invMass);
@@ -29,7 +29,7 @@ public:
 		halfDims.z = fabs(half_depth); 
 	}
 
-	const Vector3& getHalfDims() const 
+	const NCLVector3& getHalfDims() const 
 	{ 
 		return halfDims; 
 	}
@@ -47,20 +47,20 @@ public:
 	}
 
 
-	virtual Matrix3 buildInverseInertia(float invMass) const override;
+	virtual NCLMatrix3 buildInverseInertia(float invMass) const override;
 
-	virtual void getCollisionAxes(const PhysicsNode* otherObject, std::vector<Vector3>& out_axes) const override;
+	virtual void getCollisionAxes(const PhysicsNode* otherObject, std::vector<NCLVector3>& out_axes) const override;
 
-	virtual Vector3 getClosestPoint(const Vector3& point) const override;
+	virtual NCLVector3 getClosestPoint(const NCLVector3& point) const override;
 
-	virtual void getMinMaxVertexOnAxis(const Vector3& axis, Vector3& out_min, Vector3& out_max) const override;
+	virtual void getMinMaxVertexOnAxis(const NCLVector3& axis, NCLVector3& out_min, NCLVector3& out_max) const override;
 
-	virtual void getIncidentReferencePolygon(const Vector3& axis, std::list<Vector3>& out_face, Vector3& out_normal, std::vector<Plane>& out_adjacent_planes) const override;
+	virtual void getIncidentReferencePolygon(const NCLVector3& axis, std::list<NCLVector3>& out_face, NCLVector3& out_normal, std::vector<Plane>& out_adjacent_planes) const override;
 
 private:
 	static void constructCubeHull();
 
-	Vector3 halfDims;
+	NCLVector3 halfDims;
 	static Hull cubeHull;
 };
 

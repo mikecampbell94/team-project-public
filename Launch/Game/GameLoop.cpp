@@ -98,30 +98,30 @@ void GameLoop::executeGameLoop()
 
 		if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
 			camera->setPosition(camera->getPosition() +
-				Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, -1) * 1);
+				NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) * NCLVector3(0, 0, -1) * 1);
 		}
 
 		if (window->getKeyboard()->keyDown(KEYBOARD_S)) {
 			camera->setPosition(camera->getPosition() +
-				Matrix4::rotation(yaw, Vector3(0, 1, 0)) * Vector3(0, 0, 1) * 1);
+				NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) * NCLVector3(0, 0, 1) * 1);
 		}
 
 		if (window->getKeyboard()->keyDown(KEYBOARD_A)) {
 			camera->setPosition(camera->getPosition() +
-				Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(-1, 0, 0) * 1);
+				NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) *  NCLVector3(-1, 0, 0) * 1);
 		}
 
 		if (window->getKeyboard()->keyDown(KEYBOARD_D)) {
 			camera->setPosition(camera->getPosition() +
-				Matrix4::rotation(yaw, Vector3(0, 1, 0)) *  Vector3(1, 0, 0) * 1);
+				NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) *  NCLVector3(1, 0, 0) * 1);
 		}
 
 		if (window->getKeyboard()->keyDown(KEYBOARD_SPACE)) {
-			camera->setPosition(camera->getPosition() + Vector3(0, 1, 0) * 1);
+			camera->setPosition(camera->getPosition() + NCLVector3(0, 1, 0) * 1);
 		}
 
 		if (window->getKeyboard()->keyDown(KEYBOARD_C)) {
-			camera->setPosition(camera->getPosition() + Vector3(0, -1, 0) * 1);
+			camera->setPosition(camera->getPosition() + NCLVector3(0, -1, 0) * 1);
 		}
 
 		//camera->setPitch(pitch);

@@ -14,7 +14,7 @@ const int SSAO_TEX = 0;
 class SSAO : public GraphicsModule
 {
 public:
-	SSAO(const std::string identifier, const Vector2 resolution, Camera* cam, GBufferData* SGBuffer);
+	SSAO(const std::string identifier, const NCLVector2 resolution, Camera* cam, GBufferData* SGBuffer);
 
 	virtual ~SSAO()
 	{
@@ -33,7 +33,7 @@ public:
 
 	void regenerateShaders() override;
 
-	void setViewMatrix(Matrix4 mat)
+	void setViewMatrix(NCLMatrix4 mat)
 	{
 		viewMatrix = mat;
 	}
@@ -87,8 +87,8 @@ private:
 
 	GLuint loc_kernel;
 
-	std::vector<Vector3> ssaoKernel;
-	std::vector<Vector3> ssaoNoise;
+	std::vector<NCLVector3> ssaoKernel;
+	std::vector<NCLVector3> ssaoNoise;
 
 	//SSAO Uniforms
 	float ssaoRadius = 0.4f;

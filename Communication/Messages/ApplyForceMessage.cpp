@@ -1,7 +1,7 @@
 #include "ApplyForceMessage.h"
 
 ApplyForceMessage::ApplyForceMessage(const std::string& desinationName, const std::string& gameObjectID, bool isRandom,
-	const Vector3 force, float xmin, float xmax, float ymin, float ymax,
+	const NCLVector3 force, float xmin, float xmax, float ymin, float ymax,
 	float zmin, float zmax) : Message(desinationName, APPLY_FORCE)
 {
 	this->gameObjectID = gameObjectID;
@@ -24,7 +24,7 @@ ApplyForceMessage ApplyForceMessage::builder(Node* node)
 	std::string destination = "";
 	std::string object = "";
 	bool rand = false;
-	Vector3 force;
+	NCLVector3 force;
 
 	float xmin, xmax;
 	float ymin, ymax;
@@ -74,7 +74,7 @@ ApplyForceMessage ApplyForceMessage::tokensToMessage(std::vector<std::string> li
 	std::string nodeResourcename = lineTokens[2];
 
 	std::string forceString = lineTokens[3].substr(6);
-	Vector3 force = Vector3::builder(forceString);
+	NCLVector3 force = NCLVector3::builder(forceString);
 
 	return ApplyForceMessage(nodeDestination, nodeResourcename, false, force);
 }

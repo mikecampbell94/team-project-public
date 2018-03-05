@@ -4,7 +4,7 @@
 #include "../../Utility/Camera.h"
 
 BasicGeometry::BasicGeometry(const std::string identifier, 
-	const Matrix4 projmatrix, const Vector2 resolution, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
+	const NCLMatrix4 projmatrix, const NCLVector2 resolution, Camera* camera, std::vector<SceneNode*>* nodesInFrame)
 	: GraphicsModule(identifier, resolution)
 {
 	this->nodesInFrame = nodesInFrame;

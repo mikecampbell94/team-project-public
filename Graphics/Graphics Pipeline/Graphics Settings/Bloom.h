@@ -5,8 +5,8 @@
 class Bloom : public GraphicsModule
 {
 public:
-	Bloom(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, int strength);
+	Bloom(const std::string identifier, const NCLMatrix4 projmatrix,
+		const NCLVector2 resolution, int strength);
 	~Bloom();
 
 	void linkShaders() override;

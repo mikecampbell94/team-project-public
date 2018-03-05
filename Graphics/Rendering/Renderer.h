@@ -8,7 +8,7 @@
 
 class Window;
 class Camera;
-class Matrix4;
+class NCLMatrix4;
 class Database;
 class GameTimer;
 
@@ -22,7 +22,7 @@ public:
 	void initialise(SceneManager* sceneManager, Database* database);
 	void update(const float& deltatime);
 
-	void changeResolution(Vector2 resolution);
+	void changeResolution(NCLVector2 resolution);
 
 	void toggleModule(const std::string& moduleName, bool enabled);
 	GraphicsModule* getGraphicsModule(const std::string& moduleName);
@@ -39,8 +39,8 @@ private:
 	Camera* camera; 
 	GameTimer* parentTimer;
 
-	Vector2 resolution;
-	Matrix4 globalProjectionMatrix;
-	Matrix4 globalOrthographicMatrix;
+	NCLVector2 resolution;
+	NCLMatrix4 globalProjectionMatrix;
+	NCLMatrix4 globalOrthographicMatrix;
 };
 

@@ -85,7 +85,7 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 		{
 			//send messages
 			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "GAME OVER!",
-				Vector3(-50, -50, 0), Vector3(50, 50, 50), Vector3(1, 0, 0), true, true));
+				NCLVector3(-50, -50, 0), NCLVector3(50, 50, 50), NCLVector3(1, 0, 0), true, true));
 		}
 	}
 	else

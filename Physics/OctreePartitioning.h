@@ -7,7 +7,7 @@ class OctreePartitioning
 {
 public:
 	OctreePartitioning(vector<PhysicsNode*> nodes, 
-		Vector3 worldPartitionHalfDimensions, Vector3 offset);
+		NCLVector3 worldPartitionHalfDimensions, NCLVector3 offset);
 	~OctreePartitioning();
 
 	void BuildInitialTree();
@@ -47,8 +47,8 @@ private:
 
 	vector<Partition> baseOctreePartitions;
 	vector<PhysicsNode*> nodes;
-	Vector3 worldPartitionHalfDimensions;
-	Vector3 offset;
+	NCLVector3 worldPartitionHalfDimensions;
+	NCLVector3 offset;
 
 	bool collisionPairsBuilt = false;
 	vector<CollisionPair> pairs;

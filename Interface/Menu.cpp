@@ -40,7 +40,7 @@ void Menu::HighlightSelectedButton()
 	currentSelectedButton = &column->at(selectedRowIndex);
 
 	slectedButtonDefaultColour = column->at(selectedRowIndex).colour;
-	column->at(selectedRowIndex).colour = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+	column->at(selectedRowIndex).colour = NCLVector4(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void Menu::UnhighlightButton()

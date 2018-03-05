@@ -19,7 +19,7 @@ public:
 	static PhysicsNode* buildPhysicsNode(Node* node, GameObject* parent);
 
 
-	static Vector3 buildVector3(Node* node);
-	static Vector4 buildVector4(Node* node);
+	static NCLVector3 buildVector3(Node* node);
+	static NCLVector4 buildVector4(Node* node);
 };
 

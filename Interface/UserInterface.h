@@ -8,7 +8,7 @@ class Keyboard;
 class UserInterface : public Subsystem
 {
 public:
-	UserInterface(Keyboard* mouse, Vector2 resolution);
+	UserInterface(Keyboard* mouse, NCLVector2 resolution);
 	~UserInterface();
 
 	void initialise(std::string menuFile, Database* database);
@@ -19,7 +19,7 @@ private:
 	void toggleModule();
 
 	Keyboard* keyboard;
-	Vector2 resolution;
+	NCLVector2 resolution;
 	Menu* menu = nullptr;
 	bool enabled = true;
 	bool blocked;

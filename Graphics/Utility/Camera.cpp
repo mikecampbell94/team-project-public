@@ -25,7 +25,7 @@ void Camera::updateCamera(float msec) {
 
 bool Camera::subMeshIsInCameraView(SubMesh* submesh)
 {
-	const Vector3 position = submesh->GetTransform().getPositionVector();
+	const NCLVector3 position = submesh->GetTransform().getPositionVector();
 	const float radius = submesh->GetBoundingRadius();
 
 	return viewFrustum.insideFrustum(position, radius);
@@ -33,7 +33,7 @@ bool Camera::subMeshIsInCameraView(SubMesh* submesh)
 
 bool Camera::sceneNodeIsInCameraView(SceneNode * sceneNode)
 {
-	const Vector3 position = sceneNode->GetWorldTransform().getPositionVector();
+	const NCLVector3 position = sceneNode->GetWorldTransform().getPositionVector();
 	const float radius = sceneNode->getRadius();
 
 
@@ -45,19 +45,19 @@ bool Camera::sceneNodeIsInCameraView(SceneNode * sceneNode)
 Generates a view matrix for the camera's viewpoint. This matrix can be sent
 straight to the shader...it's already an 'inverse camera' matrix.
 */
-Matrix4 Camera::buildViewMatrix() {
+NCLMatrix4 Camera::buildViewMatrix() {
 	//Why do a complicated matrix inversion, when we can just generate the matrix
 	//using the negative values ;). The matrix multiplication order is important!
-	Matrix4 matrix = Matrix4::rotation(-pitch, Vector3(1, 0, 0)) *
-		Matrix4::rotation(-yaw, Vector3(0, 1, 0)) *
-		Matrix4::translation(-position);
+	NCLMatrix4 matrix = NCLMatrix4::rotation(-pitch, NCLVector3(1, 0, 0)) *
+		NCLMatrix4::rotation(-yaw, NCLVector3(0, 1, 0)) *
+		NCLMatrix4::translation(-position);
 
 	viewMatrix = matrix;
 
 	return matrix;
 }
 
-void Camera::updateViewFrustum(Matrix4& projectionMatrix)
+void Camera::updateViewFrustum(NCLMatrix4& projectionMatrix)
 {
 	viewFrustum.fromMatrix(projectionMatrix * viewMatrix);
 };

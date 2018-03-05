@@ -14,7 +14,7 @@
 
 struct ShadowData
 {
-	Matrix4 textureMatrices;
+	NCLMatrix4 textureMatrices;
 	GLuint shadowTex;
 };
 
@@ -34,7 +34,7 @@ class GraphicsModule
 {
 public:
 
-	GraphicsModule(const std::string identifier, const Vector2 resolution)
+	GraphicsModule(const std::string identifier, const NCLVector2 resolution)
 	{
 		this->resolution = resolution;
 		this->identifier = identifier;
@@ -131,10 +131,10 @@ protected:
 	unsigned int quadVBO;
 
 	Shader* currentShader;
-	Vector2 resolution;
-	Matrix4 modelMatrix;
-	Matrix4 viewMatrix;
-	Matrix4 textureMatrix;
+	NCLVector2 resolution;
+	NCLMatrix4 modelMatrix;
+	NCLMatrix4 viewMatrix;
+	NCLMatrix4 textureMatrix;
 
 	std::string identifier;
 

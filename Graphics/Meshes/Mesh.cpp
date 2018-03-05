@@ -27,7 +27,7 @@ void Mesh::LoadModel(std::string path)
 
 }
 
-void Mesh::SetTransformForAllSubMeshes(Matrix4 transform)
+void Mesh::SetTransformForAllSubMeshes(NCLMatrix4 transform)
 {
 	for each (SubMesh* submesh in meshes)
 	{
@@ -63,8 +63,8 @@ SubMesh* Mesh::ProcessMesh(aiMesh *mesh, const aiScene *scene)
 	const float maxFloat = (std::numeric_limits<float>::max)();
 	const float minFloat = (std::numeric_limits<float>::lowest());
 
-	Vector3 minBounds(maxFloat, maxFloat, maxFloat);
-	Vector3 maxBounds(minFloat, minFloat, minFloat);
+	NCLVector3 minBounds(maxFloat, maxFloat, maxFloat);
+	NCLVector3 maxBounds(minFloat, minFloat, minFloat);
 
 	BoundingBox AABB;
 
@@ -73,7 +73,7 @@ SubMesh* Mesh::ProcessMesh(aiMesh *mesh, const aiScene *scene)
 		Vertex vertex;
 
 		//Process vertex positions, normals and texture coordinates
-		Vector3 pos;
+		NCLVector3 pos;
 		pos.x = mesh->mVertices[i].x;
 		pos.y = mesh->mVertices[i].y;
 		pos.z = mesh->mVertices[i].z;
@@ -91,7 +91,7 @@ SubMesh* Mesh::ProcessMesh(aiMesh *mesh, const aiScene *scene)
 		AABB.min = minBounds;
 		AABB.max = maxBounds;
 
-		Vector3 norm;
+		NCLVector3 norm;
 		norm.x = mesh->mNormals[i].x;
 		norm.y = mesh->mNormals[i].y;
 		norm.z = mesh->mNormals[i].z;
@@ -99,22 +99,22 @@ SubMesh* Mesh::ProcessMesh(aiMesh *mesh, const aiScene *scene)
 
 		if (mesh->mTextureCoords[0]) //Does the mesh contain texture coordinates?
 		{
-			Vector2 tex;
+			NCLVector2 tex;
 			tex.x = mesh->mTextureCoords[0][i].x;
 			tex.y = mesh->mTextureCoords[0][i].y;
 			vertex.TexCoords = tex;
 		}
-		else vertex.TexCoords = Vector2(0.0f, 0.0f);
+		else vertex.TexCoords = NCLVector2(0.0f, 0.0f);
 
 		//Tangent
-		Vector3 tan;
+		NCLVector3 tan;
 		tan.x = mesh->mTangents[i].x;
 		tan.y = mesh->mTangents[i].y;
 		tan.z = mesh->mTangents[i].z;
 		vertex.Tangent = tan;
 
 		//Bitangent
-		Vector3 bitan;
+		NCLVector3 bitan;
 		bitan.x = mesh->mBitangents[i].x;
 		bitan.y = mesh->mBitangents[i].y;
 		bitan.z = mesh->mBitangents[i].z;
@@ -180,11 +180,11 @@ Mesh * Mesh::GenerateHeightMap(int width, int height)
 
 			Vertex vertex;
 
-			vertex.Position = Vector3(x,0,z);
-			vertex.Normal = Vector3(0, 1, 0);
-			vertex.TexCoords = Vector2((float)x/width, (float)z/height);
-			vertex.Tangent = Vector3(1, 0, 0);
-			vertex.Bitangent = Vector3(0, 0, 1);
+			vertex.Position = NCLVector3(x,0,z);
+			vertex.Normal = NCLVector3(0, 1, 0);
+			vertex.TexCoords = NCLVector2((float)x/width, (float)z/height);
+			vertex.Tangent = NCLVector3(1, 0, 0);
+			vertex.Bitangent = NCLVector3(0, 0, 1);
 			//maybe need to generate tangents, bitangents?
 
 			heightMap->vertices.push_back(vertex);
@@ -322,7 +322,7 @@ void Mesh::SetReflectionAttributesForAllSubMeshes(int isReflective, float streng
 	}
 }
 
-void Mesh::SetbackupColourAttributeForAllSubMeshes(Vector4 colour)
+void Mesh::SetbackupColourAttributeForAllSubMeshes(NCLVector4 colour)
 {
 	for each (SubMesh* mesh in meshes)
 	{
@@ -330,7 +330,7 @@ void Mesh::SetbackupColourAttributeForAllSubMeshes(Vector4 colour)
 	}
 }
 
-void Mesh::Draw(Shader& shader, Matrix4 worldTransform)
+void Mesh::Draw(Shader& shader, NCLMatrix4 worldTransform)
 {
 		for each (SubMesh* submesh in meshes)
 		{

@@ -20,13 +20,13 @@ _-_-_-_-_-_-_-""  ""
 #include "Vector4.h"
 #include "MathsCommon.h"
 
-class Vector3;
+class NCLVector3;
 
-class Matrix4	{
+class NCLMatrix4	{
 public:
-	Matrix4(void);
-	Matrix4(float elements[16]);
-	~Matrix4(void);
+	NCLMatrix4(void);
+	NCLMatrix4(float elements[16]);
+	~NCLMatrix4(void);
 
 	float	values[16];
 
@@ -36,46 +36,46 @@ public:
 	void	toIdentity();
 
 	//Gets the OpenGL position vector (floats 12,13, and 14)
-	Vector3 getPositionVector() const;
+	NCLVector3 getPositionVector() const;
 	//Sets the OpenGL position vector (floats 12,13, and 14)
-	void	setPositionVector(const Vector3 in);
+	void	setPositionVector(const NCLVector3 in);
 
 	//Gets the scale vector (floats 1,5, and 10)
-	Vector3 getScalingVector() const;
+	NCLVector3 getScalingVector() const;
 	//Sets the scale vector (floats 1,5, and 10)
-	void	setScalingVector(const Vector3 &in);
+	void	setScalingVector(const NCLVector3 &in);
 
 	//Creates a rotation matrix that rotates by 'degrees' around the 'axis'
 	//Analogous to glRotatef
-	static Matrix4 rotation(float degrees, const Vector3 &axis);
+	static NCLMatrix4 rotation(float degrees, const NCLVector3 &axis);
 
 	//Creates a scaling matrix (puts the 'scale' vector down the diagonal)
 	//Analogous to glScalef
-	static Matrix4 scale(const Vector3 &scale);
+	static NCLMatrix4 scale(const NCLVector3 &scale);
 
 	//Creates a translation matrix (identity, with 'translation' vector at
 	//floats 12, 13, and 14. Analogous to glTranslatef
-	static Matrix4 translation(const Vector3 &translation);
+	static NCLMatrix4 translation(const NCLVector3 &translation);
 
 	//Creates a perspective matrix, with 'znear' and 'zfar' as the near and 
 	//far planes, using 'aspect' and 'fov' as the aspect ratio and vertical
 	//field of vision, respectively.
-	static Matrix4 perspective(float znear, float zfar, float aspect, float fov);
+	static NCLMatrix4 perspective(float znear, float zfar, float aspect, float fov);
 
 	//Creates an orthographic matrix with 'znear' and 'zfar' as the near and 
 	//far planes, and so on. Descriptive variable names are a good thing!
-	static Matrix4 orthographic(float znear, float zfar,float right, float left, float top, float bottom);
+	static NCLMatrix4 orthographic(float znear, float zfar,float right, float left, float top, float bottom);
 
 	//Builds a view matrix suitable for sending straight to the vertex shader.
 	//Puts the camera at 'from', with 'lookingAt' centered on the screen, with
 	//'up' as the...up axis (pointing towards the top of the screen)
-	static Matrix4 buildViewMatrix(const Vector3 &from, const Vector3 &lookingAt, const Vector3 up = Vector3(0,1,0));
+	static NCLMatrix4 buildViewMatrix(const NCLVector3 &from, const NCLVector3 &lookingAt, const NCLVector3 up = NCLVector3(0,1,0));
 
-	Matrix4 getTransposedRotation();
+	NCLMatrix4 getTransposedRotation();
 
 	//Multiplies 'this' matrix by matrix 'a'. Performs the multiplication in 'OpenGL' order (ie, backwards)
-	inline Matrix4 operator*(const Matrix4 &a) const{	
-		Matrix4 out;
+	inline NCLMatrix4 operator*(const NCLMatrix4 &a) const{	
+		NCLMatrix4 out;
 		//Students! You should be able to think up a really easy way of speeding this up...
 		for(unsigned int r = 0; r < 4; ++r) {
 			for(unsigned int c = 0; c < 4; ++c) {
@@ -88,8 +88,8 @@ public:
 		return out;
 	}
 
-	inline Vector3 operator*(const Vector3 &v) const {
-		Vector3 vec;
+	inline NCLVector3 operator*(const NCLVector3 &v) const {
+		NCLVector3 vec;
 
 		float temp;
 
@@ -106,8 +106,8 @@ public:
 		return vec;
 	};
 
-		inline Vector4 operator*(const Vector4 &v) const {
-		return Vector4(
+		inline NCLVector4 operator*(const NCLVector4 &v) const {
+		return NCLVector4(
 			v.x*values[0] + v.y*values[4] + v.z*values[8]  +v.w * values[12],
 			v.x*values[1] + v.y*values[5] + v.z*values[9]  +v.w * values[13],
 			v.x*values[2] + v.y*values[6] + v.z*values[10] +v.w * values[14],
@@ -127,9 +127,9 @@ public:
 	}
 
 		//Added for GameTech - Code from taken from GLU library (all rights reserved).
-		static Matrix4 Inverse(const Matrix4& rhs)
+		static NCLMatrix4 Inverse(const NCLMatrix4& rhs)
 		{
-			Matrix4 inv;
+			NCLMatrix4 inv;
 			int i;
 
 			inv[0] = rhs[5] * rhs[10] * rhs[15] -
@@ -264,7 +264,7 @@ public:
 
 
 	//Handy string output for the matrix. Can get a bit messy, but better than nothing!
-	inline friend std::ostream& operator<<(std::ostream& o, const Matrix4& m){
+	inline friend std::ostream& operator<<(std::ostream& o, const NCLMatrix4& m){
 		o << "Mat4(";
 		o << "\t"	<< m.values[0] << "," << m.values[1] << "," << m.values[2] << "," << m.values [3] << std::endl;
 		o << "\t\t" << m.values[4] << "," << m.values[5] << "," << m.values[6] << "," << m.values [7] << std::endl;

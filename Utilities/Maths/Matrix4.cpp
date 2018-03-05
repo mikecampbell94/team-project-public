@@ -1,18 +1,18 @@
 #include "Matrix4.h"
 
-Matrix4::Matrix4(void)	{
+NCLMatrix4::NCLMatrix4(void)	{
 	toIdentity();
 }
 
-Matrix4::Matrix4( float elements[16] )	{
+NCLMatrix4::NCLMatrix4( float elements[16] )	{
 	memcpy(this->values,elements,16*sizeof(float));
 }
 
-Matrix4::~Matrix4(void)	{
+NCLMatrix4::~NCLMatrix4(void)	{
 	toIdentity();
 }
 
-void Matrix4::toIdentity() {
+void NCLMatrix4::toIdentity() {
 	toZero();
 	values[0]  = 1.0f;
 	values[5]  = 1.0f;
@@ -20,34 +20,34 @@ void Matrix4::toIdentity() {
 	values[15] = 1.0f;
 }
 
-void Matrix4::toZero()	{
+void NCLMatrix4::toZero()	{
 	for(int i = 0; i < 16; i++)	{
 		values[i] = 0.0f;
 	}
 }
 
-Vector3 Matrix4::getPositionVector() const{
-	return Vector3(values[12],values[13],values[14]);
+NCLVector3 NCLMatrix4::getPositionVector() const{
+	return NCLVector3(values[12],values[13],values[14]);
 }
 
-void	Matrix4::setPositionVector(const Vector3 in) {
+void	NCLMatrix4::setPositionVector(const NCLVector3 in) {
 	values[12] = in.x;
 	values[13] = in.y;
 	values[14] = in.z;		
 }
 
-Vector3 Matrix4::getScalingVector() const{
-	return Vector3(values[0],values[5],values[10]);
+NCLVector3 NCLMatrix4::getScalingVector() const{
+	return NCLVector3(values[0],values[5],values[10]);
 }
 
-void	Matrix4::setScalingVector(const Vector3 &in) {
+void	NCLMatrix4::setScalingVector(const NCLVector3 &in) {
 	values[0]  = in.x;
 	values[5]  = in.y;
 	values[10] = in.z;		
 }
 
-Matrix4 Matrix4::perspective(float znear, float zfar, float aspect, float fov) {
-	Matrix4 m;
+NCLMatrix4 NCLMatrix4::perspective(float znear, float zfar, float aspect, float fov) {
+	NCLMatrix4 m;
 
 	const float h = 1.0f / tan(fov*PI_OVER_360);
 	float neg_depth = znear-zfar;
@@ -63,8 +63,8 @@ Matrix4 Matrix4::perspective(float znear, float zfar, float aspect, float fov) {
 }
 
 //http://www.opengl.org/sdk/docs/man/xhtml/glOrtho.xml
-Matrix4 Matrix4::orthographic(float znear, float zfar,float right, float left, float top, float bottom)	{
-	Matrix4 m;
+NCLMatrix4 NCLMatrix4::orthographic(float znear, float zfar,float right, float left, float top, float bottom)	{
+	NCLMatrix4 m;
 
 	m.values[0]	= 2.0f / (right-left);
 	m.values[5]	= 2.0f / (top-bottom);
@@ -78,17 +78,17 @@ Matrix4 Matrix4::orthographic(float znear, float zfar,float right, float left, f
 	return m;
 }
 
-Matrix4 Matrix4::buildViewMatrix(const Vector3 &from, const Vector3 &lookingAt, const Vector3 up /*= Vector3(1,0,0)*/ )	{
-	Matrix4 r;
-	r.setPositionVector(Vector3(-from.x,-from.y,-from.z));
+NCLMatrix4 NCLMatrix4::buildViewMatrix(const NCLVector3 &from, const NCLVector3 &lookingAt, const NCLVector3 up /*= Vector3(1,0,0)*/ )	{
+	NCLMatrix4 r;
+	r.setPositionVector(NCLVector3(-from.x,-from.y,-from.z));
 
-	Matrix4 m;
+	NCLMatrix4 m;
 
-	Vector3 f = (lookingAt - from);
+	NCLVector3 f = (lookingAt - from);
 	f.normalise();
 
-	Vector3 s = Vector3::cross(f,up);
-	Vector3 u = Vector3::cross(s,f);
+	NCLVector3 s = NCLVector3::cross(f,up);
+	NCLVector3 u = NCLVector3::cross(s,f);
 
 	s.normalise();
 	u.normalise();
@@ -108,10 +108,10 @@ Matrix4 Matrix4::buildViewMatrix(const Vector3 &from, const Vector3 &lookingAt, 
 	return m*r;
 }
 
-Matrix4 Matrix4::rotation(float degrees, const Vector3 &inaxis)	 {
-	Matrix4 m;
+NCLMatrix4 NCLMatrix4::rotation(float degrees, const NCLVector3 &inaxis)	 {
+	NCLMatrix4 m;
 
-	Vector3 axis = inaxis;
+	NCLVector3 axis = inaxis;
 
 	axis.normalise();
 
@@ -133,8 +133,8 @@ Matrix4 Matrix4::rotation(float degrees, const Vector3 &inaxis)	 {
 	return m;
 }
 
-Matrix4 Matrix4::scale( const Vector3 &scale )	{
-	Matrix4 m;
+NCLMatrix4 NCLMatrix4::scale( const NCLVector3 &scale )	{
+	NCLMatrix4 m;
 
 	m.values[0]  = scale.x;
 	m.values[5]  = scale.y;
@@ -143,8 +143,8 @@ Matrix4 Matrix4::scale( const Vector3 &scale )	{
 	return m;
 }
 
-Matrix4 Matrix4::translation( const Vector3 &translation )	{
-	Matrix4 m;
+NCLMatrix4 NCLMatrix4::translation( const NCLVector3 &translation )	{
+	NCLMatrix4 m;
 
 	m.values[12] = translation.x;
 	m.values[13] = translation.y;
@@ -153,8 +153,8 @@ Matrix4 Matrix4::translation( const Vector3 &translation )	{
 	return m;
 }
 
-Matrix4 Matrix4::getTransposedRotation() {
-	Matrix4 temp;
+NCLMatrix4 NCLMatrix4::getTransposedRotation() {
+	NCLMatrix4 temp;
 	temp.values[0] = values[0];
 	temp.values[5] = values[5];
 	temp.values[10] = values[10];

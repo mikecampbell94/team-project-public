@@ -47,11 +47,11 @@ public:
 		updateTimestep = updateTimestep; 
 	}
 
-	inline const Vector3& getGravity() const 
+	inline const NCLVector3& getGravity() const 
 	{ 
 		return gravity; 
 	}
-	inline void setGravity(const Vector3& g) 
+	inline void setGravity(const NCLVector3& g) 
 	{ 
 		gravity = g; 
 	}
@@ -69,7 +69,7 @@ public:
 		return updateTimestep; 
 	}
 
-	void OctreeChanged(const Matrix4 &matrix)
+	void OctreeChanged(const NCLMatrix4 &matrix)
 	{
 		octreeChanged = true;
 	}
@@ -86,7 +86,7 @@ private:
 
 	float		updateTimestep, updateRealTimeAccum;
 	
-	Vector3		gravity;
+	NCLVector3		gravity;
 	float		dampingFactor;
 
 

@@ -43,7 +43,7 @@ public:
 		glUniform1i(glGetUniformLocation(program, name.c_str()), value);
 	}
 
-	void SetVec3(const std::string &name, const Vector3 &value) const
+	void SetVec3(const std::string &name, const NCLVector3 &value) const
 	{
 		glUniform3fv(glGetUniformLocation(program, name.c_str()), 1, (float*)&value);
 	}

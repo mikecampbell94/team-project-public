@@ -9,21 +9,21 @@
 class SceneNode
 {
 public:
-	SceneNode(string meshFile, Vector4 colour = Vector4(1, 1, 1, 1));
-	SceneNode(Mesh* mesh, Vector4 colour = Vector4(1, 1, 1, 1));
+	SceneNode(string meshFile, NCLVector4 colour = NCLVector4(1, 1, 1, 1));
+	SceneNode(Mesh* mesh, NCLVector4 colour = NCLVector4(1, 1, 1, 1));
 	virtual ~SceneNode(void);
 
-	void setPosition(Vector3 position)
+	void setPosition(NCLVector3 position)
 	{
 		transform.setPositionVector(position);
 	}
 
-	void  SetTransform(const Matrix4 &matrix)
+	void  SetTransform(const NCLMatrix4 &matrix)
 	{
 		transform = matrix;
 	}
 
-	void	SetTransform(Vector3 pos) 
+	void	SetTransform(NCLVector3 pos) 
 	{
 		transform.setPositionVector(pos);
 	}
@@ -33,24 +33,24 @@ public:
 		return mesh;
 	}
 
-	Matrix4 GetTransform()
+	NCLMatrix4 GetTransform()
 	{
 		return transform;
 	}
-	Matrix4 GetWorldTransform() const
+	NCLMatrix4 GetWorldTransform() const
 	{
 		return worldTransform;
 	}
 
-	void SetColour(Vector4 c)
+	void SetColour(NCLVector4 c)
 	{
 		this->colour = c;
 		mesh->SetbackupColourAttributeForAllSubMeshes(c);
 	}
 
-	Vector4 getColour();
+	NCLVector4 getColour();
 
-	void SetModelScale(Vector3 s)
+	void SetModelScale(NCLVector3 s)
 	{
 		boundingRadius *= s.length();
 		transform.setScalingVector(s);
@@ -93,9 +93,9 @@ protected:
 	bool		enabled;
 	SceneNode*	parent;
 	Mesh*		mesh;
-	Matrix4		worldTransform;
-	Matrix4		transform;
-	Vector4		colour;
+	NCLMatrix4		worldTransform;
+	NCLMatrix4		transform;
+	NCLVector4		colour;
 
 	float		distanceFromCamera;
 	float		boundingRadius;

@@ -152,14 +152,14 @@ bool Mouse::buttonHeld(MouseButtons b) {
 /*
 Returns how much the mouse has moved by since the last frame.
 */
-Vector2	Mouse::getRelativePosition() {
+NCLVector2	Mouse::getRelativePosition() {
 	return relativePosition;
 }
 
 /*
 Returns the mouse pointer position in absolute space.
 */
-Vector2 Mouse::getAbsolutePosition() {
+NCLVector2 Mouse::getAbsolutePosition() {
 	return absolutePosition;
 }
 

@@ -8,7 +8,7 @@
 
 #define SHADOWSIZE 4096
 
-PaintTrail::PaintTrail(const std::string identifier, const Vector2 resolution, Database* database)
+PaintTrail::PaintTrail(const std::string identifier, const NCLVector2 resolution, Database* database)
 	: GraphicsModule(identifier, resolution)
 {
 	paintTrailShader = new Shader(SHADERDIR"PaintTrail/paintTrailVert.glsl", SHADERDIR"PaintTrail/paintTrailFrag.glsl");
@@ -29,7 +29,7 @@ void PaintTrail::preparePaintSurface(std::vector<GameObject*> surfaceObjects)
 
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
-	viewMatrix = Matrix4::buildViewMatrix(Vector3(1, 800, 1), Vector3(0, 0, 0));
+	viewMatrix = NCLMatrix4::buildViewMatrix(NCLVector3(1, 800, 1), NCLVector3(0, 0, 0));
 	textureMatrices = biasMatrix * (CommonGraphicsData::SHARED_PROJECTION_MATRIX * viewMatrix);
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
 
@@ -88,7 +88,7 @@ void PaintTrail::apply()
 	setCurrentShader(paintTrailShader);
 	glBindFramebuffer(GL_FRAMEBUFFER, buffer);
 
-	viewMatrix = Matrix4::buildViewMatrix(Vector3(1, 800, 1), Vector3(0, 0, 0));
+	viewMatrix = NCLMatrix4::buildViewMatrix(NCLVector3(1, 800, 1), NCLVector3(0, 0, 0));
 	textureMatrices = biasMatrix * (CommonGraphicsData::SHARED_PROJECTION_MATRIX * viewMatrix);
 
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);

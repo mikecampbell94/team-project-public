@@ -7,8 +7,8 @@ const int IMAGE = 0;
 const int SCENE = 0;
 const int BLOOM_BLUR = 1;
 
-Bloom::Bloom(const std::string identifier, const Matrix4 projmatrix,
-	const Vector2 resolution, int strength) 
+Bloom::Bloom(const std::string identifier, const NCLMatrix4 projmatrix,
+	const NCLVector2 resolution, int strength) 
 	: GraphicsModule(identifier, resolution)
 {
 	blurStrength = strength;

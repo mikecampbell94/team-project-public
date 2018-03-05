@@ -37,7 +37,7 @@ static const float biasValues[16] = {
 	0.0, 0.0, 0.5, 0.0,
 	0.5, 0.5, 0.5, 1.0
 };
-static const Matrix4 biasMatrix(const_cast<float*>(biasValues));
+static const NCLMatrix4 biasMatrix(const_cast<float*>(biasValues));
 
 enum DebugDrawMode
 {
@@ -47,8 +47,8 @@ enum DebugDrawMode
 
 struct DebugDrawData
 {
-	vector<Vector3> lines;
-	vector<Vector3> colours;
+	vector<NCLVector3> lines;
+	vector<NCLVector3> colours;
 
 	GLuint array;
 	GLuint buffers[2];
@@ -68,7 +68,7 @@ struct DebugDrawData
 		colours.clear();
 	}
 
-	inline void AddLine(const Vector3 &from, const Vector3 &to, const Vector3 &fromColour, const Vector3 &toColour)
+	inline void AddLine(const NCLVector3 &from, const NCLVector3 &to, const NCLVector3 &fromColour, const NCLVector3 &toColour)
 	{
 		lines.push_back(from);
 		lines.push_back(to);
@@ -84,7 +84,7 @@ class Shader;
 class OGLRenderer
 {
 public:
-	OGLRenderer(HWND windowHandle, Vector2 size);
+	OGLRenderer(HWND windowHandle, NCLVector2 size);
 	virtual ~OGLRenderer(void);
 
 	virtual void	renderScene() = 0;
@@ -93,10 +93,10 @@ public:
 
 	bool			HasInitialised() const;
 
-	static void		DrawDebugLine(DebugDrawMode mode, const Vector3 &from, const Vector3 &to, const Vector3 &fromColour = Vector3(1, 1, 1), const Vector3 &toColour = Vector3(1, 1, 1));
-	static void		DrawDebugBox(DebugDrawMode mode, const Vector3 &at, const Vector3 &scale, const Vector3 &colour = Vector3(1, 1, 1));
-	static void		DrawDebugCross(DebugDrawMode mode, const Vector3 &at, const Vector3 &scale, const Vector3 &colour = Vector3(1, 1, 1));
-	static void		DrawDebugCircle(DebugDrawMode mode, const Vector3 &at, const float radius, const Vector3 &colour = Vector3(1, 1, 1));
+	static void		DrawDebugLine(DebugDrawMode mode, const NCLVector3 &from, const NCLVector3 &to, const NCLVector3 &fromColour = NCLVector3(1, 1, 1), const NCLVector3 &toColour = NCLVector3(1, 1, 1));
+	static void		DrawDebugBox(DebugDrawMode mode, const NCLVector3 &at, const NCLVector3 &scale, const NCLVector3 &colour = NCLVector3(1, 1, 1));
+	static void		DrawDebugCross(DebugDrawMode mode, const NCLVector3 &at, const NCLVector3 &scale, const NCLVector3 &colour = NCLVector3(1, 1, 1));
+	static void		DrawDebugCircle(DebugDrawMode mode, const NCLVector3 &at, const float radius, const NCLVector3 &colour = NCLVector3(1, 1, 1));
 
 	void			SetAsDebugDrawingRenderer()
 	{
@@ -108,22 +108,22 @@ public:
 		return currentShader;
 	}
 
-	Matrix4 GetViewMatrix() const
+	NCLMatrix4 GetViewMatrix() const
 	{
 		return viewMatrix;
 	}
 
-	Matrix4 GetProjectionMatrix() const
+	NCLMatrix4 GetProjectionMatrix() const
 	{
 		return projMatrix;
 	}
 
-	Matrix4 GetModelMatrix() const
+	NCLMatrix4 GetModelMatrix() const
 	{
 		return modelMatrix;
 	}
 
-	Matrix4 GetTextureMatrix() const
+	NCLMatrix4 GetTextureMatrix() const
 	{
 		return textureMatrix;
 	}
@@ -137,16 +137,16 @@ protected:
 
 	void			SetTextureRepeating(GLuint target, bool state);
 
-	void			DrawDebugPerspective(Matrix4*matrix = 0);
-	void			DrawDebugOrtho(Matrix4*matrix = 0);
+	void			DrawDebugPerspective(NCLMatrix4*matrix = 0);
+	void			DrawDebugOrtho(NCLMatrix4*matrix = 0);
 
 	Shader* currentShader;
 
 
-	Matrix4 projMatrix;		//Projection matrix
-	Matrix4 modelMatrix;	//Model matrix. NOT MODELVIEW
-	Matrix4 viewMatrix;		//View matrix
-	Matrix4 textureMatrix;	//Texture matrix
+	NCLMatrix4 projMatrix;		//Projection matrix
+	NCLMatrix4 modelMatrix;	//Model matrix. NOT MODELVIEW
+	NCLMatrix4 viewMatrix;		//View matrix
+	NCLMatrix4 textureMatrix;	//Texture matrix
 
 	int		width;			//Render area width (not quite the same as window width)
 	int		height;			//Render area height (not quite the same as window height)

@@ -6,19 +6,19 @@
 
 struct Particle
 {
-	Matrix4 modelMatrix;
-	Vector3 originalPosition;
-	Vector3 frameTranslation;
-	Vector4 colour;
+	NCLMatrix4 modelMatrix;
+	NCLVector3 originalPosition;
+	NCLVector3 frameTranslation;
+	NCLVector4 colour;
 	float particleSize;
 	float alphaDecay;
 	float decayRate;
 
-	Particle(Vector3 startPosition, Vector3 translation, Vector4 colour,
+	Particle(NCLVector3 startPosition, NCLVector3 translation, NCLVector4 colour,
 		float size, float rate)
 	{
 		originalPosition = startPosition;
-		modelMatrix = Matrix4::translation(originalPosition);
+		modelMatrix = NCLMatrix4::translation(originalPosition);
 		frameTranslation = translation;
 		alphaDecay = 0.0f;
 		particleSize = size;
@@ -30,8 +30,8 @@ struct Particle
 class ParticleSystem : public GraphicsModule
 {
 public:
-	explicit ParticleSystem(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Matrix4* viewMatrix);
+	explicit ParticleSystem(const std::string identifier, const NCLMatrix4 projmatrix,
+		const NCLVector2 resolution, NCLMatrix4* viewMatrix);
 	~ParticleSystem();
 
 	void linkShaders() override;
@@ -47,7 +47,7 @@ private:
 	void initialiseMesh();
 	void locateUniforms() override {}
 
-	Matrix4* viewMatrix;
+	NCLMatrix4* viewMatrix;
 
 	Shader* particleShader;
 

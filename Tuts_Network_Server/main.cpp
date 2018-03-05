@@ -59,9 +59,9 @@ struct KinematicState
 {
 	int clientID;
 
-	Vector3 position;
-	Vector3 linearVelocity;
-	Vector3 linearAcceleration;
+	NCLVector3 position;
+	NCLVector3 linearVelocity;
+	NCLVector3 linearAcceleration;
 };
 enum
 {

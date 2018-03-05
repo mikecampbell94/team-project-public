@@ -19,37 +19,37 @@ _-_-_-_-_-_-_-""  ""
 #include <iterator>
 #include <sstream>
 
-class Vector3	{
+class NCLVector3	{
 public:
-	Vector3(void) {
+	NCLVector3(void) {
 		toZero();
 	}
 
-	Vector3(const float x, const float y, const float z) {
+	NCLVector3(const float x, const float y, const float z) {
 		this->x = x;
 		this->y = y;
 		this->z = z;
 	}
 
-	Vector3(Vector2 v)
+	NCLVector3(NCLVector2 v)
 	{
 		this->x = v.x;
 		this->y = v.y;
 		this->z = 1;
 	}
 
-	~Vector3(void){}
+	~NCLVector3(void){}
 
 	float x;
 	float y;
 	float z;
 
-	static Vector3 interpolate(const Vector3& a, const Vector3& b, float factor)
+	static NCLVector3 interpolate(const NCLVector3& a, const NCLVector3& b, float factor)
 	{
 		return a + ((b - a) * factor);
 	}
 
-	const Vector3&	normalise() {
+	const NCLVector3&	normalise() {
 		float currentLength = length();
 
 		if(currentLength != 0.0f)	{
@@ -81,75 +81,75 @@ public:
 		z = -z;	
 	}
 
-	Vector3			inverse() const{
-		return Vector3(-x,-y,-z);
+	NCLVector3			inverse() const{
+		return NCLVector3(-x,-y,-z);
 	}
 
-	static float	dot(const Vector3 &a, const Vector3 &b) {
+	static float	dot(const NCLVector3 &a, const NCLVector3 &b) {
 		return (a.x*b.x)+(a.y*b.y)+(a.z*b.z);
 	}
 
-	static Vector3	cross(const Vector3 &a, const Vector3 &b) {
-		return Vector3((a.y*b.z) - (a.z*b.y) , (a.z*b.x) - (a.x*b.z) , (a.x*b.y) - (a.y*b.x));	
+	static NCLVector3	cross(const NCLVector3 &a, const NCLVector3 &b) {
+		return NCLVector3((a.y*b.z) - (a.z*b.y) , (a.z*b.x) - (a.x*b.z) , (a.x*b.y) - (a.y*b.x));	
 	}
 
-	inline friend std::ostream& operator<<(std::ostream& o, const Vector3& v) {
+	inline friend std::ostream& operator<<(std::ostream& o, const NCLVector3& v) {
 		o << "Vector3(" << v.x << "," << v.y << "," << v.z <<")" << std::endl;
 		return o;
 	}
 
-	inline Vector3  operator+(const Vector3  &a) const{
-		return Vector3(x + a.x,y + a.y, z + a.z);
+	inline NCLVector3  operator+(const NCLVector3  &a) const{
+		return NCLVector3(x + a.x,y + a.y, z + a.z);
 	}
 
-	inline Vector3  operator-(const Vector3  &a) const{
-		return Vector3(x - a.x,y - a.y, z - a.z);
+	inline NCLVector3  operator-(const NCLVector3  &a) const{
+		return NCLVector3(x - a.x,y - a.y, z - a.z);
 	}
 
-	inline Vector3  operator-() const{
-		return Vector3(-x,-y,-z);
+	inline NCLVector3  operator-() const{
+		return NCLVector3(-x,-y,-z);
 	}
 
-	inline void operator+=(const Vector3  &a){
+	inline void operator+=(const NCLVector3  &a){
 		x += a.x;
 		y += a.y;
 		z += a.z;
 	}
 
-	inline void operator-=(const Vector3  &a){
+	inline void operator-=(const NCLVector3  &a){
 		x -= a.x;
 		y -= a.y;
 		z -= a.z;
 	}
 
-	inline Vector3  operator*(const float a) const{
-		return Vector3(x * a,y * a, z * a);
+	inline NCLVector3  operator*(const float a) const{
+		return NCLVector3(x * a,y * a, z * a);
 	}
 
-	inline Vector3  operator*(const Vector3  &a) const{
-		return Vector3(x * a.x,y * a.y, z * a.z);
+	inline NCLVector3  operator*(const NCLVector3  &a) const{
+		return NCLVector3(x * a.x,y * a.y, z * a.z);
 	}
 
-	inline Vector3  operator/(const Vector3  &a) const{
-		return Vector3(x / a.x,y / a.y, z / a.z);
+	inline NCLVector3  operator/(const NCLVector3  &a) const{
+		return NCLVector3(x / a.x,y / a.y, z / a.z);
 	};
 
-	inline Vector3  operator/(const float v) const{
-		return Vector3(x / v,y / v, z / v);
+	inline NCLVector3  operator/(const float v) const{
+		return NCLVector3(x / v,y / v, z / v);
 	};
 
-	inline bool	operator==(const Vector3 &A)const {return (A.x == x && A.y == y && A.z == z) ? true : false;};
-	inline bool	operator!=(const Vector3 &A)const {return (A.x == x && A.y == y && A.z == z) ? false : true;};
+	inline bool	operator==(const NCLVector3 &A)const {return (A.x == x && A.y == y && A.z == z) ? true : false;};
+	inline bool	operator!=(const NCLVector3 &A)const {return (A.x == x && A.y == y && A.z == z) ? false : true;};
 
-	static Vector3 builder(Node* node)
+	static NCLVector3 builder(Node* node)
 	{
 		const float x = VectorBuilder::getVectorComponentFromNode(node->children[0]);
 		const float y = VectorBuilder::getVectorComponentFromNode(node->children[1]);
 		const float z = VectorBuilder::getVectorComponentFromNode(node->children[2]);
-		return Vector3(x, y, z);
+		return NCLVector3(x, y, z);
 	}
 
-	static Vector3 builder(std::string text)
+	static NCLVector3 builder(std::string text)
 	{
 		std::stringstream ss(text);
 		std::string item;
@@ -160,7 +160,7 @@ public:
 			tokens.push_back(item);
 		}
 
-		return Vector3(stof(tokens[0]), stof(tokens[1]), stof(tokens[2]));
+		return NCLVector3(stof(tokens[0]), stof(tokens[1]), stof(tokens[2]));
 	}
 };
 

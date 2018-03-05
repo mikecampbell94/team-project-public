@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <vector>
 
-const Vector3 X_AXIS = Vector3(1, 0, 0);
+const NCLVector3 X_AXIS = NCLVector3(1, 0, 0);
 
 class SortAndSweep
 {
@@ -62,8 +62,8 @@ public:
 	static float GetMinXCoordOfNode(PhysicsNode* node)
 	{
 		float minXCoord = FLT_MAX;
-		Vector3 currentMinX;
-		Vector3 currentMaxX;
+		NCLVector3 currentMinX;
+		NCLVector3 currentMaxX;
 
 		node->getCollisionShape()->getMinMaxVertexOnAxis(X_AXIS, currentMinX, currentMaxX);
 		minXCoord = min(currentMinX.x, minXCoord);
@@ -74,8 +74,8 @@ public:
 	static float GetMaxXCoordOfNode(PhysicsNode* node)
 	{
 		float maxXCoord = FLT_MIN;
-		Vector3 currentMinX;
-		Vector3 currentMaxX;
+		NCLVector3 currentMinX;
+		NCLVector3 currentMaxX;
 
 		node->getCollisionShape()->getMinMaxVertexOnAxis(X_AXIS, currentMinX, currentMaxX);
 		maxXCoord = max(currentMaxX.x, maxXCoord);

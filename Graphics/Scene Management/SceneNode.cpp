@@ -1,6 +1,6 @@
 #include "SceneNode.h"
 
-SceneNode::SceneNode(string meshFile, Vector4 colour)
+SceneNode::SceneNode(string meshFile, NCLVector4 colour)
 {
 	this->mesh = new Mesh(meshFile, 1);
 	this->colour = colour;
@@ -11,7 +11,7 @@ SceneNode::SceneNode(string meshFile, Vector4 colour)
 	distanceFromCamera = 0.0f;
 }
 
-SceneNode::SceneNode(Mesh * mesh, Vector4 colour)
+SceneNode::SceneNode(Mesh * mesh, NCLVector4 colour)
 {
 	this->mesh = mesh;
 	this->colour = colour;
@@ -28,7 +28,7 @@ SceneNode::~SceneNode(void)
 	}
 }
 
-Vector4 SceneNode::getColour()
+NCLVector4 SceneNode::getColour()
 {
 	return colour;
 }

@@ -9,8 +9,8 @@ class Camera;
 class BasicGeometry : public GraphicsModule
 {
 public:
-	BasicGeometry(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, Camera* camera, std::vector<SceneNode*>* nodesInFrame);
+	BasicGeometry(const std::string identifier, const NCLMatrix4 projmatrix,
+		const NCLVector2 resolution, Camera* camera, std::vector<SceneNode*>* nodesInFrame);
 	~BasicGeometry();
 
 	void linkShaders() override;

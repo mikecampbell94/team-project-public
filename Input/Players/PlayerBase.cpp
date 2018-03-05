@@ -75,7 +75,7 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 			float yPosition = stof(magnitude->children[1]->value);
 			float zPosition = stof(magnitude->children[2]->value);
 
-			Vector3 translation(xPosition, yPosition, zPosition);
+			NCLVector3 translation(xPosition, yPosition, zPosition);
 			if (magnitude->nodeType == "Move")
 			{
 				DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", playerName, false, translation));

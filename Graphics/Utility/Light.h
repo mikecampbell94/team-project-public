@@ -8,8 +8,8 @@
 
 struct LightData
 {
-	Vector4 lightPosition;
-	Vector4 lightColour;
+	NCLVector4 lightPosition;
+	NCLVector4 lightColour;
 	float lightRadius;
 	float isShadowCasting; //positive for true, negative for false
 	float intensity;
@@ -19,13 +19,13 @@ struct LightData
 
 struct SpotLightData
 {
-	Vector4 direction;
+	NCLVector4 direction;
 };
 
 class Light : public Resource
 {
 public:
-	Light(Vector3 position, Vector4 colour, float radius, float intensity, bool isShadowCasting, Vector4 direction = Vector4(0, 0, 0, 0))
+	Light(NCLVector3 position, NCLVector4 colour, float radius, float intensity, bool isShadowCasting, NCLVector4 direction = NCLVector4(0, 0, 0, 0))
 		: Resource()
 	{
 		this->position = position;
@@ -39,7 +39,7 @@ public:
 		//memcpy(data.lightPosition, positionData, 3 * sizeof(float));
 		//memcpy(data.lightColour, colourData, 4 * sizeof(float));
 
-		data.lightPosition = Vector4(position.x, position.y, position.z, 1.0f);
+		data.lightPosition = NCLVector4(position.x, position.y, position.z, 1.0f);
 		data.lightColour = colour;
 		data.lightRadius = radius;
 		if (isShadowCasting)
@@ -51,10 +51,10 @@ public:
 	}
 
 	Light() : Resource() {
-		this->position = Vector3(0, 0, 0);
-		this->colour = Vector4(1, 1, 1, 1);
+		this->position = NCLVector3(0, 0, 0);
+		this->colour = NCLVector4(1, 1, 1, 1);
 		this->radius = 0.0f;
-		this->direction = Vector4(0, 0, 0, 0);
+		this->direction = NCLVector4(0, 0, 0, 0);
 	}
 
 	Light(const Light& rhs)
@@ -64,7 +64,7 @@ public:
 		radius = rhs.radius;
 		direction = rhs.direction;
 
-		data.lightPosition = Vector4(position.x, position.y, position.z, 1.0f);
+		data.lightPosition = NCLVector4(position.x, position.y, position.z, 1.0f);
 		data.lightColour = colour;
 		data.lightRadius = radius;
 		data.intensity = rhs.data.intensity;
@@ -75,24 +75,24 @@ public:
 
 	static void AddLightsToArray(Light** lights, int numberExistingLights, int numberOfLights, Light lightToCopy);
 
-	Vector3 GetPosition() const { return position; }
-	void	SetPosition(Vector3 val)
+	NCLVector3 GetPosition() const { return position; }
+	void	SetPosition(NCLVector3 val)
 	{
 		position = val;
-		data.lightPosition = Vector4(val.x, val.y, val.z, 1.0f);
+		data.lightPosition = NCLVector4(val.x, val.y, val.z, 1.0f);
 	}
 
 	float	GetRadius() const { return radius; }
 	void	SetRadius(float val) { radius = val; }
 
-	Vector4 GetColour() const { return colour; }
-	void	SetColour(Vector4 val)
+	NCLVector4 GetColour() const { return colour; }
+	void	SetColour(NCLVector4 val)
 	{
 		colour = val;
 		data.lightColour = val;
 	}
 
-	void SetDirection(Vector4 val)
+	void SetDirection(NCLVector4 val)
 	{
 		spotLightData.direction = val;
 	}
@@ -115,10 +115,10 @@ public:
 protected:
 	LightData data;
 	SpotLightData spotLightData;
-	Vector3 position;
-	Vector4 colour;
+	NCLVector3 position;
+	NCLVector4 colour;
 	bool isShadowCasting;
-	Vector4 direction;
+	NCLVector4 direction;
 	float radius;
 };
 

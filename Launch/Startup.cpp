@@ -47,7 +47,7 @@ void Startup::initialiseRenderingSystem()
 	window->lockMouseToWindow(true);
 	window->showOSPointer(false);
 
-	camera = new Camera(0, 90, Vector3(0, 0, 0));
+	camera = new Camera(0, 90, NCLVector3(0, 0, 0));
 
 	rendering = new RenderingSystem(window, camera);
 	

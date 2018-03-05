@@ -31,7 +31,7 @@ private:
 	std::vector<Button> menu;
 	std::vector<Button*> allButtons;
 
-	Vector4 slectedButtonDefaultColour;
+	NCLVector4 slectedButtonDefaultColour;
 	int selectedRowIndex;
 	int depth;
 	std::vector<int> indexes;

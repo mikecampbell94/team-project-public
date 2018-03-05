@@ -27,9 +27,9 @@ public:
 	bool	doubleClicked(MouseButtons button);
 
 	//Get how much this mouse has moved since last frame
-	Vector2	getRelativePosition();
+	NCLVector2	getRelativePosition();
 	//Get the window position of the mouse pointer
-	Vector2 getAbsolutePosition();
+	NCLVector2 getAbsolutePosition();
 
 	//Determines the maximum amount of ms that can pass between
 	//2 mouse presses while still counting as a 'double click'
@@ -46,7 +46,7 @@ public:
 	//implement a 'MenuSensitivity' for absolute movement?
 	void	setMouseSensitivity(float amount);
 
-	Vector2 getAbsoluteBounds() { return absolutePositionBounds; };
+	NCLVector2 getAbsoluteBounds() { return absolutePositionBounds; };
 
 protected:
 	Mouse(HWND &hwnd);
@@ -71,11 +71,11 @@ protected:
 	void			setAbsolutePositionBounds(unsigned int maxX, unsigned int maxY);
 
 	//Current mouse absolute position
-	Vector2		absolutePosition;
+	NCLVector2		absolutePosition;
 	//Current mouse absolute position maximum bounds
-	Vector2		absolutePositionBounds;
+	NCLVector2		absolutePositionBounds;
 	//How much as the mouse moved since the last raw packet?
-	Vector2		relativePosition;
+	NCLVector2		relativePosition;
 	//Current button down state for each button
 	bool		buttons[MOUSE_MAX];
 	//Current button held state for each button

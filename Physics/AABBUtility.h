@@ -4,8 +4,8 @@
 
 struct AABB
 {
-	Vector3 min;
-	Vector3 max;
+	NCLVector3 min;
+	NCLVector3 max;
 };
 
 static bool BoxesIntersect(const AABB& boxA, const AABB& boxB)

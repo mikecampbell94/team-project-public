@@ -127,9 +127,9 @@ void SoundManager::update(const float& deltaTime)
 
 void SoundManager::updateListenerToCameraPosition()
 {
-	const Vector3 listenerWorldPos = camera->viewMatrix.getPositionVector();
+	const NCLVector3 listenerWorldPos = camera->viewMatrix.getPositionVector();
 
-	Vector3 orientation[2];
+	NCLVector3 orientation[2];
 
 	orientation[FORWARD_DIRECTION].x = camera->viewMatrix.values[2];
 	orientation[FORWARD_DIRECTION].y = camera->viewMatrix.values[6];

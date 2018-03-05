@@ -30,7 +30,7 @@ public:
 		return bufferID;
 	}
 
-	static void CreateScreenTexture(Vector2 resolution, GLuint textureID, GLuint internalFormat, GLenum format,
+	static void CreateScreenTexture(NCLVector2 resolution, GLuint textureID, GLuint internalFormat, GLenum format,
 		GLenum type, GLint minMagParam, int attachment, bool clamp)
 	{
 		glBindTexture(GL_TEXTURE_2D, textureID);

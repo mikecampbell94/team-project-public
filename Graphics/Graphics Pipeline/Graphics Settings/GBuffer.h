@@ -17,7 +17,7 @@ class Window;
 class GBuffer : public GraphicsModule
 {
 public:
-	GBuffer(const std::string identifier, const Vector2 resolution, 
+	GBuffer(const std::string identifier, const NCLVector2 resolution, 
 		Window* window, Camera* camera, std::vector<SceneNode*>* nodesInFrame);
 	virtual ~GBuffer();
 
@@ -41,7 +41,7 @@ public:
 	GLuint gBuffer;
 
 	Skybox* skybox;
-	Matrix4* paintTextureMatrix;
+	NCLMatrix4* paintTextureMatrix;
 	GLuint* paintTrailTexture;
 
 private:

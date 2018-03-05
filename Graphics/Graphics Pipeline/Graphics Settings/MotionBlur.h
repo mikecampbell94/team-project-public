@@ -5,9 +5,9 @@
 class MotionBlur : public GraphicsModule
 {
 public:
-	MotionBlur(const std::string identifier, const Matrix4 projmatrix,
-		const Vector2 resolution, GBufferData* gBuffer,
-		Matrix4* previousView, Matrix4* currentView, float* fps);
+	MotionBlur(const std::string identifier, const NCLMatrix4 projmatrix,
+		const NCLVector2 resolution, GBufferData* gBuffer,
+		NCLMatrix4* previousView, NCLMatrix4* currentView, float* fps);
 	~MotionBlur();
 
 	void linkShaders() override;
@@ -30,8 +30,8 @@ private:
 
 	GBufferData* gBuffer;
 
-	Matrix4* previousView;
-	Matrix4* currentView;
+	NCLMatrix4* previousView;
+	NCLMatrix4* currentView;
 	float* fps;
 };
 

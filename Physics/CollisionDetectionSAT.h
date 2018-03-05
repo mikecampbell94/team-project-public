@@ -3,9 +3,9 @@
 
 struct CollisionData
 {
-	Vector3		normal;
+	NCLVector3		normal;
 	float		penetration;
-	Vector3		pointOnPlane;
+	NCLVector3		pointOnPlane;
 };
 
 class PhysicsNode;
@@ -27,9 +27,9 @@ public:
 	void genContactPoints(Manifold* out_manifold);
 
 protected:
-	bool addPossibleCollisionAxis(Vector3 axis);
+	bool addPossibleCollisionAxis(NCLVector3 axis);
 
-	bool checkCollisionAxis(const Vector3& axis, CollisionData& coldata);
+	bool checkCollisionAxis(const NCLVector3& axis, CollisionData& coldata);
 
 private:
 	
@@ -40,7 +40,7 @@ private:
 	const CollisionShape*	cshapeA;
 	const CollisionShape*	cshapeB;
 
-	std::vector<Vector3>	possibleColAxes;
+	std::vector<NCLVector3>	possibleColAxes;
 
 	bool					colliding;
 	CollisionData			bestColData;

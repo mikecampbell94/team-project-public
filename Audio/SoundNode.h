@@ -31,7 +31,7 @@ class SoundNode
 {
 public:
 	//SoundNode() = default;
-	SoundNode(Sound* sound, Vector3 position, SoundPriority priority, float volume, 
+	SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, float volume, 
 		bool isLooping, float radius, float pitch, bool isGlobal, 
 		std::string identifier);
 	~SoundNode();
@@ -68,7 +68,7 @@ public:
 		return isLooping;
 	}
 
-	Vector3 getPosition() const
+	NCLVector3 getPosition() const
 	{
 		return position;
 	}
@@ -97,7 +97,7 @@ private:
 	}
 
 	Sound* sound;
-	Vector3 position;
+	NCLVector3 position;
 	OALSource* oalSource;
 	SoundPriority priority;
 	float volume;

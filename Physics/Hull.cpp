@@ -18,7 +18,7 @@ void Hull::Clear()
 	m_vFaces.clear();
 }
 
-int Hull::AddVertex(const Vector3& v)
+int Hull::AddVertex(const NCLVector3& v)
 {
 	HullVertex new_vertex;
 	new_vertex._idx = m_vVertices.size();
@@ -83,7 +83,7 @@ int Hull::ConstructNewEdge(int parent_face_idx, int vert_start, int vert_end)
 	return out_idx;
 }
 
-int Hull::AddFace(const Vector3& _normal, int nVerts, const int* verts)
+int Hull::AddFace(const NCLVector3& _normal, int nVerts, const int* verts)
 {
 	HullFace new_face;
 	new_face._idx = m_vFaces.size();
@@ -187,7 +187,7 @@ void Hull::RemoveFace(int faceidx)
 }
 
 
-void Hull::GetMinMaxVerticesInAxis(const Vector3& local_axis, int* out_min_vert, int* out_max_vert)
+void Hull::GetMinMaxVerticesInAxis(const NCLVector3& local_axis, int* out_min_vert, int* out_max_vert)
 {
 	float cCorrelation;
 	int minVertex, maxVertex;
@@ -196,7 +196,7 @@ void Hull::GetMinMaxVerticesInAxis(const Vector3& local_axis, int* out_min_vert,
 
 	for (size_t i = 0; i < m_vVertices.size(); ++i)
 	{
-		cCorrelation = Vector3::dot(local_axis, m_vVertices[i]._pos);
+		cCorrelation = NCLVector3::dot(local_axis, m_vVertices[i]._pos);
 
 		if (cCorrelation > maxCorrelation)
 		{

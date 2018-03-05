@@ -42,8 +42,8 @@ private:
 	int depth = -1;
 	bool profilerEnabled = false;
 
-	Vector4 defaultColour = Vector4(1, 1, 1, 1);
-	Vector2 defaultSize = Vector2(16, 16);
+	NCLVector4 defaultColour = NCLVector4(1, 1, 1, 1);
+	NCLVector2 defaultSize = NCLVector2(16, 16);
 	float nextLine = 0.0f;
 };
 

@@ -6,7 +6,7 @@ Quaternion::Quaternion(void)
 	w = 1.0f;
 }
 
-Quaternion::Quaternion(const Vector3 & vec, float w)
+Quaternion::Quaternion(const NCLVector3 & vec, float w)
 {
 	this->x = vec.x;
 	this->y = vec.y;
@@ -55,7 +55,7 @@ Quaternion Quaternion::operator *(const Quaternion &b) const{
 	return ans;
 }
 
-Quaternion Quaternion::operator *(const Vector3 &b) const{
+Quaternion Quaternion::operator *(const NCLVector3 &b) const{
 	Quaternion ans;
 
 	ans.w = -(x * b.x) - (y * b.y) - (z * b.z);
@@ -66,8 +66,8 @@ Quaternion Quaternion::operator *(const Vector3 &b) const{
 	return ans;
 }
 
-Matrix4 Quaternion::toMatrix() const{
-	Matrix4 mat;
+NCLMatrix4 Quaternion::toMatrix() const{
+	NCLMatrix4 mat;
 
 	float yy = y*y;
 	float zz = z*z;
@@ -94,9 +94,9 @@ Matrix4 Quaternion::toMatrix() const{
 	return mat;
 }
 
-Matrix3 Quaternion::toMatrix3() const
+NCLMatrix3 Quaternion::toMatrix3() const
 {
-	Matrix3 mat;
+	NCLMatrix3 mat;
 
 	float yy = y*y;
 	float zz = z*z;
@@ -148,7 +148,7 @@ Quaternion Quaternion::eulerAnglesToQuaternion(float pitch, float yaw, float rol
 	return q;
 };
 
-Quaternion Quaternion::axisAngleToQuaterion(const Vector3& vector, float degrees)	{
+Quaternion Quaternion::axisAngleToQuaterion(const NCLVector3& vector, float degrees)	{
 	float theta = (float)DegToRad(degrees);
 	float result = (float)sin( theta / 2.0f );
 
@@ -170,7 +170,7 @@ Quaternion Quaternion::conjugate() const
 	return Quaternion(-x,-y,-z,w);
 }
 
-Quaternion Quaternion::fromMatrix(const Matrix4 &m)	{
+Quaternion Quaternion::fromMatrix(const NCLMatrix4 &m)	{
 	Quaternion q;
 
 	q.w = sqrt(max(0.0f, (1.0f + m.values[0] + m.values[5] + m.values[10]))) / 2.0f;

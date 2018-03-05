@@ -30,7 +30,7 @@ class PipelineConfiguration
 public:
 	PipelineConfiguration();
 	PipelineConfiguration(SceneManager* sceneManager, Window* window, 
-		Camera* camera, Vector2 resolution);
+		Camera* camera, NCLVector2 resolution);
 	~PipelineConfiguration();
 
 	void initialiseModules(Database* database);
@@ -39,7 +39,7 @@ public:
 private:
 	bool initialised;
 
-	Vector2	resolution;
+	NCLVector2	resolution;
 	Camera*	camera;
 	Window* window;
 	SceneManager* sceneManager;

@@ -9,7 +9,7 @@
 class Skybox : public GraphicsModule
 {
 public:
-	Skybox(const std::string identifier, const Vector2 resolution, Matrix4* viewMatrix);
+	Skybox(const std::string identifier, const NCLVector2 resolution, NCLMatrix4* viewMatrix);
 	~Skybox();
 
 	void linkShaders() override;
@@ -29,7 +29,7 @@ private:
 	void initialiseMesh();
 	void locateUniforms() override {}
 
-	Matrix4* viewMatrix;
+	NCLMatrix4* viewMatrix;
 	Shader* skyboxShader;
 	unsigned int textureID;
 	unsigned int VAO, VBO;

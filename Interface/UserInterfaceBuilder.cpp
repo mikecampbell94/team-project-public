@@ -22,9 +22,9 @@ std::vector<Button> UserInterfaceBuilder::buildButtons(std::string UIFile, Datab
 
 Button UserInterfaceBuilder::buildButton(Node* node, Database* database, ButtonActionCreator& actionCreator)
 {
-	const Vector4 colour = getColour(node->children[0]);;
-	const Vector2 position = getTransformInformation(node->children[1]);
-	const Vector2 scale = getTransformInformation(node->children[2]);
+	const NCLVector4 colour = getColour(node->children[0]);;
+	const NCLVector2 position = getTransformInformation(node->children[1]);
+	const NCLVector2 scale = getTransformInformation(node->children[2]);
 
 	const ButtonAction action = actionCreator.createButtonAction(node->children[3]);
 	const std::string text = node->children[4]->value;
@@ -49,20 +49,20 @@ Button UserInterfaceBuilder::buildButton(Node* node, Database* database, ButtonA
 	return button;
 }
 
-Vector4 UserInterfaceBuilder::getColour(Node* node)
+NCLVector4 UserInterfaceBuilder::getColour(Node* node)
 {
 	const float r = std::stof(node->children[0]->value);
 	const float g = std::stof(node->children[1]->value);
 	const float b = std::stof(node->children[2]->value);
 	const float a = std::stof(node->children[3]->value);
 
-	return Vector4(r, g, b, a);
+	return NCLVector4(r, g, b, a);
 }
 
-Vector2 UserInterfaceBuilder::getTransformInformation(Node* node)
+NCLVector2 UserInterfaceBuilder::getTransformInformation(Node* node)
 {
 	const float x = std::stof(node->children[0]->value);
 	const float y = std::stof(node->children[1]->value);
 
-	return Vector2(x, y);
+	return NCLVector2(x, y);
 }

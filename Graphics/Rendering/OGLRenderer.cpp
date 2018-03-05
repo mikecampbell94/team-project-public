@@ -15,7 +15,7 @@ Creates an OpenGL 3.2 CORE PROFILE rendering context. Sets itself
 as the current renderer of the passed 'parent' Window. Not the best
 way to do it - but it kept the Tutorial code down to a minimum!
 */
-OGLRenderer::OGLRenderer(HWND windowHandle, Vector2 size)
+OGLRenderer::OGLRenderer(HWND windowHandle, NCLVector2 size)
 {
 	init = false;
 	drawnDebugOrtho = false;
@@ -292,7 +292,7 @@ void OGLRenderer::DebugCallback(GLuint source, GLuint type, GLuint id, GLuint se
 }
 #endif
 
-void	OGLRenderer::DrawDebugPerspective(Matrix4*matrix)
+void	OGLRenderer::DrawDebugPerspective(NCLMatrix4*matrix)
 {
 	glUseProgram(debugDrawShader->GetProgram());
 
@@ -302,7 +302,7 @@ void	OGLRenderer::DrawDebugPerspective(Matrix4*matrix)
 	}
 	else
 	{
-		Matrix4 temp = projMatrix*viewMatrix;
+		NCLMatrix4 temp = projMatrix*viewMatrix;
 		glUniformMatrix4fv(glGetUniformLocation(debugDrawShader->GetProgram(), "viewProjMatrix"), 1, false, (float*)&temp);
 	}
 
@@ -314,7 +314,7 @@ void	OGLRenderer::DrawDebugPerspective(Matrix4*matrix)
 }
 
 
-void	OGLRenderer::DrawDebugOrtho(Matrix4*matrix)
+void	OGLRenderer::DrawDebugOrtho(NCLMatrix4*matrix)
 {
 	glUseProgram(debugDrawShader->GetProgram());
 
@@ -324,7 +324,7 @@ void	OGLRenderer::DrawDebugOrtho(Matrix4*matrix)
 	}
 	else
 	{
-		static Matrix4 ortho = Matrix4::orthographic(-1, 1, 720, 0, 0, 480);
+		static NCLMatrix4 ortho = NCLMatrix4::orthographic(-1, 1, 720, 0, 0, 480);
 		glUniformMatrix4fv(glGetUniformLocation(debugDrawShader->GetProgram(), "viewProjMatrix"), 1, false, (float*)&ortho);
 	}
 
@@ -335,7 +335,7 @@ void	OGLRenderer::DrawDebugOrtho(Matrix4*matrix)
 	SetCurrentShader(currentShader);
 }
 
-void	OGLRenderer::DrawDebugLine(DebugDrawMode mode, const Vector3 &from, const Vector3 &to, const Vector3 &fromColour, const Vector3 &toColour)
+void	OGLRenderer::DrawDebugLine(DebugDrawMode mode, const NCLVector3 &from, const NCLVector3 &to, const NCLVector3 &fromColour, const NCLVector3 &toColour)
 {
 	DebugDrawData*target = (mode == DEBUGDRAW_ORTHO ? target = orthoDebugData : target = perspectiveDebugData);
 
@@ -343,37 +343,37 @@ void	OGLRenderer::DrawDebugLine(DebugDrawMode mode, const Vector3 &from, const V
 	target->AddLine(from, to, fromColour, toColour);
 }
 
-void	OGLRenderer::DrawDebugBox(DebugDrawMode mode, const Vector3 &at, const Vector3 &scale, const Vector3 &colour)
+void	OGLRenderer::DrawDebugBox(DebugDrawMode mode, const NCLVector3 &at, const NCLVector3 &scale, const NCLVector3 &colour)
 {
 	DebugDrawData*target = (mode == DEBUGDRAW_ORTHO ? target = orthoDebugData : target = perspectiveDebugData);
 
-	target->AddLine(at + Vector3(-scale.x * 0.5f, scale.y * 0.5f, 0),
-		at + Vector3(-scale.x * 0.5f, -scale.y * 0.5f, 0), colour, colour);
+	target->AddLine(at + NCLVector3(-scale.x * 0.5f, scale.y * 0.5f, 0),
+		at + NCLVector3(-scale.x * 0.5f, -scale.y * 0.5f, 0), colour, colour);
 
-	target->AddLine(at + Vector3(-scale.x * 0.5f, -scale.y * 0.5f, 0),
-		at + Vector3(scale.x * 0.5f, -scale.y * 0.5f, 0), colour, colour);
+	target->AddLine(at + NCLVector3(-scale.x * 0.5f, -scale.y * 0.5f, 0),
+		at + NCLVector3(scale.x * 0.5f, -scale.y * 0.5f, 0), colour, colour);
 
-	target->AddLine(at + Vector3(scale.x * 0.5f, -scale.y * 0.5f, 0),
-		at + Vector3(scale.x * 0.5f, scale.y * 0.5f, 0), colour, colour);
+	target->AddLine(at + NCLVector3(scale.x * 0.5f, -scale.y * 0.5f, 0),
+		at + NCLVector3(scale.x * 0.5f, scale.y * 0.5f, 0), colour, colour);
 
-	target->AddLine(at + Vector3(scale.x * 0.5f, scale.y * 0.5f, 0),
-		at + Vector3(-scale.x * 0.5f, scale.y * 0.5f, 0), colour, colour);
+	target->AddLine(at + NCLVector3(scale.x * 0.5f, scale.y * 0.5f, 0),
+		at + NCLVector3(-scale.x * 0.5f, scale.y * 0.5f, 0), colour, colour);
 
 }
 
-void	OGLRenderer::DrawDebugCross(DebugDrawMode mode, const Vector3 &at, const Vector3 &scale, const Vector3 &colour)
+void	OGLRenderer::DrawDebugCross(DebugDrawMode mode, const NCLVector3 &at, const NCLVector3 &scale, const NCLVector3 &colour)
 {
 	DebugDrawData*target = (mode == DEBUGDRAW_ORTHO ? target = orthoDebugData : target = perspectiveDebugData);
 
-	target->AddLine(at + Vector3(-scale.x * 0.5f, -scale.y * 0.5f, 0),
-		at + Vector3(scale.x * 0.5f, scale.y * 0.5f, 0), colour, colour);
+	target->AddLine(at + NCLVector3(-scale.x * 0.5f, -scale.y * 0.5f, 0),
+		at + NCLVector3(scale.x * 0.5f, scale.y * 0.5f, 0), colour, colour);
 
-	target->AddLine(at + Vector3(scale.x * 0.5f, -scale.y * 0.5f, 0),
-		at + Vector3(-scale.x * 0.5f, scale.y * 0.5f, 0), colour, colour);
+	target->AddLine(at + NCLVector3(scale.x * 0.5f, -scale.y * 0.5f, 0),
+		at + NCLVector3(-scale.x * 0.5f, scale.y * 0.5f, 0), colour, colour);
 
 }
 
-void	OGLRenderer::DrawDebugCircle(DebugDrawMode mode, const Vector3 &at, const float radius, const Vector3 &colour)
+void	OGLRenderer::DrawDebugCircle(DebugDrawMode mode, const NCLVector3 &at, const float radius, const NCLVector3 &colour)
 {
 	DebugDrawData*target = (mode == DEBUGDRAW_ORTHO ? target = orthoDebugData : target = perspectiveDebugData);
 
@@ -391,8 +391,8 @@ void	OGLRenderer::DrawDebugCircle(DebugDrawMode mode, const Vector3 &at, const f
 		float starty = radius * (float)sin(DegToRad(i * divisor)) + at.y;
 		float endy = radius * (float)sin(DegToRad((i + 1) * divisor)) + at.y;
 
-		target->AddLine(Vector3(startx, starty, 0),
-			Vector3(endx, endy, 0), colour, colour);
+		target->AddLine(NCLVector3(startx, starty, 0),
+			NCLVector3(endx, endy, 0), colour, colour);
 	}
 }
 

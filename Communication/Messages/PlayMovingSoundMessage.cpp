@@ -1,6 +1,6 @@
 #include "PlayMovingSoundMessage.h"
 
-PlayMovingSoundMessage::PlayMovingSoundMessage(const std::string& destinationName, MessageType type, Vector3 *position,
+PlayMovingSoundMessage::PlayMovingSoundMessage(const std::string& destinationName, MessageType type, NCLVector3 *position,
 	SoundPriority priority, float volume, float radius,
 	float pitch, bool isLooping, bool isGlobal, std::string soundID, std::string soundNodeIdentifier)
 	: Message(destinationName, type)

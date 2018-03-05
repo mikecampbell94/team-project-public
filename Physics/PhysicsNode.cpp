@@ -2,10 +2,10 @@
 #include "../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "../Communication/DeliverySystem.h"
 
-static const Vector3 gravity = Vector3(0.0f, -9.8f, 0.0f);
+static const NCLVector3 gravity = NCLVector3(0.0f, -9.8f, 0.0f);
 static const float MAX_SPEED = 50.0f;
 
-Vector3 interpolate(Vector3 a, Vector3 b, float factor)
+NCLVector3 interpolate(NCLVector3 a, NCLVector3 b, float factor)
 {
 	return a + ((b - a) * factor);
 }

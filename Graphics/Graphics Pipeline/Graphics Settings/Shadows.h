@@ -12,7 +12,7 @@
 class Shadows : public GraphicsModule
 {
 public:
-	Shadows(const std::string identifier, const Vector2 resolution, std::vector<Light*>** lights, std::vector<SceneNode*>** models);
+	Shadows(const std::string identifier, const NCLVector2 resolution, std::vector<Light*>** lights, std::vector<SceneNode*>** models);
 
 	~Shadows()
 	{

@@ -39,12 +39,12 @@ struct LinearInputData {
 };
 
 struct PositionalInputData {
-	PositionalInputData(const Vector2 value, const std::string key)
+	PositionalInputData(const NCLVector2 value, const std::string key)
 	{
 		this->value = value;
 		this->key = key;
 	}
-	Vector2 value;
+	NCLVector2 value;
 	std::string key;
 };
 

@@ -2,7 +2,7 @@
 
 #include "../Communication/Messages/PlaySoundMessage.h"
 
-SoundNode::SoundNode(Sound* sound, Vector3 position, SoundPriority priority, float volume,
+SoundNode::SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, float volume,
 	bool isLooping, float radius, float pitch, bool isGlobal,
 	std::string identifier)
 {

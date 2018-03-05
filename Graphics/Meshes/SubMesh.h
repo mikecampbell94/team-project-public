@@ -14,11 +14,11 @@ const int NUM_BONES_PER_VEREX = 10;
 
 struct Vertex
 {
-	Vector3 Position;
-	Vector3 Normal;
-	Vector2 TexCoords;
-	Vector3 Tangent;
-	Vector3 Bitangent;
+	NCLVector3 Position;
+	NCLVector3 Normal;
+	NCLVector2 TexCoords;
+	NCLVector3 Tangent;
+	NCLVector3 Bitangent;
 };
 
 struct Texture
@@ -30,8 +30,8 @@ struct Texture
 
 struct BoundingBox
 {
-	Vector3 max;
-	Vector3 min;
+	NCLVector3 max;
+	NCLVector3 min;
 };
 
 class SubMesh
@@ -43,19 +43,19 @@ public:
 	SubMesh();
 	~SubMesh();
 
-	void Draw(Shader& shader, Matrix4& transform);
+	void Draw(Shader& shader, NCLMatrix4& transform);
 	void Draw(Shader& shader);
-	void DrawShadow(Shader& shader, Matrix4& worldTransform); //Dont bother binding textures.
+	void DrawShadow(Shader& shader, NCLMatrix4& worldTransform); //Dont bother binding textures.
 
 	float previousradius = 0;
 
-	void SetTransform(Matrix4 newTransform)
+	void SetTransform(NCLMatrix4 newTransform)
 	{
 		if (newTransform.getScalingVector() != transform.getScalingVector())
 		{
 			previousradius = boundingRadius;
 
-			Vector3 scale = newTransform.getScalingVector();
+			NCLVector3 scale = newTransform.getScalingVector();
 			box.max = box.max * (scale);
 			box.min = box.min * (scale);
 			CalculateBoundingRadius();
@@ -64,7 +64,7 @@ public:
 		this->transform = newTransform;
 	}
 
-	Matrix4 GetTransform()
+	NCLMatrix4 GetTransform()
 	{
 		return transform;
 	}
@@ -118,7 +118,7 @@ public:
 	int hasTexture = 0;
 	int isReflective = 0;
 	float reflectionStrength = 1.0f;
-	Vector4 baseColour;
+	NCLVector4 baseColour;
 
 	GLuint modelMatricesSSBO;
 
@@ -126,7 +126,7 @@ public:
 
 
 protected:
-	Matrix4 transform;
+	NCLMatrix4 transform;
 	unsigned int VAO, VBO, EBO; //Render data
 
 	float boundingRadius;

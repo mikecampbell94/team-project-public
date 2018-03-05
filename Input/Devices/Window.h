@@ -32,7 +32,7 @@ public:
 	void	lockMouseToWindow(bool lock);
 	void	showOSPointer(bool show);
 
-	Vector2	getScreenSize() { return size; };
+	NCLVector2	getScreenSize() { return size; };
 
 	static Keyboard*	getKeyboard() { return keyboard; }
 	static Mouse*		getMouse() { return mouse; }
@@ -54,8 +54,8 @@ protected:
 	bool				lockMouse;
 	bool				showMouse;
 
-	Vector2				position;
-	Vector2				size;
+	NCLVector2				position;
+	NCLVector2				size;
 
 	float elapsedMS;
 	GameTimer*	timer;

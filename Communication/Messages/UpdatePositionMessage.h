@@ -6,10 +6,10 @@
 class UpdatePositionMessage : public Message
 {
 public:
-	UpdatePositionMessage(const std::string& desinationName, const std::string& gameObjectID, const Vector3& position);
+	UpdatePositionMessage(const std::string& desinationName, const std::string& gameObjectID, const NCLVector3& position);
 	~UpdatePositionMessage();
 
 	std::string gameObjectID;
-	Vector3 position;
+	NCLVector3 position;
 };
 

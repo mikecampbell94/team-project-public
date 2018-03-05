@@ -12,7 +12,7 @@ SubMesh::SubMesh(vector<Vertex> vertices, vector<unsigned int> indices,
 	box = AABB;
 	boundingRadius = 1.0f;
 	distanceFromCamera = 0.0f;
-	baseColour = Vector4(0.6f, 0.6f, 0.6f, 1.0f);
+	baseColour = NCLVector4(0.6f, 0.6f, 0.6f, 1.0f);
 
 	SetupMesh();
 
@@ -73,7 +73,7 @@ void SubMesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-void SubMesh::Draw(Shader& shader, Matrix4& worldTransform)
+void SubMesh::Draw(Shader& shader, NCLMatrix4& worldTransform)
 {
 	//Bind all textures of the mesh
 	for (unsigned int i = 1; i <= textures.size(); i++)
@@ -129,7 +129,7 @@ void SubMesh::Draw(Shader& shader)
 	glActiveTexture(GL_TEXTURE0);
 }
 
-void SubMesh::DrawShadow(Shader& shader, Matrix4& worldTransform)
+void SubMesh::DrawShadow(Shader& shader, NCLMatrix4& worldTransform)
 {
 	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false, (float*)&worldTransform);
 

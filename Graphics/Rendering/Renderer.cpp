@@ -6,11 +6,11 @@
 #include "../Utilities/Maths/Matrix4.h"
 #include "../Resource Management/Database/Database.h"
 
-Renderer::Renderer() : OGLRenderer(0, Vector2())
+Renderer::Renderer() : OGLRenderer(0, NCLVector2())
 {
 	window = nullptr;
 	camera = nullptr;
-	resolution = Vector2();
+	resolution = NCLVector2();
 	pipeline = GraphicsPipeline(nullptr);
 }
 
@@ -31,7 +31,7 @@ Renderer::Renderer(GameTimer* parentTimer, Window* window, Camera* camera)
 	pipeline = GraphicsPipeline(parentTimer->getChildTimer("Render Modules"));
 
 	//globalProjectionMatrix = Matrix4::perspective(1.0f, 150000.0f, resolution.x / resolution.y, 60.0f);
-	globalOrthographicMatrix = Matrix4::orthographic(-1.0f,10000.0f, width / 2.0f, -width / 2.0f, height / 2.0f, -height / 2.0f);
+	globalOrthographicMatrix = NCLMatrix4::orthographic(-1.0f,10000.0f, width / 2.0f, -width / 2.0f, height / 2.0f, -height / 2.0f);
 
 	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 	GraphicsUtility::CheckGLError("Renderer Initialisation");
@@ -78,7 +78,7 @@ void Renderer::update(const float& deltatime)
 	renderScene();
 }
 
-void Renderer::changeResolution(Vector2 resolution)
+void Renderer::changeResolution(NCLVector2 resolution)
 {
 	//Resize(resolution.x, resolution.y);
 

@@ -71,6 +71,6 @@ private:
 
 	SceneNode* node;
 	std::vector<SceneNode*>* nodes;
-	Vector2 resolution;
+	NCLVector2 resolution;
 };
 

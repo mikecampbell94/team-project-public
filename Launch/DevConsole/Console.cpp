@@ -195,5 +195,5 @@ void Console::recordKeyPresses()
 	}
 
 	DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", displayLine,
-		Vector3(-620.0f, -320, 0), Vector3(12.9f, 12.9f, 12.9f), Vector3(0, 1, 0), true, true));
+		NCLVector3(-620.0f, -320, 0), NCLVector3(12.9f, 12.9f, 12.9f), NCLVector3(0, 1, 0), true, true));
 }
