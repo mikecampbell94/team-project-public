@@ -47,22 +47,62 @@ GameplaySystem::~GameplaySystem()
 
 void GameplaySystem::updateSubsystem(const float& deltaTime)
 {
-	timer->beginTimedSection();
-
-	timer->beginChildTimedSection("Level Logic");
-	gameLogic.executeMessageBasedActions();
-	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
-	gameLogic.clearNotifications();
-	timer->endChildTimedSection("Level Logic");
-
-	timer->beginChildTimedSection("Object Logic");
-	for each (GameObjectLogic object in objects)
+	if (gameLogic.isTimed) 
 	{
-		object.updatelogic(deltaTime * 0.001f);
-	}
-	timer->endChildTimedSection("Object Logic");
+		if (gameLogic.elapsedTime < gameLogic.maxTime)
+		{
+			timer->beginTimedSection();
 
-	timer->endTimedSection();
+			timer->beginChildTimedSection("Level Logic");
+			gameLogic.executeMessageBasedActions();
+			gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
+			gameLogic.clearNotifications();
+			timer->endChildTimedSection("Level Logic");
+
+			timer->beginChildTimedSection("Object Logic");
+			for each (GameObjectLogic object in objects)
+			{
+				object.updatelogic(deltaTime * 0.001f);
+			}
+			timer->endChildTimedSection("Object Logic");
+
+			timer->endTimedSection();
+
+			gameLogic.elapsedTime += (deltaTime * 0.001f);
+			std::cout << gameLogic.elapsedTime << endl;
+		}
+		else if(!levelFinished)
+		{
+			levelFinished = true;
+			DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
+			DeliverySystem::getPostman()->insertMessage(TextMessage("UserInterface", "Toggle"));
+		}
+		else
+		{
+			//send messages
+			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "GAME OVER!",
+				Vector3(-50, -50, 0), Vector3(50, 50, 50), Vector3(1, 0, 0), true, true));
+		}
+	}
+	else
+	{
+		timer->beginTimedSection();
+
+		timer->beginChildTimedSection("Level Logic");
+		gameLogic.executeMessageBasedActions();
+		gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
+		gameLogic.clearNotifications();
+		timer->endChildTimedSection("Level Logic");
+
+		timer->beginChildTimedSection("Object Logic");
+		for each (GameObjectLogic object in objects)
+		{
+			object.updatelogic(deltaTime * 0.001f);
+		}
+		timer->endChildTimedSection("Object Logic");
+
+		timer->endTimedSection();
+	}
 }
 
 void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)

@@ -131,6 +131,8 @@ void Startup::loadMainMenu()
 	level->loadLevelFile("MainMenu.txt", gameplay);
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
+
+	gameplay->setUnTimedLevel();
 }
 
 void Startup::loadLevel(std::string levelFile, bool online)
@@ -146,6 +148,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
+	gameplay->setTimedLevel(30.f);
 }
 
 void Startup::switchLevel()
