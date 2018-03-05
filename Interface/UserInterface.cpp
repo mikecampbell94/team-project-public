@@ -88,11 +88,13 @@ void UserInterface::toggleModule()
 	{
 		enabled = false;
 		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "UnblockAll"));
+		DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime enable"));
 	}
 	else
 	{
 		enabled = true;
 		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs UserInterface"));
+		DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
 	}
 
 	DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "UIModule", enabled));

@@ -36,7 +36,11 @@ private:
 	std::vector<Executable> actionsOnStart;
 
 	std::vector<float> timers;
-	float totalTime = 0.0f;
+	int maxTime = 0.0f;
+	int elapsedTime = 0.0f;
+
+	bool isTimed = false;
+
 };
 
 
