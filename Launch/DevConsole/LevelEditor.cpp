@@ -64,6 +64,25 @@ void LevelEditor::initialiseLevelEditor(Database* providedDatabase)
 
 		DeliverySystem::getPostman()->insertMessage(TextMessage("Physics", "addphysicsnode " + devConsoleTokens[1]));
 	} });
+
+	//loadmesh mesh=.../.../data/mesh texture=../../texture
+	actions.insert({ "loadmesh", [&database = database](std::vector<std::string> devConsoleTokens)
+	{
+		Mesh* mesh = new Mesh(devConsoleTokens[1].substr(5), 1);
+		
+		if (devConsoleTokens.size() == 3)
+		{
+			mesh->loadTexture(devConsoleTokens[2].substr(8));
+		}
+
+		database->getTable("Meshes")->addNewResource(mesh);
+	} });
+
+	actions.insert({ "debugcamera", [](std::vector<std::string> devConsoleTokens)
+	{
+		DeliverySystem::getPostman()->insertMessage(TextMessage("Console", "togglecamera"));
+		DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "togglecamera"));
+	} });
 }
 
 void LevelEditor::executeDevConsoleLine(std::string devConsoleLine)

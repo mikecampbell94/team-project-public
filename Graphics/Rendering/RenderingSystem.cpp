@@ -40,7 +40,7 @@ void RenderingSystem::initialise(Database* database)
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&renderer = renderer, database = database](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&renderer = renderer, database = database, &blockCamera = blockCamera](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
@@ -60,8 +60,10 @@ void RenderingSystem::initialise(Database* database)
 			NCLVector2 resolution(stof(tokens[1]), stof(tokens[2]));
 			renderer->changeResolution(resolution);
 		}
-
-		std::cout << textMessage->text << std::endl;
+		else if (tokens[0] == "togglecamera")
+		{
+			blockCamera = !blockCamera;
+		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_GAMEOBJECT, [database = database](Message* message)
@@ -131,16 +133,19 @@ void RenderingSystem::initialise(Database* database)
 		renderer->toggleModule(moduleMessage->moduleName, moduleMessage->enabled);
 	});
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, [&camera = camera, database = database](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, [&camera = camera, database = database, &blockCamera = blockCamera](Message* message)
 	{
-		MoveCameraRelativeToGameObjectMessage* movementMessage = static_cast<MoveCameraRelativeToGameObjectMessage*>(message);
+		if (!blockCamera)
+		{
+			MoveCameraRelativeToGameObjectMessage* movementMessage = static_cast<MoveCameraRelativeToGameObjectMessage*>(message);
 
-		GameObject* gameObject = static_cast<GameObject*>(
-			database->getTable("GameObjects")->getResource(movementMessage->resourceName));
+			GameObject* gameObject = static_cast<GameObject*>(
+				database->getTable("GameObjects")->getResource(movementMessage->resourceName));
 
-		camera->setPosition(gameObject->getSceneNode()->GetTransform().getPositionVector() + movementMessage->translation);
-		camera->setPitch(movementMessage->pitch);
-		camera->setYaw(movementMessage->yaw);
+			camera->setPosition(gameObject->getSceneNode()->GetTransform().getPositionVector() + movementMessage->translation);
+			camera->setPitch(movementMessage->pitch);
+			camera->setYaw(movementMessage->yaw);
+		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PREPARE_PAINT_SURFACE, [database = database, &renderer = renderer](Message* message)

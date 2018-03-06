@@ -120,7 +120,7 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
 	engine->addSubsystem(profiler);
-	engine->addSubsystem(new Console(window->getKeyboard()));
+	engine->addSubsystem(new Console(window->getKeyboard(), camera, window->getMouse()));
 
 	for (Subsystem * subsystem : engine->getSubSystems())
 	{

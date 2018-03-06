@@ -3,6 +3,8 @@
 #include "../../Input/Devices/Keyboard.h"
 #include "../../Input/InputControl.h"
 #include "Communication/SendMessageActionBuilder.h"
+#include "../Graphics/Utility/Camera.h"
+#include "../Input/Devices/Mouse.h"
 #include "LevelEditor.h"
 
 int consoleKeys[] =
@@ -51,22 +53,40 @@ int consoleKeys[] =
 	KEYBOARD_PERIOD
 };
 
-Console::Console(Keyboard* keyboard) : Subsystem("Console")
+Console::Console(Keyboard* keyboard, Camera* camera, Mouse* mouse) : Subsystem("Console")
 {
 	incomingMessages = MessageProcessor(std::vector<MessageType> {MessageType::TEXT},
 		DeliverySystem::getPostman()->getDeliveryPoint("Console"));
 
 	this->keyboard = keyboard;
+	this->mouse = mouse;
+	this->camera = camera;
 	enabled = false;
 	blocked = false;
 
 	DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "RegisterInputUser Console"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&blocked = blocked](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&blocked = blocked, &debugCameraEnabled = debugCameraEnabled](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
-		blocked = InputControl::isBlocked(textMessage->text);
+		if (textMessage->text == "togglecamera")
+		{
+			debugCameraEnabled = !debugCameraEnabled;
+
+			if (debugCameraEnabled)
+			{
+				DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs Console"));
+			}
+			else
+			{
+				DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "UnblockAll"));
+			}
+		}
+		else
+		{
+			blocked = InputControl::isBlocked(textMessage->text);
+		}
 	});
 
 	keyMapping.insert({ KEYBOARD_0, "0" });
@@ -119,6 +139,11 @@ Console::~Console()
 
 void Console::updateSubsystem(const float & deltaTime)
 {
+	if (debugCameraEnabled)
+	{
+		moveCamera();
+	}
+
 	if (keyboard->keyTriggered(KEYBOARD_F7))
 	{
 		toggleConsoleEnabled();
@@ -146,15 +171,18 @@ void Console::updateSubsystem(const float & deltaTime)
 
 void Console::toggleConsoleEnabled()
 {
-	if (enabled)
+	if (!debugCameraEnabled)
 	{
-		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "UnblockAll"));
-		enabled = false;
-	}
-	else
-	{
-		DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs Console"));
-		enabled = true;
+		if (enabled)
+		{
+			DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "UnblockAll"));
+			enabled = false;
+		}
+		else
+		{
+			DeliverySystem::getPostman()->insertMessage(TextMessage("InputManager", "BlockAllInputs Console"));
+			enabled = true;
+		}
 	}
 }
 
@@ -241,4 +269,41 @@ void Console::displayText()
 
 	DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", displayLine,
 		NCLVector3(-620.0f, -320, 0), NCLVector3(12.9f, 12.9f, 12.9f), NCLVector3(0, 1, 0), true, true));
+}
+
+void Console::moveCamera()
+{
+	pitch -= (mouse->getRelativePosition().y);
+	yaw -= (mouse->getRelativePosition().x);
+
+	if (keyboard->keyDown(KEYBOARD_W)) {
+		camera->setPosition(camera->getPosition() +
+			NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) * NCLVector3(0, 0, -1) * 1);
+	}
+
+	if (keyboard->keyDown(KEYBOARD_S)) {
+		camera->setPosition(camera->getPosition() +
+			NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) * NCLVector3(0, 0, 1) * 1);
+	}
+
+	if (keyboard->keyDown(KEYBOARD_A)) {
+		camera->setPosition(camera->getPosition() +
+			NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) *  NCLVector3(-1, 0, 0) * 1);
+	}
+
+	if (keyboard->keyDown(KEYBOARD_D)) {
+		camera->setPosition(camera->getPosition() +
+			NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) *  NCLVector3(1, 0, 0) * 1);
+	}
+
+	if (keyboard->keyDown(KEYBOARD_SPACE)) {
+		camera->setPosition(camera->getPosition() + NCLVector3(0, 1, 0) * 1);
+	}
+
+	if (keyboard->keyDown(KEYBOARD_C)) {
+		camera->setPosition(camera->getPosition() + NCLVector3(0, -1, 0) * 1);
+	}
+
+	camera->setPitch(pitch);
+	camera->setYaw(yaw);
 }

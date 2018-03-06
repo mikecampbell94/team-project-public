@@ -25,4 +25,5 @@ private:
 	std::map<std::string, bool> graphicsConfig;
 	GraphicsPipeline pipeline;
 	Camera* camera;
+	bool blockCamera = false;
 };
