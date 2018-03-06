@@ -16,6 +16,11 @@ private:
 	void toggleConsoleEnabled();
 	void recordKeyPresses();
 
+	void traverseInputHistory();
+	void deleteLastCharacter();
+	void readKeyboardInputs();
+	void displayText();
+
 	Keyboard* keyboard;
 
 	std::string input;
@@ -23,7 +28,9 @@ private:
 	bool blocked;
 	bool capslock = false;
 	int frameCount = 0;
+	int previousInputIndexOffset = 0;
 
+	std::deque<std::string> previousInputs;
 	std::unordered_map<int, std::string> keyMapping;
 };
 

@@ -148,7 +148,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
-	gameplay->setTimedLevel(30.f);
+	gameplay->setTimedLevel(360.f);
 }
 
 void Startup::switchLevel()

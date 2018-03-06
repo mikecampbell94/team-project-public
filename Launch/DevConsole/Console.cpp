@@ -127,6 +127,7 @@ void Console::updateSubsystem(const float & deltaTime)
 		{
 			try
 			{
+				previousInputs.push_front(input);
 				SendMessageActionBuilder::buildSendMessageAction(input)();
 			}
 			catch(...)
@@ -155,10 +156,41 @@ void Console::recordKeyPresses()
 {
 	++frameCount;
 
+	traverseInputHistory();
+	deleteLastCharacter();
+
 	if(keyboard->keyTriggered(KEYBOARD_CAPITAL))
 	{
 		capslock =  !capslock;
 	}
+
+	readKeyboardInputs();
+	displayText();
+}
+
+void Console::traverseInputHistory()
+{
+
+	if (keyboard->keyTriggered(KEYBOARD_UP))
+	{
+		if (previousInputIndexOffset < previousInputs.size())
+		{
+			input = previousInputs[previousInputIndexOffset];
+			++previousInputIndexOffset;
+		}
+	}
+	else if (keyboard->keyTriggered(KEYBOARD_DOWN))
+	{
+		if (previousInputIndexOffset > 0 && previousInputs.size() > 0)
+		{
+			--previousInputIndexOffset;
+			input = previousInputs[previousInputIndexOffset];
+		}
+	}
+}
+
+void Console::deleteLastCharacter()
+{
 
 	if (keyboard->keyDown(KEYBOARD_BACK) && frameCount >= 5)
 	{
@@ -169,6 +201,10 @@ void Console::recordKeyPresses()
 			input.pop_back();
 		}
 	}
+}
+
+void Console::readKeyboardInputs()
+{
 
 	for (int key : consoleKeys)
 	{
@@ -186,6 +222,10 @@ void Console::recordKeyPresses()
 			}
 		}
 	}
+}
+
+void Console::displayText()
+{
 
 	std::string displayLine = input;
 
