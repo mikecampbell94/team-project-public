@@ -30,6 +30,14 @@ GameplaySystem::GameplaySystem(Database* database)
 			objects.push_back(new GameObjectLogic(database, &incomingMessages, tokens[1]));
 			objects[objects.size() - 1]->compileParsedXMLIntoScript();
 		}
+		else if (tokens[0] == "removegameobjectlogic")
+		{
+			gameObjectLogicRemoveBuffer.push_back(tokens[1]);
+		}
+		else if (tokens[0] == "setgameplaylogic")
+		{
+			compileGameplayScript(tokens[1]);
+		}
 	});
 	
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge, &objects = objects](Message* message)
@@ -121,6 +129,20 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 
 		timer->endTimedSection();
 	}
+
+	for (std::string gameObjectLogicToRemove : gameObjectLogicRemoveBuffer)
+	{
+		for (int i = 0; i < objects.size(); ++i)
+		{
+			if (objects[i]->getScriptFile() == gameObjectLogicToRemove)
+			{
+				objects.erase(objects.begin() + i);
+				break;
+			}
+		}
+	}
+
+	gameObjectLogicRemoveBuffer.clear();
 }
 
 void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
@@ -135,8 +157,6 @@ void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
 
 void GameplaySystem::compileGameplayScript(std::string levelScript)
 {
-	objects.clear();
-
 	XMLParser xmlParser;
 	xmlParser.loadFile(levelScript);
 	gameLogic = GameLogic(&incomingMessages);

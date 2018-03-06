@@ -139,6 +139,7 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
+	gameplay->deleteGameObjectScripts();
 	physics->InitialiseOctrees(10);
 	level->loadLevelFile(levelFile, gameplay);
 

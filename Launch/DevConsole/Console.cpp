@@ -128,13 +128,11 @@ void Console::updateSubsystem(const float & deltaTime)
 	{
 		recordKeyPresses();
 
-		input = "text Gameplay addgameobjectlogic ../Data/GameObjectLogic/aiObjectLogic.xml";
-
 		if (keyboard->keyTriggered(KEYBOARD_RETURN))
 		{
 			try
 			{
-				//previousInputs.push_front(input);
+				previousInputs.push_front(input);
 				LevelEditor::executeDevConsoleLine(input);
 				input = "";
 			}
@@ -234,7 +232,6 @@ void Console::readKeyboardInputs()
 
 void Console::displayText()
 {
-
 	std::string displayLine = input;
 
 	for (int i = 0; i < 100 - input.size(); ++i)

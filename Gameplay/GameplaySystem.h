@@ -43,7 +43,7 @@ private:
 	XMLParser inputParser;
 	Database* database;
 
-	std::vector<std::string> newObjectLogicBuffer;
+	std::vector<std::string> gameObjectLogicRemoveBuffer;
 	bool levelFinished = false;
 };
 

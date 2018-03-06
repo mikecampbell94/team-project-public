@@ -31,6 +31,7 @@ GameObjectLogic::GameObjectLogic(Database* database, MessageProcessor* messages,
 	this->database = database;
 	this->messages = messages;
 
+	scriptFile = script;
 	XMLParser parser;
 	parser.loadFile(script);
 	parsedScript = parser.parsedXml;
