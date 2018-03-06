@@ -1,4 +1,0 @@
-<GameObject>
-	<Mesh> sphere.obj </Mesh>
-	<Physics>	true	  </Physics>
-</GameObject>

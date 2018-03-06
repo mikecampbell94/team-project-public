@@ -42,7 +42,7 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 	players.push_back(player);
 
 	InputActionMap newPlayersActions(playerID);
-	inputParser.loadFile("../Data/Resources/Input/configXML.xml");
+	inputParser.loadFile("../Data/Input/configXML.xml");
 	Node* node = inputParser.parsedXml;
 	//NOW ATTACH NODE
 	std::string playerName = "player" + std::to_string(id);

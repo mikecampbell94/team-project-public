@@ -9,9 +9,7 @@
 #include <string>
 #include <vector>
 #include <set>
-
-#define DATADIR "../Data/"
-#define LEVELDIR "../Data/Levels/"
+#include "../Utilities/FilePaths.h"
 
 
 class UserInterface;
@@ -20,7 +18,7 @@ class GameplaySystem;
 class Level
 {
 public:
-	Level(Database* database, SceneManager* sceneManager, 
+	Level(Database* database, SceneManager* sceneManager,
 		PhysicsEngine* physics, UserInterface* userInterface);
 	~Level();
 
@@ -39,5 +37,5 @@ private:
 	SceneManager* sceneManager;
 	PhysicsEngine* physics;
 	UserInterface* userInterface;
+	Node levelNode;
 };
-

@@ -35,7 +35,7 @@
       </scale>
       <action type="Start">
         <Online>False</Online>
-        <Level>TestLevel.txt</Level>
+        <Level>Level1.xml</Level>
       </action>
       <text>Level 1</text>
       <mesh>UIQuad</mesh>
@@ -58,7 +58,7 @@
       </scale>
       <action type="Start">
         <Online>False</Online>
-        <Level>Level2.txt</Level>
+        <Level>Level2.xml</Level>
       </action>
       <text>Level 2</text>
       <mesh>UIQuad</mesh>
@@ -82,7 +82,7 @@
     </scale>
     <action type="Start">
       <Online>True</Online>
-      <Level>TestLevel.txt</Level>
+      <Level>Level1.xml</Level>
     </action>
     <text>Online</text>
     <mesh>UIQuad</mesh>
