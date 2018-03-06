@@ -1,15 +1,15 @@
 <LevelMeshes>
 	<Meshes name="CubeMesh" >
-		<MeshFile>../Data/Meshes/centeredcube.obj</MeshFile>
+		<MeshFile>../Data/Resources/Meshes/centeredcube.obj</MeshFile>
 	</Meshes>
 
 	<Meshes name="SphereMesh" >
-		<MeshFile>../Data/Meshes/sphere.obj</MeshFile>
+		<MeshFile>../Data/Resources/Meshes/sphere.obj</MeshFile>
 	</Meshes>
 	
 	
    <UIMeshes name="UIQuad">
-     <MeshFile>../Data/Meshes/centeredcube.obj</MeshFile>
+     <MeshFile>../Data/Resources/Meshes/centeredcube.obj</MeshFile>
      <Colour>
        <R>1</R>
        <G>1</G>

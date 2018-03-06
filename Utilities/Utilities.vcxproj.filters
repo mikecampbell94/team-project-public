@@ -54,6 +54,9 @@
     <ClInclude Include="Text\PeriodicTextModifier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FilePaths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameTimer.cpp">
