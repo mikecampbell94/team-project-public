@@ -14,17 +14,31 @@ GameplaySystem::GameplaySystem(Database* database)
 {
 	this->database = database;
  
-	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION },
+	incomingMessages = MessageProcessor(std::vector<MessageType> { MessageType::PLAYER_INPUT, MessageType::COLLISION, MessageType::TEXT },
 		DeliverySystem::getPostman()->getDeliveryPoint("Gameplay"));
 
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [this, database = database](Message* message)
+	{
+		TextMessage* textMessage = static_cast<TextMessage*>(message);
+
+		istringstream iss(textMessage->text);
+		vector<string> tokens{ istream_iterator<string>{iss},
+			std::istream_iterator<string>{} };
+
+		if (tokens[0] == "addgameobjectlogic")
+		{
+			objects.push_back(new GameObjectLogic(database, &incomingMessages, tokens[1]));
+			objects[objects.size() - 1]->compileParsedXMLIntoScript();
+		}
+	});
 	
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge, &objects = objects](Message* message)
 	{
 		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
 
-		for (GameObjectLogic& object : objects)
+		for (GameObjectLogic* object : objects)
 		{
-			object.notify("InputMessage", message);
+			object->notify("InputMessage", message);
 		}
 	});
 
@@ -34,9 +48,9 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
 		
-		for (GameObjectLogic& object : objects)
+		for (GameObjectLogic* object : objects)
 		{
-			object.notify("CollisionMessage", message);
+			object->notify("CollisionMessage", message);
 		}
 
 	});
@@ -64,9 +78,9 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 			timer->endChildTimedSection("Level Logic");
 
 			timer->beginChildTimedSection("Object Logic");
-			for (GameObjectLogic object : objects)
+			for (GameObjectLogic* object : objects)
 			{
-				object.updatelogic(deltaTime * 0.001f);
+				object->updatelogic(deltaTime * 0.001f);
 			}
 			timer->endChildTimedSection("Object Logic");
 
@@ -99,9 +113,9 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 		timer->endChildTimedSection("Level Logic");
 
 		timer->beginChildTimedSection("Object Logic");
-		for (GameObjectLogic object : objects)
+		for (GameObjectLogic* object : objects)
 		{
-			object.updatelogic(deltaTime * 0.001f);
+			object->updatelogic(deltaTime * 0.001f);
 		}
 		timer->endChildTimedSection("Object Logic");
 
@@ -132,7 +146,7 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 
 void GameplaySystem::addGameObjectScript(std::string scriptFile)
 {
-	objects.push_back(GameObjectLogic(database, &incomingMessages, scriptFile));
+	objects.push_back(new GameObjectLogic(database, &incomingMessages, scriptFile));
 }
 
 void GameplaySystem::deleteGameObjectScripts()
@@ -142,12 +156,9 @@ void GameplaySystem::deleteGameObjectScripts()
 
 void GameplaySystem::compileGameObjectScripts()
 {
-	//objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/aiObjectLogic.xml"));
-	//objects.push_back(GameObjectLogic(database, &incomingMessages, "../Data/GameObjectLogic/playerObjectLogic.xml"));
-
-	for (GameObjectLogic& object : objects)
+	for (GameObjectLogic* object : objects)
 	{
-		object.compileParsedXMLIntoScript();
+		object->compileParsedXMLIntoScript();
 	}
 }
 

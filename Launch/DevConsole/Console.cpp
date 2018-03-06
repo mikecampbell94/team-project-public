@@ -46,7 +46,9 @@ int consoleKeys[] =
 	KEYBOARD_SPACE,
 	KEYBOARD_COMMA,
 	KEYBOARD_PLUS,
-	KEYBOARD_MINUS
+	KEYBOARD_MINUS,
+	KEYBOARD_DIVIDE,
+	KEYBOARD_PERIOD
 };
 
 Console::Console(Keyboard* keyboard) : Subsystem("Console")
@@ -107,6 +109,8 @@ Console::Console(Keyboard* keyboard) : Subsystem("Console")
 	keyMapping.insert({ KEYBOARD_COMMA, "," });
 	keyMapping.insert({ KEYBOARD_PLUS, "=" });
 	keyMapping.insert({ KEYBOARD_MINUS, "-" });
+	keyMapping.insert({ KEYBOARD_DIVIDE, "/" });
+	keyMapping.insert({ KEYBOARD_PERIOD, "." });
 }
 
 Console::~Console()
@@ -124,12 +128,15 @@ void Console::updateSubsystem(const float & deltaTime)
 	{
 		recordKeyPresses();
 
+		input = "text Gameplay addgameobjectlogic ../Data/GameObjectLogic/aiObjectLogic.xml";
+
 		if (keyboard->keyTriggered(KEYBOARD_RETURN))
 		{
 			try
 			{
-				previousInputs.push_front(input);
+				//previousInputs.push_front(input);
 				LevelEditor::executeDevConsoleLine(input);
+				input = "";
 			}
 			catch(...)
 			{
