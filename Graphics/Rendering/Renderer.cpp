@@ -85,6 +85,11 @@ void Renderer::changeResolution(NCLVector2 resolution)
 	//for each (GraphicsModule* module in pipeline.)
 }
 
+void Renderer::addSceneNode(SceneNode* sceneNode)
+{
+	(*sceneManager->getAllNodes())->push_back(sceneNode);
+}
+
 void Renderer::toggleModule(const std::string& moduleName, bool enabled)
 {
 	pipeline.toggleModule(moduleName, enabled);

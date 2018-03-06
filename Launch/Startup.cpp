@@ -3,6 +3,7 @@
 #include "Networking/NetworkClient.h"
 #include "Profiler/FPSCounter.h"
 #include "DevConsole\Console.h"
+#include "DevConsole/LevelEditor.h"
 
 Startup::Startup()
 {
@@ -95,6 +96,7 @@ void Startup::initialiseDatabaseAndTables()
 {
 	database = new Database();
 	tableCreation = new TableCreation(database);
+	LevelEditor::initialiseLevelEditor(database);
 	profiler = new Profiler(window->getKeyboard(), database, new FPSCounter());
 	game->database = database;
 }
@@ -148,7 +150,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
-	gameplay->setTimedLevel(360.f);
+	gameplay->setTimedLevel(70000000.f);
 }
 
 void Startup::switchLevel()

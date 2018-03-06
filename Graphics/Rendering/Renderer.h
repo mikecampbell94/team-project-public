@@ -23,6 +23,7 @@ public:
 	void update(const float& deltatime);
 
 	void changeResolution(NCLVector2 resolution);
+	void addSceneNode(SceneNode* sceneNode);
 
 	void toggleModule(const std::string& moduleName, bool enabled);
 	GraphicsModule* getGraphicsModule(const std::string& moduleName);

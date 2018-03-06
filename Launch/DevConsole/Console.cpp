@@ -3,6 +3,7 @@
 #include "../../Input/Devices/Keyboard.h"
 #include "../../Input/InputControl.h"
 #include "Communication/SendMessageActionBuilder.h"
+#include "LevelEditor.h"
 
 int consoleKeys[] =
 {
@@ -128,7 +129,7 @@ void Console::updateSubsystem(const float & deltaTime)
 			try
 			{
 				previousInputs.push_front(input);
-				SendMessageActionBuilder::buildSendMessageAction(input)();
+				LevelEditor::executeDevConsoleLine(input);
 			}
 			catch(...)
 			{

@@ -40,7 +40,7 @@ void RenderingSystem::initialise(Database* database)
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&renderer = renderer](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&renderer = renderer, database = database](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
@@ -48,7 +48,14 @@ void RenderingSystem::initialise(Database* database)
 		vector<string> tokens{ istream_iterator<string>{iss},
 			std::istream_iterator<string>{} };
 
-		if (tokens[0] == "Resolution")
+		if (tokens[0] == "addscenenode")
+		{
+			GameObject* gameObject = static_cast<GameObject*>(
+				database->getTable("GameObjects")->getResource(tokens[1]));
+
+			renderer->addSceneNode(gameObject->getSceneNode());
+		}
+		else if (tokens[0] == "Resolution")
 		{
 			NCLVector2 resolution(stof(tokens[1]), stof(tokens[2]));
 			renderer->changeResolution(resolution);
