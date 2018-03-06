@@ -15,6 +15,7 @@ SceneManager::SceneManager(Camera* camera, std::vector<SceneNode*>* sceneNodes)
 
 	for (SceneNode* node : *sceneNodes)
 	{
+		if (node->isEnabled)
 		sceneNodes->push_back(node);
 	}
 }

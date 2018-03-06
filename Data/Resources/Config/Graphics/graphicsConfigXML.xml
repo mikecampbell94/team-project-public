@@ -1,5 +1,5 @@
 <Config inputType="GraphicsConfig">
-	<Settings name="BasicGeometry">Disabled</Settings>
+	<Settings name="BasicGeometry">Enabled</Settings>
 	<Settings name="Bloom">Disabled</Settings>
 	<Settings name="BPLighting">Enabled</Settings>
 	<Settings name="gbuffer">Enabled</Settings>

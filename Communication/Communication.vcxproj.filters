@@ -99,6 +99,9 @@
     <ClInclude Include="Messages\RotateGameObjectMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Messages\ToggleGameObjectMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp">
@@ -177,6 +180,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\RotateGameObjectMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\ToggleGameObjectMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

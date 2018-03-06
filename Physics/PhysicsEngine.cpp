@@ -297,44 +297,44 @@ void PhysicsEngine::updatePhysics()
 
 void PhysicsEngine::broadPhaseCollisions()
 {
-	if (physicsNodes.size() > 0)
-	{
-		if (octreeChanged)
-		{
-			octree->UpdateTree();
-			octreeChanged = false;
-			broadphaseColPairs = octree->GetAllCollisionPairs();
-		}
-	}
-
-	//broadphaseColPairs.clear();
-
-	//PhysicsNode* nodeA;
-	//PhysicsNode* nodeB;
-
 	//if (physicsNodes.size() > 0)
 	//{
-	//	for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
+	//	if (octreeChanged)
 	//	{
-	//		for (size_t j = i + 1; j < physicsNodes.size(); j++)
-	//		{
-	//			nodeA = physicsNodes[i];
-	//			nodeB = physicsNodes[j];
-
-	//			if (nodeA->getCollisionShape() && nodeB->getCollisionShape())
-	//			{
-	//				CollisionPair pair;
-	//				pair.pObjectA = nodeA;
-	//				pair.pObjectB = nodeB;
-
-	//				if (pair.pObjectA->getIsCollision() && pair.pObjectB->getIsCollision())
-	//				{
-	//					broadphaseColPairs.push_back(pair);
-	//				}
-	//			}
-	//		}
+	//		octree->UpdateTree();
+	//		octreeChanged = false;
+	//		broadphaseColPairs = octree->GetAllCollisionPairs();
 	//	}
 	//}
+
+	broadphaseColPairs.clear();
+
+	PhysicsNode* nodeA;
+	PhysicsNode* nodeB;
+
+	if (physicsNodes.size() > 0)
+	{
+		for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
+		{
+			for (size_t j = i + 1; j < physicsNodes.size(); j++)
+			{
+				nodeA = physicsNodes[i];
+				nodeB = physicsNodes[j];
+
+				if (nodeA->getCollisionShape() && nodeB->getCollisionShape())
+				{
+					CollisionPair pair;
+					pair.pObjectA = nodeA;
+					pair.pObjectB = nodeB;
+
+					if (pair.pObjectA->getIsCollision() && pair.pObjectB->getIsCollision())
+					{
+						broadphaseColPairs.push_back(pair);
+					}
+				}
+			}
+		}
+	}
 }
 
 void PhysicsEngine::narrowPhaseCollisions()

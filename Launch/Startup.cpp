@@ -137,7 +137,7 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
-	physics->InitialiseOctrees(10);
+	physics->InitialiseOctrees(100);
 	level->loadLevelFile(levelFile, gameplay);
 
 	if (!online)
@@ -148,7 +148,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
-	gameplay->setTimedLevel(30.f);
+	gameplay->setTimedLevel(3000.f);
 }
 
 void Startup::switchLevel()

@@ -119,6 +119,46 @@
     </PhysicsNode>
   </GameObjects>
   
+  <GameObjects name="powerup" >
+    <SceneNode>
+      <Mesh>SphereMesh</Mesh>
+      <Colour>
+        <R>0</R>
+        <G>1</G>
+        <B>0</B>
+        <A>1</A>
+      </Colour>
+    </SceneNode>
+    <Enabled>True/False</Enabled>
+    <Position>
+      <X>025</X>
+      <Y>200</Y>
+      <Z>025</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>20</X>
+      <Y>20</Y>
+      <Z>20</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>False</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0.5</Elasticity>
+      <Friction>0.9</Friction>
+      <Damping>0.995</Damping>
+	  <isStatic>True</isStatic>
+    </PhysicsNode>
+  </GameObjects>
+  
   <GameObjects name="enemy" >
     <SceneNode>
       <Mesh>SphereMesh</Mesh>

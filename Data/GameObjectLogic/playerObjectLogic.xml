@@ -5,7 +5,6 @@
 	<resource>player0</resource>
 	<resource>player1</resource>
 	<resource>player2</resource>
-	
 </Resources>
 
 
@@ -21,6 +20,44 @@
 			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
 				<destination>RenderingSystem</destination>
 				<resource>var</resource>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
+	 
+	 <ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>var</objectIdentifier>
+				<colliderIdentifier>powerup</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="SCALE_GAMEOBJECT">
+				<destination>Physics</destination>
+				<resource>var</resource>
+				<scale>
+					<X>020</X>
+					<Y>020</Y>
+					<Z>020</Z>
+				</scale>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
+	 
+	 <ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>var</objectIdentifier>
+				<colliderIdentifier>powerup</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="SCALE_GAMEOBJECT">
+				<destination>RenderingSystem</destination>
+				<resource>var</resource>
+				<scale>
+					<X>020</X>
+					<Y>020</Y>
+					<Z>020</Z>
+				</scale>
 			</SendMessage>
 		</Action>
 	 </ReceiveMessage>
