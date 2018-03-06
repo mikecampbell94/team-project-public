@@ -5,6 +5,7 @@
 #include "../Utility/Camera.h"
 #include "../Utilities/Maths/Matrix4.h"
 #include "../Resource Management/Database/Database.h"
+#include "../Gameplay/GameObject.h"
 
 Renderer::Renderer() : OGLRenderer(0, NCLVector2())
 {
@@ -88,6 +89,18 @@ void Renderer::changeResolution(NCLVector2 resolution)
 void Renderer::addSceneNode(SceneNode* sceneNode)
 {
 	(*sceneManager->getAllNodes())->push_back(sceneNode);
+}
+
+void Renderer::removeSceneNodeByResourceName(std::string resourcename)
+{
+	for (auto sceneNodeIterator = (*sceneManager->getAllNodes())->begin(); sceneNodeIterator != (*sceneManager->getAllNodes())->end(); ++ sceneNodeIterator)
+	{
+		if ((*sceneNodeIterator)->getParent()->getName() == resourcename)
+		{
+			(*sceneManager->getAllNodes())->erase(sceneNodeIterator);
+			break;
+		}
+	}
 }
 
 void Renderer::toggleModule(const std::string& moduleName, bool enabled)

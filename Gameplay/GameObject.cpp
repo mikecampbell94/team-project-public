@@ -15,6 +15,7 @@ GameObject::~GameObject()
 void GameObject::setSceneNode(SceneNode * sceneNode)
 {
 	this->sceneNode = sceneNode;
+	sceneNode->setParent(this);
 }
 
 void GameObject::setPhysicsNode(PhysicsNode * physicsNode)

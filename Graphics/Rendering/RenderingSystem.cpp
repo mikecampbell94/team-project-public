@@ -55,6 +55,10 @@ void RenderingSystem::initialise(Database* database)
 
 			renderer->addSceneNode(gameObject->getSceneNode());
 		}
+		else if (tokens[0] == "removescenenode")
+		{
+			renderer->removeSceneNodeByResourceName(tokens[1]);
+		}
 		else if (tokens[0] == "Resolution")
 		{
 			NCLVector2 resolution(stof(tokens[1]), stof(tokens[2]));

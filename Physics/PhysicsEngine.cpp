@@ -33,6 +33,18 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 			addPhysicsObject(gameObject->getPhysicsNode());
 		}
+		else if (tokens[0] == "removephysicsnode")
+		{
+			//MUST REMOVE FROM OCTREE ONCE OCTREES ARE WORKING
+			for (auto physicsNodeiterator = physicsNodes.begin(); physicsNodeiterator != physicsNodes.end(); ++physicsNodeiterator)
+			{
+				if ((*physicsNodeiterator)->getParent()->getName() == tokens[1])
+				{
+					physicsNodes.erase(physicsNodeiterator);
+					break;
+				}
+			}
+		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::ABSOLUTE_TRANSFORM, [database = database](Message* message)

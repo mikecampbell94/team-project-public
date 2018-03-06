@@ -83,6 +83,16 @@ void LevelEditor::initialiseLevelEditor(Database* providedDatabase)
 		DeliverySystem::getPostman()->insertMessage(TextMessage("Console", "togglecamera"));
 		DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "togglecamera"));
 	} });
+
+	actions.insert({ "removescenenode", [](std::vector<std::string> devConsoleTokens)
+	{
+		DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "removescenenode " + devConsoleTokens[1]));
+	} });
+
+	actions.insert({ "removephysicsnode", [](std::vector<std::string> devConsoleTokens)
+	{
+		DeliverySystem::getPostman()->insertMessage(TextMessage("Physics", "removephysicsnode " + devConsoleTokens[1]));
+	} });
 }
 
 void LevelEditor::executeDevConsoleLine(std::string devConsoleLine)
