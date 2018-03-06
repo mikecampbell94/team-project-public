@@ -1,0 +1,18 @@
+<LevelMeshes>
+	<Meshes name="SphereMesh" >
+		<MeshFile>../Data/Resources/Meshes/sphere.obj</MeshFile>
+	</Meshes>
+	
+	<Meshes name="CubeMesh" >
+		<MeshFile>../Data/Resources/Meshes/centeredcube.obj</MeshFile>
+	</Meshes>
+
+    <Meshes name="player0Mesh">
+      <MeshFile>../Data/Resources/Meshes/sphere.obj</MeshFile>
+      <texture>../Data/Resources/Meshes/box/Crate/crate_1.jpg</texture>
+    </Meshes>
+
+    <Meshes name="CrateMesh" >
+      <MeshFile>../Data/Resources/Meshes/box/Crate/Crate1.obj</MeshFile>
+      </Meshes>
+</LevelMeshes>

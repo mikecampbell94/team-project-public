@@ -4,6 +4,8 @@
 #include "Profiler/FPSCounter.h"
 #include "DevConsole\Console.h"
 
+#include "../Utilities/FilePaths.h"
+
 Startup::Startup()
 {
 	engine = new System();
@@ -37,7 +39,7 @@ void Startup::initialiseSubsystems()
 void Startup::initialiseRenderingSystem()
 {
 	XMLParser windowConfiguration;
-	windowConfiguration.loadFile("../Data/Resources/Config/Graphics/windowConfigXML.xml");
+	windowConfiguration.loadFile("../Data/Resources/Graphics Config/windowConfigXML.xml");
 	Node* node = windowConfiguration.parsedXml;
 	resolution.x = std::stof(node->children[0]->children[0]->value);
 	resolution.y = std::stof(node->children[0]->children[1]->value);
@@ -128,17 +130,20 @@ void Startup::addSystemsToEngine()
 
 void Startup::loadMainMenu()
 {
-	level->loadLevelFile("MainMenu.txt", gameplay);
+	level->loadLevelFile(LEVELDIR"MainMenu.xml", gameplay);
+
+
+
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
 
-	gameplay->setUnTimedLevel();
+	//gameplay->setUnTimedLevel();
 }
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
 	physics->InitialiseOctrees(10);
-	level->loadLevelFile(levelFile, gameplay);
+	level->loadLevelFile(LEVELDIR + levelFile, gameplay);
 
 	if (!online)
 	{

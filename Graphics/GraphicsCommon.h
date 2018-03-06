@@ -1,9 +1,9 @@
 #pragma once
 
 #define SHADERDIR	"../Shaders/"
-#define MESHDIR		"../Data/Meshes/"
-#define TEXTUREDIR  "../Data/Textures/"
-#define SOUNDSDIR	"../Data/Sounds/"
+#define MESHDIR		"../Data/Resources/Meshes/"
+#define TEXTUREDIR  "../Data/Resources/Textures/"
+#define SOUNDSDIR	"../Data/Resources/Sounds/"
 
 #include "Maths/Matrix4.h"
 

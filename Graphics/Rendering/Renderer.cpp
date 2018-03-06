@@ -48,7 +48,7 @@ void Renderer::initialise(SceneManager* sceneManager, Database* database)
 	graphicsConfig.buildPipeline(&pipeline);
 
 	XMLParser graphicsconfigParser;
-	graphicsconfigParser.loadFile("../Data/Resources/Config/Graphics/graphicsConfigXML.xml");
+	graphicsconfigParser.loadFile("../Data/Resources/Graphics Config/graphicsConfigXML.xml");
 	Node* node = graphicsconfigParser.parsedXml;
 
 	//TO-DO
