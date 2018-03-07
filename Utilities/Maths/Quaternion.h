@@ -50,6 +50,7 @@ public:
 
 	static Quaternion eulerAnglesToQuaternion(float pitch, float yaw, float roll);
 	static Quaternion axisAngleToQuaterion(const NCLVector3& vector, float degrees);
+	static NCLVector4 quaternionToAxisAngle(Quaternion quaternion);
 
 	static void rotatePointByQuaternion(const Quaternion &q, NCLVector3 &point);
 

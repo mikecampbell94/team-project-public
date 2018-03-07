@@ -2,7 +2,7 @@
 #include "Devices/Keyboard.h"
 #include "../../Communication/DeliverySystem.h"
 
-void changeResource(Node** node, std::string id)
+void GameObjectLogic::changeResource(Node** node, std::string id)
 {
 	if ((*node)->value == "var")
 	{
@@ -14,7 +14,7 @@ void changeResource(Node** node, std::string id)
 	}
 }
 
-void changeResourceBack(Node** node, std::string id)
+void GameObjectLogic::changeResourceBack(Node** node, std::string id)
 {
 	if ((*node)->value == id)
 	{

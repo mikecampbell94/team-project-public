@@ -100,6 +100,7 @@ public:
 
 	bool isPaintSurface = false;
 	int hasTexture = 0;
+	NCLVector4 axisAngleRotation;
 
 protected:
 	bool		enabled;

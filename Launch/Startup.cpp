@@ -6,6 +6,7 @@
 #include "DevConsole/LevelEditor.h"
 
 #include "../Utilities/FilePaths.h"
+//#include "Resource Management/XMLWriter.h"
 
 Startup::Startup()
 {
@@ -134,6 +135,9 @@ void Startup::loadMainMenu()
 {
 	level->loadLevelFile(LEVELDIR"MainMenu.xml", gameplay);
 
+	//XMLWriter writer(database);
+	//writer.saveLevelFile("myLevel");
+
 
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
@@ -144,7 +148,7 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
-	gameplay->setDefaultGameplayScript();
+	//gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
 	physics->InitialiseOctrees(10);
 	level->loadLevelFile(LEVELDIR + levelFile, gameplay);

@@ -27,8 +27,8 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		if (tokens[0] == "addgameobjectlogic")
 		{
-			objects.push_back(new GameObjectLogic(database, &incomingMessages, tokens[1]));
-			objects[objects.size() - 1]->compileParsedXMLIntoScript();
+			objects.push_back(GameObjectLogic(database, &incomingMessages, tokens[1]));
+			objects[objects.size() - 1].compileParsedXMLIntoScript();
 		}
 		else if (tokens[0] == "removegameobjectlogic")
 		{
@@ -44,9 +44,9 @@ GameplaySystem::GameplaySystem(Database* database)
 	{
 		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
 
-		for (GameObjectLogic* object : objects)
+		for (GameObjectLogic object : objects)
 		{
-			object->notify("InputMessage", message);
+			object.notify("InputMessage", message);
 		}
 	});
 
@@ -56,9 +56,9 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
 		
-		for (GameObjectLogic* object : objects)
+		for (GameObjectLogic object : objects)
 		{
-			object->notify("CollisionMessage", message);
+			object.notify("CollisionMessage", message);
 		}
 
 	});
@@ -86,9 +86,9 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 			timer->endChildTimedSection("Level Logic");
 
 			timer->beginChildTimedSection("Object Logic");
-			for (GameObjectLogic* object : objects)
+			for (GameObjectLogic object : objects)
 			{
-				object->updatelogic(deltaTime * 0.001f);
+				object.updatelogic(deltaTime * 0.001f);
 			}
 			timer->endChildTimedSection("Object Logic");
 
@@ -121,9 +121,9 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 		timer->endChildTimedSection("Level Logic");
 
 		timer->beginChildTimedSection("Object Logic");
-		for (GameObjectLogic* object : objects)
+		for (GameObjectLogic object : objects)
 		{
-			object->updatelogic(deltaTime * 0.001f);
+			object.updatelogic(deltaTime * 0.001f);
 		}
 		timer->endChildTimedSection("Object Logic");
 
@@ -134,7 +134,7 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 	{
 		for (int i = 0; i < objects.size(); ++i)
 		{
-			if (objects[i]->getScriptFile() == gameObjectLogicToRemove)
+			if (objects[i].getScriptFile() == gameObjectLogicToRemove)
 			{
 				objects.erase(objects.begin() + i);
 				break;
@@ -171,7 +171,7 @@ void GameplaySystem::setDefaultGameplayScript()
 
 void GameplaySystem::addGameObjectScript(std::string scriptFile)
 {
-	objects.push_back(new GameObjectLogic(database, &incomingMessages, scriptFile));
+	objects.push_back(GameObjectLogic(database, &incomingMessages, scriptFile));
 }
 
 void GameplaySystem::deleteGameObjectScripts()
@@ -181,9 +181,9 @@ void GameplaySystem::deleteGameObjectScripts()
 
 void GameplaySystem::compileGameObjectScripts()
 {
-	for (GameObjectLogic* object : objects)
+	for (GameObjectLogic object : objects)
 	{
-		object->compileParsedXMLIntoScript();
+		object.compileParsedXMLIntoScript();
 	}
 }
 

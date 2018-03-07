@@ -139,6 +139,8 @@ Console::~Console()
 
 void Console::updateSubsystem(const float & deltaTime)
 {
+	//input = "text Gameplay addgameobjectlogic ../Data/GameObjectLogic/aiObjectLogic.xml";
+
 	if (debugCameraEnabled)
 	{
 		moveCamera();

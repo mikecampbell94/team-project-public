@@ -25,6 +25,9 @@ public:
 	}
 
 private:
+	void changeResource(Node** node, std::string id);
+	void changeResourceBack(Node** node, std::string id);
+
 	void compileFunctions(Node* node);
 	void compileFunctionsOnStart(Node* node);
 	void updateHardCodedLogic(const float& deltaTime);

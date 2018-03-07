@@ -23,6 +23,7 @@
 //#include <iphlpapi.h>
 #include <Utilities/NetworkBase.h>
 #include "Communication/SendMessageActionBuilder.h"
+//#include "Resource Management/XMLWriter.h"
 //#include "../Tuts_Network_Server/NetworkBase.h"
 //#include <ENET/include/enet/enet.h>
 
@@ -44,7 +45,6 @@ int main()
 	//ShutdownClass here
 	//shutdown.clearAllSubsystems();
 	//shutdown.close(); ?
-
 
 	//System engine;
 	//GameLoop game(engine);

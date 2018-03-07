@@ -99,6 +99,8 @@ void RenderingSystem::initialise(Database* database)
 		NCLVector3 position = gameObject->getSceneNode()->GetTransform().getPositionVector();
 		NCLVector3 scale = gameObject->getSceneNode()->GetTransform().getScalingVector();
 
+		gameObject->getSceneNode()->axisAngleRotation = rotateMessage->rotation;
+
 		gameObject->getSceneNode()->SetTransform(NCLMatrix4::translation(position) *
 			NCLMatrix4::rotation(rotateMessage->rotation.w, NCLVector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z)) *
 			NCLMatrix4::scale(scale));
