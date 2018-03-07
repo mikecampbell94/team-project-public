@@ -1,8 +1,0 @@
-Level 2/Level2Meshes.xml
-Level 2/Level2Details.xml
-Level 2/Level2Sounds.xml
-Level 2/Level2Lights.xml
-../Data/UserInterface/InGameMenu.xml
-../Data/Gameplay/gameplay.xml
-../Data/GameObjectLogic/aiObjectLogic.xml
-../Data/GameObjectLogic/playerObjectLogic.xml
