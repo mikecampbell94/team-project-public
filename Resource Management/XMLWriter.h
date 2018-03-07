@@ -1,6 +1,8 @@
 #pragma once
 
 #include "XMLParser.h"
+#include <string>
+#include <windows.h>
 
 class Database;
 
