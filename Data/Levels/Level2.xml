@@ -7,9 +7,9 @@
 		<File>../Data/UserInterface/InGameMenu.xml</File>
 	</UI>
 	<GamePlay>
-		<File>../Data/Gameplay/gameplay.xml</File>
+		<File>../Data/Gameplay/gameplay2.xml</File>
 	</GamePlay>
 	<GameLogic>
-		<File>../Data/GameObjectLogic/playerObjectLogic.xml</File>
+		<File>../Data/GameObjectLogic/playerObjectLogic2.xml</File>
 	</GameLogic>
 </Level>
