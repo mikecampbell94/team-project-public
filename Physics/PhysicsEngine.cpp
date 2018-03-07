@@ -18,6 +18,35 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [database = database, this](Message* message)
+	{
+		TextMessage* textMessage = static_cast<TextMessage*>(message);
+
+		istringstream iss(textMessage->text);
+		vector<string> tokens{ istream_iterator<string>{iss},
+			std::istream_iterator<string>{} };
+
+		if (tokens[0] == "addphysicsnode")
+		{
+			GameObject* gameObject = static_cast<GameObject*>(
+				database->getTable("GameObjects")->getResource(tokens[1]));
+
+			addPhysicsObject(gameObject->getPhysicsNode());
+		}
+		else if (tokens[0] == "removephysicsnode")
+		{
+			//MUST REMOVE FROM OCTREE ONCE OCTREES ARE WORKING
+			for (auto physicsNodeiterator = physicsNodes.begin(); physicsNodeiterator != physicsNodes.end(); ++physicsNodeiterator)
+			{
+				if ((*physicsNodeiterator)->getParent()->getName() == tokens[1])
+				{
+					physicsNodes.erase(physicsNodeiterator);
+					break;
+				}
+			}
+		}
+	});
+
 	incomingMessages.addActionToExecuteOnMessage(MessageType::ABSOLUTE_TRANSFORM, [database = database](Message* message)
 	{
 		AbsoluteTransformMessage* translationMessage = static_cast<AbsoluteTransformMessage*>(message);
@@ -333,7 +362,6 @@ void PhysicsEngine::broadPhaseCollisions()
 						{
 							broadphaseColPairs.push_back(pair);
 						}
-						
 					}
 				}
 			}

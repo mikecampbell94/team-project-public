@@ -6,12 +6,24 @@
 #include "../Meshes/Mesh.h"
 #include <vector>
 
+class GameObject;
+
 class SceneNode
 {
 public:
 	SceneNode(string meshFile, NCLVector4 colour = NCLVector4(1, 1, 1, 1));
 	SceneNode(Mesh* mesh, NCLVector4 colour = NCLVector4(1, 1, 1, 1));
 	virtual ~SceneNode(void);
+
+	void setParent(GameObject* parentObject)
+	{
+		this->parentObject = parentObject;
+	}
+
+	GameObject* getParent()
+	{
+		return parentObject;
+	}
 
 	void setPosition(NCLVector3 position)
 	{
@@ -107,5 +119,6 @@ protected:
 	float		boundingRadius;
 
 	std::vector<SceneNode*> children;
+	GameObject* parentObject;
 };
 

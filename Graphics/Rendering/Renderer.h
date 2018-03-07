@@ -24,6 +24,9 @@ public:
 
 	void changeResolution(NCLVector2 resolution);
 
+	void addSceneNode(SceneNode* sceneNode);
+	void removeSceneNodeByResourceName(std::string resourcename);
+
 	void toggleModule(const std::string& moduleName, bool enabled);
 	GraphicsModule* getGraphicsModule(const std::string& moduleName);
 

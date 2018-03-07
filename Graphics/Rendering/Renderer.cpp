@@ -5,6 +5,7 @@
 #include "../Utility/Camera.h"
 #include "../Utilities/Maths/Matrix4.h"
 #include "../Resource Management/Database/Database.h"
+#include "../Gameplay/GameObject.h"
 
 Renderer::Renderer() : OGLRenderer(0, NCLVector2())
 {
@@ -48,7 +49,7 @@ void Renderer::initialise(SceneManager* sceneManager, Database* database)
 	graphicsConfig.buildPipeline(&pipeline);
 
 	XMLParser graphicsconfigParser;
-	graphicsconfigParser.loadFile("../Data/Resources/Config/Graphics/graphicsConfigXML.xml");
+	graphicsconfigParser.loadFile("../Data/Resources/Graphics Config/graphicsConfigXML.xml");
 	Node* node = graphicsconfigParser.parsedXml;
 
 	//TO-DO
@@ -83,6 +84,23 @@ void Renderer::changeResolution(NCLVector2 resolution)
 	//Resize(resolution.x, resolution.y);
 
 	//for each (GraphicsModule* module in pipeline.)
+}
+
+void Renderer::addSceneNode(SceneNode* sceneNode)
+{
+	(*sceneManager->getAllNodes())->push_back(sceneNode);
+}
+
+void Renderer::removeSceneNodeByResourceName(std::string resourcename)
+{
+	for (auto sceneNodeIterator = (*sceneManager->getAllNodes())->begin(); sceneNodeIterator != (*sceneManager->getAllNodes())->end(); ++ sceneNodeIterator)
+	{
+		if ((*sceneNodeIterator)->getParent()->getName() == resourcename)
+		{
+			(*sceneManager->getAllNodes())->erase(sceneNodeIterator);
+			break;
+		}
+	}
 }
 
 void Renderer::toggleModule(const std::string& moduleName, bool enabled)

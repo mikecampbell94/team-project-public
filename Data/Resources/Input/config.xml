@@ -1,6 +1,0 @@
-<Config inputType="Keyboard">
-		<Action name="moveForward">Keyboard_W</Action>
-		<Action name="moveForward">Keyboard_W</Action>
-		<Action name="moveForward">Keyboard_W</Action>
-		<Action name="moveForward">Keyboard_W</Action>
-</Config>

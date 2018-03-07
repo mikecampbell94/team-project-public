@@ -186,10 +186,17 @@ void SendMessageActionBuilder::initialiseNodeBuilders()
 
 void SendMessageActionBuilder::initialiseDevConsoleBuilders()
 {
+	//../Data/GameObjectLogic/aiObjectLogic.xml
 	devConsoleBuilder.insert({ "text" , [](std::vector<std::string> line)
 	{
 		std::string destination = line[1];
-		std::string data = line[2];
+
+		std::string data;
+
+		for (int i = 2; i < line.size(); ++i)
+		{
+			data += " " + line[i];
+		}
 
 		return[destination = destination, text = data]()
 		{

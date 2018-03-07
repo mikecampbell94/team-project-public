@@ -213,7 +213,7 @@
     </scale>
     <action type="Start">
       <Online>False</Online>
-      <Level>MainMenu.txt</Level>
+      <Level>MainMenu.xml</Level>
     </action>
     <text>Main Menu</text>
     <mesh>UIQuad</mesh>

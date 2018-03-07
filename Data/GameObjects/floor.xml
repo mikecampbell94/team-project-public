@@ -1,4 +1,0 @@
-<GameObject>
-	<Mesh> cube.obj </Mesh>
-	<Physics>true</Physics>
-</GameObject>
