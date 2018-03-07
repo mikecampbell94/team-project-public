@@ -164,6 +164,11 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 	gameLogic.executeActionsOnStart();
 }
 
+void GameplaySystem::setDefaultGameplayScript()
+{
+	gameLogic = GameLogic(&incomingMessages);
+}
+
 void GameplaySystem::addGameObjectScript(std::string scriptFile)
 {
 	objects.push_back(new GameObjectLogic(database, &incomingMessages, scriptFile));
