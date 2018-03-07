@@ -7,7 +7,7 @@
 class StopSoundMessage : public Message
 {
 public:
-	StopSoundMessage(const std::string& desinationName, MessageType type, std::string soundNodeIdentifier);
+	StopSoundMessage(const std::string& desinationName, std::string soundNodeIdentifier);
 	~StopSoundMessage();
 
 	std::string soundNodeIdentifier;

@@ -5,6 +5,7 @@
 #include "Sound.h"
 
 class PlaySoundMessage;
+class PlayMovingSoundMessage;
 class StopSoundMessage;
 
 enum SoundPriority 
@@ -30,22 +31,18 @@ struct OALSource
 class SoundNode
 {
 public:
-	//SoundNode() = default;
 	SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, float volume, 
-		bool isLooping, float radius, float pitch, bool isGlobal, 
-		std::string identifier);
+		bool isLooping, float radius, float pitch, std::string identifier);
+	SoundNode(Sound* sound, NCLVector3 *position, SoundPriority priority, float volume,
+		bool isLooping, float radius, float pitch, std::string identifier);
 	~SoundNode();
 
 	static SoundNode builder(PlaySoundMessage* message, Sound* sound);
+	static SoundNode builder(PlayMovingSoundMessage* message, Sound* sound);
 
 	float getRadius() const
 	{
 		return radius;
-	}
-
-	bool getIsGlobal() const
-	{
-		return isGlobal;
 	}
 
 	OALSource* getSource() const
@@ -73,6 +70,11 @@ public:
 		return position;
 	}
 
+	NCLVector3* getMovingPosition() const
+	{
+		return movingPosition;
+	}
+
 	static bool compareSourcesByPriority(SoundNode& a, SoundNode& b);
 
 	void attachSource(OALSource* s);
@@ -81,6 +83,7 @@ public:
 	void update(float msec);
 
 	bool enabled = false;
+	bool isMoving = false;
 	std::string identifier;
 
 private:
@@ -98,13 +101,13 @@ private:
 
 	Sound* sound;
 	NCLVector3 position;
+	NCLVector3 *movingPosition;
 	OALSource* oalSource;
 	SoundPriority priority;
 	float volume;
 	float radius;
 	float pitch;
 	bool isLooping;
-	bool isGlobal;
 	double timeLeft;
 };
 

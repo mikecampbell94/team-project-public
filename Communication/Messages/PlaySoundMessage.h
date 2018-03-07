@@ -7,9 +7,9 @@
 class PlaySoundMessage : public Message
 {
 public:
-	PlaySoundMessage(const std::string& desinationName, MessageType type, NCLVector3 position,
+	PlaySoundMessage(const std::string& desinationName, NCLVector3 position,
 		 SoundPriority priority, float volume, float radius, float pitch, bool isLooping,
-		bool isGlobal, std::string soundID, std::string soundNodeIdentifier);
+		std::string soundID, std::string soundNodeIdentifier);
 	~PlaySoundMessage();
 
 	NCLVector3 position;
@@ -18,7 +18,6 @@ public:
 	float radius;
 	float pitch;
 	bool isLooping;
-	bool isGlobal;
 	std::string soundID;
 	std::string soundNodeIdentifier;
 };

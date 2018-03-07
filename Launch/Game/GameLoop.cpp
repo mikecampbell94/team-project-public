@@ -17,13 +17,14 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 {
 	engine = gameSystem;
 	this->database = database;
+	this->camera = camera;
 
 	DeliverySystem::getPostman()->addDeliveryPoint("GameLoop");
 	incomingMessages = MessageProcessor(std::vector<MessageType>{ MessageType::TEXT},
 		DeliverySystem::getPostman()->getDeliveryPoint("GameLoop"));
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [startup = startup, &quit = quit,
-		&deltaTimeMultiplier = deltaTimeMultiplier, &engine = engine](Message* message)
+		&deltaTimeMultiplier = deltaTimeMultiplier, &engine = engine, camera = camera](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
@@ -73,11 +74,12 @@ GameLoop::~GameLoop()
 
 void GameLoop::executeGameLoop()
 {
-	DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, camera->getPosition(), 
-		SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
-
 	camera->setPitch(24.0f);
 	camera->setYaw(-133.0f);
+
+	//MOVE AUDIO FROM GAME LOOP TO SOMEWHERE ELSE LIKE GAMEPLAY
+	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "mirrorsedge", "BackgroundMusic"));
 
 	while (window->updateWindow() && !quit)
 	{
@@ -119,11 +121,7 @@ void GameLoop::executeGameLoop()
 		if (window->getKeyboard()->keyDown(KEYBOARD_SPACE)) {
 			camera->setPosition(camera->getPosition() + NCLVector3(0, 1, 0) * 1);
 		}
-
-		if (window->getKeyboard()->keyDown(KEYBOARD_C)) {
-			camera->setPosition(camera->getPosition() + NCLVector3(0, -1, 0) * 1);
-		}
-
+		
 		//camera->setPitch(pitch);
 		//camera->setYaw(yaw);
 	}
@@ -140,7 +138,6 @@ void GameLoop::updateGameObjects()
 		{
 			gObj->updatePosition();
 		}
-
 		//DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "thing",
 		//	gObj->getSceneNode()->GetWorldTransform().getPositionVector(), Vector3(10, 10, 1), false));
 	}

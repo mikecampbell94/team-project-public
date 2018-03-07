@@ -73,7 +73,7 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 			timer->endTimedSection();
 
 			gameLogic.elapsedTime += (deltaTime * 0.001f);
-			std::cout << gameLogic.elapsedTime << endl;
+			//std::cout << gameLogic.elapsedTime << endl;
 		}
 		else if(!levelFinished)
 		{

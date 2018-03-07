@@ -4,6 +4,7 @@
 #include "Messages/PlayerInputMessage.h"
 #include "Messages/TextMessage.h"
 #include "Messages/PlaySoundMessage.h"
+#include "Messages/PlayMovingSoundMessage.h"
 #include "Messages/StopSoundMessage.h"
 #include <string>
 #include <queue>
@@ -33,7 +34,9 @@ public:
 	virtual void insertMessage(Message message) = 0;
 	virtual void insertMessage(PlayerInputMessage message) = 0;
 	virtual void insertMessage(TextMessage message) = 0;
-	virtual void insertMessage(RelativeTransformMessage message) = 0;	virtual void insertMessage(PlaySoundMessage message) = 0;
+	virtual void insertMessage(RelativeTransformMessage message) = 0;	
+	virtual void insertMessage(PlaySoundMessage message) = 0;
+	virtual void insertMessage(PlayMovingSoundMessage message) = 0;
 	virtual void insertMessage(StopSoundMessage message) = 0;
 	virtual void insertMessage(ToggleGraphicsModuleMessage message) = 0;
 	virtual void insertMessage(ApplyForceMessage message) = 0;
