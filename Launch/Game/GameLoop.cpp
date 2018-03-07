@@ -17,7 +17,6 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 {
 	engine = gameSystem;
 	this->database = database;
-	this->camera = camera;
 
 	DeliverySystem::getPostman()->addDeliveryPoint("GameLoop");
 	incomingMessages = MessageProcessor(std::vector<MessageType>{ MessageType::TEXT},
