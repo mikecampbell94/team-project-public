@@ -98,9 +98,9 @@ void RenderingSystem::initialise(Database* database)
 		ToggleGameObjectMessage* toggleMessage = static_cast<ToggleGameObjectMessage*>(message);
 
 		GameObject* gameObject = static_cast<GameObject*>(
-			database->getTable("GameObject")->getResource(toggleMessage->gameObjectID));
+			database->getTable("GameObjects")->getResource(toggleMessage->gameObjectID));
 
-		gameObject->setEnabled(!gameObject->getEnabled());
+		gameObject->setEnabled(toggleMessage->isEnabled);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)

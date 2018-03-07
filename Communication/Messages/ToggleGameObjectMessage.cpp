@@ -1,6 +1,10 @@
 #include "ToggleGameObjectMessage.h"
 
-
+#include <sstream>
+#include <string>
+#include <iomanip>
+#include <algorithm>
+#include <cctype>
 
 ToggleGameObjectMessage::ToggleGameObjectMessage(const std::string& destinationName, std::string gameObjectID,
 	bool isEnabled)
@@ -31,21 +35,19 @@ ToggleGameObjectMessage ToggleGameObjectMessage::builder(Node* node)
 		{
 			object = childNode->value;
 		}
-		else if (childNode->nodeType == "scale")
+		else if (childNode->nodeType == "enabled")
 		{
-			isEnabled = NCLVector4::builder(childNode);
+			isEnabled = stob(childNode->value);
 		}
 	}
 	return ToggleGameObjectMessage(destination, object, isEnabled);
 }
 
-ToggleGameObjectMessage ToggleGameObjectMessage::tokensToMessage(std::vector<std::string> lineTokens)
+bool ToggleGameObjectMessage::stob(std::string str)
 {
-	std::string nodeDestination = lineTokens[1];
-	std::string nodeResourcename = lineTokens[2];
-
-	std::string rotateString = lineTokens[3].substr(7);
-	bool isEnabled = NCLVector4::builder(rotateString);
-
-	return ToggleGameObjectMessage(nodeDestination, nodeResourcename, isEnabled);
+	std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+	std::istringstream is(str);
+	bool b;
+	is >> std::boolalpha >> b;
+	return b;
 }

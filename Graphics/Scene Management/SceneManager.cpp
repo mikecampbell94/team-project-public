@@ -64,7 +64,7 @@ std::vector<SceneNode*>** SceneManager::getAllNodes()
 
 void SceneManager::allocateSubNodesToNodeLists(SceneNode* node)
 {
-	if (camera->sceneNodeIsInCameraView(node))
+	if (camera->sceneNodeIsInCameraView(node) && node->isEnabled)
 	{
 		if (node->getColour().w < 1.0f)
 		{
