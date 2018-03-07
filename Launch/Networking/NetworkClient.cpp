@@ -56,6 +56,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 
 	if (!inLobby)
 	{
+		DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime enable"));
 		timeSinceLastBroadcast += deltaTime;
 		msCounter += deltaTime;
 		updateRealTimeAccum += deltaTime;
@@ -87,6 +88,7 @@ void NetworkClient::updateSubsystem(const float& deltaTime)
 	else
 	{
 		waitingInLobbyText.addTextWhenTimeHasReachedMaximum(30);
+		DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
 
 		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", waitingInLobbyText.getCurrentString(),
 			NCLVector3(-200, 0, 0), NCLVector3(20, 20, 1), NCLVector3(1, 1, 1), true));
