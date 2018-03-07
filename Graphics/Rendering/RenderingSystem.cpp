@@ -16,6 +16,7 @@
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
+#include "../../Communication/Messages/ToggleGameObjectMessage.h"
 #include "../Utilities/GameTimer.h"
 #include <iterator>
 #include "../../Communication/Messages/AbsoluteTransformMessage.h"
@@ -35,8 +36,9 @@ void RenderingSystem::initialise(Database* database)
 {
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::TEXT_MESH_MESSAGE, MessageType::RELATIVE_TRANSFORM,
-		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE, MessageType::SCALE_GAMEOBJECT,
-		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER, MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT };
+		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
+		MessageType::SCALE_GAMEOBJECT, MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER,
+		MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT, MessageType::TOGGLE_GAMEOBJECT };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -104,6 +106,16 @@ void RenderingSystem::initialise(Database* database)
 		gameObject->getSceneNode()->SetTransform(NCLMatrix4::translation(position) *
 			NCLMatrix4::rotation(rotateMessage->rotation.w, NCLVector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z)) *
 			NCLMatrix4::scale(scale));
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TOGGLE_GAMEOBJECT, [database = database](Message* message)
+	{
+		ToggleGameObjectMessage* toggleMessage = static_cast<ToggleGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(toggleMessage->gameObjectID));
+
+		gameObject->setEnabled(toggleMessage->isEnabled);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)

@@ -1,0 +1,80 @@
+<GameplayScript>
+  <OnStart>
+    <SendMessage type="TOGGLE_GRAPHICS_MODULE">
+      <destination>RenderingSystem</destination>
+      <moduleName>PaintTrail</moduleName>
+      <enabled>True</enabled>
+    </SendMessage>
+
+    <SendMessage type="TOGGLE_GRAPHICS_MODULE">
+      <destination>RenderingSystem</destination>
+      <moduleName>ScoreCounter</moduleName>
+      <enabled>True</enabled>
+    </SendMessage>
+    
+    <SendMessage type="PREPARE_PAINT_SURFACE">
+      <destination>RenderingSystem</destination>
+      <resource>floor</resource>
+      <!--
+      <resource>platformasstair</resource>
+      <resource>platformwithfirststair</resource>
+      <resource>platformassecondstair</resource>
+      <resource>floor</resource>
+      <resource>floor</resource>
+      <resource>floor</resource>
+      <resource>floor</resource>
+      <resource>floor</resource>
+      <GameObjects id ="platformasstair" >
+        <GameObjects id ="platformwithfirststair" >
+          <GameObjects id ="platformassecondstair" >
+            <GameObjects id ="secondfloor1" >
+              <GameObjects id ="secondfloor2" >
+                <GameObjects id ="secondfloor3" >
+                  <GameObjects id ="platformasthirdstair1" >
+                    <GameObjects id ="platformasthirdstair2" >
+                      <GameObjects id ="thirdfloor1" >
+                        <GameObjects id ="platformasstair1" >
+                          <GameObjects id ="platformwithfirststair1" >
+                            <GameObjects id ="platformassecondstair1" >
+                              <GameObjects id ="secondfloor4" >
+                              -->
+    </SendMessage>
+
+    <SendMessage type="ADD_SCORE_HOLDER">
+      <destination>RenderingSystem</destination>
+      <name>player0</name>
+    </SendMessage>
+
+    <SendMessage type="ADD_SCORE_HOLDER">
+      <destination>RenderingSystem</destination>
+      <name>player1</name>
+    </SendMessage>
+
+    <SendMessage type="ADD_SCORE_HOLDER">
+      <destination>RenderingSystem</destination>
+      <name>player2</name>
+    </SendMessage>
+
+    <SendMessage type="TEXT">
+      <destination>UserInterface</destination>
+      <text>Toggle</text>
+    </SendMessage>
+  </OnStart>
+  
+  <Timed interval="0.01">
+    <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
+      <destination>RenderingSystem</destination>
+      <resource>player0</resource>
+      <translation>
+        <x>0</x>
+        <y>100</y>
+        <z>-60</z>
+      </translation>
+      <rotation>
+        <pitch>-40</pitch>
+        <yaw>180</yaw>
+      </rotation>
+    </SendMessage>
+  </Timed>
+
+</GameplayScript>

@@ -94,12 +94,18 @@ public:
 			? true : false;
 	}
 
+	void setEnabled(bool isEnabled)
+	{
+		this->isEnabled = isEnabled;
+	}
+
 	std::vector<SceneNode*> getChildren();
 
 	const float getRadius();
 
 	bool isPaintSurface = false;
 	int hasTexture = 0;
+	bool isEnabled = true;
 	NCLVector4 axisAngleRotation;
 
 protected:

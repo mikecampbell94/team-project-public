@@ -9,6 +9,7 @@
 #include "Messages/AbsoluteTransformMessage.h"
 #include "Messages/MoveGameObjectMessage.h"
 #include "Messages/ScaleGameObjectMessage.h"
+#include "Messages/ToggleGameObjectMessage.h"
 
 std::unordered_map<std::string, Builder>SendMessageActionBuilder::builders 
 	= std::unordered_map<std::string, Builder>();
@@ -165,6 +166,16 @@ void SendMessageActionBuilder::initialiseNodeBuilders()
 	builders.insert({ "ROTATE_GAMEOBJECT" , [](Node* node)
 	{
 		RotateGameObjectMessage message = RotateGameObjectMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	} });
+
+	builders.insert({ "TOGGLE_GAMEOBJECT" , [](Node* node)
+	{
+		ToggleGameObjectMessage message = ToggleGameObjectMessage::builder(node);
 
 		return [message = message]()
 		{

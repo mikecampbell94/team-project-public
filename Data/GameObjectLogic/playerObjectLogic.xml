@@ -5,7 +5,6 @@
 	<resource>player0</resource>
 	<resource>player1</resource>
 	<resource>player2</resource>
-	
 </Resources>
 
 
@@ -25,6 +24,96 @@
 		</Action>
 	 </ReceiveMessage>
 	 
+	 <ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>var</objectIdentifier>
+				<colliderIdentifier>powerup</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="SCALE_GAMEOBJECT">
+				<destination>Physics</destination>
+				<resource>var</resource>
+				<scale>
+					<X>020</X>
+					<Y>020</Y>
+					<Z>020</Z>
+				</scale>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
+	 
+	 <ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>var</objectIdentifier>
+				<colliderIdentifier>powerup</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="SCALE_GAMEOBJECT">
+				<destination>RenderingSystem</destination>
+				<resource>var</resource>
+				<scale>
+					<X>020</X>
+					<Y>020</Y>
+					<Z>020</Z>
+				</scale>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
+	 
+	  <ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>var</objectIdentifier>
+				<colliderIdentifier>powerup</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="TOGGLE_GAMEOBJECT">
+				<destination>RenderingSystem</destination>
+				<resource>powerup</resource>
+				<enabled>False</enabled>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
+	 
+	 <ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>var</objectIdentifier>
+				<colliderIdentifier>powerup</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="MOVE_GAMEOBJECT">
+				<destination>Physics</destination>
+				<resource>var</resource>
+				<position>
+					<X>000</X>
+					<Y>070</Y>
+					<Z>000</Z>
+				</position>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
+	 
+	 <ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>var</objectIdentifier>
+				<colliderIdentifier>powerup</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="MOVE_GAMEOBJECT">
+				<destination>RenderingSystem</destination>
+				<resource>var</resource>
+				<position>
+					<X>000</X>
+					<Y>020</Y>
+					<Z>000</Z>
+				</position>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
 </GameplayScript>
 
 <HardCodedLogic>

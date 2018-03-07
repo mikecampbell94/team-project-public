@@ -150,7 +150,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 {
 	//gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
-	physics->InitialiseOctrees(10);
+	physics->InitialiseOctrees(100);
 	level->loadLevelFile(LEVELDIR + levelFile, gameplay);
 
 	if (!online)
@@ -177,7 +177,7 @@ void Startup::unloadLevel()
 void Startup::beginOnlineLobby()
 {
 	engine->addSubsystem(network);
-	network->waitForOtherClients(3);
+	network->waitForOtherClients(2);
 	network->connectToServer();
 	DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
 }

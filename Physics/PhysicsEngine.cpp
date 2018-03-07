@@ -358,7 +358,14 @@ void PhysicsEngine::broadPhaseCollisions()
 
 					if (pair.pObjectA->getIsCollision() && pair.pObjectB->getIsCollision())
 					{
-						broadphaseColPairs.push_back(pair);
+						if (pair.pObjectA->getEnabled() && pair.pObjectB->getEnabled())
+						{
+							if (!(pair.pObjectA->getIsStatic() && pair.pObjectB->getIsStatic()))
+							{
+								broadphaseColPairs.push_back(pair);
+							}
+							
+						}
 					}
 				}
 			}

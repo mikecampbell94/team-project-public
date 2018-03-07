@@ -1,0 +1,15 @@
+<Level>
+	<File>Level 3/Meshes.xml</File>
+	<File>Level 3/Details.xml</File>
+	<File>Level 3/Sounds.xml</File>
+	<File>Level 3/Lights.xml</File>
+	<UI>
+		<File>../Data/UserInterface/InGameMenu.xml</File>
+	</UI>
+	<GamePlay>
+		<File>../Data/Gameplay/gameplay.xml</File>
+	</GamePlay>
+	<GameLogic>
+		<File>../Data/GameObjectLogic/playerObjectLogic.xml</File>
+	</GameLogic>
+</Level>
