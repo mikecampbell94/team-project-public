@@ -138,6 +138,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FilePaths.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Maths\MathsCommon.h" />
     <ClInclude Include="Maths\Matrix4.h" />

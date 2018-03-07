@@ -7,7 +7,7 @@
 #include "../Interface/UserInterface.h"
 #include "../Gameplay/GameplaySystem.h"
 
-Level::Level(Database *database,SceneManager* sceneManager, 
+Level::Level(Database *database, SceneManager* sceneManager,
 	PhysicsEngine* physics, UserInterface* userInterface)
 {
 	this->database = database;
@@ -23,48 +23,41 @@ Level::~Level()
 void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 {
 	gameplay->deleteGameObjectScripts();
-
-	std::ifstream levelFile;
-
-	levelFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
-
-	levelFile.open(LEVELDIR + levelFilePath);
-
-	if (levelFile.fail())
+	//std::string lvlStr = LEVELDIR;
+	parser.loadFile(levelFilePath);
+	levelNode = *parser.parsedXml;
+	for (Node* child : levelNode.children)
 	{
-		throw std::runtime_error("Error: File " +  levelFilePath + " not found");
-	}
-
-	std::string line;
-	
-	while (!levelFile.eof() && std::getline(levelFile, line))
-	{
-		if (line.find("UserInterface/") != string::npos)
+		if (child->nodeType == "UI")
 		{
-			userInterface->initialise(line, database);
+			userInterface->initialise(child->children[0]->value, database);
 		}
-		else if (line.find("Gameplay/") != string::npos)
+		else if (child->nodeType == "GamePlay")
 		{
-			gameplay->compileGameplayScript(line);
+			gameplay->compileGameplayScript(child->children[0]->value);
 		}
-		else if (line.find("GameObjectLogic/") != string::npos)
+		else if (child->nodeType == "GameLogic")
 		{
-			gameplay->addGameObjectScript(line);
+			for (Node* grandChild : child->children)
+			{
+				gameplay->addGameObjectScript(grandChild->value);
+			}
 		}
 		else
 		{
-			//listOfObjectTypesInLevel.push_back(parser.loadFile(DATADIR + line));
-			parser.loadFile(DATADIR + line);
-			//have our object in XML format, add to database :)
-			for (Node * child : parser.parsedXml->children)
+			parser.loadFile(LEVELDIR + child->value);
+			for (Node* grandchild : parser.parsedXml->children)
 			{
-				listOfObjectTypesInLevel.insert(child->nodeType);
-				database->addResourceToTable(child->nodeType, child);
+				listOfObjectTypesInLevel.insert(grandchild->nodeType);
+
+				database->addResourceToTable(grandchild->nodeType, grandchild);
 			}
+
 		}
+
 	}
-	levelFile.close();
+
+
 
 	addObjectsToGame();
 }
@@ -76,7 +69,7 @@ void Level::unloadLevelWhileKeepingUserInterface()
 	(*sceneManager->getAllLights())->clear();
 	physics->removeAllPhysicsObjects();
 
-	for (std::string table : listOfObjectTypesInLevel)
+	for each (std::string table in listOfObjectTypesInLevel)
 	{
 		if (table != "UIMeshes")
 		{
@@ -93,7 +86,7 @@ void Level::unloadLevel()
 	physics->removeAllPhysicsObjects();
 
 	//for (std::vector<std::string>::const_iterator it = listOfObjectTypesInLevel.begin(); it != listOfObjectTypesInLevel.end(); ++it)
-	for (std::string table : listOfObjectTypesInLevel)
+	for each (std::string table in listOfObjectTypesInLevel)
 	{
 		database->getTable(table)->getAllResources()->deleteAllResources();
 	}
@@ -106,7 +99,7 @@ void Level::addObjectsToGame()
 	{
 		(*sceneManager->getAllNodes())->push_back(static_cast<GameObject*>((*gameObjectIterator).second)->getSceneNode());
 		PhysicsNode* pnode = static_cast<GameObject*>((*gameObjectIterator).second)->getPhysicsNode();
-		if(pnode != nullptr)
+		if (pnode != nullptr)
 			physics->addPhysicsObject(pnode);
 	}
 

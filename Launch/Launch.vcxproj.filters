@@ -46,6 +46,9 @@
     <ClCompile Include="DevConsole\Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DevConsole\LevelEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Systems\Subsystem.h" />
@@ -59,5 +62,6 @@
     <ClInclude Include="Profiler\MemoryWatcher.h" />
     <ClInclude Include="Profiler\Profiler.h" />
     <ClInclude Include="DevConsole\Console.h" />
+    <ClInclude Include="DevConsole\LevelEditor.h" />
   </ItemGroup>
 </Project>

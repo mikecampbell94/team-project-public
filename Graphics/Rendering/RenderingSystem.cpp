@@ -16,6 +16,7 @@
 #include "../../Communication/Messages/MoveCameraRelativeToGameObjectMessage.h"
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
+#include "../../Communication/Messages/ToggleGameObjectMessage.h"
 #include "../Utilities/GameTimer.h"
 #include <iterator>
 #include "../../Communication/Messages/AbsoluteTransformMessage.h"
@@ -35,12 +36,13 @@ void RenderingSystem::initialise(Database* database)
 {
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::TEXT_MESH_MESSAGE, MessageType::RELATIVE_TRANSFORM,
-		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE, MessageType::SCALE_GAMEOBJECT,
-		MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER, MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT };
+		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
+		MessageType::SCALE_GAMEOBJECT, MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER,
+		MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT, MessageType::TOGGLE_GAMEOBJECT };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&renderer = renderer](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&renderer = renderer, database = database, &blockCamera = blockCamera](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
@@ -48,13 +50,26 @@ void RenderingSystem::initialise(Database* database)
 		vector<string> tokens{ istream_iterator<string>{iss},
 			std::istream_iterator<string>{} };
 
-		if (tokens[0] == "Resolution")
+		if (tokens[0] == "addscenenode")
+		{
+			GameObject* gameObject = static_cast<GameObject*>(
+				database->getTable("GameObjects")->getResource(tokens[1]));
+
+			renderer->addSceneNode(gameObject->getSceneNode());
+		}
+		else if (tokens[0] == "removescenenode")
+		{
+			renderer->removeSceneNodeByResourceName(tokens[1]);
+		}
+		else if (tokens[0] == "Resolution")
 		{
 			NCLVector2 resolution(stof(tokens[1]), stof(tokens[2]));
 			renderer->changeResolution(resolution);
 		}
-
-		std::cout << textMessage->text << std::endl;
+		else if (tokens[0] == "togglecamera")
+		{
+			blockCamera = !blockCamera;
+		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_GAMEOBJECT, [database = database](Message* message)
@@ -91,6 +106,16 @@ void RenderingSystem::initialise(Database* database)
 			NCLMatrix4::scale(scale));
 	});
 
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TOGGLE_GAMEOBJECT, [database = database](Message* message)
+	{
+		ToggleGameObjectMessage* toggleMessage = static_cast<ToggleGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(toggleMessage->gameObjectID));
+
+		gameObject->setEnabled(toggleMessage->isEnabled);
+	});
+
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)
 	{
 		TextMeshMessage* textMessage = static_cast<TextMeshMessage*>(message);
@@ -124,16 +149,19 @@ void RenderingSystem::initialise(Database* database)
 		renderer->toggleModule(moduleMessage->moduleName, moduleMessage->enabled);
 	});
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, [&camera = camera, database = database](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, [&camera = camera, database = database, &blockCamera = blockCamera](Message* message)
 	{
-		MoveCameraRelativeToGameObjectMessage* movementMessage = static_cast<MoveCameraRelativeToGameObjectMessage*>(message);
+		if (!blockCamera)
+		{
+			MoveCameraRelativeToGameObjectMessage* movementMessage = static_cast<MoveCameraRelativeToGameObjectMessage*>(message);
 
-		GameObject* gameObject = static_cast<GameObject*>(
-			database->getTable("GameObjects")->getResource(movementMessage->resourceName));
+			GameObject* gameObject = static_cast<GameObject*>(
+				database->getTable("GameObjects")->getResource(movementMessage->resourceName));
 
-		camera->setPosition(gameObject->getSceneNode()->GetTransform().getPositionVector() + movementMessage->translation);
-		camera->setPitch(movementMessage->pitch);
-		camera->setYaw(movementMessage->yaw);
+			camera->setPosition(gameObject->getSceneNode()->GetTransform().getPositionVector() + movementMessage->translation);
+			camera->setPitch(movementMessage->pitch);
+			camera->setYaw(movementMessage->yaw);
+		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PREPARE_PAINT_SURFACE, [database = database, &renderer = renderer](Message* message)

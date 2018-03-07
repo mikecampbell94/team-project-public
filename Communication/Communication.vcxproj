@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Messages\ToggleGameObjectMessage.h" />
     <ClInclude Include="Messages\AbsoluteTransformMessage.h" />
     <ClInclude Include="Messages\MoveGameObjectMessage.h" />
     <ClInclude Include="Messages\ScaleGameObjectMessage.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Messages\TextMeshMessage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Messages\ToggleGameObjectMessage.cpp" />
     <ClCompile Include="Messages\AbsoluteTransformMessage.cpp" />
     <ClCompile Include="Messages\MoveGameObjectMessage.cpp" />
     <ClCompile Include="Messages\ScaleGameObjectMessage.cpp" />

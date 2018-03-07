@@ -9,6 +9,7 @@
 #include "Messages/AbsoluteTransformMessage.h"
 #include "Messages/MoveGameObjectMessage.h"
 #include "Messages/ScaleGameObjectMessage.h"
+#include "Messages/ToggleGameObjectMessage.h"
 
 std::unordered_map<std::string, Builder>SendMessageActionBuilder::builders 
 	= std::unordered_map<std::string, Builder>();
@@ -171,14 +172,31 @@ void SendMessageActionBuilder::initialiseNodeBuilders()
 			DeliverySystem::getPostman()->insertMessage(message);
 		};
 	} });
+
+	builders.insert({ "TOGGLE_GAMEOBJECT" , [](Node* node)
+	{
+		ToggleGameObjectMessage message = ToggleGameObjectMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	} });
 }
 
 void SendMessageActionBuilder::initialiseDevConsoleBuilders()
 {
+	//../Data/GameObjectLogic/aiObjectLogic.xml
 	devConsoleBuilder.insert({ "text" , [](std::vector<std::string> line)
 	{
 		std::string destination = line[1];
-		std::string data = line[2];
+
+		std::string data;
+
+		for (int i = 2; i < line.size(); ++i)
+		{
+			data += " " + line[i];
+		}
 
 		return[destination = destination, text = data]()
 		{

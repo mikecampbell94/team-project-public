@@ -21,19 +21,26 @@ public:
 	void setPosition(NCLVector3 position);
 	void setRotation(NCLVector4 rotation);
 	void setScale(NCLVector3 scale);
+	void setEnabled(bool isEnabled);
 
 	const NCLVector3& getScale() const
 	{
 		return scale;
 	}
 
-	bool canJump;
+	bool getEnabled()
+	{
+		return isEnabled;
+	}
 
+	bool canJump;
+	bool isEnabled = true;
 private: 
 	SceneNode *sceneNode;
 	PhysicsNode *physicsNode = nullptr;
 
 	NCLVector3 position;
 	NCLVector3 scale;
+
 };
 

@@ -97,7 +97,11 @@ void Shadows::drawShadowScene()
 
 			for (SceneNode* m : **models)
 			{
-				m->Draw(*shadowShader);
+				if (m->isEnabled)
+				{
+					m->Draw(*shadowShader);
+				}
+				
 			}
 		}
 	}

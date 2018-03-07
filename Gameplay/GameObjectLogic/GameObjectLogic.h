@@ -19,6 +19,10 @@ public:
 	void notify(const std::string& messageType, Message* message);
 	void updatelogic(const float& deltaTime);
 	
+	std::string getScriptFile()
+	{
+		return scriptFile;
+	}
 
 private:
 	void compileFunctions(Node* node);
@@ -37,6 +41,7 @@ private:
 
 	std::vector<std::function<void()>> functions;
 	
+	std::string scriptFile;
 
 	std::vector<PlayerInputMessage*> inputMessages;
 };

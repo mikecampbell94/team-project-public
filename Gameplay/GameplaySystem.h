@@ -20,6 +20,7 @@ public:
 
 	void connectPlayerbase(PlayerBase* playerbase);
 	void compileGameplayScript(std::string levelScript);
+	void setDefaultGameplayScript();
 
 	void addGameObjectScript(std::string scriptFile);
 	void deleteGameObjectScripts();
@@ -38,11 +39,12 @@ public:
 
 private:
 	GameLogic gameLogic;
-	std::vector<GameObjectLogic> objects;
+	std::vector<GameObjectLogic*> objects;
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
 	Database* database;
 
+	std::vector<std::string> gameObjectLogicRemoveBuffer;
 	bool levelFinished = false;
 };
 

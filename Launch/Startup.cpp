@@ -3,6 +3,9 @@
 #include "Networking/NetworkClient.h"
 #include "Profiler/FPSCounter.h"
 #include "DevConsole\Console.h"
+#include "DevConsole/LevelEditor.h"
+
+#include "../Utilities/FilePaths.h"
 
 Startup::Startup()
 {
@@ -37,7 +40,7 @@ void Startup::initialiseSubsystems()
 void Startup::initialiseRenderingSystem()
 {
 	XMLParser windowConfiguration;
-	windowConfiguration.loadFile("../Data/Resources/Config/Graphics/windowConfigXML.xml");
+	windowConfiguration.loadFile("../Data/Resources/Graphics Config/windowConfigXML.xml");
 	Node* node = windowConfiguration.parsedXml;
 	resolution.x = std::stof(node->children[0]->children[0]->value);
 	resolution.y = std::stof(node->children[0]->children[1]->value);
@@ -95,6 +98,7 @@ void Startup::initialiseDatabaseAndTables()
 {
 	database = new Database();
 	tableCreation = new TableCreation(database);
+	LevelEditor::initialiseLevelEditor(database);
 	profiler = new Profiler(window->getKeyboard(), database, new FPSCounter());
 	game->database = database;
 }
@@ -118,7 +122,7 @@ void Startup::addSystemsToEngine()
 	engine->addSubsystem(userInterface);
 	engine->addSubsystem(physics);
 	engine->addSubsystem(profiler);
-	engine->addSubsystem(new Console(window->getKeyboard()));
+	engine->addSubsystem(new Console(window->getKeyboard(), camera, window->getMouse()));
 
 	for (Subsystem * subsystem : engine->getSubSystems())
 	{
@@ -128,17 +132,22 @@ void Startup::addSystemsToEngine()
 
 void Startup::loadMainMenu()
 {
-	level->loadLevelFile("MainMenu.txt", gameplay);
+	level->loadLevelFile(LEVELDIR"MainMenu.xml", gameplay);
+
+
+
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
 
-	gameplay->setUnTimedLevel();
+	//gameplay->setUnTimedLevel();
 }
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
-	physics->InitialiseOctrees(10);
-	level->loadLevelFile(levelFile, gameplay);
+	gameplay->setDefaultGameplayScript();
+	gameplay->deleteGameObjectScripts();
+	physics->InitialiseOctrees(100);
+	level->loadLevelFile(LEVELDIR + levelFile, gameplay);
 
 	if (!online)
 	{
@@ -148,7 +157,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
-	gameplay->setTimedLevel(3000.f);
+	gameplay->setTimedLevel(70000000.f);
 }
 
 void Startup::switchLevel()

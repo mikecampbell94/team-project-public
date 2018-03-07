@@ -14,6 +14,7 @@
 #include "Messages/ApplyImpulseMessage.h"
 #include "Messages/PaintTrailForGameObjectMessage.h"
 #include "Messages/UpdatePositionMessage.h"
+#include "Messages/ToggleGameObjectMessage.h"
 
 class LetterBox : public MessagingService
 {
@@ -45,6 +46,7 @@ public:
 	void insertMessage(MoveGameObjectMessage message) override;
 	void insertMessage(ScaleGameObjectMessage message) override;
 	void insertMessage(RotateGameObjectMessage message) override;
+	void insertMessage(ToggleGameObjectMessage message) override;
 
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
@@ -74,5 +76,6 @@ private:
 	MessageBuffer<MoveGameObjectMessage> moveGameObjectBuffer;
 	MessageBuffer<ScaleGameObjectMessage> scaleGameObjectBuffer;
 	MessageBuffer<RotateGameObjectMessage> rotateGameObjectBuffer;
+	MessageBuffer<ToggleGameObjectMessage> toggleGameObjectBuffer;
 };
 

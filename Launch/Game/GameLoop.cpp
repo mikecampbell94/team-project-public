@@ -23,7 +23,7 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 		DeliverySystem::getPostman()->getDeliveryPoint("GameLoop"));
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [startup = startup, &quit = quit,
-		&deltaTimeMultiplier = deltaTimeMultiplier, &engine = engine, camera = camera](Message* message)
+		&deltaTimeMultiplier = deltaTimeMultiplier, &engine = engine](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
@@ -94,35 +94,6 @@ void GameLoop::executeGameLoop()
 
 		DeliverySystem::getPostman()->clearAllMessages();
 
-		//pitch -= (window->getMouse()->getRelativePosition().y);
-		//yaw -= (window->getMouse()->getRelativePosition().x);
-
-		if (window->getKeyboard()->keyDown(KEYBOARD_W)) {
-			camera->setPosition(camera->getPosition() +
-				NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) * NCLVector3(0, 0, -1) * 1);
-		}
-
-		if (window->getKeyboard()->keyDown(KEYBOARD_S)) {
-			camera->setPosition(camera->getPosition() +
-				NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) * NCLVector3(0, 0, 1) * 1);
-		}
-
-		if (window->getKeyboard()->keyDown(KEYBOARD_A)) {
-			camera->setPosition(camera->getPosition() +
-				NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) *  NCLVector3(-1, 0, 0) * 1);
-		}
-
-		if (window->getKeyboard()->keyDown(KEYBOARD_D)) {
-			camera->setPosition(camera->getPosition() +
-				NCLMatrix4::rotation(yaw, NCLVector3(0, 1, 0)) *  NCLVector3(1, 0, 0) * 1);
-		}
-
-		if (window->getKeyboard()->keyDown(KEYBOARD_SPACE)) {
-			camera->setPosition(camera->getPosition() + NCLVector3(0, 1, 0) * 1);
-		}
-		
-		//camera->setPitch(pitch);
-		//camera->setYaw(yaw);
 	}
 
 }

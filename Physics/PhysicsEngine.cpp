@@ -18,6 +18,35 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
 
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [database = database, this](Message* message)
+	{
+		TextMessage* textMessage = static_cast<TextMessage*>(message);
+
+		istringstream iss(textMessage->text);
+		vector<string> tokens{ istream_iterator<string>{iss},
+			std::istream_iterator<string>{} };
+
+		if (tokens[0] == "addphysicsnode")
+		{
+			GameObject* gameObject = static_cast<GameObject*>(
+				database->getTable("GameObjects")->getResource(tokens[1]));
+
+			addPhysicsObject(gameObject->getPhysicsNode());
+		}
+		else if (tokens[0] == "removephysicsnode")
+		{
+			//MUST REMOVE FROM OCTREE ONCE OCTREES ARE WORKING
+			for (auto physicsNodeiterator = physicsNodes.begin(); physicsNodeiterator != physicsNodes.end(); ++physicsNodeiterator)
+			{
+				if ((*physicsNodeiterator)->getParent()->getName() == tokens[1])
+				{
+					physicsNodes.erase(physicsNodeiterator);
+					break;
+				}
+			}
+		}
+	});
+
 	incomingMessages.addActionToExecuteOnMessage(MessageType::ABSOLUTE_TRANSFORM, [database = database](Message* message)
 	{
 		AbsoluteTransformMessage* translationMessage = static_cast<AbsoluteTransformMessage*>(message);
@@ -297,44 +326,47 @@ void PhysicsEngine::updatePhysics()
 
 void PhysicsEngine::broadPhaseCollisions()
 {
-	if (physicsNodes.size() > 0)
-	{
-		if (octreeChanged)
-		{
-			octree->UpdateTree();
-			octreeChanged = false;
-			broadphaseColPairs = octree->GetAllCollisionPairs();
-		}
-	}
-
-	//broadphaseColPairs.clear();
-
-	//PhysicsNode* nodeA;
-	//PhysicsNode* nodeB;
-
 	//if (physicsNodes.size() > 0)
 	//{
-	//	for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
+	//	if (octreeChanged)
 	//	{
-	//		for (size_t j = i + 1; j < physicsNodes.size(); j++)
-	//		{
-	//			nodeA = physicsNodes[i];
-	//			nodeB = physicsNodes[j];
-
-	//			if (nodeA->getCollisionShape() && nodeB->getCollisionShape())
-	//			{
-	//				CollisionPair pair;
-	//				pair.pObjectA = nodeA;
-	//				pair.pObjectB = nodeB;
-
-	//				if (pair.pObjectA->getIsCollision() && pair.pObjectB->getIsCollision())
-	//				{
-	//					broadphaseColPairs.push_back(pair);
-	//				}
-	//			}
-	//		}
+	//		octree->UpdateTree();
+	//		octreeChanged = false;
+	//		broadphaseColPairs = octree->GetAllCollisionPairs();
 	//	}
 	//}
+
+	broadphaseColPairs.clear();
+
+	PhysicsNode* nodeA;
+	PhysicsNode* nodeB;
+
+	if (physicsNodes.size() > 0)
+	{
+		for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
+		{
+			for (size_t j = i + 1; j < physicsNodes.size(); j++)
+			{
+				nodeA = physicsNodes[i];
+				nodeB = physicsNodes[j];
+
+				if (nodeA->getCollisionShape() && nodeB->getCollisionShape())
+				{
+					CollisionPair pair;
+					pair.pObjectA = nodeA;
+					pair.pObjectB = nodeB;
+
+					if (pair.pObjectA->getIsCollision() && pair.pObjectB->getIsCollision())
+					{
+						if (pair.pObjectA->getEnabled() && pair.pObjectB->getEnabled())
+						{
+							broadphaseColPairs.push_back(pair);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void PhysicsEngine::narrowPhaseCollisions()
