@@ -134,13 +134,23 @@ void XMLWriter::saveLevelDetails(std::string levelDetailsFile)
 
 	auto gameObjects = database->getTable("GameObjects")->getAllResources()->getResourceBuffer();
 
-	
+	std::vector<bool> hasPhysicsNode;
 	std::vector<std::string> gameObjectNames;
 	std::vector<std::string> gameObjectMeshNames;
 	std::vector<NCLVector4> gameObjectColours;
 	std::vector<NCLVector3> gameObjectPositions;
 	std::vector<NCLVector4> gameObjectRotations;
 	std::vector<NCLVector3> gameObjectScales;
+
+	std::vector<bool> physicsNodeEnabled;
+	std::vector<bool> physicsNodeTransmitCollision;
+	std::vector<std::string> collisionShapes;
+	std::vector<float> mass;
+	std::vector<bool> isCollision;
+	std::vector<float> elasticity;
+	std::vector<float> friction;
+	std::vector<float> damping;
+	std::vector<bool> isStatic;
 
 	for (auto gameObjectIterator = gameObjects.begin(); gameObjectIterator != gameObjects.end(); ++gameObjectIterator)
 	{
@@ -155,11 +165,22 @@ void XMLWriter::saveLevelDetails(std::string levelDetailsFile)
 		{
 			gameObjectPositions.push_back(gameObject->getPhysicsNode()->getPosition());
 			gameObjectRotations.push_back(Quaternion::quaternionToAxisAngle(gameObject->getPhysicsNode()->getOrientation()));
+			hasPhysicsNode.push_back(true);
+
+			physicsNodeEnabled.push_back(gameObject->getPhysicsNode()->getEnabled());
+			physicsNodeTransmitCollision.push_back(gameObject->getPhysicsNode()->transmitCollision);
+
+			//collisionShape
+
+			physicsNodeEnabled.push_back(gameObject->getPhysicsNode()->getEnabled());
+			physicsNodeEnabled.push_back(gameObject->getPhysicsNode()->getEnabled());
+			physicsNodeEnabled.push_back(gameObject->getPhysicsNode()->getEnabled());
 		}
 		else
 		{
 			gameObjectPositions.push_back(gameObject->getSceneNode()->GetWorldTransform().getPositionVector());
 			gameObjectRotations.push_back(gameObject->getSceneNode()->axisAngleRotation);
+			hasPhysicsNode.push_back(false);
 		}
 	}
 }
