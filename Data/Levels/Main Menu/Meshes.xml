@@ -1,6 +1,7 @@
 <LevelMeshes>
 	<Meshes name="CubeMesh" >
 		<MeshFile>../Data/Resources/Meshes/centeredcube.obj</MeshFile>
+    <Texture>../Data/Resources/Textures/rainbow.jpg</Texture>
 	</Meshes>
 
 	<Meshes name="SphereMesh" >
