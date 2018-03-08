@@ -1,10 +1,11 @@
 #include "SoundNode.h"
 
 #include "../Communication/Messages/PlaySoundMessage.h"
+#include "../Communication/Messages/PlayMovingSoundMessage.h"
+#include "../Communication/Messages/StopSoundMessage.h"
 
 SoundNode::SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, float volume,
-	bool isLooping, float radius, float pitch, bool isGlobal,
-	std::string identifier)
+	bool isLooping, float radius, float pitch, std::string identifier)
 {
 	this->position = position;
 	this->priority = priority;
@@ -12,7 +13,22 @@ SoundNode::SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, 
 	this->isLooping = isLooping;
 	setRadius(radius);
 	this->pitch = pitch;
-	this->isGlobal = isGlobal;
+	this->identifier = identifier;
+	timeLeft = 0.0f;
+	enabled = true;
+	oalSource = nullptr;
+	setSound(sound);
+}
+
+SoundNode::SoundNode(Sound* sound, NCLVector3 *position, SoundPriority priority, float volume,
+	bool isLooping, float radius, float pitch, std::string identifier)
+{
+	this->movingPosition = position;
+	this->priority = priority;
+	setVolume(volume);
+	this->isLooping = isLooping;
+	setRadius(radius);
+	this->pitch = pitch;
 	this->identifier = identifier;
 	timeLeft = 0.0f;
 	enabled = true;
@@ -27,9 +43,18 @@ SoundNode::~SoundNode()
 SoundNode SoundNode::builder(PlaySoundMessage* message, Sound* sound)
 {
 	SoundNode soundNode(sound, message->position, message->priority, message->volume,
-		message->isLooping, message->radius, message->pitch, message->isGlobal,
-		message->soundNodeIdentifier);
+		message->isLooping, message->radius, message->pitch, message->soundNodeIdentifier);
 	soundNode.enabled = true;
+
+	return soundNode;
+}
+
+SoundNode SoundNode::builder(PlayMovingSoundMessage* message, Sound* sound)
+{
+	SoundNode soundNode(sound, message->position, message->priority, message->volume,
+		message->isLooping, message->radius, message->pitch, message->soundNodeIdentifier);
+	soundNode.enabled = true;
+	soundNode.isMoving = true;
 
 	return soundNode;
 }
@@ -98,11 +123,19 @@ void SoundNode::update(float msec)
 		timeLeft += sound->getLength();
 	}
 	
-	if (oalSource) 
+	if (oalSource)
 	{
-		ALfloat pos[] = { position.x, position.y, position.z };
+		if (!isMoving)
+		{
+			ALfloat pos[] = { position.x, position.y, position.z };
+			alSourcefv(oalSource->source, AL_POSITION, pos);
+		}
+		else
+		{
+			ALfloat pos[] = { movingPosition->x, movingPosition->y, movingPosition->z };
+			alSourcefv(oalSource->source, AL_POSITION, pos);
+		}
 
-		alSourcefv(oalSource->source, AL_POSITION, pos);
 		alSourcef(oalSource->source, AL_GAIN, volume);
 		alSourcei(oalSource->source, AL_LOOPING, isLooping ? 1 : 0);
 		alSourcef(oalSource->source, AL_MAX_DISTANCE, radius);

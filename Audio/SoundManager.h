@@ -17,6 +17,7 @@ public:
 
 	void update(const float& deltaTime);
 	void AddNewSoundNode(PlaySoundMessage* message);
+	void AddNewSoundNode(PlayMovingSoundMessage* message);
 	void stopSoundNode(StopSoundMessage* message);
 
 private:
@@ -34,10 +35,13 @@ private:
 	ALCcontext* context;
 	ALCdevice* device;
 
+	//make this a set to avoid duplicates
 	std::vector<SoundNode> soundNodes;
 	std::vector<OALSource*> OALSources;
 
 	Camera* camera;
 	Database *database;
+
+	NCLVector3 listenerPosition;
 };
 
