@@ -37,6 +37,7 @@
       <text>Toggle</text>
     </SendMessage>
   </OnStart>
+
     
   <Timed interval="0.01">
     <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">

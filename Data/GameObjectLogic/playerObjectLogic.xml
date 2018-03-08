@@ -23,11 +23,12 @@
 			</SendMessage>
 		</Action>
 	 </ReceiveMessage>
-
-  <RecieveMessage type="InputMessage">
+  
+  <ReceiveMessage type="InputMessage">
     <Action>
       <Condition>
         <playerName>var</playerName>
+        <key>32</key>
       </Condition>
 
       <SendMessage type="TOGGLE_INPUT_KEY">
@@ -37,20 +38,20 @@
         <enabled>False</enabled>
       </SendMessage>
     </Action>
-  </RecieveMessage>
+  </ReceiveMessage>
 
   <ReceiveMessage type="CollisionMessage">
     <Action>
       <Condition type="AND">
         <objectIdentifier>var</objectIdentifier>
-        <colliderIdentifier>enemy</colliderIdentifier>
+        <colliderIdentifier>floor</colliderIdentifier>
       </Condition>
-
+      
       <SendMessage type="TOGGLE_INPUT_KEY">
         <destination>InputManager</destination>
         <player>var</player>
         <key>KEYBOARD_SPACE</key>
-        <enabled>False</enabled>
+        <enabled>True</enabled>
       </SendMessage>
     </Action>
   </ReceiveMessage>

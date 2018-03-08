@@ -45,15 +45,15 @@ void GameLogic::executeMessageBasedActions()
 	{
 		for (int i = 0; i < publishers.size(); ++i)
 		{
-			//if (messageBasedActions.find(publishers[i].first) != messageBasedActions.end())
-			//{
+			if (messageBasedActions.find(publishers[i].first) != messageBasedActions.end())
+			{
 				std::vector<GameplayAction>* executables = &messageBasedActions.at(publishers[i].first);
 
 				for (GameplayAction executable : *executables)
 				{
 					executable(publishers[i].second);
 				}
-			//}
+			}
 		}
 	}
 }
