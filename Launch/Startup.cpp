@@ -144,7 +144,9 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
-	
+	//Maybe have a parser in audio system to parse xml script for audio - then use the game object logic parser for object logic audio?
+	//DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+	//	SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "mirrorsedge", "BackgroundMusic"));
 
 	gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
@@ -166,12 +168,14 @@ void Startup::switchLevel()
 {
 	rendering->clearScores();
 	level->unloadLevelWhileKeepingUserInterface();
+	//audio->clearSoundNodesWhenUnloadingLevel();
 }
 
 void Startup::unloadLevel()
 {
 	rendering->clearScores();
 	level->unloadLevel();
+	//audio->clearSoundNodesWhenUnloadingLevel();
 }
 
 void Startup::beginOnlineLobby()
