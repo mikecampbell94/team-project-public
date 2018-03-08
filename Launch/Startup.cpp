@@ -144,6 +144,8 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
+	
+
 	gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
 	physics->InitialiseOctrees(100);
@@ -162,11 +164,13 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 void Startup::switchLevel()
 {
+	rendering->clearScores();
 	level->unloadLevelWhileKeepingUserInterface();
 }
 
 void Startup::unloadLevel()
 {
+	rendering->clearScores();
 	level->unloadLevel();
 }
 

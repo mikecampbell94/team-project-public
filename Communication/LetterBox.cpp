@@ -124,6 +124,11 @@ void LetterBox::insertMessage(AddScoreHolderMessage message)
 	scoreBuffer.insertOutgoingMessage(message);
 }
 
+void LetterBox::insertMessage(ClearScoresMessage message)
+{
+	clearScoreBuffer.insertOutgoingMessage(message);
+}
+
 void LetterBox::deliverAllMessages()
 {
 	messageBuffer.sendMessages(messageStorage);
@@ -147,6 +152,7 @@ void LetterBox::deliverAllMessages()
 	scaleGameObjectBuffer.sendMessages(messageStorage);
 	rotateGameObjectBuffer.sendMessages(messageStorage);
 	toggleGameObjectBuffer.sendMessages(messageStorage);
+	clearScoreBuffer.sendMessages(messageStorage);
 }
 
 void LetterBox::clearAllMessages()
@@ -172,6 +178,7 @@ void LetterBox::clearAllMessages()
 	scaleGameObjectBuffer.clearSentMessages();
 	rotateGameObjectBuffer.clearSentMessages();
 	toggleGameObjectBuffer.clearSentMessages();
+	clearScoreBuffer.clearSentMessages();
 	messageStorage.clearMessageStorage();
 }
 
@@ -198,4 +205,5 @@ void LetterBox::cancelOutgoingMessages()
 	scaleGameObjectBuffer.clearOutgoingMessages();
 	rotateGameObjectBuffer.clearOutgoingMessages();
 	toggleGameObjectBuffer.clearOutgoingMessages();
+	clearScoreBuffer.clearOutgoingMessages();
 }

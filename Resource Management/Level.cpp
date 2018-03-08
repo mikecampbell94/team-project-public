@@ -24,6 +24,7 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 {
 	gameplay->deleteGameObjectScripts();
 	//std::string lvlStr = LEVELDIR;
+
 	parser.loadFile(levelFilePath);
 	levelNode = *parser.parsedXml;
 	for (Node* child : levelNode.children)
@@ -65,6 +66,7 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 void Level::unloadLevelWhileKeepingUserInterface()
 {
 	//send message to renderer to clear score ui
+	//DeliverySystem::getPostman()->insertMessage(ClearScoresMessage("RenderingSystem", "ScoreCounter"));
 
 	MoveCameraRelativeToGameObjectMessage::resourceName = "";
 	(*sceneManager->getAllNodes())->clear();
@@ -83,6 +85,7 @@ void Level::unloadLevelWhileKeepingUserInterface()
 void Level::unloadLevel()
 {
 	//send message to renderer to clear score ui
+	
 
 	MoveCameraRelativeToGameObjectMessage::resourceName = "";
 	(*sceneManager->getAllNodes())->clear();

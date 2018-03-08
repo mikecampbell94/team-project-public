@@ -20,6 +20,11 @@ public:
 	void SetSceneToRender(SceneManager* scene, Database* database);
 	void updateSubsystem(const float& deltaTime) override;
 
+	void clearScores()
+	{
+		static_cast<ScoreCounter*>(renderer->getPipeLine()->getGraphicsModule("ScoreCounter"))->clear();
+	}
+
 private:
 	std::unique_ptr<Renderer> renderer;
 	std::map<std::string, bool> graphicsConfig;

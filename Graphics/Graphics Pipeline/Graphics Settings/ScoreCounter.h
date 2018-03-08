@@ -27,6 +27,7 @@ public:
 		scoreHolders.clear();
 		coloursToCount.clear();
 		scores.clear();
+		enabled = false;
 	}
 
 private:
