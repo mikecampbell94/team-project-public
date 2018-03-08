@@ -64,6 +64,8 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 
 void Level::unloadLevelWhileKeepingUserInterface()
 {
+	//send message to renderer to clear score ui
+
 	MoveCameraRelativeToGameObjectMessage::resourceName = "";
 	(*sceneManager->getAllNodes())->clear();
 	(*sceneManager->getAllLights())->clear();
@@ -80,6 +82,8 @@ void Level::unloadLevelWhileKeepingUserInterface()
 
 void Level::unloadLevel()
 {
+	//send message to renderer to clear score ui
+
 	MoveCameraRelativeToGameObjectMessage::resourceName = "";
 	(*sceneManager->getAllNodes())->clear();
 	(*sceneManager->getAllLights())->clear();

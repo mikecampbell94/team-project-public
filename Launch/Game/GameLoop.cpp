@@ -73,8 +73,8 @@ GameLoop::~GameLoop()
 
 void GameLoop::executeGameLoop()
 {
-	DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, camera->getPosition(), 
-		SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
+	//DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, camera->getPosition(), 
+	//	SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
 
 	camera->setPitch(24.0f);
 	camera->setYaw(-133.0f);

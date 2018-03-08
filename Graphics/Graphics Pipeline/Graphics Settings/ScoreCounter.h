@@ -21,6 +21,14 @@ public:
 	void apply() override;
 
 	GLuint* paintTrailTexture;
+
+	void clear()
+	{
+		scoreHolders.clear();
+		coloursToCount.clear();
+		scores.clear();
+	}
+
 private:
 	void calculateScores();
 	void displayScores();
