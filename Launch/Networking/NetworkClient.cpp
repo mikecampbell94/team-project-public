@@ -110,7 +110,7 @@ void NetworkClient::connectToServer()
 {
 	if (network.Initialize(0))
 	{
-		serverConnection = network.ConnectPeer(10, 70, 33, 11, 1234);
+		serverConnection = network.ConnectPeer(10, 70, 32, 168, 1234);
 		connectedToServer = true;
 	}
 }

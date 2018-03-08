@@ -53,6 +53,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tuts_Network_Server", "Tuts
 		{378E5B61-6D97-4499-B575-32387992D0C2} = {378E5B61-6D97-4499-B575-32387992D0C2}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{9952C3A1-4E9E-41A5-9224-A33663BF6228}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -155,6 +157,14 @@ Global
 		{6E6C4E29-F7BA-4182-A199-257ABDA3E9C3}.Release|x64.ActiveCfg = Release|Win32
 		{6E6C4E29-F7BA-4182-A199-257ABDA3E9C3}.Release|x86.ActiveCfg = Release|Win32
 		{6E6C4E29-F7BA-4182-A199-257ABDA3E9C3}.Release|x86.Build.0 = Release|Win32
+		{9952C3A1-4E9E-41A5-9224-A33663BF6228}.Debug|x64.ActiveCfg = Debug|x64
+		{9952C3A1-4E9E-41A5-9224-A33663BF6228}.Debug|x64.Build.0 = Debug|x64
+		{9952C3A1-4E9E-41A5-9224-A33663BF6228}.Debug|x86.ActiveCfg = Debug|Win32
+		{9952C3A1-4E9E-41A5-9224-A33663BF6228}.Debug|x86.Build.0 = Debug|Win32
+		{9952C3A1-4E9E-41A5-9224-A33663BF6228}.Release|x64.ActiveCfg = Release|x64
+		{9952C3A1-4E9E-41A5-9224-A33663BF6228}.Release|x64.Build.0 = Release|x64
+		{9952C3A1-4E9E-41A5-9224-A33663BF6228}.Release|x86.ActiveCfg = Release|Win32
+		{9952C3A1-4E9E-41A5-9224-A33663BF6228}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
