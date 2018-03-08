@@ -38,7 +38,7 @@ void RenderingSystem::initialise(Database* database)
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::TEXT_MESH_MESSAGE, MessageType::RELATIVE_TRANSFORM,
 		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
 		MessageType::SCALE_GAMEOBJECT, MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER,
-		MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT, MessageType::TOGGLE_GAMEOBJECT, MessageType::CLEAR_SCORE };
+		MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT, MessageType::TOGGLE_GAMEOBJECT };
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -194,13 +194,6 @@ void RenderingSystem::initialise(Database* database)
 		AddScoreHolderMessage* scoreMessage = static_cast<AddScoreHolderMessage*>(message);
 
 		static_cast<ScoreCounter*>(renderer->getGraphicsModule("ScoreCounter"))->bufferScoreHolder(scoreMessage->name);
-	});
-
-	incomingMessages.addActionToExecuteOnMessage(MessageType::CLEAR_SCORE, [&renderer = renderer](Message* message)
-	{
-		ClearScoresMessage* clearScoreMessage = static_cast<ClearScoresMessage*>(message);
-
-		static_cast<ScoreCounter*>(renderer->getGraphicsModule("ScoreCounter"))->clear();
 	});
 }
 
