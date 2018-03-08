@@ -1,6 +1,12 @@
 #include "GameObjectLogic.h"
 #include "Devices/Keyboard.h"
 #include "../../Communication/DeliverySystem.h"
+#include "../../Communication/SendMessageActionBuilder.h"
+#include "../Scripting/PaintGameActionBuilder.h"
+
+const int RESOURCE_NODE = 0;
+const int GAME_LOGIC_NODE = 1;
+const int PAINT_GAME_LOGIC_NODE = 2;
 
 void changeResource(Node** node, std::string id)
 {
@@ -43,156 +49,22 @@ GameObjectLogic::~GameObjectLogic()
 
 void GameObjectLogic::compileParsedXMLIntoScript()
 {
-	Node* resources = parsedScript->children[0];
-	Node* gameLogicNode = parsedScript->children[1];
-	
+	Node* resources = parsedScript->children[RESOURCE_NODE];
 
-	for (Node* resource : resources->children)
-	{
-		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(resource->value));
-
-		changeResource(&gameLogicNode, resource->value);
-		
-		logicToGameObjects.insert({ gObj, GameLogic(messages) });
-		logics.push_back(&(logicToGameObjects.at(gObj)));
-
-		logics[logics.size() - 1]->compileParsedXMLIntoScript(gameLogicNode);
-
-		changeResourceBack(&gameLogicNode, resource->value);
-
-
-
-
-
-
-
-
-		Node* hardCodedLogic = parsedScript->children[2];
-
-		//changeResource(&hardCodedLogic, resource->value);
-		compileFunctions(hardCodedLogic);
-		//changeResourceBack(&hardCodedLogic, resource->value);
-		
-	}
+	compileGameLogic(parsedScript->children[GAME_LOGIC_NODE], resources->children);
+	compilePaintGameLogic(parsedScript->children[PAINT_GAME_LOGIC_NODE], resources->children);
 
 	for (GameLogic* logic : logics)
 	{
 		logic->executeActionsOnStart();
 	}
-
-	for (auto func : fucntionsOnStart)
-	{
-		func.second();
-	}
 }
-
-void GameObjectLogic::compileFunctions(Node* node)
-{
-	for (Node* subNode : node->children)
-	{
-		compileFunctionsOnStart(subNode);
-	}
-
-
-	if (node->nodeType == "ReceiveMessage")
-	{
-		for (Node* action : node->children)
-		{
-			if (node->value == "PlayerInputMessage")
-			{
-				functions.push_back([inputMessages = inputMessages, action = action]()
-				{
-					if (action->children[0]->value == "0x20")
-					{
-						for (auto message : inputMessages)
-						{
-							if (message->data.key == KEYBOARD_SPACE)
-							{
-								GameObject* gObj = message->player->getGameObject();
-
-								if (gObj->canJump)
-								{
-									gObj->canJump = false;
-								}
-							}
-						}
-					}
-				});
-			}
-			/*else if (node->value == "CollisionMessage")
-			{
-				functions.push_back([action = action, logicToGameObjects = logicToGameObjects]()
-				{
-					for each (auto gObj in logicToGameObjects)
-					{
-						if (!gObj.first->canJump)
-						{
-							gObj.first->canJump = true;
-						}
-					}
-				});
-			}*/
-		}
-	}
-
-
-	//if (node->nodeType == "Function")
-	//{
-	//	if (node->value == "")
-	//	{
-	//		functions.insert({ node->name, [logicToGameObjects = logicToGameObjects, database = database]()
-	//		{
-	//			for each (auto object in logicToGameObjects)
-	//			{
-	//				//object.first->
-	//			}
-	//		} });
-	//	}
-	//}
-}
-
-void GameObjectLogic::compileFunctionsOnStart(Node* node)
-{
-	for (Node* action : node->children)
-	{
-		//PUT THIS INTO A BUILDER CLASS FOR FUNCTIONS LIKE THE ACTION BUILDER FOR GAME LOGIC
-		////////////////////////////////////////////////////////////////////
-		if (action->nodeType == "SetJump")
-		{
-			fucntionsOnStart.insert({ action->nodeType, [logicToGameObjects = logicToGameObjects, action, database = database]()
-			{
-				GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(action->children[0]->value));
-
-				if (action->children[1]->value == "true")
-				{
-					logicToGameObjects.find(gObj)->first->canJump = true;
-				}
-				else
-				{
-					logicToGameObjects.find(gObj)->first->canJump = false;
-				}
-			} });
-		}
-		///////////////////////////////////////////////////////////////////
-	}
-}
-
-
 
 void GameObjectLogic::notify(const std::string& messageType, Message* message)
 {
-	if (messageType == "CollisionMessage")
+	for (GameLogic* logic : logics)
 	{
-		for (GameLogic* logic : logics)
-		{
-			logic->notifyMessageActions(messageType, message);
-		}
-	}
-	else if (messageType == "InputMessage")
-	{
-		PlayerInputMessage* input = static_cast<PlayerInputMessage*>(message);
-
-		inputMessages.push_back(input);
+		logic->notifyMessageActions(messageType, message);
 	}
 }
 
@@ -204,35 +76,40 @@ void GameObjectLogic::updatelogic(const float& deltaTime)
 		logic->executeTimeBasedActions(deltaTime);
 		logic->clearNotifications();
 	}
-
-	//	//update hard coded stuff here
-	updateHardCodedLogic(deltaTime);
-
 }
 
-void GameObjectLogic::updateHardCodedLogic(const float& deltaTime)
+void GameObjectLogic::compileGameLogic(Node* gameLogicNode, const std::vector<Node*>& resources)
 {
-	//updateInputMessageLogic();
-
-	for (auto func : functions)
+	ActionBuilder::setExecutableBuilder([](Node* node)
 	{
-		func();
-	} 
+		return SendMessageActionBuilder::buildSendMessageAction(node);
+	});
+
+	compileLogicFromNodes(gameLogicNode, resources);
 }
 
-void GameObjectLogic::updateInputMessageLogic()
+void GameObjectLogic::compilePaintGameLogic(Node* paintGameNode, const std::vector<Node*>& resources)
 {
-	for (auto message : inputMessages)
+	ActionBuilder::setExecutableBuilder([](Node* node)
 	{
-		if(message->data.key == KEYBOARD_SPACE)
-		{
-			GameObject* gObj = message->player->getGameObject();
+		return PaintGameActionBuilder::buildExecutable(node);
+	});
 
-			if(gObj->canJump)
-			{
-				gObj->canJump = false;
-			}
-		}
+	compileLogicFromNodes(paintGameNode, resources);
+}
+
+void GameObjectLogic::compileLogicFromNodes(Node* logicNode, const std::vector<Node*>& resources)
+{
+	for (Node* resource : resources)
+	{
+		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(resource->value));
+
+		changeResource(&logicNode, resource->value);
+
+		logicToGameObjects.insert({ gObj, GameLogic(messages) });
+		logics.push_back(&(logicToGameObjects.at(gObj)));
+		logics[logics.size() - 1]->compileParsedXMLIntoScript(logicNode);
+
+		changeResourceBack(&logicNode, resource->value);
 	}
 }
-

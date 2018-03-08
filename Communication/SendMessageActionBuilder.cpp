@@ -10,6 +10,7 @@
 #include "Messages/MoveGameObjectMessage.h"
 #include "Messages/ScaleGameObjectMessage.h"
 #include "Messages/ToggleGameObjectMessage.h"
+#include "Messages/TogglePlayerInputKeyMessage.h"
 
 std::unordered_map<std::string, Builder>SendMessageActionBuilder::builders 
 	= std::unordered_map<std::string, Builder>();
@@ -176,6 +177,16 @@ void SendMessageActionBuilder::initialiseNodeBuilders()
 	builders.insert({ "TOGGLE_GAMEOBJECT" , [](Node* node)
 	{
 		ToggleGameObjectMessage message = ToggleGameObjectMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	} });
+
+	builders.insert({ "TOGGLE_INPUT_KEY" , [](Node* node)
+	{
+		TogglePlayerInputKeyMessage message = TogglePlayerInputKeyMessage::builder(node);
 
 		return [message = message]()
 		{

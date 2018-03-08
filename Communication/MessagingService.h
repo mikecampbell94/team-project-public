@@ -24,6 +24,7 @@
 #include "Messages/ScaleGameObjectMessage.h"
 #include "Messages/RotateGameObjectMessage.h"
 #include "Messages/ToggleGameObjectMessage.h"
+#include "Messages/TogglePlayerInputKeyMessage.h"
 
 //exposed interface
 class MessagingService 
@@ -54,6 +55,7 @@ public:
 	virtual void insertMessage(ScaleGameObjectMessage message) = 0;
 	virtual void insertMessage(RotateGameObjectMessage message) = 0;
 	virtual void insertMessage(ToggleGameObjectMessage message) = 0;
+	virtual void insertMessage(TogglePlayerInputKeyMessage message) = 0;
 
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;

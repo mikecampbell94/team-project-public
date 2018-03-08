@@ -20,11 +20,13 @@ public:
 	static void compileActionSection(Node* section, Condition& condition, std::vector<Executable>& executables);
 	static Executable compileActionSectionWithoutCondition(Node* section);
 
+	static void setExecutableBuilder(std::function<Executable(Node*)> executableBuilder);
 private:
 	static GameplayAction buildFinalActionWithCondition(Condition& condition, std::vector<Executable>& executables);
 	static GameplayAction buildFinalAction(std::vector<Executable>& executables);
 
 	static Condition buildIfStatement(Node* node);
-	static Executable buildSendMessageExecutable(Node* node);
+	static std::function<Executable(Node*)> executableBuilder;
+	//static Executable buildSendMessageExecutable(Node* node);
 };
 

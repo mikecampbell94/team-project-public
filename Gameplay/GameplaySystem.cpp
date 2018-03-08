@@ -8,6 +8,7 @@
 #include "../Resource Management/XMLParser.h"
 #include "../Utilities/GameTimer.h"
 #include "../Input/Devices/Keyboard.h"
+#include "../../Communication/SendMessageActionBuilder.h"
 
 GameplaySystem::GameplaySystem(Database* database)
 	: Subsystem("Gameplay")
@@ -46,7 +47,7 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		for (GameObjectLogic* object : objects)
 		{
-			object->notify("InputMessage", message);
+ 			object->notify("InputMessage", message);
 		}
 	});
 
@@ -157,6 +158,12 @@ void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
 
 void GameplaySystem::compileGameplayScript(std::string levelScript)
 {
+	ActionBuilder::setExecutableBuilder([](Node* node)
+	{
+		return SendMessageActionBuilder::buildSendMessageAction(node);
+	});
+
+
 	XMLParser xmlParser;
 	xmlParser.loadFile(levelScript);
 	gameLogic = GameLogic(&incomingMessages);

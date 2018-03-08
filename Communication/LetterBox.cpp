@@ -94,6 +94,11 @@ void LetterBox::insertMessage(ToggleGameObjectMessage message)
 	toggleGameObjectBuffer.insertOutgoingMessage(message);
 }
 
+void LetterBox::insertMessage(TogglePlayerInputKeyMessage message)
+{
+	togglePlayerInputKeyBuffer.insertOutgoingMessage(message);
+}
+
 void LetterBox::insertMessage(CollisionMessage message)
 {
 	collisionBuffer.insertOutgoingMessage(message);
@@ -154,6 +159,7 @@ void LetterBox::deliverAllMessages()
 	rotateGameObjectBuffer.sendMessages(messageStorage);
 	playMovingSoundMessageBuffer.sendMessages(messageStorage);
 	toggleGameObjectBuffer.sendMessages(messageStorage);
+	togglePlayerInputKeyBuffer.sendMessages(messageStorage);
 }
 
 void LetterBox::clearAllMessages()
@@ -181,6 +187,7 @@ void LetterBox::clearAllMessages()
 	playMovingSoundMessageBuffer.clearSentMessages();
 	
 	toggleGameObjectBuffer.clearSentMessages();
+	togglePlayerInputKeyBuffer.clearSentMessages();
 	messageStorage.clearMessageStorage();
 }
 
@@ -208,4 +215,5 @@ void LetterBox::cancelOutgoingMessages()
 	rotateGameObjectBuffer.clearOutgoingMessages();
 	playMovingSoundMessageBuffer.clearOutgoingMessages();
 	toggleGameObjectBuffer.clearOutgoingMessages();
+	togglePlayerInputKeyBuffer.clearOutgoingMessages();
 }
