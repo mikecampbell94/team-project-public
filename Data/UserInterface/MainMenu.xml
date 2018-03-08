@@ -104,7 +104,7 @@
     </scale>
     <action type="Start">
       <Online>True</Online>
-      <Level>Level1.xml</Level>
+      <Level>Level2.xml</Level>
     </action>
     <text>Online</text>
     <mesh>UIQuad</mesh>
