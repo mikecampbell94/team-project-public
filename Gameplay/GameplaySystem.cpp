@@ -46,7 +46,7 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		for (GameObjectLogic* object : objects)
 		{
-			object->notify("InputMessage", message);
+ 			object->notify("InputMessage", message);
 		}
 	});
 

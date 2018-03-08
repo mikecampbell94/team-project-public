@@ -5,7 +5,6 @@
 GameObject::GameObject()
 {
 	setSize(sizeof(*this));
-	canJump = false;
 }
 
 GameObject::~GameObject()

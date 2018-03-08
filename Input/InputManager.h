@@ -31,5 +31,7 @@ private:
 	Window* window;
 	InputControl inputControl;
 
+	std::vector<std::pair<std::string, int>> blockedKeysForEachPlayer;
+
 	bool blocked;
 };

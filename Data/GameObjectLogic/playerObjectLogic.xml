@@ -9,7 +9,7 @@
 
 
 <GameplayScript>
-  
+
 	<ReceiveMessage type="CollisionMessage">
 		<Action>
 			<Condition type="AND">
@@ -23,6 +23,37 @@
 			</SendMessage>
 		</Action>
 	 </ReceiveMessage>
+
+  <RecieveMessage type="InputMessage">
+    <Action>
+      <Condition>
+        <playerName>var</playerName>
+      </Condition>
+
+      <SendMessage type="TOGGLE_INPUT_KEY">
+        <destination>InputManager</destination>
+        <player>var</player>
+        <key>KEYBOARD_SPACE</key>
+        <enabled>False</enabled>
+      </SendMessage>
+    </Action>
+  </RecieveMessage>
+
+  <ReceiveMessage type="CollisionMessage">
+    <Action>
+      <Condition type="AND">
+        <objectIdentifier>var</objectIdentifier>
+        <colliderIdentifier>enemy</colliderIdentifier>
+      </Condition>
+
+      <SendMessage type="TOGGLE_INPUT_KEY">
+        <destination>InputManager</destination>
+        <player>var</player>
+        <key>KEYBOARD_SPACE</key>
+        <enabled>False</enabled>
+      </SendMessage>
+    </Action>
+  </ReceiveMessage>
 	 
 	 <ReceiveMessage type="CollisionMessage">
 		<Action>
@@ -117,45 +148,7 @@
 </GameplayScript>
 
 <HardCodedLogic>
-		
-	<OnStart>
-		<SetJump>
-			<resource>player0</resource>
-			<canJump>true</canJump>
-		</SetJump>
-	</OnStart>
-	
-	<ReceiveMessage type="PlayerInputMessage">
-		<Condition>
-			<key>0x20</key>
-		</Condition>
-		<Action>
-			<canJump>False</canJump>
-		</Action>
-	</ReceiveMessage>
-	
-	<ReceiveMessage type="CollisionMessage">
-		<Condition type="AND">
-				<objectIdentifier>player0</objectIdentifier>
-				<colliderIdentifier>floor</colliderIdentifier>
-			</Condition>
-		<Action>
-			<canJump>True</canJump>
-		</Action>
-	</ReceiveMessage>
-	
-	
-	<!--
-	<Function type="">
-		<Capture>
-			<capture></capture>
-		</Capture>
-		<Parameter>
-			<parameter></parameter>
-		</Parameter>
-	</Function>
-	-->
-	
+
 </HardCodedLogic>
 
 </GameObjectLogic>

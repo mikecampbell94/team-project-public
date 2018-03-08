@@ -110,10 +110,10 @@ void GameObjectLogic::compileFunctions(Node* node)
 							{
 								GameObject* gObj = message->player->getGameObject();
 
-								if (gObj->canJump)
-								{
-									gObj->canJump = false;
-								}
+								//if (gObj->canJump)
+								//{
+								//	gObj->canJump = false;
+								//}
 							}
 						}
 					}
@@ -163,14 +163,14 @@ void GameObjectLogic::compileFunctionsOnStart(Node* node)
 			{
 				GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(action->children[0]->value));
 
-				if (action->children[1]->value == "true")
-				{
-					logicToGameObjects.find(gObj)->first->canJump = true;
-				}
-				else
-				{
-					logicToGameObjects.find(gObj)->first->canJump = false;
-				}
+				//if (action->children[1]->value == "true")
+				//{
+				//	logicToGameObjects.find(gObj)->first->canJump = true;
+				//}
+				//else
+				//{
+				//	logicToGameObjects.find(gObj)->first->canJump = false;
+				//}
 			} });
 		}
 		///////////////////////////////////////////////////////////////////
@@ -181,18 +181,23 @@ void GameObjectLogic::compileFunctionsOnStart(Node* node)
 
 void GameObjectLogic::notify(const std::string& messageType, Message* message)
 {
-	if (messageType == "CollisionMessage")
-	{
-		for (GameLogic* logic : logics)
-		{
-			logic->notifyMessageActions(messageType, message);
-		}
-	}
-	else if (messageType == "InputMessage")
-	{
-		PlayerInputMessage* input = static_cast<PlayerInputMessage*>(message);
+	//if (messageType == "CollisionMessage")
+	//{
+	//	for (GameLogic* logic : logics)
+	//	{
+	//		logic->notifyMessageActions(messageType, message);
+	//	}
+	//}
+	//else if (messageType == "InputMessage")
+	//{
+	//	PlayerInputMessage* input = static_cast<PlayerInputMessage*>(message);
 
-		inputMessages.push_back(input);
+	//	inputMessages.push_back(input);
+	//}
+
+	for (GameLogic* logic : logics)
+	{
+		logic->notifyMessageActions(messageType, message);
 	}
 }
 
@@ -228,10 +233,10 @@ void GameObjectLogic::updateInputMessageLogic()
 		{
 			GameObject* gObj = message->player->getGameObject();
 
-			if(gObj->canJump)
-			{
-				gObj->canJump = false;
-			}
+			//if(gObj->canJump)
+			//{
+			//	gObj->canJump = false;
+			//}
 		}
 	}
 }
