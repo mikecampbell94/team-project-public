@@ -9,7 +9,6 @@
 
 
 <GameplayScript>
-
 	<ReceiveMessage type="CollisionMessage">
 		<Action>
 			<Condition type="AND">
@@ -148,8 +147,19 @@
 	 </ReceiveMessage>
 </GameplayScript>
 
-<HardCodedLogic>
+  <PaintGameLogic>
+    <ReceiveMessage type="InputMessage">
+      <Action>
+        <Condition type="AND">
+          <playerName>var</playerName>
+          <key>32</key>
+        </Condition>
 
-</HardCodedLogic>
+        <PrintText>
+          <text>Hard coded logic text printing</text>
+        </PrintText>
+      </Action>
+    </ReceiveMessage>
+  </PaintGameLogic>
 
 </GameObjectLogic>

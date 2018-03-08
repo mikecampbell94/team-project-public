@@ -13,7 +13,7 @@ GameLogic::~GameLogic()
 {
 }
 
-void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
+void GameLogic::compileParsedXMLIntoScript(const Node* xmlNode)
 {
 	for (Node* gameplayAction : xmlNode->children)
 	{

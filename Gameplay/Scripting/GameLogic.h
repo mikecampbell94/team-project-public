@@ -16,7 +16,7 @@ public:
 	explicit GameLogic(MessageProcessor* messages);
 	~GameLogic();
 
-	void compileParsedXMLIntoScript(Node* xmlNode);
+	void compileParsedXMLIntoScript(const Node* xmlNode);
 
 	void executeMessageBasedActions();
 	void executeTimeBasedActions(const float& deltaTime);
