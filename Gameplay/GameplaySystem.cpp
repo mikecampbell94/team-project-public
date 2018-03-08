@@ -8,6 +8,7 @@
 #include "../Resource Management/XMLParser.h"
 #include "../Utilities/GameTimer.h"
 #include "../Input/Devices/Keyboard.h"
+#include "../../Communication/SendMessageActionBuilder.h"
 
 GameplaySystem::GameplaySystem(Database* database)
 	: Subsystem("Gameplay")
@@ -46,7 +47,7 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		for (GameObjectLogic* object : objects)
 		{
-			object->notify("InputMessage", message);
+ 			object->notify("InputMessage", message);
 		}
 	});
 
@@ -95,7 +96,7 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 			timer->endTimedSection();
 
 			gameLogic.elapsedTime += (deltaTime * 0.001f);
-			std::cout << gameLogic.elapsedTime << endl;
+			//std::cout << gameLogic.elapsedTime << endl;
 		}
 		else if(!levelFinished)
 		{
@@ -157,6 +158,12 @@ void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
 
 void GameplaySystem::compileGameplayScript(std::string levelScript)
 {
+	ActionBuilder::setExecutableBuilder([](Node* node)
+	{
+		return SendMessageActionBuilder::buildSendMessageAction(node);
+	});
+
+
 	XMLParser xmlParser;
 	xmlParser.loadFile(levelScript);
 	gameLogic = GameLogic(&incomingMessages);

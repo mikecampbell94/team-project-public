@@ -94,6 +94,11 @@ void LetterBox::insertMessage(ToggleGameObjectMessage message)
 	toggleGameObjectBuffer.insertOutgoingMessage(message);
 }
 
+void LetterBox::insertMessage(TogglePlayerInputKeyMessage message)
+{
+	togglePlayerInputKeyBuffer.insertOutgoingMessage(message);
+}
+
 void LetterBox::insertMessage(CollisionMessage message)
 {
 	collisionBuffer.insertOutgoingMessage(message);
@@ -124,10 +129,11 @@ void LetterBox::insertMessage(AddScoreHolderMessage message)
 	scoreBuffer.insertOutgoingMessage(message);
 }
 
-void LetterBox::insertMessage(ClearScoresMessage message)
+void LetterBox::insertMessage(PlayMovingSoundMessage message)
 {
-	clearScoreBuffer.insertOutgoingMessage(message);
+	playMovingSoundMessageBuffer.insertOutgoingMessage(message);
 }
+
 
 void LetterBox::deliverAllMessages()
 {
@@ -151,8 +157,9 @@ void LetterBox::deliverAllMessages()
 	moveGameObjectBuffer.sendMessages(messageStorage);
 	scaleGameObjectBuffer.sendMessages(messageStorage);
 	rotateGameObjectBuffer.sendMessages(messageStorage);
+	playMovingSoundMessageBuffer.sendMessages(messageStorage);
 	toggleGameObjectBuffer.sendMessages(messageStorage);
-	clearScoreBuffer.sendMessages(messageStorage);
+	togglePlayerInputKeyBuffer.sendMessages(messageStorage);
 }
 
 void LetterBox::clearAllMessages()
@@ -177,8 +184,10 @@ void LetterBox::clearAllMessages()
 	moveGameObjectBuffer.clearSentMessages();
 	scaleGameObjectBuffer.clearSentMessages();
 	rotateGameObjectBuffer.clearSentMessages();
+	playMovingSoundMessageBuffer.clearSentMessages();
+	
 	toggleGameObjectBuffer.clearSentMessages();
-	clearScoreBuffer.clearSentMessages();
+	togglePlayerInputKeyBuffer.clearSentMessages();
 	messageStorage.clearMessageStorage();
 }
 
@@ -204,6 +213,7 @@ void LetterBox::cancelOutgoingMessages()
 	moveGameObjectBuffer.clearOutgoingMessages();
 	scaleGameObjectBuffer.clearOutgoingMessages();
 	rotateGameObjectBuffer.clearOutgoingMessages();
+	playMovingSoundMessageBuffer.clearOutgoingMessages();
 	toggleGameObjectBuffer.clearOutgoingMessages();
-	clearScoreBuffer.clearOutgoingMessages();
+	togglePlayerInputKeyBuffer.clearOutgoingMessages();
 }

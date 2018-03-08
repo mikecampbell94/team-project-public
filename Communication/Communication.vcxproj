@@ -118,7 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Messages\ClearScoresMessage.h" />
+    <ClInclude Include="Messages\TogglePlayerInputKeyMessage.h" />
     <ClInclude Include="Messages\ToggleGameObjectMessage.h" />
     <ClInclude Include="Messages\AbsoluteTransformMessage.h" />
     <ClInclude Include="Messages\MoveGameObjectMessage.h" />
@@ -150,7 +150,7 @@
     <ClInclude Include="Messages\TextMeshMessage.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Messages\ClearScoresMessage.cpp" />
+    <ClCompile Include="Messages\TogglePlayerInputKeyMessage.cpp" />
     <ClCompile Include="Messages\ToggleGameObjectMessage.cpp" />
     <ClCompile Include="Messages\AbsoluteTransformMessage.cpp" />
     <ClCompile Include="Messages\MoveGameObjectMessage.cpp" />

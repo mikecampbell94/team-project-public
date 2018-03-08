@@ -2,15 +2,13 @@
 
 #include <vector>
 #include "../Launch/Systems/Subsystem.h"
-//#include "../ResourceManagement/Resources/Resource.h" doesn't exist yet but may in future?
-
 #include "Players/PlayerBase.h"
 #include "Players/Player.h"
-#include "../Input/Devices/Window.h"
 #include "InputControl.h"
+#include "../Input/Devices/Window.h"
 
 
-class InputManager : public Subsystem//, public Resource - uncomment this once resource class is added
+class InputManager : public Subsystem
 {
 public:
 	InputManager(PlayerBase* playerbase);
@@ -23,13 +21,18 @@ public:
 		return playerbase;
 	}
 
-	//void Read(const string resourcename) override; - uncomment this once resource class is added
-	//void ReadParams(const string params) override; - uncomment this once resource class is added
-
 private:
+	void sendInputMessageForUnblockedKeys(std::vector<ButtonInputData>& inputData, Player* player);
+	void blockKeysFromMessages();
+	void unblockKeysFromMessages();
+
 	PlayerBase* playerbase;
 	Window* window;
 	InputControl inputControl;
+
+	std::vector<std::pair<std::string, int>> keysToBlock;
+	std::vector<std::pair<std::string, int>> keysToUnblock;
+	std::vector<std::pair<std::string, int>> blockedKeysForEachPlayer;
 
 	bool blocked;
 };

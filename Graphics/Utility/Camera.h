@@ -41,6 +41,11 @@ public:
 		return position;
 	}
 
+	NCLVector3* getPersistentPosition()
+	{
+		return &position;
+	}
+
 	//Sets position in world space
 	void setPosition(NCLVector3 val)
 	{

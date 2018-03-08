@@ -1,9 +1,9 @@
 #include "PlaySoundMessage.h"
 
-PlaySoundMessage::PlaySoundMessage(const std::string& destinationName, MessageType type, NCLVector3 position,
+PlaySoundMessage::PlaySoundMessage(const std::string& destinationName, NCLVector3 position,
 	 SoundPriority priority, float volume, float radius, 
-	float pitch, bool isLooping, bool isGlobal, std::string soundID, std::string soundNodeIdentifier)
-	: Message(destinationName,type)
+	float pitch, bool isLooping, std::string soundID, std::string soundNodeIdentifier)
+	: Message(destinationName,PLAY_SOUND)
 {
 	this->position = position;
 	this->priority = priority;
@@ -11,7 +11,6 @@ PlaySoundMessage::PlaySoundMessage(const std::string& destinationName, MessageTy
 	this->radius = radius;
 	this->pitch = pitch;
 	this->isLooping = isLooping;
-	this->isGlobal = isGlobal;	
 	this->soundID = soundID;
 	this->soundNodeIdentifier = soundNodeIdentifier;
 }

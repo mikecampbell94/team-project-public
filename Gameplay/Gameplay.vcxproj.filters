@@ -42,7 +42,7 @@
     <ClInclude Include="GameObjectLogic\GameObjectLogic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PaintingGameMechanics.h">
+    <ClInclude Include="Scripting\PaintGameActionBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,7 +71,7 @@
     <ClCompile Include="GameObjectLogic\GameObjectLogic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PaintingGameMechanics.cpp">
+    <ClCompile Include="Scripting\PaintGameActionBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
