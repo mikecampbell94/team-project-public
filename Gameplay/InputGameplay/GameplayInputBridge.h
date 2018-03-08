@@ -13,6 +13,11 @@ public:
 	void addInputActionMapForPlayer(const InputActionMap& mapping);
 	void processPlayerInputMessage(const PlayerInputMessage& message);
 
+	void clearInputActions()
+	{
+		actionsForEachPlayer.clear();
+	}
+
 private:
 	//std::vector<InputActionMap> actionsForEachPlayer;
 	std::unordered_map<int, InputActionMap> actionsForEachPlayer;

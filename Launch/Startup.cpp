@@ -163,11 +163,13 @@ void Startup::loadLevel(std::string levelFile, bool online)
 void Startup::switchLevel()
 {
 	level->unloadLevelWhileKeepingUserInterface();
+	playerbase->clearPlayeractions();
 }
 
 void Startup::unloadLevel()
 {
 	level->unloadLevel();
+	playerbase->clearPlayeractions();
 }
 
 void Startup::beginOnlineLobby()

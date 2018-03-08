@@ -85,6 +85,8 @@ void Level::unloadLevel()
 	(*sceneManager->getAllLights())->clear();
 	physics->removeAllPhysicsObjects();
 
+	
+
 	//for (std::vector<std::string>::const_iterator it = listOfObjectTypesInLevel.begin(); it != listOfObjectTypesInLevel.end(); ++it)
 	for each (std::string table in listOfObjectTypesInLevel)
 	{
