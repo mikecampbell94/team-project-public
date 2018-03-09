@@ -22,10 +22,15 @@ PaintTrail::~PaintTrail()
 
 void PaintTrail::preparePaintSurface(std::vector<GameObject*> surfaceObjects)
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, buffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	for (GameObject* surfaceObject : surfaceObjects)
 	{
 		surfaceObject->getSceneNode()->isPaintSurface = true;
 	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void PaintTrail::addPainterObjectForNextFrame(GameObject* painter)
