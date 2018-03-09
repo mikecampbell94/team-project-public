@@ -30,6 +30,7 @@ public:
 	void insertMessage(TextMessage message) override;
 	void insertMessage(RelativeTransformMessage message) override;	
 	void insertMessage(PlaySoundMessage message) override;
+	void insertMessage(PlayMovingSoundMessage message) override;
 	void insertMessage(StopSoundMessage message) override;
 	void insertMessage(ToggleGraphicsModuleMessage message) override;
 	void insertMessage(ApplyForceMessage message) override;
@@ -46,6 +47,7 @@ public:
 	void insertMessage(ScaleGameObjectMessage message) override;
 	void insertMessage(RotateGameObjectMessage message) override;
 	void insertMessage(ToggleGameObjectMessage message) override;
+	void insertMessage(TogglePlayerInputKeyMessage message) override;
 
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
@@ -59,6 +61,7 @@ private:
 	MessageBuffer<TextMessage> textMessageBuffer;
 	MessageBuffer<RelativeTransformMessage> relativeTransformMessageBuffer;
 	MessageBuffer<PlaySoundMessage> playSoundMessageBuffer;
+	MessageBuffer<PlayMovingSoundMessage> playMovingSoundMessageBuffer;
 	MessageBuffer<StopSoundMessage> stopSoundMessageBuffer;
 	MessageBuffer<ToggleGraphicsModuleMessage> toggleGraphicsModuleMessageBuffer;
 	MessageBuffer<ApplyForceMessage> applyForceMessageBuffer;
@@ -75,5 +78,6 @@ private:
 	MessageBuffer<ScaleGameObjectMessage> scaleGameObjectBuffer;
 	MessageBuffer<RotateGameObjectMessage> rotateGameObjectBuffer;
 	MessageBuffer<ToggleGameObjectMessage> toggleGameObjectBuffer;
+	MessageBuffer<TogglePlayerInputKeyMessage> togglePlayerInputKeyBuffer;
 };
 

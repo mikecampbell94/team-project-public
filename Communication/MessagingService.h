@@ -4,6 +4,7 @@
 #include "Messages/PlayerInputMessage.h"
 #include "Messages/TextMessage.h"
 #include "Messages/PlaySoundMessage.h"
+#include "Messages/PlayMovingSoundMessage.h"
 #include "Messages/StopSoundMessage.h"
 #include <string>
 #include <queue>
@@ -23,6 +24,7 @@
 #include "Messages/ScaleGameObjectMessage.h"
 #include "Messages/RotateGameObjectMessage.h"
 #include "Messages/ToggleGameObjectMessage.h"
+#include "Messages/TogglePlayerInputKeyMessage.h"
 
 //exposed interface
 class MessagingService 
@@ -34,7 +36,9 @@ public:
 	virtual void insertMessage(Message message) = 0;
 	virtual void insertMessage(PlayerInputMessage message) = 0;
 	virtual void insertMessage(TextMessage message) = 0;
-	virtual void insertMessage(RelativeTransformMessage message) = 0;	virtual void insertMessage(PlaySoundMessage message) = 0;
+	virtual void insertMessage(RelativeTransformMessage message) = 0;	
+	virtual void insertMessage(PlaySoundMessage message) = 0;
+	virtual void insertMessage(PlayMovingSoundMessage message) = 0;
 	virtual void insertMessage(StopSoundMessage message) = 0;
 	virtual void insertMessage(ToggleGraphicsModuleMessage message) = 0;
 	virtual void insertMessage(ApplyForceMessage message) = 0;
@@ -51,6 +55,7 @@ public:
 	virtual void insertMessage(ScaleGameObjectMessage message) = 0;
 	virtual void insertMessage(RotateGameObjectMessage message) = 0;
 	virtual void insertMessage(ToggleGameObjectMessage message) = 0;
+	virtual void insertMessage(TogglePlayerInputKeyMessage message) = 0;
 
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;

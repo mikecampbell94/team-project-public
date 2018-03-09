@@ -18,7 +18,7 @@
 
    <Meshes name = "HeightMap">
 	<MeshType>HeightMap</MeshType>
-	<texture>../Data/Resources/Textures/lava.png</texture>
+	<Texture>../Data/Resources/Textures/rainbow.jpg</Texture>
 	<Perlin>1</Perlin>
     </Meshes> 
 </LevelMeshes>

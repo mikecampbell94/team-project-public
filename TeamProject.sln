@@ -44,6 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Data\Resources\Meshes\cube.obj = Data\Resources\Meshes\cube.obj
 		Resources\Gameplay\gameplay.xml = Resources\Gameplay\gameplay.xml
 		Data\Resources\Meshes\Raptor.obj = Data\Resources\Meshes\Raptor.obj
+		Data\Resources\Textures\sleepyboi.png = Data\Resources\Textures\sleepyboi.png
 		Data\Resources\Meshes\sphere.obj = Data\Resources\Meshes\sphere.obj
 	EndProjectSection
 EndProject

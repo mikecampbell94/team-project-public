@@ -13,7 +13,7 @@ GameLogic::~GameLogic()
 {
 }
 
-void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
+void GameLogic::compileParsedXMLIntoScript(const Node* xmlNode)
 {
 	for (Node* gameplayAction : xmlNode->children)
 	{
@@ -45,11 +45,14 @@ void GameLogic::executeMessageBasedActions()
 	{
 		for (int i = 0; i < publishers.size(); ++i)
 		{
-			std::vector<GameplayAction>* executables = &messageBasedActions.at(publishers[i].first);
-
-			for (GameplayAction executable : *executables)
+			if (messageBasedActions.find(publishers[i].first) != messageBasedActions.end())
 			{
-				executable(publishers[i].second);
+				std::vector<GameplayAction>* executables = &messageBasedActions.at(publishers[i].first);
+
+				for (GameplayAction executable : *executables)
+				{
+					executable(publishers[i].second);
+				}
 			}
 		}
 	}
