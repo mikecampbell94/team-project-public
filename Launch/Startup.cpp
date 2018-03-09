@@ -140,11 +140,6 @@ void Startup::loadMainMenu()
 
 	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
 		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
-
-	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
-	//userInterface->initialise(database);
-
-	//gameplay->setUnTimedLevel();
 }
 
 void Startup::loadLevel(std::string levelFile, bool online)
@@ -164,7 +159,6 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
-	gameplay->setTimedLevel(70000000.f);
 
 	if(levelFile == "MainMenu.xml")
 	{
