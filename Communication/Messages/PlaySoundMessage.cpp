@@ -67,11 +67,11 @@ PlaySoundMessage PlaySoundMessage::builder(Node* node)
 		}
 		else if (childNode->nodeType == "radius")
 		{
-			volume = std::stof(childNode->value);
+			radius = std::stof(childNode->value);
 		}
 		else if (childNode->nodeType == "pitch")
 		{
-			volume = std::stof(childNode->value);
+			pitch = std::stof(childNode->value);
 		}
 		else if (childNode->nodeType == "isLooping")
 		{
@@ -92,8 +92,6 @@ PlaySoundMessage PlaySoundMessage::builder(Node* node)
 		{
 			soundNodeIdentifier = childNode->value;
 		}
-
-		
 	}
 	return PlaySoundMessage(destination, position, priority, volume, radius, pitch, isLooping, soundID, soundNodeIdentifier);
 }
