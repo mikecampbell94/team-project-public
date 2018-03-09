@@ -13,6 +13,11 @@ public:
 
 	void updateSubsystem(const float& deltaTime) override;
 
+	void clearSoundNodesWhenUnloadingLevel()
+	{
+		soundManager->clearSoundNodes();
+	}
+
 private:
 	std::unique_ptr<SoundManager> soundManager;
 };

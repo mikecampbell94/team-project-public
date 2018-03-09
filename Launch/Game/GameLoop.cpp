@@ -77,8 +77,8 @@ void GameLoop::executeGameLoop()
 	camera->setYaw(-133.0f);
 
 	//MOVE AUDIO FROM GAME LOOP TO SOMEWHERE ELSE LIKE GAMEPLAY
-	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "mirrorsedge", "BackgroundMusic"));
+	//DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+	//	SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "strawberries", "BackgroundMusic"));
 
 	while (window->updateWindow() && !quit)
 	{

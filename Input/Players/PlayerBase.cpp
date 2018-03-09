@@ -38,8 +38,18 @@ void PlayerBase::initializePlayers(std::vector<InputRecorder*> allRecorders)
 Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 {
 	int playerID = id;// players.size();
+
+	for (Player* p : players)
+	{
+		if (p->getPlayerID() == playerID)
+		{
+			return p;
+		}
+	}
+
 	Player* player = new Player(playerID, recorder);
 	players.push_back(player);
+
 
 	InputActionMap newPlayersActions(playerID);
 	inputParser.loadFile("../Data/Input/configXML.xml");
