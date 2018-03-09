@@ -262,11 +262,13 @@ void SoundManager::removeSoundNodesFromSystem()
 
 void SoundManager::clearSoundNodes()
 {
-	for (SoundNode s : soundNodes)
+	for (SoundNode& s : soundNodes)
 	{
 		s.enabled = false;
 		s.detachSource();
 	}
+
+	removeSoundNodesFromSystem();
 }
 
 
