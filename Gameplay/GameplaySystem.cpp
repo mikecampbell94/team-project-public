@@ -8,6 +8,7 @@
 #include "../Resource Management/XMLParser.h"
 #include "../Utilities/GameTimer.h"
 #include "../Input/Devices/Keyboard.h"
+#include "../Communication/SendMessageActionBuilder.h"
 
 GameplaySystem::GameplaySystem(Database* database)
 	: Subsystem("Gameplay")
@@ -44,7 +45,7 @@ GameplaySystem::GameplaySystem(Database* database)
 	{
 		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
 
-		for (GameObjectLogic object : objects)
+		for (GameObjectLogic& object : objects)
 		{
 			object.notify("InputMessage", message);
 		}
@@ -56,7 +57,7 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
 		
-		for (GameObjectLogic object : objects)
+		for (GameObjectLogic& object : objects)
 		{
 			object.notify("CollisionMessage", message);
 		}
@@ -86,7 +87,7 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 			timer->endChildTimedSection("Level Logic");
 
 			timer->beginChildTimedSection("Object Logic");
-			for (GameObjectLogic object : objects)
+			for (GameObjectLogic& object : objects)
 			{
 				object.updatelogic(deltaTime * 0.001f);
 			}
@@ -121,7 +122,7 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 		timer->endChildTimedSection("Level Logic");
 
 		timer->beginChildTimedSection("Object Logic");
-		for (GameObjectLogic object : objects)
+		for (GameObjectLogic& object : objects)
 		{
 			object.updatelogic(deltaTime * 0.001f);
 		}
@@ -157,6 +158,11 @@ void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
 
 void GameplaySystem::compileGameplayScript(std::string levelScript)
 {
+	ActionBuilder::setExecutableBuilder([](Node* node)
+	{
+		return SendMessageActionBuilder::buildSendMessageAction(node);
+	});
+
 	XMLParser xmlParser;
 	xmlParser.loadFile(levelScript);
 	gameLogic = GameLogic(&incomingMessages);
@@ -181,7 +187,7 @@ void GameplaySystem::deleteGameObjectScripts()
 
 void GameplaySystem::compileGameObjectScripts()
 {
-	for (GameObjectLogic object : objects)
+	for (GameObjectLogic& object : objects)
 	{
 		object.compileParsedXMLIntoScript();
 	}

@@ -6,6 +6,7 @@
 #include "DevConsole/LevelEditor.h"
 
 #include "../Utilities/FilePaths.h"
+#include "Resource Management/XMLWriter.h"
 //#include "Resource Management/XMLWriter.h"
 
 Startup::Startup()
@@ -135,9 +136,6 @@ void Startup::loadMainMenu()
 {
 	level->loadLevelFile(LEVELDIR"MainMenu.xml", gameplay);
 
-	//XMLWriter writer(database);
-	//writer.saveLevelFile("myLevel");
-
 
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
@@ -162,6 +160,10 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
 	gameplay->setTimedLevel(70000000.f);
+
+
+	XMLWriter writer(database);
+	writer.saveLevelFile("myLevel");
 }
 
 void Startup::switchLevel()

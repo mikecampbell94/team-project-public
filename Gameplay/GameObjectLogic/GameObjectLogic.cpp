@@ -8,30 +8,6 @@ const int RESOURCE_NODE = 0;
 const int GAME_LOGIC_NODE = 1;
 const int PAINT_GAME_LOGIC_NODE = 2;
 
-void GameObjectLogic::changeResource(Node** node, std::string id)
-{
-	if ((*node)->value == "var")
-	{
-		(*node)->value = id;
-	}
-	for (Node* child : (*node)->children)
-	{
-		changeResource(&child, id);
-	}
-}
-
-void GameObjectLogic::changeResourceBack(Node** node, std::string id)
-{
-	if ((*node)->value == id)
-	{
-		(*node)->value = "var";
-	}
-	for (Node* child : (*node)->children)
-	{
-		changeResourceBack(&child, id);
-	}
-}
-
 GameObjectLogic::GameObjectLogic(Database* database, MessageProcessor* messages, std::string script)
 {
 	this->database = database;
@@ -111,5 +87,29 @@ void GameObjectLogic::compileLogicFromNodes(Node* logicNode, const std::vector<N
 		logics[logics.size() - 1]->compileParsedXMLIntoScript(logicNode);
 
 		changeResourceBack(&logicNode, resource->value);
+	}
+}
+
+void GameObjectLogic::changeResource(Node** node, std::string id)
+{
+	if ((*node)->value == "var")
+	{
+		(*node)->value = id;
+	}
+	for (Node* child : (*node)->children)
+	{
+		changeResource(&child, id);
+	}
+}
+
+void GameObjectLogic::changeResourceBack(Node** node, std::string id)
+{
+	if ((*node)->value == id)
+	{
+		(*node)->value = "var";
+	}
+	for (Node* child : (*node)->children)
+	{
+		changeResourceBack(&child, id);
 	}
 }

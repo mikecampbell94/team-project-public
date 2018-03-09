@@ -27,8 +27,10 @@ public:
 private:
 	void compileGameLogic(Node* gameLogicNode, const std::vector<Node*>& resources);
 	void compilePaintGameLogic(Node* paintGameNode, const std::vector<Node*>& resources);
-
 	void compileLogicFromNodes(Node* logicNode, const std::vector<Node*>& resources);
+
+	void changeResource(Node** node, std::string id);
+	void changeResourceBack(Node** node, std::string id);
 
 	std::string scriptFile;
 	Node* parsedScript;
