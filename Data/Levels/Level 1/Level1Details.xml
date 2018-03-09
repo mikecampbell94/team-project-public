@@ -12,7 +12,7 @@
 		<Enabled>True/False</Enabled>
 		<Position>
 			<X>0</X>
-			<Y>300</Y>
+			<Y>100000</Y>
 			<Z>0</Z>
 		</Position>
 		<Rotation>
@@ -228,7 +228,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
-      <TransmitCollision>False</TransmitCollision>
+      <TransmitCollision>True</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
       <Mass>1</Mass>
       <isCollision>True</isCollision>
@@ -267,7 +267,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
-      <TransmitCollision>False</TransmitCollision>
+      <TransmitCollision>True</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
       <Mass>0.2</Mass>
       <isCollision>True</isCollision>
@@ -306,7 +306,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
-      <TransmitCollision>False</TransmitCollision>
+      <TransmitCollision>True</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
       <Mass>0.2</Mass>
       <isCollision>True</isCollision>

@@ -69,6 +69,7 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 	}
 	physicsnode->transmitCollision = node->children[1]->value == "True";
 	physicsnode->setCollisionShape(node->children[2]->value);
+	physicsnode->setBroadPhaseShape("Sphere");
 	physicsnode->setInverseMass(stof(node->children[3]->value));
 	physicsnode->setInverseInertia(physicsnode->getCollisionShape()->buildInverseInertia(physicsnode->getInverseMass()));
 	physicsnode->setElasticity(stof(node->children[5]->value));
@@ -80,6 +81,19 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 	if (node->children.size() > 8)
 	{
 		std::string staticObject = node->children[8]->value;
+
+		if (staticObject == "True")
+		{
+			physicsnode->setStatic(true);
+		}
+		else
+		{
+			physicsnode->setStatic(false);
+		}
+	}
+	else
+	{
+		std::string staticObject = node->children[7]->value;
 
 		if (staticObject == "True")
 		{

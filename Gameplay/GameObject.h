@@ -23,7 +23,7 @@ public:
 	void setScale(NCLVector3 scale);
 	void setEnabled(bool isEnabled);
 
-	const NCLVector3& getScale() const
+	 const NCLVector3& getScale() const 
 	{
 		return scale;
 	}

@@ -171,14 +171,10 @@ PhysicsEngine::~PhysicsEngine()
 
 void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 {
-	if (octreeInitialised)
-	{
-		octreeChanged = true;
-		obj->movedSinceLastBroadPhase = true;
-		octree->AddNode(obj);
-	}
+
 
 	physicsNodes.push_back(obj);
+	BpOct.sortNode(obj);
 
 	if (obj->transmitCollision)
 	{
@@ -234,6 +230,7 @@ void PhysicsEngine::removeAllPhysicsObjects()
 		//delete obj;
 	}
 	physicsNodes.clear();
+	BpOct.clear();
 }
 
 void PhysicsEngine::updateSubsystem(const float& deltaTime)
@@ -326,22 +323,68 @@ void PhysicsEngine::updatePhysics()
 
 void PhysicsEngine::broadPhaseCollisions()
 {
-	//if (physicsNodes.size() > 0)
-	//{
-	//	if (octreeChanged)
-	//	{
-	//		octree->UpdateTree();
-	//		octreeChanged = false;
-	//		broadphaseColPairs = octree->GetAllCollisionPairs();
-	//	}
-	//}
+	/*if (physicsNodes.size() > 0)
+	{
+		if (octreeChanged)
+		{
+			octree->UpdateTree();
+			octreeChanged = false;
+			broadphaseColPairs = octree->GetAllCollisionPairs();
+		}
+	}*/
+
 
 	broadphaseColPairs.clear();
 
 	PhysicsNode* nodeA;
 	PhysicsNode* nodeB;
 
+	for (PhysicsNode * p : physicsNodes) {
+		if (p->getLinearVelocity().length() > 0) {
+			BpOct.sortNode(p);
+		}
+	}
+
 	if (physicsNodes.size() > 0)
+	{
+		for (BParea &p : BpOct.getBpAreas()) 
+		{
+
+			for (size_t i = 0; i < p.nodesInArea.size() - 1 && p.nodesInArea.size() > 0; ++i)
+			{
+				for (size_t j = i + 1; j < p.nodesInArea.size(); ++j)
+				{
+					nodeA = p.nodesInArea[i];
+					nodeB = p.nodesInArea[j];
+
+					//lets check collisions with broadphase shapes
+
+
+
+					//Check they both atleast have collision shapes
+
+					if (!(nodeA->getIsStatic() && nodeB->getIsStatic()))
+					{
+						if (nodeA->getEnabled() && nodeB->getEnabled())
+						{
+							if (BroadPhaseCulling::SphereSphereCollision(nodeA, nodeB))
+							{
+								CollisionPair cp;
+								cp.pObjectA = nodeA;
+								cp.pObjectB = nodeB;
+
+								broadphaseColPairs.push_back(cp);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+	/*if (physicsNodes.size() > 0)
 	{
 		for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
 		{
@@ -371,7 +414,7 @@ void PhysicsEngine::broadPhaseCollisions()
 			}
 		}
 	}
-}
+}*/
 
 void PhysicsEngine::narrowPhaseCollisions()
 {
@@ -423,7 +466,9 @@ void PhysicsEngine::narrowPhaseCollisions()
 
 void PhysicsEngine::InitialiseOctrees(int entityLimit)
 {
-	octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
+	BpOct.init(NCLVector3(-200,-200,-200),NCLVector3(200,200,200));
+
+	/*octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
 	octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
 
 	if (physicsNodes.size() > 0)
@@ -439,5 +484,5 @@ void PhysicsEngine::InitialiseOctrees(int entityLimit)
 		node->movedSinceLastBroadPhase = false;
 	}
 
-	broadphaseColPairs = octree->GetAllCollisionPairs();
+	broadphaseColPairs = octree->GetAllCollisionPairs();*/
 }

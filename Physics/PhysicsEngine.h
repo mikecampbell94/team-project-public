@@ -6,6 +6,7 @@
 #include "PhysicsNode.h"
 #include "Constraint.h"
 #include "Manifold.h"
+#include "BroadPhaseCulling.h"
 #include <vector>
 
 class OctreePartitioning;
@@ -69,6 +70,10 @@ public:
 		return updateTimestep; 
 	}
 
+	inline BroadPhaseCulling& getBPcull() { return BpOct; };
+
+	inline int getNumCols() const { return broadphaseColPairs.size(); };
+
 	void OctreeChanged(const NCLMatrix4 &matrix)
 	{
 		octreeChanged = true;
@@ -97,9 +102,13 @@ private:
 	std::vector<Constraint*>	constraints;
 	std::vector<Manifold*>		manifolds;
 
+	BroadPhaseCulling BpOct;
+
+
 	bool		octreeChanged = false;
 	bool		octreeInitialised = false;
-	OctreePartitioning* octree;
+	//OctreePartitioning* octree;
+
 
 	Database* database;
 
