@@ -22,26 +22,10 @@ PaintTrail::~PaintTrail()
 
 void PaintTrail::preparePaintSurface(std::vector<GameObject*> surfaceObjects)
 {
-	setCurrentShader(paintTrailShader);
-	glBindFramebuffer(GL_FRAMEBUFFER, buffer);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
-
-	viewMatrix = NCLMatrix4::buildViewMatrix(NCLVector3(1, 800, 1), NCLVector3(0, 0, 0));
-	textureMatrices = biasMatrix * (CommonGraphicsData::SHARED_PROJECTION_MATRIX * viewMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
-
 	for (GameObject* surfaceObject : surfaceObjects)
 	{
 		surfaceObject->getSceneNode()->isPaintSurface = true;
-		glUniform4fv(glGetUniformLocation(paintTrailShader->GetProgram(), "baseColour"), 1, (float*)&surfaceObject->getSceneNode()->getColour());
-		surfaceObject->getSceneNode()->Draw(*paintTrailShader);
 	}
-
-	glEnable(GL_DEPTH_TEST);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void PaintTrail::addPainterObjectForNextFrame(GameObject* painter)

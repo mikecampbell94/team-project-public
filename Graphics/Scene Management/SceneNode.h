@@ -108,6 +108,9 @@ public:
 	bool isEnabled = true;
 	NCLVector4 axisAngleRotation;
 
+	bool isReflective = false;
+	float reflectiveStrength = 0.0f;
+
 protected:
 	bool		enabled;
 	SceneNode*	parent;

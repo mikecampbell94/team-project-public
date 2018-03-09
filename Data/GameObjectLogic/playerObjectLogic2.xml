@@ -12,9 +12,15 @@
   
 	<ReceiveMessage type="CollisionMessage">
 		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
+      <Condition>
+        <objectIdentifier>var</objectIdentifier>
+      </Condition>
+      <Condition type="OR">
 				<colliderIdentifier>floor</colliderIdentifier>
+			  <colliderIdentifier>platformasstair</colliderIdentifier>
+        <colliderIdentifier>platformwithfirststair</colliderIdentifier>
+        <colliderIdentifier>platformassecondstair</colliderIdentifier>
+        <colliderIdentifier>secondfloor1</colliderIdentifier>
 			</Condition>
 
 			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
@@ -23,58 +29,7 @@
 			</SendMessage>
 		</Action>
 	 </ReceiveMessage>
-	 <ReceiveMessage type="CollisionMessage">
-		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
-				<colliderIdentifier>platformasstair</colliderIdentifier>
-			</Condition>
-
-			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-				<destination>RenderingSystem</destination>
-				<resource>var</resource>
-			</SendMessage>
-		</Action>
-	 </ReceiveMessage>
-	 <ReceiveMessage type="CollisionMessage">
-		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
-				<colliderIdentifier>platformwithfirststair</colliderIdentifier>
-			</Condition>
-
-			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-				<destination>RenderingSystem</destination>
-				<resource>var</resource>
-			</SendMessage>
-		</Action>
-	 </ReceiveMessage>
-	 <ReceiveMessage type="CollisionMessage">
-		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
-				<colliderIdentifier>platformassecondstair</colliderIdentifier>
-			</Condition>
-
-			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-				<destination>RenderingSystem</destination>
-				<resource>var</resource>
-			</SendMessage>
-		</Action>
-	 </ReceiveMessage>
-	 <ReceiveMessage type="CollisionMessage">
-		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
-				<colliderIdentifier>secondfloor1</colliderIdentifier>
-			</Condition>
-
-			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-				<destination>RenderingSystem</destination>
-				<resource>var</resource>
-			</SendMessage>
-		</Action>
-	 </ReceiveMessage>
+  
 	 <ReceiveMessage type="CollisionMessage">
 		<Action>
 			<Condition type="AND">
@@ -494,49 +449,53 @@
 		</Action>
 	 </ReceiveMessage>
 	-->
+	<ReceiveMessage type="InputMessage">
+    <Action>
+      <Condition>
+        <playerName>var</playerName>
+        <key>32</key>
+      </Condition>
+
+      <SendMessage type="TOGGLE_INPUT_KEY">
+        <destination>InputManager</destination>
+        <player>var</player>
+        <key>KEYBOARD_SPACE</key>
+        <enabled>False</enabled>
+      </SendMessage>
+    </Action>
+  </ReceiveMessage>
+
+  <ReceiveMessage type="CollisionMessage">
+    <Action>
+      <Condition type="AND">
+        <objectIdentifier>var</objectIdentifier>
+        <colliderIdentifier>floor</colliderIdentifier>
+      </Condition>
+      
+      <SendMessage type="TOGGLE_INPUT_KEY">
+        <destination>InputManager</destination>
+        <player>var</player>
+        <key>KEYBOARD_SPACE</key>
+        <enabled>True</enabled>
+      </SendMessage>
+    </Action>
+  </ReceiveMessage>
 
 </GameplayScript>
 
-<HardCodedLogic>
-		
-	<OnStart>
-		<SetJump>
-			<resource>player0</resource>
-			<canJump>true</canJump>
-		</SetJump>
-	</OnStart>
-	
-	<ReceiveMessage type="PlayerInputMessage">
-		<Condition>
-			<key>0x20</key>
-		</Condition>
-		<Action>
-			<canJump>False</canJump>
-		</Action>
-	</ReceiveMessage>
-	
-	<ReceiveMessage type="CollisionMessage">
-		<Condition type="AND">
-				<objectIdentifier>player0</objectIdentifier>
-				<colliderIdentifier>floor</colliderIdentifier>
-			</Condition>
-		<Action>
-			<canJump>True</canJump>
-		</Action>
-	</ReceiveMessage>
-	
-	
-	<!--
-	<Function type="">
-		<Capture>
-			<capture></capture>
-		</Capture>
-		<Parameter>
-			<parameter></parameter>
-		</Parameter>
-	</Function>
-	-->
-	
-</HardCodedLogic>
+<PaintGameLogic>
+    <ReceiveMessage type="InputMessage">
+      <Action>
+        <Condition type="AND">
+          <playerName>var</playerName>
+          <key>32</key>
+        </Condition>
+
+        <PrintText>
+          <text>Hard coded logic text printing</text>
+        </PrintText>
+      </Action>
+    </ReceiveMessage>
+  </PaintGameLogic>
 
 </GameObjectLogic>

@@ -20,6 +20,8 @@ public:
 	void AddNewSoundNode(PlayMovingSoundMessage* message);
 	void stopSoundNode(StopSoundMessage* message);
 
+	void clearSoundNodes();
+
 private:
 	void initialiseOpenAl();
 	void createOALSources();

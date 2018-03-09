@@ -16,9 +16,15 @@ uniform vec4 baseColour;
 uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
 
+uniform int isReflective;
+uniform float reflectiveStrength;
+uniform samplerCube skybox;
+
 in vec3 FragPos;
 in vec2 TexCoords;
 in vec3 Normal;
+in vec3 reflectionPos;
+in vec3 ReflectionNormal;
 
 void main(void) {
 	gPosition = FragPos;
@@ -44,31 +50,54 @@ void main(void) {
 	if (isPaintSurface == 1)
 	{
 		vec4 paintTrailProjection = (paintTrailTextureMatrix * inverse(viewMatrix) *
-			vec4(gPosition + (gNormal * 1.5), 1));
+			vec4(gPosition + (-gNormal * 1.0), 1));
 
 		vec4 paintColour = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 		if (paintTrailProjection.w > 0.0)
 		{
-			vec2 texelSize = 1.0f / textureSize(paintTrailTexture, 0);
+			vec2 texelSize = vec2(1.0f, 1.0f) / vec2(1280.0f, 720.0f);//textureSize(paintTrailTexture, 0);
 
-			for (int x = -1; x <= 1; ++x)
+			int sampleCount = 0;
+
+			for (int x = -10; x <= 10; ++x)
 			{
-				for (int y = -1; y <= 1; ++y)
+				for (int y = -10; y <= 10; ++y)
 				{
-					vec2 sampleCoord = vec2(x, y) * 0.5f;
+					vec2 sampleCoord = vec2(x, y) * texelSize * 100.0f;
 					paintColour += textureProj(paintTrailTexture, paintTrailProjection + vec4(sampleCoord, 0.0f, 0.0f));
+
+					sampleCount++;
 				}
 			}
 
-			paintColour /= 9.0f;
-		}
-		col *= paintColour;
+			paintColour /= sampleCount;
 
+		}
+
+		if (length(paintColour) > 1.2f)
+		{
+			col *= paintColour;
+
+			vec3 i = normalize(reflectionPos - cameraPos);
+			vec3 r = reflect(i, normalize(ReflectionNormal));
+			vec4 reflectioncolour = vec4(texture(skybox, r).rgb, 1.0);
+
+			col.rgb += reflectioncolour.rgb * 1.0f;
+			col /= 1.7;
+		}
+	}
+	else if (isReflective == 1)
+	{
+		vec3 i = normalize(reflectionPos - cameraPos);
+		vec3 r = reflect(i, normalize(ReflectionNormal));
+		vec4 reflectioncolour = vec4(texture(skybox, r).rgb, 1.0);
+
+		col.rgb += reflectioncolour.rgb * reflectiveStrength;
+		col /= 2;
 	}
 
-
+	//col.rgb = normalize(reflectionPos);
 
 	gAlbedo = vec4(col.rgb, 1.0);
-	//glAlbedo = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 }

@@ -39,6 +39,12 @@ SceneNode * GameObjectBuilder::buildSceneNode(Node * node, Database* database)
 	SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getResource(meshName)));
 	sceneNode->SetColour(buildVector4(node->children[1]));
 
+	if (node->children.size() > 2)
+	{
+		sceneNode->isReflective = true;
+		sceneNode->reflectiveStrength = stof(node->children[2]->value);
+	}
+
 	return sceneNode;
 }
 

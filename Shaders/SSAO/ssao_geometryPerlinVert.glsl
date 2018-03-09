@@ -16,6 +16,8 @@ uniform int perlin;
 out vec3 FragPos;
 out vec2 TexCoords;
 out vec3 Normal;
+out vec3 reflectionPos;
+out vec3 ReflectionNormal;
 
 //used to smooth perlin noise
 float fade(float t) {
@@ -91,6 +93,9 @@ void main(void)
 	
 	mat3 normalMatrix = transpose(inverse(mat3(viewMatrix * modelMatrix)));
 	Normal = normalMatrix * (vec4(aNormal, 1.0)).xyz;
+
+	reflectionPos = vec3(modelMatrix * vec4(aPos, 1.0));
+	ReflectionNormal = mat3(transpose(inverse(modelMatrix))) * aNormal;
 
 	gl_Position = projMatrix * viewPos;
 }
