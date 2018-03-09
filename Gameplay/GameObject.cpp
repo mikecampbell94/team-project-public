@@ -55,6 +55,7 @@ void GameObject::setRotation(NCLVector4 rotation)
 {
 	NCLVector3 position = sceneNode->GetTransform().getPositionVector();
 	NCLVector3 scale = sceneNode->GetTransform().getScalingVector();
+	sceneNode->axisAngleRotation = rotation;
 
 	this->sceneNode->SetTransform(NCLMatrix4::translation(position) * 
 		NCLMatrix4::rotation(rotation.w, NCLVector3(rotation.x, rotation.y, rotation.z)) * 

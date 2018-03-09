@@ -1,0 +1,17 @@
+<Level>
+	<File>file.xml</File>
+	<File>file1.xml</File>
+	<File>file2.xml</File>
+	<File>file3.xml</File>
+	<UI>
+		<File>UIfile.xml</File>
+	</UI>
+	<GamePlay>
+		<File>gameplayFile.xml</File>
+	</GamePlay>
+	<GameLogic>
+		<File>gameLogicFile1.xml</File>
+		<File>gameLogicFile2.xml</File>
+	</GameLogic>
+</Level>
+

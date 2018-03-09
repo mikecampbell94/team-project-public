@@ -106,6 +106,10 @@ public:
 	bool isPaintSurface = false;
 	int hasTexture = 0;
 	bool isEnabled = true;
+	NCLVector4 axisAngleRotation;
+
+	bool isReflective = false;
+	float reflectiveStrength = 0.0f;
 
 protected:
 	bool		enabled;

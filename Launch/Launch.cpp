@@ -46,7 +46,6 @@ int main()
 	//shutdown.clearAllSubsystems();
 	//shutdown.close(); ?
 
-
 	//System engine;
 	//GameLoop game(engine);
 	//game.executeGameLoop();

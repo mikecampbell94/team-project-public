@@ -25,6 +25,8 @@ public:
 		this->numModels = numModels;
 		LoadModel(path);
 
+		file = path;
+
 		setSize(sizeof(*this));
 	}
 
@@ -32,6 +34,8 @@ public:
 	{
 		this->numModels = numModels;
 		LoadModel(path);
+
+		file = path;
 		
 		setSize(sizeof(*this));
 	}
@@ -82,6 +86,8 @@ public:
 	Mesh* mesh;
 	unordered_map<string, SubMesh*> meshesByName;
 	std::string directory;
+	std::string file;
+	std::string textureFile;
 	std::vector<Texture> loadedTextures;
 
 	Assimp::Importer import;

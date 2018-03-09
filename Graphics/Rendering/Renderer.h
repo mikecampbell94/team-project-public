@@ -30,6 +30,8 @@ public:
 	void toggleModule(const std::string& moduleName, bool enabled);
 	GraphicsModule* getGraphicsModule(const std::string& moduleName);
 
+	GraphicsPipeline* getPipeLine() { return &pipeline; }
+
 private:
 	void updateScene(const float& msec) override;
 	void renderScene() override;

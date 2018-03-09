@@ -7,6 +7,8 @@
 
 #include "../Utilities/FilePaths.h"
 #include "../Gameplay/Scripting/PaintGameActionBuilder.h"
+#include "Resource Management/XMLWriter.h"
+//#include "Resource Management/XMLWriter.h"
 
 Startup::Startup()
 {
@@ -136,7 +138,8 @@ void Startup::loadMainMenu()
 {
 	level->loadLevelFile(LEVELDIR"MainMenu.xml", gameplay);
 
-
+	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
@@ -146,6 +149,8 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
+	
+
 	gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
 	physics->InitialiseOctrees(100);
@@ -160,16 +165,39 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
 	gameplay->setTimedLevel(70000000.f);
+
+	if(levelFile == "MainMenu.xml")
+	{
+		DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+			SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
+	}
+	else
+	{
+		//Maybe have a parser in audio system to parse xml script for audio - then use the game object logic parser for object logic audio?
+		DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+			SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "vega", "LevelMusic"));
+	}
+
+	
+
+
+
+	XMLWriter writer(database);
+	writer.saveLevelFile("myLevel");
 }
 
 void Startup::switchLevel()
 {
+	rendering->clearScores();
 	level->unloadLevelWhileKeepingUserInterface();
+	audio->clearSoundNodesWhenUnloadingLevel();
 }
 
 void Startup::unloadLevel()
 {
+	rendering->clearScores();
 	level->unloadLevel();
+	audio->clearSoundNodesWhenUnloadingLevel();
 }
 
 void Startup::beginOnlineLobby()

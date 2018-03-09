@@ -39,7 +39,7 @@ public:
 
 private:
 	GameLogic gameLogic;
-	std::vector<GameObjectLogic*> objects;
+	std::vector<GameObjectLogic> objects;
 	GameplayInputBridge inputBridge;
 	XMLParser inputParser;
 	Database* database;

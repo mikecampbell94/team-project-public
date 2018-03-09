@@ -39,6 +39,12 @@ SceneNode * GameObjectBuilder::buildSceneNode(Node * node, Database* database)
 	SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getResource(meshName)));
 	sceneNode->SetColour(buildVector4(node->children[1]));
 
+	if (node->children.size() > 2)
+	{
+		sceneNode->isReflective = true;
+		sceneNode->reflectiveStrength = stof(node->children[2]->value);
+	}
+
 	return sceneNode;
 }
 
@@ -73,10 +79,12 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 	physicsnode->setInverseInertia(physicsnode->getCollisionShape()->buildInverseInertia(physicsnode->getInverseMass()));
 	physicsnode->setElasticity(stof(node->children[5]->value));
 	physicsnode->setFriction(stof(node->children[6]->value));
+
 	if (node->children.size() == 9)
 	{
 		physicsnode->setDamping(stof(node->children[7]->value));
 	}
+
 	if (node->children.size() > 8)
 	{
 		std::string staticObject = node->children[8]->value;
@@ -90,6 +98,7 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 			physicsnode->setStatic(false);
 		}
 	}
+
 	return physicsnode;
 }
 
