@@ -12,6 +12,8 @@
 std::unordered_map<std::string, Builder>PaintGameActionBuilder::builders
 	= std::unordered_map<std::string, Builder>();
 
+std::string PaintGameActionBuilder::powerUpBuilders[2] = { "ScalePlayer", "DecreaseMass" };
+
 Database* PaintGameActionBuilder::database = nullptr;
 
 void PaintGameActionBuilder::initialiseBuilders(Database* database)
@@ -86,6 +88,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		};
 	} });
 
+
 	builders.insert({ "RegainPaint", [](Node* node)
 	{
 		GameObject* gameObject = static_cast<GameObject*>(
@@ -133,6 +136,46 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 			}
 		};
 	} });
+
+	builders.insert({ "DecreaseMass", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		float multiplier = stof(node->children[1]->value);
+		Executable sendMessageAction = SendMessageActionBuilder::buildSendMessageAction(node->children[2]);
+
+		return [gameObject, multiplier, sendMessageAction]()
+		{
+			if (gameObject->stats.defaultInvMass == 1.f)
+			{
+				gameObject->stats.defaultInvMass *= multiplier;
+				sendMessageAction();
+			}
+		};
+	} });
+
+	builders.insert({ "SetDefaults", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+
+		return [gameObject]()
+		{
+			gameObject->setScale(gameObject->stats.defaultScale);
+			gameObject->stats.defaultInvMass = 1.f;
+		};
+	} });
+
+
+	builders.insert({ "RandomPowerUp", [](Node* node)
+	{
+		int randNum = rand() % 2;
+		return builders.at(powerUpBuilders[randNum])(node);
+	} });
+
+
+
+
 
 
 }

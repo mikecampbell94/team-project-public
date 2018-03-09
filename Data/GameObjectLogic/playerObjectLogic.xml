@@ -131,7 +131,7 @@
 		</ReceiveMessage>
 
 
-		<ReceiveMessage type="CollisionMessage">
+		<!-- <ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition type="AND">
 					<objectIdentifier>var</objectIdentifier>
@@ -149,6 +149,46 @@
 					</SendMessage>
 				</ScalePlayer>
 			</Action>
+		</ReceiveMessage> 
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>powerup</colliderIdentifier>
+				</Condition>
+
+				<DecreaseMass>
+					<resource>var</resource>
+					<multiplier>3</multiplier>
+
+					<SendMessage type="TOGGLE_GAMEOBJECT">
+						<destination>RenderingSystem</destination>
+						<resource>powerup</resource>
+						<enabled>False</enabled>
+					</SendMessage>
+				</DecreaseMass>
+			</Action>
+		</ReceiveMessage>-->
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>powerup</colliderIdentifier>
+				</Condition>
+
+				<RandomPowerUp>
+					<resource>var</resource>
+					<multiplier>3</multiplier>
+
+					<SendMessage type="TOGGLE_GAMEOBJECT">
+						<destination>RenderingSystem</destination>
+						<resource>powerup</resource>
+						<enabled>False</enabled>
+					</SendMessage>
+				</RandomPowerUp>
+			</Action>
 		</ReceiveMessage>
 
 
@@ -157,7 +197,6 @@
 				<resource>var</resource>
 			</ReducePaint>
 		</Timed>
-
 	</PaintGameLogic>
 
 </GameObjectLogic>

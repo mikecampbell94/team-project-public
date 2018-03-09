@@ -76,7 +76,10 @@ void GameObject::setScale(NCLVector3 scale)
 	{
 		this->physicsNode->getCollisionShape()->setScale(scale, this->physicsNode->getInverseMass());
 	}
-	this->stats.defaultScale = scale;
+	else
+	{
+		this->stats.defaultScale = scale;
+	}
 	
 }
 

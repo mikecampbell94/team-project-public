@@ -18,6 +18,7 @@ public:
 
 private:
 	static std::unordered_map<std::string, Builder> builders;
+	static std::string powerUpBuilders[2];
 	static Database* database;
 };
 
