@@ -6,6 +6,7 @@
 #include "DevConsole/LevelEditor.h"
 
 #include "../Utilities/FilePaths.h"
+#include "../Gameplay/Scripting/PaintGameActionBuilder.h"
 
 Startup::Startup()
 {
@@ -28,6 +29,7 @@ void Startup::initialiseSubsystems()
 	userInterface = new UserInterface(window->getKeyboard(), resolution);
 	initialiseLevelSystem();
 	initialiseInputSystem();
+	PaintGameActionBuilder::initialiseBuilders(database);
 	initialiseGameplaySystem();
 	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();

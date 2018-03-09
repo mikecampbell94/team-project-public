@@ -1,6 +1,7 @@
 #include "PaintGameActionBuilder.h"
 
-#include "../Resource Management/XMLParser.h"
+#include "../../Resource Management/XMLParser.h"
+#include "../../Resource Management/Database/Database.h"
 #include "../../Communication/Messages/PaintTrailForGameObjectMessage.h"
 #include "../../Communication/SendMessageActionBuilder.h"
 #include "../GameObject.h"
@@ -10,8 +11,12 @@
 std::unordered_map<std::string, Builder>PaintGameActionBuilder::builders
 	= std::unordered_map<std::string, Builder>();
 
-void PaintGameActionBuilder::initialiseBuilders()
+Database* PaintGameActionBuilder::database = nullptr;
+
+void PaintGameActionBuilder::initialiseBuilders(Database* database)
 {
+	PaintGameActionBuilder::database = database;
+
 	builders.insert({ "PrintText", [](Node* node)
 	{
 		std::string text = node->children[0]->value;
@@ -22,21 +27,50 @@ void PaintGameActionBuilder::initialiseBuilders()
 		};
 	} });
 
-	/*builders.insert({ "CheckPaint", [](Node* node)
+	builders.insert({ "CheckPaint", [](Node* node)
 	{
 		Executable sendMessageAction = SendMessageActionBuilder::buildSendMessageAction(node->children[1]);
 		GameObject* gameObject = static_cast<GameObject*>(
-			database->getTable("GameObjects")->getResource(node->children[0]->value));
-		
-		get playter from var;
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
 
-
-		return [sendMessageAction]()
+		return [sendMessageAction, gameObject]()
 		{
-			if(player.paint > 0)
+			if (gameObject->stats.currentPaint > 0)
+			{
 				sendMessageAction();
+			}
+				
 		};
-	} });*/
+	} });
+
+	builders.insert({ "SetMaxPaint", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		int maxPaint = stoi(node->children[1]->value);
+
+		return [gameObject, maxPaint]()
+		{
+			gameObject->stats.maxPaint = maxPaint;
+			gameObject->stats.currentPaint = maxPaint;
+
+		};
+	} });
+
+	builders.insert({ "ReducePaint", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+
+		return [gameObject]()
+		{
+			int paint = max(--gameObject->stats.currentPaint, 0);
+			gameObject->stats.currentPaint = paint;
+			
+			std::cout << gameObject->getName() << std::endl;
+
+		};
+	} });
 }
 
 Executable PaintGameActionBuilder::buildExecutable(Node* node)

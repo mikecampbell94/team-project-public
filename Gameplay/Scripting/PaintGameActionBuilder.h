@@ -13,11 +13,11 @@ typedef std::function<Executable(std::vector<std::string>)> DevConsoleNodeBuilde
 class PaintGameActionBuilder
 {
 public:
-	static void initialiseBuilders();
+	static void initialiseBuilders(Database* database);
 	static Executable buildExecutable(Node* node);
 
 private:
 	static std::unordered_map<std::string, Builder> builders;
-	Database* database;
+	static Database* database;
 };
 

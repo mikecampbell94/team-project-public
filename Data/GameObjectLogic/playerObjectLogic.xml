@@ -105,6 +105,9 @@
 				<resource>var</resource>
 				<paint>100</paint>
 			</SetMaxPaint>
+			<PrintText>
+				<text>Hard coded logic text printing</text>
+			</PrintText>
 		</OnStart>
 
 		<ReceiveMessage type="InputMessage">
@@ -137,7 +140,11 @@
 			</Action>
 		</ReceiveMessage>
 
-
+		<Timed interval="0.5">
+			<ReducePaint>
+				<resource>player0</resource>
+			</ReducePaint>
+		</Timed>
 
 	</PaintGameLogic>
 

@@ -23,7 +23,6 @@
 //#include <iphlpapi.h>
 #include <Utilities/NetworkBase.h>
 #include "Communication/SendMessageActionBuilder.h"
-#include "../Gameplay/Scripting/PaintGameActionBuilder.h"
 //#include "../Tuts_Network_Server/NetworkBase.h"
 //#include <ENET/include/enet/enet.h>
 
@@ -35,7 +34,7 @@ int main()
 	}
 
 	SendMessageActionBuilder::initialiseBuilders();
-	PaintGameActionBuilder::initialiseBuilders();
+	
 
 	Startup startup;
 	startup.initialiseSubsystems();
