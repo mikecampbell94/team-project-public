@@ -11,6 +11,7 @@ struct PaintGameStats
 	int currentPaint = 0;
 	float defaultInvMass = 1.f;
 	NCLVector4 colourToPaint;
+	NCLVector3 defaultScale;
 };
 
 class GameObject : public Resource
@@ -34,6 +35,11 @@ public:
 	const NCLVector3& getScale() const
 	{
 		return scale;
+	}
+
+	const NCLVector3& getPosition() const
+	{
+		return position;
 	}
 
 	bool getEnabled()

@@ -79,7 +79,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					gameObject->getSceneNode()->SetColour(NCLVector4(interpolatedColour.x, interpolatedColour.y, interpolatedColour.z, 1.f));
 				}
 
-				gameObject->getPhysicsNode()->setInverseMass((gameObject->stats.defaultInvMass + massDecrease)*2.f);
+				gameObject->getPhysicsNode()->setInverseMass((gameObject->stats.defaultInvMass + massDecrease));
 
 				gameObject->stats.currentPaint = paint;
 			}
@@ -116,7 +116,23 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		};
 	} });
 
+	builders.insert({ "ScalePlayer", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		float multiplier = stof(node->children[1]->value);
+		Executable sendMessageAction = SendMessageActionBuilder::buildSendMessageAction(node->children[2]);
 
+		return [gameObject, multiplier, sendMessageAction]()
+		{
+			if (gameObject->getScale() == gameObject->stats.defaultScale)
+			{
+				gameObject->setPosition(NCLVector3(gameObject->getPosition().x, gameObject->getPosition().y + (gameObject->stats.defaultScale.y * multiplier * .5f), gameObject->getPosition().z));
+				gameObject->setScale(gameObject->stats.defaultScale * multiplier);
+				sendMessageAction();
+			}
+		};
+	} });
 
 
 }

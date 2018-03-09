@@ -140,15 +140,14 @@
 
 				<ScalePlayer>
 					<resource>var</resource>
-					<multiplier>3</multiplier>
+					<multiplier>1.25</multiplier>
+
+					<SendMessage type="TOGGLE_GAMEOBJECT">
+						<destination>RenderingSystem</destination>
+						<resource>powerup</resource>
+						<enabled>False</enabled>
+					</SendMessage>
 				</ScalePlayer>
-
-				<SendMessage type="TOGGLE_GAMEOBJECT">
-					<destination>RenderingSystem</destination>
-					<resource>powerup</resource>
-					<enabled>False</enabled>
-				</SendMessage>
-
 			</Action>
 		</ReceiveMessage>
 
