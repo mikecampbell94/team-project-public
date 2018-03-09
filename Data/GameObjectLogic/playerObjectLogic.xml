@@ -120,6 +120,8 @@
 				<PrintText>
 					<text>Hard coded logic text printing</text>
 				</PrintText>
+
+				
 			</Action>
 		</ReceiveMessage>
 
@@ -140,9 +142,22 @@
 			</Action>
 		</ReceiveMessage>
 
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>paintPool</colliderIdentifier>
+				</Condition>
+
+				<RegainPaint>
+					<resource>var</resource>
+				</RegainPaint>
+			</Action>
+		</ReceiveMessage>
+
 		<Timed interval="0.5">
 			<ReducePaint>
-				<resource>player0</resource>
+				<resource>var</resource>
 			</ReducePaint>
 		</Timed>
 

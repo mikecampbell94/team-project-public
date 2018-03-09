@@ -71,6 +71,17 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 
 		};
 	} });
+
+	builders.insert({ "RegainPaint", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+
+		return [gameObject]()
+		{
+			gameObject->stats.currentPaint = gameObject->stats.maxPaint;
+		};
+	} });
 }
 
 Executable PaintGameActionBuilder::buildExecutable(Node* node)
