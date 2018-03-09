@@ -89,7 +89,7 @@ void PaintTrail::apply()
 		GameObject* painter = painters.front();
 		painters.pop();
 
-		glUniform4fv(glGetUniformLocation(paintTrailShader->GetProgram(), "baseColour"), 1, (float*)&painter->getSceneNode()->getColour());
+		glUniform4fv(glGetUniformLocation(paintTrailShader->GetProgram(), "baseColour"), 1, (float*)&painter->stats.colourToPaint);
 		painter->getSceneNode()->Draw(*paintTrailShader);
 	}
 

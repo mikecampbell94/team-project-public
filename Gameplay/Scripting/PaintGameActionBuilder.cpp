@@ -5,6 +5,7 @@
 #include "../../Communication/Messages/PaintTrailForGameObjectMessage.h"
 #include "../../Communication/SendMessageActionBuilder.h"
 #include "../GameObject.h"
+#include "../../Physics/PhysicsNode.h"
 
 #include <iostream>
 
@@ -64,11 +65,19 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 
 		return [gameObject]()
 		{
-			int paint = max(--gameObject->stats.currentPaint, 0);
-			gameObject->stats.currentPaint = paint;
-			
-			std::cout << gameObject->getName() << std::endl;
 
+			if (gameObject->getPhysicsNode()->getLinearVelocity().length() > 0.1f)
+			{
+				int paint = max(--gameObject->stats.currentPaint, 0);
+
+				if (paint < 25)
+				{
+					float interpolationFactor = ((float)paint / (float)gameObject->stats.maxPaint) * 4;
+					NCLVector3 interpolatedColour = NCLVector3::interpolate(NCLVector3(1.f, 1.f, 1.f), gameObject->stats.colourToPaint.toVector3(), interpolationFactor);
+					gameObject->getSceneNode()->SetColour(NCLVector4(interpolatedColour.x, interpolatedColour.y, interpolatedColour.z, 1.f));
+				}
+				gameObject->stats.currentPaint = paint;
+			}
 		};
 	} });
 
@@ -80,8 +89,13 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		return [gameObject]()
 		{
 			gameObject->stats.currentPaint = gameObject->stats.maxPaint;
+			gameObject->getSceneNode()->SetColour(gameObject->stats.colourToPaint);
 		};
 	} });
+
+	
+
+
 }
 
 Executable PaintGameActionBuilder::buildExecutable(Node* node)

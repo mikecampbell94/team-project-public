@@ -155,6 +155,21 @@
 			</Action>
 		</ReceiveMessage>
 
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>					
+					<colliderIdentifier>AI</colliderIdentifier>
+				</Condition>
+
+				<PaintMinion>
+					<resource>var</resource>
+					<minion>AI</minion>
+				</PainMinion>
+			</Action>
+		</ReceiveMessage>
+
 		<Timed interval="0.5">
 			<ReducePaint>
 				<resource>var</resource>
