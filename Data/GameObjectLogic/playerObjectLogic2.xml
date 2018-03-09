@@ -497,46 +497,27 @@
 
 </GameplayScript>
 
-<HardCodedLogic>
+<PaintGameLogic>
+
 		
-	<OnStart>
-		<SetJump>
-			<resource>player0</resource>
-			<canJump>true</canJump>
-		</SetJump>
-	</OnStart>
-	
-	<ReceiveMessage type="PlayerInputMessage">
-		<Condition>
-			<key>0x20</key>
-		</Condition>
-		<Action>
-			<canJump>False</canJump>
-		</Action>
-	</ReceiveMessage>
-	
-	<ReceiveMessage type="CollisionMessage">
-		<Condition type="AND">
-				<objectIdentifier>player0</objectIdentifier>
-				<colliderIdentifier>floor</colliderIdentifier>
-			</Condition>
-		<Action>
-			<canJump>True</canJump>
-		</Action>
-	</ReceiveMessage>
-	
-	
-	<!--
-	<Function type="">
-		<Capture>
-			<capture></capture>
-		</Capture>
-		<Parameter>
-			<parameter></parameter>
-		</Parameter>
-	</Function>
-	-->
-	
-</HardCodedLogic>
+
+		<ReceiveMessage type="InputMessage">
+			<Action>
+				<Condition type="AND">
+					<playerName>var</playerName>
+					<key>32</key>
+				</Condition>
+
+				<PrintText>
+					<text>Hard coded logic text printing</text>
+				</PrintText>
+			</Action>
+		</ReceiveMessage>
+
+		
+
+
+
+	</PaintGameLogic>
 
 </GameObjectLogic>

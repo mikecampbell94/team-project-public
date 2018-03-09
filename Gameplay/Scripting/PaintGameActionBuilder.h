@@ -3,6 +3,7 @@
 #include <functional>
 #include <unordered_map>
 
+class Database;
 struct Node;
 
 typedef std::function<void()> Executable;
@@ -17,5 +18,6 @@ public:
 
 private:
 	static std::unordered_map<std::string, Builder> builders;
+	Database* database;
 };
 

@@ -5,6 +5,13 @@
 
 class PhysicsNode;
 
+struct PaintGameStats
+{
+	int maxPaint;
+	int currentPaint = 0;
+	NCLVector4 colourToPaint;
+};
+
 class GameObject : public Resource
 {
 public:
@@ -34,9 +41,13 @@ public:
 	}
 
 	bool isEnabled = true;
+	PaintGameStats stats;
+
 private: 
 	SceneNode *sceneNode;
 	PhysicsNode *physicsNode = nullptr;
+
+	
 
 	NCLVector3 position;
 	NCLVector3 scale;
