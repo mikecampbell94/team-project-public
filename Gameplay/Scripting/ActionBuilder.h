@@ -17,12 +17,12 @@ public:
 	static GameplayAction buildAction(Node* node);
 	static TimedGameplayAction buildTimedAction(Node* node);
 
-	static void compileActionSection(Node* section, Condition& condition, std::vector<Executable>& executables);
+	static void compileActionSection(Node* section, std::vector<Condition>& conditions, std::vector<Executable>& executables);
 	static Executable compileActionSectionWithoutCondition(Node* section);
 
 	static void setExecutableBuilder(std::function<Executable(Node*)> executableBuilder);
 private:
-	static GameplayAction buildFinalActionWithCondition(Condition& condition, std::vector<Executable>& executables);
+	static GameplayAction buildFinalActionWithCondition(std::vector<Condition>& conditions, std::vector<Executable>& executables);
 	static GameplayAction buildFinalAction(std::vector<Executable>& executables);
 
 	static Condition buildIfStatement(Node* node);

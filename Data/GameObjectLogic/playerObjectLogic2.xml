@@ -12,9 +12,15 @@
   
 	<ReceiveMessage type="CollisionMessage">
 		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
+      <Condition>
+        <objectIdentifier>var</objectIdentifier>
+      </Condition>
+      <Condition type="OR">
 				<colliderIdentifier>floor</colliderIdentifier>
+			  <colliderIdentifier>platformasstair</colliderIdentifier>
+        <colliderIdentifier>platformwithfirststair</colliderIdentifier>
+        <colliderIdentifier>platformassecondstair</colliderIdentifier>
+        <colliderIdentifier>secondfloor1</colliderIdentifier>
 			</Condition>
 
 			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
@@ -23,58 +29,7 @@
 			</SendMessage>
 		</Action>
 	 </ReceiveMessage>
-	 <ReceiveMessage type="CollisionMessage">
-		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
-				<colliderIdentifier>platformasstair</colliderIdentifier>
-			</Condition>
-
-			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-				<destination>RenderingSystem</destination>
-				<resource>var</resource>
-			</SendMessage>
-		</Action>
-	 </ReceiveMessage>
-	 <ReceiveMessage type="CollisionMessage">
-		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
-				<colliderIdentifier>platformwithfirststair</colliderIdentifier>
-			</Condition>
-
-			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-				<destination>RenderingSystem</destination>
-				<resource>var</resource>
-			</SendMessage>
-		</Action>
-	 </ReceiveMessage>
-	 <ReceiveMessage type="CollisionMessage">
-		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
-				<colliderIdentifier>platformassecondstair</colliderIdentifier>
-			</Condition>
-
-			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-				<destination>RenderingSystem</destination>
-				<resource>var</resource>
-			</SendMessage>
-		</Action>
-	 </ReceiveMessage>
-	 <ReceiveMessage type="CollisionMessage">
-		<Action>
-			<Condition type="AND">
-				<objectIdentifier>var</objectIdentifier>
-				<colliderIdentifier>secondfloor1</colliderIdentifier>
-			</Condition>
-
-			<SendMessage type="PAINT_TRAIL_FOR_GAMEOBJECT">
-				<destination>RenderingSystem</destination>
-				<resource>var</resource>
-			</SendMessage>
-		</Action>
-	 </ReceiveMessage>
+  
 	 <ReceiveMessage type="CollisionMessage">
 		<Action>
 			<Condition type="AND">
