@@ -50,21 +50,21 @@ void main(void) {
 	if (isPaintSurface == 1)
 	{
 		vec4 paintTrailProjection = (paintTrailTextureMatrix * inverse(viewMatrix) *
-			vec4(gPosition + (gNormal * 1.5), 1));
+			vec4(gPosition + (-gNormal * 1.0), 1));
 
 		vec4 paintColour = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 		if (paintTrailProjection.w > 0.0)
 		{
-			vec2 texelSize = 1.0f / textureSize(paintTrailTexture, 0);
+			vec2 texelSize = vec2(1.0f, 1.0f) / vec2(1280.0f, 720.0f);//textureSize(paintTrailTexture, 0);
 
 			int sampleCount = 0;
 
-			for (int x = -5; x <= 5; ++x)
+			for (int x = -10; x <= 10; ++x)
 			{
-				for (int y = -5; y <= 5; ++y)
+				for (int y = -10; y <= 10; ++y)
 				{
-					vec2 sampleCoord = vec2(x, y) * 0.5f;
+					vec2 sampleCoord = vec2(x, y) * texelSize * 100.0f;
 					paintColour += textureProj(paintTrailTexture, paintTrailProjection + vec4(sampleCoord, 0.0f, 0.0f));
 
 					sampleCount++;
