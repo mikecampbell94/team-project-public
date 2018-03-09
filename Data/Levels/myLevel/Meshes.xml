@@ -1,0 +1,10 @@
+<LevelMeshes>
+	<Meshes name="CubeMesh">
+		<MeshFile>../Data/Resources/Meshes/cube.obj</MeshFile>
+		<texture>../Data/Resources/Textures/rainbow.jpg</texture>
+	</Meshes>
+	<Meshes name="SphereMesh">
+		<MeshFile>../Data/Resources/Meshes/sphere.obj</MeshFile>
+	</Meshes>
+</LevelMeshes>
+

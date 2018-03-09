@@ -347,6 +347,7 @@ void Mesh::loadTexture(std::string textureFile)
 
 	Texture texture;
 
+	this->textureFile = textureFile;
 	string filename = textureFile;
 
 	unsigned int textureID;

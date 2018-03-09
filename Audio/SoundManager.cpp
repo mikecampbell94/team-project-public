@@ -2,6 +2,7 @@
 
 #include "../Resource Management/Database/Database.h"
 #include "../Communication/Messages/PlaySoundMessage.h"
+#include "../Communication/Messages/PlayMovingSoundMessage.h"
 #include "../Communication/Messages/StopSoundMessage.h"
 #include "../Graphics/Utility/Camera.h"
 
@@ -68,15 +69,22 @@ void SoundManager::createOALSources()
 
 void SoundManager::AddNewSoundNode(PlaySoundMessage* message)
 {
-	if(soundNodes.size() > 0)
+	if (!soundNodes.empty())
 	{
+		std::string tempID = "";
+
 		for (unsigned int i = 0; i < soundNodes.size(); ++i)
 		{
-			if (soundNodes[i].identifier != message->soundNodeIdentifier)
+			if (soundNodes[i].identifier == message->soundNodeIdentifier)
 			{
-				Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
-				soundNodes.push_back(SoundNode::builder(message, sound));
+				tempID = soundNodes[i].identifier;
+				break;
 			}
+		}
+		if (tempID != message->soundNodeIdentifier)
+		{
+			Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
+			soundNodes.push_back(SoundNode::builder(message, sound));
 		}
 	}
 	else
@@ -84,7 +92,33 @@ void SoundManager::AddNewSoundNode(PlaySoundMessage* message)
 		Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
 		soundNodes.push_back(SoundNode::builder(message, sound));
 	}
-	
+}
+
+void SoundManager::AddNewSoundNode(PlayMovingSoundMessage* message)
+{
+	if (!soundNodes.empty())
+	{
+		std::string tempID = "";
+
+		for (unsigned int i = 0; i < soundNodes.size(); ++i)
+		{
+			if (soundNodes[i].identifier == message->soundNodeIdentifier)
+			{
+				tempID = soundNodes[i].identifier;
+				break;
+			}
+		}
+		if (tempID != message->soundNodeIdentifier)
+		{
+			Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
+			soundNodes.push_back(SoundNode::builder(message, sound));
+		}
+	}
+	else
+	{
+		Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
+		soundNodes.push_back(SoundNode::builder(message, sound));
+	}
 }
 
 void SoundManager::stopSoundNode(StopSoundMessage* message)
@@ -127,7 +161,7 @@ void SoundManager::update(const float& deltaTime)
 
 void SoundManager::updateListenerToCameraPosition()
 {
-	const NCLVector3 listenerWorldPos = camera->viewMatrix.getPositionVector();
+	listenerPosition = camera->getPosition();
 
 	NCLVector3 orientation[2];
 
@@ -139,7 +173,7 @@ void SoundManager::updateListenerToCameraPosition()
 	orientation[UPWARDS_DIRECTION].y = camera->viewMatrix.values[5];
 	orientation[UPWARDS_DIRECTION].z = camera->viewMatrix.values[9];
 
-	ALfloat listenerPos[] = { listenerWorldPos.x, listenerWorldPos.y, listenerWorldPos.z };
+	ALfloat listenerPos[] = { listenerPosition.x, listenerPosition.y, listenerPosition.z };
 	ALfloat listenerOri[] = { 
 		orientation[FORWARD_DIRECTION].x, orientation[FORWARD_DIRECTION].y, orientation[FORWARD_DIRECTION].z, 
 		orientation[UPWARDS_DIRECTION].x, orientation[UPWARDS_DIRECTION].y, orientation[UPWARDS_DIRECTION].z };
@@ -152,17 +186,26 @@ void SoundManager::cullNodes()
 {
 	for (SoundNode& node : soundNodes)
 	{
-		const float distanceBetweenListenerAndSoundNode = (camera->viewMatrix.getPositionVector() - node.getPosition()).length();
+		float distanceBetweenListenerAndSoundNode;
+
+		if(!node.isMoving)
+		{
+			distanceBetweenListenerAndSoundNode = (listenerPosition - node.getPosition()).length();
+		}
+		else
+		{
+			distanceBetweenListenerAndSoundNode = (listenerPosition - *node.getMovingPosition()).length();
+		}
 
 		if (distanceBetweenListenerAndSoundNode > node.getRadius() || !node.hasSound() || node.getTimeLeft() < 0)
 		{
-			if (!node.getIsLooping())
+			if (node.getIsLooping() || node.getTimeLeft() > 0)
 			{
-				node.enabled = false;
 				node.detachSource();
 			}
 			else
 			{
+				node.enabled = false;
 				node.detachSource();
 			}
 		}
@@ -216,4 +259,16 @@ void SoundManager::removeSoundNodesFromSystem()
 		}
 	}
 }
+
+void SoundManager::clearSoundNodes()
+{
+	for (SoundNode& s : soundNodes)
+	{
+		s.enabled = false;
+		s.detachSource();
+	}
+
+	removeSoundNodesFromSystem();
+}
+
 

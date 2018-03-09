@@ -33,7 +33,6 @@ public:
 		return isEnabled;
 	}
 
-	bool canJump;
 	bool isEnabled = true;
 private: 
 	SceneNode *sceneNode;

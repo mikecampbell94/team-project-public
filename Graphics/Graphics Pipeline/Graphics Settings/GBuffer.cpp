@@ -143,12 +143,17 @@ void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 
 
 	glUniform3fv(loc_cameraPos, 1, (float*)&camera->getPosition());
+	glActiveTexture(GL_TEXTURE8);
+	glUniform1i(loc_skybox, 8);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
 	for (unsigned int i = 0; i < nodesInFrame->size(); ++i)
 	{
 		glUniform1i(loc_perlin, nodesInFrame->at(i)->GetMesh()->perlin);
 		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "hasTexture"), nodesInFrame->at(i)->GetMesh()->hasTexture);
 		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "isPaintSurface"), nodesInFrame->at(i)->isPaintSurface);
+		glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "isReflective"), nodesInFrame->at(i)->isReflective);
+		glUniform1f(glGetUniformLocation(geometryPass->GetProgram(), "reflectiveStrength"), nodesInFrame->at(i)->reflectiveStrength);
 		glUniform4fv(loc_baseColour, 1, (float*)&nodesInFrame->at(i)->getColour()); 
 		nodesInFrame->at(i)->Draw(*currentShader);
 	}

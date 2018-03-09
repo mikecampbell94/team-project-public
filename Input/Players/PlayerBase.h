@@ -31,7 +31,10 @@ public:
 		return playersActions;
 	}
 
-
+	void clearPlayeractions()
+	{
+		playersActions.clear();
+	}
 
 private:
 	void wipeStoredPlayers();

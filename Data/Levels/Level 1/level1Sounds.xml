@@ -3,4 +3,5 @@
 	<SoundObjects name="strawberries">../Data/SoundFiles/strawberries.wav</sound>
 	<SoundObjects name="bob">../Data/SoundFiles/bob.wav</sound>
 	<SoundObjects name="mirrorsedge">../Data/SoundFiles/mirrorsedge.wav</sound>
+	<SoundObjects name="overtheedge">../Data/SoundFiles/overtheedge.wav</sound>
 </LevelSounds>

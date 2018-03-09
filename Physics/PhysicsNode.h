@@ -160,6 +160,11 @@ public:
 		damping = dampingCoeff;
 	}
 
+	float getDamping()
+	{
+		return damping;
+	}
+
 	inline void setPosition(const NCLVector3& v) 
 	{ 
 		position = v; 
@@ -211,10 +216,12 @@ public:
 		if (colshape == "Sphere")
 		{
 			colShape = new SphereCollisionShape(parent->getScale().x);
+			collisionShapeType = "Sphere";
 		} 
 		else if (colshape == "Box")
 		{
 			colShape = new CuboidCollisionShape(parent->getScale());
+			collisionShapeType = "Box";
 		}
 		else
 		{
@@ -332,6 +339,8 @@ public:
 	NCLVector3 startPosition;
 	NCLVector3 startVelocity;
 	NCLVector3 startAcceleration;
+
+	std::string collisionShapeType;
 
 private:
 	GameObject*				parent;

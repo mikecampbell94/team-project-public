@@ -155,6 +155,34 @@ Quaternion Quaternion::axisAngleToQuaterion(const NCLVector3& vector, float degr
 	return Quaternion((float)(vector.x * result), (float)(vector.y * result), (float)(vector.z * result), (float)cos( theta / 2.0f ));
 }
 
+NCLVector4 Quaternion::quaternionToAxisAngle(Quaternion quaternion)
+{
+	NCLVector4 axisAngle;
+
+	if (quaternion.w > 1)
+	{
+		quaternion.normalise();
+	}
+
+	axisAngle.w = 2 * std::acos(quaternion.w);
+	float s = std::sqrtf(1 - quaternion.w * quaternion.w);
+
+	if (s < 0.001f)
+	{
+		axisAngle.x = quaternion.x;
+		axisAngle.y = quaternion.y;
+		axisAngle.z = quaternion.z;
+	}
+	else
+	{
+		axisAngle.x = quaternion.x / s;
+		axisAngle.y = quaternion.y / s;
+		axisAngle.z = quaternion.z / s;
+	}
+
+	return axisAngle;
+}
+
 void Quaternion::generateW()	{
 	w = 1.0f - (x*x)-(y*y)-(z*z);
 	if(w < 0.0f) {

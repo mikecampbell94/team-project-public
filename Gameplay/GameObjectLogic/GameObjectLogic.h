@@ -25,24 +25,20 @@ public:
 	}
 
 private:
-	void compileFunctions(Node* node);
-	void compileFunctionsOnStart(Node* node);
-	void updateHardCodedLogic(const float& deltaTime);
-	void updateInputMessageLogic();
+	void compileGameLogic(Node* gameLogicNode, const std::vector<Node*>& resources);
+	void compilePaintGameLogic(Node* paintGameNode, const std::vector<Node*>& resources);
+	void compileLogicFromNodes(Node* logicNode, const std::vector<Node*>& resources);
 
+	void changeResource(Node** node, std::string id);
+	void changeResourceBack(Node** node, std::string id);
+
+	std::string scriptFile;
 	Node* parsedScript;
-	std::map<GameObject*, GameLogic> logicToGameObjects;
-	std::vector<GameLogic*> logics;
 	Database* database;
 	MessageProcessor* messages;
 
+	std::map<GameObject*, GameLogic> logicToGameObjects;
+	std::vector<GameLogic*> logics;
 	std::map<std::string, std::function<void()>> fucntionsOnStart;
-	//std::map<std::string, std::function<void()>> functions;
-
-	std::vector<std::function<void()>> functions;
-	
-	std::string scriptFile;
-
-	std::vector<PlayerInputMessage*> inputMessages;
 };
 

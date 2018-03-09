@@ -73,11 +73,12 @@ GameLoop::~GameLoop()
 
 void GameLoop::executeGameLoop()
 {
-	DeliverySystem::getPostman()->insertMessage(PlaySoundMessage("AudioSystem", PLAY_SOUND, camera->getPosition(), 
-		SOUNDPRIORITY_HIGH, 1.0f, 10000.0f, 1.0f, false, false, "mirrorsedge", "BackgroundMusic"));
-
 	camera->setPitch(24.0f);
 	camera->setYaw(-133.0f);
+
+	//MOVE AUDIO FROM GAME LOOP TO SOMEWHERE ELSE LIKE GAMEPLAY
+	//DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+	//	SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "strawberries", "BackgroundMusic"));
 
 	while (window->updateWindow() && !quit)
 	{
@@ -107,7 +108,6 @@ void GameLoop::updateGameObjects()
 		{
 			gObj->updatePosition();
 		}
-
 		//DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "thing",
 		//	gObj->getSceneNode()->GetWorldTransform().getPositionVector(), Vector3(10, 10, 1), false));
 	}

@@ -8,6 +8,7 @@
 		    <B>0</B>
 		    <A>1</A>
 		  </Colour>
+      <isReflective>0.8</isReflective>
 		</SceneNode>
 		<Enabled>True/False</Enabled>
 		<Position>
@@ -48,6 +49,7 @@
         <B>0</B>
         <A>1</A>
       </Colour>
+      <isReflective>0.8</isReflective>
     </SceneNode>
     <Enabled>True/False</Enabled>
     <Position>
@@ -88,6 +90,7 @@
         <B>1</B>
         <A>1</A>
       </Colour>
+      <isReflective>0.8</isReflective>
     </SceneNode>
     <Enabled>True/False</Enabled>
     <Position>
@@ -168,6 +171,7 @@
         <B>1</B>
         <A>1</A>
       </Colour>
+      <isReflective>0.8</isReflective>
     </SceneNode>
     <Enabled>True/False</Enabled>
     <Position>
@@ -365,6 +369,7 @@
         <B>1</B>
         <A>1</A>
       </Colour>
+      <isReflective>0.8</isReflective>
     </SceneNode>
     <Enabled>True</Enabled>
     <Position>
@@ -405,6 +410,7 @@
         <B>1</B>
         <A>1</A>
       </Colour>
+      <isReflective>0.8</isReflective>
     </SceneNode>
     <Enabled>True</Enabled>
     <Position>

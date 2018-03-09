@@ -7,11 +7,18 @@ AudioSystem::AudioSystem(Database *database, Camera *camera) : Subsystem("AudioS
 {
 	soundManager = std::make_unique<SoundManager>(database, camera);
 
-	incomingMessages = MessageProcessor(std::vector<MessageType>{ MessageType::PLAY_SOUND, MessageType::STOP_SOUND }, DeliverySystem::getPostman()->getDeliveryPoint("AudioSystem"));
+	incomingMessages = MessageProcessor(std::vector<MessageType>{ MessageType::PLAY_SOUND, MessageType::STOP_SOUND, MessageType::MOVING_SOUND }, 
+		DeliverySystem::getPostman()->getDeliveryPoint("AudioSystem"));
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAY_SOUND, [&soundManagerPointer = soundManager](Message* message)
 	{
 		PlaySoundMessage* soundMessage = static_cast<PlaySoundMessage*>(message);
+		soundManagerPointer->AddNewSoundNode(soundMessage);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVING_SOUND, [&soundManagerPointer = soundManager](Message* message)
+	{
+		PlayMovingSoundMessage* soundMessage = static_cast<PlayMovingSoundMessage*>(message);
 		soundManagerPointer->AddNewSoundNode(soundMessage);
 	});
 

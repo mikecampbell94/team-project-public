@@ -34,7 +34,7 @@ Renderer::Renderer(GameTimer* parentTimer, Window* window, Camera* camera)
 	//globalProjectionMatrix = Matrix4::perspective(1.0f, 150000.0f, resolution.x / resolution.y, 60.0f);
 	globalOrthographicMatrix = NCLMatrix4::orthographic(-1.0f,10000.0f, width / 2.0f, -width / 2.0f, height / 2.0f, -height / 2.0f);
 
-	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	GraphicsUtility::CheckGLError("Renderer Initialisation");
 }
 

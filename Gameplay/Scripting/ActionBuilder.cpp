@@ -16,19 +16,23 @@
 const std::string CONDITIONAL_STATEMENT = "Condition";
 const std::string SEND_MESSAGE_STATEMENT = "SendMessage";
 
+std::function<Executable(Node*)> ActionBuilder::executableBuilder
+	= [](Node*) {return []() {}; };
+
 GameplayAction ActionBuilder::buildAction(Node* node)
 {
-	Condition condition;
+	//Condition condition;
+	std::vector<Condition> conditions;
 	std::vector<Executable> executables;
 
 	for (Node* section : node->children)
 	{
-		compileActionSection(section, condition, executables);
+		compileActionSection(section, conditions, executables);
 	}
 
-	if (condition)
+	if (conditions.size() > 0)
 	{
-		return buildFinalActionWithCondition(condition, executables);
+		return buildFinalActionWithCondition(conditions, executables);
 	}
 	else
 	{
@@ -61,11 +65,18 @@ TimedGameplayAction ActionBuilder::buildTimedAction(Node* node)
 	};
 }
 
-GameplayAction ActionBuilder::buildFinalActionWithCondition(Condition& condition, std::vector<Executable>& executables)
+GameplayAction ActionBuilder::buildFinalActionWithCondition(std::vector<Condition>& conditions, std::vector<Executable>& executables)
 {
-	return [condition, executables](Message message)
+	return [conditions, executables](Message message)
 	{
-		if (condition(message))
+		bool conditionsMet = true;
+
+		for (Condition condition : conditions)
+		{
+			conditionsMet = conditionsMet && condition(message);
+		}
+
+		if (conditionsMet)
 		{
 			for (Executable executable : executables)
 			{
@@ -86,11 +97,11 @@ GameplayAction ActionBuilder::buildFinalAction(std::vector<Executable>& executab
 	};
 }
 
-void ActionBuilder::compileActionSection(Node* section, Condition& condition, std::vector<Executable>& executables)
+void ActionBuilder::compileActionSection(Node* section, std::vector<Condition>& conditions, std::vector<Executable>& executables)
 {
 	if (section->nodeType == CONDITIONAL_STATEMENT)
 	{
-		condition = buildIfStatement(section);
+		conditions.push_back(buildIfStatement(section));
 	}
 	else
 	{
@@ -100,14 +111,12 @@ void ActionBuilder::compileActionSection(Node* section, Condition& condition, st
 
 Executable ActionBuilder::compileActionSectionWithoutCondition(Node* section)
 {
-	if (section->nodeType == SEND_MESSAGE_STATEMENT)
-	{
-		return buildSendMessageExecutable(section);
-	}
-	else
-	{
-		//Lookup the function in a map and return
-	}
+	return executableBuilder(section);
+}
+
+void ActionBuilder::setExecutableBuilder(std::function<Executable(Node*)> executableBuilder)
+{
+	ActionBuilder::executableBuilder = executableBuilder;
 }
 
 Condition ActionBuilder::buildIfStatement(Node* node)
@@ -124,9 +133,4 @@ Condition ActionBuilder::buildIfStatement(Node* node)
 	{
 		return ConditionalStatementBuilder::buildSingleIfCondition(node);
 	}
-}
-
-Executable ActionBuilder::buildSendMessageExecutable(Node* node)
-{
-	return SendMessageActionBuilder::buildSendMessageAction(node);
 }
