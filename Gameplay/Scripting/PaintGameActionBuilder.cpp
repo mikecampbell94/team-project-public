@@ -93,7 +93,22 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		};
 	} });
 
-	
+	builders.insert({ "PaintMinion", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		GameObject* minion = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[1]->value));
+
+		return [gameObject, minion]()
+		{
+			if (gameObject->stats.currentPaint > 0)
+			{
+				minion->getSceneNode()->SetColour(gameObject->stats.colourToPaint);
+				minion->stats.colourToPaint = gameObject->stats.colourToPaint;
+			}
+		};
+	} });
 
 
 }
