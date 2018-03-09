@@ -41,61 +41,7 @@
 			</Action>
 		</ReceiveMessage>
 
-		<ReceiveMessage type="CollisionMessage">
-			<Action>
-				<Condition type="AND">
-					<objectIdentifier>var</objectIdentifier>
-					<colliderIdentifier>powerup</colliderIdentifier>
-				</Condition>
-
-				<SendMessage type="SCALE_GAMEOBJECT">
-					<destination>Physics</destination>
-					<resource>var</resource>
-					<scale>
-						<X>020</X>
-						<Y>020</Y>
-						<Z>020</Z>
-					</scale>
-				</SendMessage>
-
-				<SendMessage type="SCALE_GAMEOBJECT">
-					<destination>RenderingSystem</destination>
-					<resource>var</resource>
-					<scale>
-						<X>020</X>
-						<Y>020</Y>
-						<Z>020</Z>
-					</scale>
-				</SendMessage>
-
-				<SendMessage type="TOGGLE_GAMEOBJECT">
-					<destination>RenderingSystem</destination>
-					<resource>powerup</resource>
-					<enabled>False</enabled>
-				</SendMessage>
-
-				<SendMessage type="MOVE_GAMEOBJECT">
-					<destination>Physics</destination>
-					<resource>var</resource>
-					<position>
-						<X>000</X>
-						<Y>070</Y>
-						<Z>000</Z>
-					</position>
-				</SendMessage>
-
-				<SendMessage type="MOVE_GAMEOBJECT">
-					<destination>RenderingSystem</destination>
-					<resource>var</resource>
-					<position>
-						<X>000</X>
-						<Y>020</Y>
-						<Z>000</Z>
-					</position>
-				</SendMessage>
-
-			</Action>
-		</ReceiveMessage>
+		
 	</GameplayScript>
 
 	<PaintGameLogic>
@@ -169,6 +115,43 @@
 				</PainMinion>
 			</Action>
 		</ReceiveMessage>
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>					
+					<colliderIdentifier>AI2</colliderIdentifier>
+				</Condition>
+
+				<PaintMinion>
+					<resource>var</resource>
+					<minion>AI2</minion>
+				</PainMinion>
+			</Action>
+		</ReceiveMessage>
+
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>powerup</colliderIdentifier>
+				</Condition>
+
+				<ScalePlayer>
+					<resource>var</resource>
+					<multiplier>3</multiplier>
+				</ScalePlayer>
+
+				<SendMessage type="TOGGLE_GAMEOBJECT">
+					<destination>RenderingSystem</destination>
+					<resource>powerup</resource>
+					<enabled>False</enabled>
+				</SendMessage>
+
+			</Action>
+		</ReceiveMessage>
+
 
 		<Timed interval="0.5">
 			<ReducePaint>

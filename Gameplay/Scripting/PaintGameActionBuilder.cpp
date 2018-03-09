@@ -70,12 +70,17 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 			{
 				int paint = max(--gameObject->stats.currentPaint, 0);
 
+				float massDecrease = 1 - ((float)paint / (float)gameObject->stats.maxPaint);
+
 				if (paint < 25)
 				{
 					float interpolationFactor = ((float)paint / (float)gameObject->stats.maxPaint) * 4;
 					NCLVector3 interpolatedColour = NCLVector3::interpolate(NCLVector3(1.f, 1.f, 1.f), gameObject->stats.colourToPaint.toVector3(), interpolationFactor);
 					gameObject->getSceneNode()->SetColour(NCLVector4(interpolatedColour.x, interpolatedColour.y, interpolatedColour.z, 1.f));
 				}
+
+				gameObject->getPhysicsNode()->setInverseMass((gameObject->stats.defaultInvMass + massDecrease)*2.f);
+
 				gameObject->stats.currentPaint = paint;
 			}
 		};
@@ -88,6 +93,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 
 		return [gameObject]()
 		{
+			gameObject->getPhysicsNode()->setInverseMass(gameObject->stats.defaultInvMass);
 			gameObject->stats.currentPaint = gameObject->stats.maxPaint;
 			gameObject->getSceneNode()->SetColour(gameObject->stats.colourToPaint);
 		};
@@ -109,6 +115,8 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 			}
 		};
 	} });
+
+
 
 
 }

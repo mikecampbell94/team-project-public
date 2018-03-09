@@ -9,6 +9,7 @@ struct PaintGameStats
 {
 	int maxPaint;
 	int currentPaint = 0;
+	float defaultInvMass = 1.f;
 	NCLVector4 colourToPaint;
 };
 

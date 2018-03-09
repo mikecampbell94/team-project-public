@@ -365,8 +365,8 @@
     <Mesh>SphereMesh</Mesh>
     <Colour>
       <R>0</R>
-      <G>1</G>
-      <B>1</B>
+      <G>0</G>
+      <B>0</B>
       <A>1</A>
     </Colour>
     <isReflective>0.8</isReflective>
@@ -384,9 +384,9 @@
     <W>000</W>
   </Rotation>
   <Scale>
-    <X>5</X>
-    <Y>5</Y>
-    <Z>5</Z>
+    <X>2.5</X>
+    <Y>2.5</Y>
+    <Z>2.5</Z>
   </Scale>
   <PhysicsNode>
     <Enabled>True</Enabled>
@@ -406,8 +406,8 @@
     <Mesh>SphereMesh</Mesh>
     <Colour>
       <R>0</R>
-      <G>1</G>
-      <B>1</B>
+      <G>0</G>
+      <B>0</B>
       <A>1</A>
     </Colour>
     <isReflective>0.8</isReflective>
@@ -425,9 +425,9 @@
     <W>000</W>
   </Rotation>
   <Scale>
-    <X>5</X>
-    <Y>5</Y>
-    <Z>5</Z>
+    <X>2.5</X>
+    <Y>2.5</Y>
+    <Z>2.5</Z>
   </Scale>
   <PhysicsNode>
     <Enabled>True</Enabled>
