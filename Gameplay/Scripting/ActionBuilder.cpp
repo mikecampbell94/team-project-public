@@ -12,6 +12,7 @@
 #include "../../Communication/Messages/PaintTrailForGameObjectMessage.h"
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
 #include "../../Communication/SendMessageActionBuilder.h"
+#include "../../Communication/Messages/PlaySoundMessage.h"
 
 const std::string CONDITIONAL_STATEMENT = "Condition";
 const std::string SEND_MESSAGE_STATEMENT = "SendMessage";

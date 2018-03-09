@@ -22,6 +22,31 @@
 			</SendMessage>
 		</Action>
 	 </ReceiveMessage>
+	 
+	 <ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>player0</objectIdentifier>
+				<colliderIdentifier>player1</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="PLAY_SOUND">
+				<destination>AudioSystem</destination>
+				<position>
+					<X>020</X>
+					<Y>020</Y>
+					<Z>020</Z>
+				</position>
+				<priority>SOUNDPRIORITY_HIGH</priority>
+				<volume>1.0</volume>
+				<radius>1000.0</radius>
+				<pitch>1.0</pitch>
+				<isLooping>false</isLooping>
+				<sound>bounce</sound>
+				<soundNodeID>collision</soundNodeID>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
   
   <ReceiveMessage type="InputMessage">
     <Action>
