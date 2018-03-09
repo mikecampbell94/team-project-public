@@ -52,7 +52,14 @@ void ScoreCounter::initialise()
 
 void ScoreCounter::apply()
 {
-	calculateScores();
+	currentCount++;
+
+	if (currentCount > maxCount)
+	{
+		calculateScores();
+		currentCount = 0;
+	}
+	
 	displayScores();
 }
 
