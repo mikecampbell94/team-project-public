@@ -499,44 +499,6 @@
 
 <HardCodedLogic>
 		
-	<OnStart>
-		<SetJump>
-			<resource>player0</resource>
-			<canJump>true</canJump>
-		</SetJump>
-	</OnStart>
-	
-	<ReceiveMessage type="PlayerInputMessage">
-		<Condition>
-			<key>0x20</key>
-		</Condition>
-		<Action>
-			<canJump>False</canJump>
-		</Action>
-	</ReceiveMessage>
-	
-	<ReceiveMessage type="CollisionMessage">
-		<Condition type="AND">
-				<objectIdentifier>player0</objectIdentifier>
-				<colliderIdentifier>floor</colliderIdentifier>
-			</Condition>
-		<Action>
-			<canJump>True</canJump>
-		</Action>
-	</ReceiveMessage>
-	
-	
-	<!--
-	<Function type="">
-		<Capture>
-			<capture></capture>
-		</Capture>
-		<Parameter>
-			<parameter></parameter>
-		</Parameter>
-	</Function>
-	-->
-	
 </HardCodedLogic>
 
 </GameObjectLogic>

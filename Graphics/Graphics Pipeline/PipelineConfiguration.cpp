@@ -68,6 +68,8 @@ void PipelineConfiguration::initialiseModules(Database* database)
 	scoreCounter->linkShaders();
 	scoreCounter->initialise();
 	scoreCounter->paintTrailTexture = &paintTrail->paintTrailTexture;
+
+	gBuffer->setReflectionTextureID(skybox->textureID);
 }
 
 void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)

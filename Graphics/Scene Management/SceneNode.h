@@ -107,6 +107,9 @@ public:
 	int hasTexture = 0;
 	bool isEnabled = true;
 
+	bool isReflective = false;
+	float reflectiveStrength = 0.0f;
+
 protected:
 	bool		enabled;
 	SceneNode*	parent;

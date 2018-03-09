@@ -24,6 +24,7 @@ public:
 	}
 
 	GLuint* GBufferFBO;
+	unsigned int textureID;
 
 private:
 	void initialiseMesh();
@@ -31,6 +32,5 @@ private:
 
 	NCLMatrix4* viewMatrix;
 	Shader* skyboxShader;
-	unsigned int textureID;
 	unsigned int VAO, VBO;
 };
