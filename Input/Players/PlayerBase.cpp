@@ -78,19 +78,20 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 		}
 
 		Node* magnitude = node->children[i]->children[1]->children[0];
+		float xPosition = stof(magnitude->children[0]->value);
+		float yPosition = stof(magnitude->children[1]->value);
+		float zPosition = stof(magnitude->children[2]->value);
 
-		newPlayersActions.attachKeyToAction(InputUtility::getKeyID(keyName), [magnitude = magnitude, playerName](Player* player)
+		NCLVector3 translation(xPosition, yPosition, zPosition);
+		std::string type = magnitude->nodeType;
+
+		newPlayersActions.attachKeyToAction(InputUtility::getKeyID(keyName), [translation, type, playerName](Player* player)
 		{
-			float xPosition = stof(magnitude->children[0]->value);
-			float yPosition = stof(magnitude->children[1]->value);
-			float zPosition = stof(magnitude->children[2]->value);
-
-			NCLVector3 translation(xPosition, yPosition, zPosition);
-			if (magnitude->nodeType == "Move")
+			if (type == "Move")
 			{
 				DeliverySystem::getPostman()->insertMessage(ApplyForceMessage("Physics", playerName, false, translation));
 			}
-			else if (magnitude->nodeType == "Impulse")
+			else if (type == "Impulse")
 			{
 				DeliverySystem::getPostman()->insertMessage(ApplyImpulseMessage("Physics", playerName, false, translation));
 			}

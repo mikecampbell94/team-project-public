@@ -21,6 +21,14 @@ public:
 	void apply() override;
 	void regenerateShaders() override;
 
+	void clear()
+	{
+		while (!painters.empty())
+		{
+			painters.pop();
+		}
+	}
+
 	GLuint paintTrailTexture;
 	NCLMatrix4 textureMatrices;
 

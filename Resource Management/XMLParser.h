@@ -22,8 +22,11 @@ public:
 	std::string loadFile(std::string filename);
 
 	void recursivelyParse(rapidxml::xml_node<>* unParsedXml, Node** parsedNode);
-	void deleteAllNodes(Node* currentNode);
-
+	static void deleteAllParsedXML();
 	Node* parsedXml;
+
+private:
+	static void deleteAllNodes(Node* currentNode);
+	static std::vector<Node*> rootNodesToDelete;
 };
 

@@ -231,7 +231,7 @@ void PhysicsEngine::removeAllPhysicsObjects()
 	{
 		if (obj->getParent())
 			obj->getParent()->setPhysicsNode(nullptr);
-		//delete obj;
+		delete obj;
 	}
 	physicsNodes.clear();
 }
@@ -423,21 +423,21 @@ void PhysicsEngine::narrowPhaseCollisions()
 
 void PhysicsEngine::InitialiseOctrees(int entityLimit)
 {
-	octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
-	octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
+	//octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
+	//octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
 
-	if (physicsNodes.size() > 0)
-	{
-		octree->BuildInitialTree();
-	}
+	//if (physicsNodes.size() > 0)
+	//{
+	//	octree->BuildInitialTree();
+	//}
 
-	octreeChanged = false;
-	octreeInitialised = true;
+	//octreeChanged = false;
+	//octreeInitialised = true;
 
-	for (PhysicsNode* node : physicsNodes)
-	{
-		node->movedSinceLastBroadPhase = false;
-	}
+	//for (PhysicsNode* node : physicsNodes)
+	//{
+	//	node->movedSinceLastBroadPhase = false;
+	//}
 
-	broadphaseColPairs = octree->GetAllCollisionPairs();
+	//broadphaseColPairs = octree->GetAllCollisionPairs();
 }

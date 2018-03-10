@@ -37,6 +37,7 @@ void Startup::initialiseSubsystems()
 	game->addWindowToGameLoop(window);
 	game->addCameraToGameLoop(camera);
 	game->addGameTimerToGameLoop(loopTimer);
+	LevelEditor::initialiseLevelEditor(database, gameplay);
 }
 
 void Startup::initialiseRenderingSystem()
@@ -100,7 +101,6 @@ void Startup::initialiseDatabaseAndTables()
 {
 	database = new Database();
 	tableCreation = new TableCreation(database);
-	LevelEditor::initialiseLevelEditor(database);
 	profiler = new Profiler(window->getKeyboard(), database, new FPSCounter());
 	game->database = database;
 }
@@ -134,10 +134,12 @@ void Startup::addSystemsToEngine()
 
 void Startup::loadMainMenu()
 {
-	level->loadLevelFile(LEVELDIR"MainMenu.xml", gameplay);
+	XMLParser::deleteAllParsedXML();
+	level->loadLevelFile(LEVELDIR + "MainMenu.xml", gameplay);
 
-	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
+	//DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+	//	SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
+	XMLParser::deleteAllParsedXML();
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
@@ -147,8 +149,8 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
+	XMLParser::deleteAllParsedXML();
 	
-
 	gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
 	physics->InitialiseOctrees(100);
@@ -164,38 +166,49 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	gameplay->compileGameObjectScripts();
 	gameplay->setTimedLevel(70000000.f);
 
-	if(levelFile == "MainMenu.xml")
-	{
-		DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-			SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
-	}
-	else
-	{
-		//Maybe have a parser in audio system to parse xml script for audio - then use the game object logic parser for object logic audio?
-		DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-			SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "vega", "LevelMusic"));
-	}
+	//if(levelFile == "MainMenu.xml")
+	//{
+	//	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+	//		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
+	//}
+	//else
+	//{
+	//	//Maybe have a parser in audio system to parse xml script for audio - then use the game object logic parser for object logic audio?
+	//	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+	//		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "vega", "LevelMusic"));
+	//}
 
 	
 
 
 
-	XMLWriter writer(database, gameplay);
-	writer.saveLevelFile("myLevel");
+	//XMLWriter writer(database, gameplay);
+	//writer.saveLevelFile("myLevel");
+	XMLParser::deleteAllParsedXML();
 }
 
 void Startup::switchLevel()
 {
+	XMLParser::deleteAllParsedXML();
+	gameplay->setDefaultGameplayScript();
+	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
+	rendering->clearPainters();
 	level->unloadLevelWhileKeepingUserInterface();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	XMLParser::deleteAllParsedXML();
 }
 
 void Startup::unloadLevel()
 {
+	XMLParser::deleteAllParsedXML();
+	gameplay->setDefaultGameplayScript();
+	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
+	rendering->clearPainters();
 	level->unloadLevel();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	XMLParser::deleteAllParsedXML();
 }
 
 void Startup::beginOnlineLobby()

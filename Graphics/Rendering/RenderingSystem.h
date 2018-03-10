@@ -25,6 +25,11 @@ public:
 		static_cast<ScoreCounter*>(renderer->getPipeLine()->getGraphicsModule("ScoreCounter"))->clear();
 	}
 
+	void clearPainters()
+	{
+		static_cast<PaintTrail*>(renderer->getPipeLine()->getGraphicsModule("PaintTrail"))->clear();
+	}
+
 private:
 	std::unique_ptr<Renderer> renderer;
 	std::map<std::string, bool> graphicsConfig;

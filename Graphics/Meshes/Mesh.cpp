@@ -19,6 +19,7 @@ void Mesh::LoadModel(std::string path)
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
+		throw runtime_error("Mesh not found");
 	}
 
 	directory = path.substr(0, path.find_last_of('/'));

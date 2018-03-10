@@ -41,7 +41,7 @@ private:
 	std::vector<TimedGameplayAction> timedActions;
 	std::vector<Executable> actionsOnStart;
 
-	std::string scriptFile;
+	std::string scriptFile = "";
 	std::vector<float> timers;
 	
 

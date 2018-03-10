@@ -58,23 +58,32 @@ void XMLWriter::saveLevelFile(std::string levelName)
 	rapidxml::xml_node<>* uiFile = levelFile.allocate_node(rapidxml::node_element, "File", "../Data/UserInterface/InGameMenu.xml");
 	UI->append_node(uiFile);
 
-	rapidxml::xml_node<>* gameplayNode = levelFile.allocate_node(rapidxml::node_element, "Gameplay");
-	root->append_node(gameplayNode);
 	std::string gameplayFile = gameplay->getGameplayFile();
-	rapidxml::xml_node<>* gameplayFileNode = levelFile.allocate_node(rapidxml::node_element, "File", gameplayFile.c_str());
-	gameplayNode->append_node(gameplayFileNode);
 
-	rapidxml::xml_node<>* gameLogicNode = levelFile.allocate_node(rapidxml::node_element, "GameLogic");
-	root->append_node(gameLogicNode);
-	std::vector<GameObjectLogic>* objectLogics = gameplay->getGameObjectLogics();
-	std::vector<std::string> objectLogicFiles;
-
-	//for (GameObjectLogic& objectLogic : *objectLogics)
-	for (int i = 0; i < objectLogics->size(); ++i)
+	if (gameplayFile != "")
 	{
-		objectLogicFiles.push_back((*objectLogics)[i].getScriptFile());
-		rapidxml::xml_node<>* gameLogicFileNode = levelFile.allocate_node(rapidxml::node_element, "File", objectLogicFiles[i].c_str());
-		gameLogicNode->append_node(gameLogicFileNode);
+		rapidxml::xml_node<>* gameplayNode = levelFile.allocate_node(rapidxml::node_element, "GamePlay");
+		root->append_node(gameplayNode);
+
+		rapidxml::xml_node<>* gameplayFileNode = levelFile.allocate_node(rapidxml::node_element, "File", gameplayFile.c_str());
+		gameplayNode->append_node(gameplayFileNode);
+	}
+
+	std::vector<GameObjectLogic>* objectLogics = gameplay->getGameObjectLogics();
+
+	if (objectLogics->size() > 0)
+	{
+		rapidxml::xml_node<>* gameLogicNode = levelFile.allocate_node(rapidxml::node_element, "GameLogic");
+		root->append_node(gameLogicNode);
+		std::vector<std::string> objectLogicFiles;
+
+		//for (GameObjectLogic& objectLogic : *objectLogics)
+		for (int i = 0; i < objectLogics->size(); ++i)
+		{
+			objectLogicFiles.push_back((*objectLogics)[i].getScriptFile());
+			rapidxml::xml_node<>* gameLogicFileNode = levelFile.allocate_node(rapidxml::node_element, "File", objectLogicFiles[i].c_str());
+			gameLogicNode->append_node(gameLogicFileNode);
+		}
 	}
 
 	std::ofstream file_stored((LEVELDIR + levelName + ".xml").c_str());
@@ -166,6 +175,7 @@ void XMLWriter::saveSoundsFile(std::string soundFileName)
 	for (int i = 0; i < soundObjectNames.size(); ++i)
 	{
 		rapidxml::xml_node<>* soundNode = soundFile.allocate_node(rapidxml::node_element, "SoundObjects", soundFiles[i].c_str());
+		soundNode->append_attribute(soundFile.allocate_attribute("name", soundObjectNames[i].c_str()));
 		root->append_node(soundNode);
 	}
 

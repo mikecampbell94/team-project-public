@@ -1,9 +1,9 @@
 <LevelSounds>
-	<SoundObjects>../Data/Resources/SoundFiles/bounce.wav</SoundObjects>
-	<SoundObjects>../Data/Resources/SoundFiles/strawberries.wav</SoundObjects>
-	<SoundObjects>../Data/Resources/SoundFiles/vega.wav</SoundObjects>
-	<SoundObjects>../Data/Resources/SoundFiles/bob.wav</SoundObjects>
-	<SoundObjects>../Data/Resources/SoundFiles/mirrorsedge.wav</SoundObjects>
-	<SoundObjects>../Data/Resources/SoundFiles/overtheedge.wav</SoundObjects>
+	<SoundObjects name="bounce">../Data/Resources/SoundFiles/bounce.wav</SoundObjects>
+	<SoundObjects name="strawberries">../Data/Resources/SoundFiles/strawberries.wav</SoundObjects>
+	<SoundObjects name="vega">../Data/Resources/SoundFiles/vega.wav</SoundObjects>
+	<SoundObjects name="bob">../Data/Resources/SoundFiles/bob.wav</SoundObjects>
+	<SoundObjects name="mirrorsedge">../Data/Resources/SoundFiles/mirrorsedge.wav</SoundObjects>
+	<SoundObjects name="overtheedge">../Data/Resources/SoundFiles/overtheedge.wav</SoundObjects>
 </LevelSounds>
 

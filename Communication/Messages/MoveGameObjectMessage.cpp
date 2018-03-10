@@ -40,6 +40,11 @@ MoveGameObjectMessage MoveGameObjectMessage::builder(Node* node)
 
 MoveGameObjectMessage MoveGameObjectMessage::tokensToMessage(std::vector<std::string> lineTokens)
 {
+	if (lineTokens.size() != 4)
+	{
+		throw std::runtime_error("Incorrect syntax");
+	}
+
 	std::string nodeDestination = lineTokens[1];
 	std::string nodeResourcename = lineTokens[2];
 

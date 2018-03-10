@@ -3,4 +3,4 @@
 
 
 #define DATADIR "../Data/"
-#define LEVELDIR "../Data/Levels/"
+const std::string LEVELDIR = "../Data/Levels/";

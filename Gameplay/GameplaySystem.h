@@ -39,7 +39,7 @@ public:
 
 	std::string getGameplayFile()
 	{
-		return gameLogic.getScriptFile();
+		return gameplayScript;
 	}
 
 	std::vector<GameObjectLogic>* getGameObjectLogics()
@@ -55,6 +55,7 @@ private:
 	Database* database;
 
 	std::vector<std::string> gameObjectLogicRemoveBuffer;
+	std::string gameplayScript = "";
 	bool levelFinished = false;
 };
 

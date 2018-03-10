@@ -163,6 +163,7 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 		return SendMessageActionBuilder::buildSendMessageAction(node);
 	});
 
+	gameplayScript = levelScript;
 	gameLogic = GameLogic(&incomingMessages);
 	gameLogic.compileScript(levelScript);
 	gameLogic.executeActionsOnStart();
@@ -170,6 +171,7 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 
 void GameplaySystem::setDefaultGameplayScript()
 {
+	gameplayScript = "";
 	gameLogic = GameLogic(&incomingMessages);
 }
 
