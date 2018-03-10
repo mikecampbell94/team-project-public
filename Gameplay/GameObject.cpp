@@ -9,6 +9,15 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+	if (sceneNode)
+	{
+		delete sceneNode;
+	}
+
+	if (physicsNode)
+	{
+		delete physicsNode;
+	}
 }
 
 void GameObject::setSceneNode(SceneNode * sceneNode)
