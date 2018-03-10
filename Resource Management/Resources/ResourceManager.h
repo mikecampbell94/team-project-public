@@ -64,6 +64,7 @@ public:
 		}
 
 		resourceBuffer.clear();
+		currentSize = 0;
 	}
 
 	std::unordered_map<std::string, T*> & getResourceBuffer()

@@ -23,6 +23,6 @@ public:
 	const size_t MaxSize() const;
 private:
 	std::map<std::string, Table<Resource>*> tables;
-	std::vector < Table<Resource>* > tablesVector;
+	std::vector<Table<Resource>*> tablesVector;
 };
 

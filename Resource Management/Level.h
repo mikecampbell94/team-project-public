@@ -32,7 +32,6 @@ public:
 
 private:
 	XMLParser parser;
-	std::set<std::string> listOfObjectTypesInLevel;
 	Database *database;
 	SceneManager* sceneManager;
 	PhysicsEngine* physics;
