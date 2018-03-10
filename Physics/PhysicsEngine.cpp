@@ -180,19 +180,17 @@ void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 
 	physicsNodes.push_back(obj);
 
-	if (obj->transmitCollision)
+	obj->setOnCollisionCallback([](PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData collisionData)
 	{
-		obj->setOnCollisionCallback([](PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData collisionData)
+		if (this_obj->transmitCollision)
 		{
-			if (!this_obj->hasTransmittedCollision)
-			{
-				DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
-					this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
-				this_obj->hasTransmittedCollision = true;
-			}
+			DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
+				this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
+			this_obj->hasTransmittedCollision = true;
+			
 			return true;
-		});
-	}
+		}
+	});
 
 	obj->setOnUpdateCallback(std::bind(
 		&PhysicsEngine::OctreeChanged,
@@ -231,7 +229,6 @@ void PhysicsEngine::removeAllPhysicsObjects()
 	{
 		if (obj->getParent())
 			obj->getParent()->setPhysicsNode(nullptr);
-		//delete obj;
 	}
 	physicsNodes.clear();
 }

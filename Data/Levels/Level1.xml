@@ -7,10 +7,10 @@
 		<File>../Data/UserInterface/InGameMenu.xml</File>
 	</UI>
 	<GamePlay>
-		<File>../Data/Gameplay/gameplay.xml</File>
+		<File>Level 1/gameplay.xml</File>
 	</GamePlay>
 	<GameLogic>
-		<File>../Data/GameObjectLogic/aiObjectLogic.xml</File>
-		<File>../Data/GameObjectLogic/playerObjectLogic.xml</File>
+		<File>Level 1/aiObjectLogic.xml</File>
+		<File>Level 1/playerObjectLogic.xml</File>
 	</GameLogic>
 </Level>

@@ -6,6 +6,7 @@
 #include "DevConsole/LevelEditor.h"
 
 #include "../Utilities/FilePaths.h"
+#include "../Gameplay/Scripting/PaintGameActionBuilder.h"
 #include "Resource Management/XMLWriter.h"
 //#include "Resource Management/XMLWriter.h"
 
@@ -30,6 +31,7 @@ void Startup::initialiseSubsystems()
 	userInterface = new UserInterface(window->getKeyboard(), resolution);
 	initialiseLevelSystem();
 	initialiseInputSystem();
+	PaintGameActionBuilder::initialiseBuilders(database);
 	initialiseGameplaySystem();
 	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
@@ -159,7 +161,6 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
-	gameplay->setTimedLevel(70000000.f);
 
 	//XMLWriter writer(database);
 	//writer.saveLevelFile("myLevel");

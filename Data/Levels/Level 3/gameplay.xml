@@ -1,5 +1,10 @@
 <GameplayScript>
   <OnStart>
+    <SendMessage type="TEXT">
+      <destination>Gameplay</destination>
+      <text>setmaxtime true 120</text>
+    </SendMessage>
+
     <SendMessage type="TOGGLE_GRAPHICS_MODULE">
       <destination>RenderingSystem</destination>
       <moduleName>PaintTrail</moduleName>
@@ -36,19 +41,6 @@
       <destination>UserInterface</destination>
       <text>Toggle</text>
     </SendMessage>
-	
-	<SendMessage type="MOVING_SOUND">
-		<destination>AudioSystem</destination>
-		<priority>SOUNDPRIORITY_HIGH</priority>
-		<volume>1.0</volume>
-		<radius>1.0</radius>
-		<pitch>1.0</pitch>
-		<isLooping>true</isLooping>
-		<isGlobal>false</isGlobal>
-		<sound>vega</sound>
-		<soundNodeID>LevelMusic</soundNodeID>
-	</SendMessage>
-	
   </OnStart>
 
     

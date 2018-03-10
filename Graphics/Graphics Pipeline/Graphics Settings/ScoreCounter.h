@@ -48,5 +48,8 @@ private:
 	std::vector<int> scores;
 	std::vector<NCLVector4> coloursToCount;
 	std::vector<std::string> scoreHolders;
+
+	int maxCount = 60;
+	int currentCount = 0;
 };
 
