@@ -85,7 +85,7 @@ void GameLoop::executeGameLoop()
 		float deltaTime = loopTimer->getTimeSinceLastRetrieval() * deltaTimeMultiplier;
 
 		engine->updateNextSystemFrame(deltaTime);
-		updateGameObjects();
+		updateGameObjects(deltaTime);
 
 		DeliverySystem::getPostman()->deliverAllMessages();
 
@@ -98,7 +98,7 @@ void GameLoop::executeGameLoop()
 
 }
 
-void GameLoop::updateGameObjects()
+void GameLoop::updateGameObjects(float deltaTime)
 {
 	auto gameObjectResources = database->getTable("GameObjects")->getAllResources()->getResourceBuffer();
 	for (auto gameObjectIterator = gameObjectResources.begin(); gameObjectIterator != gameObjectResources.end(); ++gameObjectIterator)
@@ -106,7 +106,7 @@ void GameLoop::updateGameObjects()
 		GameObject* gObj = static_cast<GameObject*>((*gameObjectIterator).second);
 		if (gObj->getPhysicsNode() != nullptr)
 		{
-			gObj->updatePosition();
+			gObj->update(deltaTime);
 		}
 		//DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "thing",
 		//	gObj->getSceneNode()->GetWorldTransform().getPositionVector(), Vector3(10, 10, 1), false));

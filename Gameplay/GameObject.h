@@ -2,6 +2,7 @@
 #include "../Graphics/Scene Management/SceneNode.h"
 #include "../Resource Management/Resources/Resource.h"
 #include "../Utilities/Maths/Vector3.h"
+#include <functional>
 
 class PhysicsNode;
 
@@ -12,6 +13,9 @@ struct PaintGameStats
 	float defaultInvMass = 1.f;
 	NCLVector4 colourToPaint;
 	NCLVector3 defaultScale;
+	float timeToWait;
+	std::function<void()> executeAfter = std::function<void()>();
+	float timer;
 };
 
 class GameObject : public Resource
@@ -26,7 +30,7 @@ public:
 	SceneNode* getSceneNode();
 	PhysicsNode* getPhysicsNode();
 
-	void updatePosition();
+	void update(float dt);
 	void setPosition(NCLVector3 position);
 	void setRotation(NCLVector4 rotation);
 	void setScale(NCLVector3 scale);

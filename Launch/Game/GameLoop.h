@@ -28,7 +28,7 @@ public:
 	~GameLoop();
 
 	void executeGameLoop();
-	void updateGameObjects();
+	void updateGameObjects(float deltaTime);
 
 	void addCameraToGameLoop(Camera* camera)
 	{
