@@ -43,6 +43,7 @@ PhysicsNode * GameObject::getPhysicsNode()
 
 void GameObject::updatePosition()
 {
+	this->position = physicsNode->getPosition();
 	NCLMatrix4 newTransform = this->physicsNode->getWorldSpaceTransform();
 	newTransform = newTransform * NCLMatrix4::scale(scale);
 
@@ -80,6 +81,15 @@ void GameObject::setScale(NCLVector3 scale)
 {
 	this->scale = scale;
 	this->sceneNode->SetModelScale(scale);
+	if (physicsNode != nullptr)
+	{
+		this->physicsNode->getCollisionShape()->setScale(scale, this->physicsNode->getInverseMass());
+	}
+	else
+	{
+		this->stats.defaultScale = scale;
+	}
+	
 }
 
 void GameObject::setEnabled(bool isEnabled)

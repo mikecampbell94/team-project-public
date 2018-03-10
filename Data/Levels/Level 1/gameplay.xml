@@ -1,5 +1,10 @@
 <GameplayScript>
   <OnStart>
+    <SendMessage type="TEXT">
+      <destination>Gameplay</destination>
+      <text>setmaxtime true 120</text>
+    </SendMessage>
+
     <SendMessage type="TOGGLE_GRAPHICS_MODULE">
       <destination>RenderingSystem</destination>
       <moduleName>PaintTrail</moduleName>

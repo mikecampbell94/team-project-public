@@ -18,6 +18,8 @@ GameObject * GameObjectBuilder::buildGameObject(Node * node, Database* database)
 	gameObject->setName(node->name);
 	gameObject->setSceneNode(sceneNode);
 	
+	gameObject->stats.colourToPaint = buildVector4(node->children[0]->children[1]);
+
 	gameObject->setScale(buildVector3(node->children[4]));
 
 	if (node->children.size() >= 6)
