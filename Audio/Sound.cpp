@@ -11,6 +11,8 @@ Sound::Sound(std::string filePath)
 	data = NULL;
 	buffer = 0;
 
+	file = filePath;
+
 	string extension = filePath.substr(filePath.length()-3, 3);
 
 	if (extension == "wav") 

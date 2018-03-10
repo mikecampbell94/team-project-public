@@ -13,7 +13,16 @@ GameLogic::~GameLogic()
 {
 }
 
-void GameLogic::compileParsedXMLIntoScript(const Node* xmlNode)
+void GameLogic::compileScript(std::string scriptFile)
+{
+	XMLParser xmlParser;
+	xmlParser.loadFile(scriptFile);
+	this->scriptFile = scriptFile;
+
+	compileParsedXMLIntoScript(xmlParser.parsedXml);
+}
+
+void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
 {
 	for (Node* gameplayAction : xmlNode->children)
 	{
@@ -83,4 +92,9 @@ void GameLogic::notifyMessageActions(const std::string& messageType, Message* me
 void GameLogic::clearNotifications()
 {
 	publishers.clear();
+}
+
+std::string GameLogic::getScriptFile()
+{
+	return scriptFile;
 }

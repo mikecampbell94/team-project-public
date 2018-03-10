@@ -6,15 +6,19 @@
 //#include "../Gameplay/GameObject.h"
 #include "../Physics/PhysicsNode.h"
 #include "../Extrernal Libs/rapidxml-1.13/rapidxml_print.hpp"
+#include "../Gameplay/GameplaySystem.h"
 
 //#include <stdio.h>
 #include <fstream>
 #include <array>
+#include "../Audio/Sound.h"
+#include "../Graphics/Utility/Light.h"
 //#include <fileapi.h>
 
-XMLWriter::XMLWriter(Database* database)
+XMLWriter::XMLWriter(Database* database, GameplaySystem* gameplay)
 {
 	this->database = database;
+	this->gameplay = gameplay;
 }
 
 XMLWriter::~XMLWriter()
@@ -31,36 +35,47 @@ void XMLWriter::saveLevelFile(std::string levelName)
 
 	std::string s = levelName + "/Meshes.xml";
 	saveMeshFile(s);
-
 	rapidxml::xml_node<>* fileNode = levelFile.allocate_node(rapidxml::node_element, "File", s.c_str());
 	root->append_node(fileNode);
 
 	std::string s1 = levelName + "/Details.xml";
 	saveLevelDetails(s1);
-
 	rapidxml::xml_node<>* fileNode1 = levelFile.allocate_node(rapidxml::node_element, "File", s1.c_str());
 	root->append_node(fileNode1);
-	//rapidxml::xml_node<>* fileNode2 = levelFile.allocate_node(rapidxml::node_element, "File", "file2.xml");
-	//root->append_node(fileNode2);
-	//rapidxml::xml_node<>* fileNode3 = levelFile.allocate_node(rapidxml::node_element, "File", "file3.xml");
-	//root->append_node(fileNode3);
+
+	std::string s2 = levelName + "/Sounds.xml";
+	saveSoundsFile(s2);
+	rapidxml::xml_node<>* fileNode2 = levelFile.allocate_node(rapidxml::node_element, "File", s2.c_str());
+	root->append_node(fileNode2);
+
+	std::string s3 = levelName + "/Lights.xml";
+	saveLightsFile(s3);
+	rapidxml::xml_node<>* fileNode3 = levelFile.allocate_node(rapidxml::node_element, "File", s3.c_str());
+	root->append_node(fileNode3);
 
 	rapidxml::xml_node<>* UI = levelFile.allocate_node(rapidxml::node_element, "UI");
 	root->append_node(UI);
 	rapidxml::xml_node<>* uiFile = levelFile.allocate_node(rapidxml::node_element, "File", "../Data/UserInterface/InGameMenu.xml");
 	UI->append_node(uiFile);
 
-	//rapidxml::xml_node<>* GamePlay = levelFile.allocate_node(rapidxml::node_element, "GamePlay");
-	//root->append_node(GamePlay);
-	//rapidxml::xml_node<>* gameplayFile = levelFile.allocate_node(rapidxml::node_element, "File", "gameplayFile.xml");
-	//GamePlay->append_node(gameplayFile);
+	rapidxml::xml_node<>* gameplayNode = levelFile.allocate_node(rapidxml::node_element, "Gameplay");
+	root->append_node(gameplayNode);
+	std::string gameplayFile = gameplay->getGameplayFile();
+	rapidxml::xml_node<>* gameplayFileNode = levelFile.allocate_node(rapidxml::node_element, "File", gameplayFile.c_str());
+	gameplayNode->append_node(gameplayFileNode);
 
-	//rapidxml::xml_node<>* GameLogic = levelFile.allocate_node(rapidxml::node_element, "GameLogic");
-	//root->append_node(GameLogic);
-	//rapidxml::xml_node<>* gameLogicFile1 = levelFile.allocate_node(rapidxml::node_element, "File", "gameLogicFile1.xml");
-	//GameLogic->append_node(gameLogicFile1);
-	//rapidxml::xml_node<>* gameLogicFile2 = levelFile.allocate_node(rapidxml::node_element, "File", "gameLogicFile2.xml");
-	//GameLogic->append_node(gameLogicFile2);
+	rapidxml::xml_node<>* gameLogicNode = levelFile.allocate_node(rapidxml::node_element, "GameLogic");
+	root->append_node(gameLogicNode);
+	std::vector<GameObjectLogic>* objectLogics = gameplay->getGameObjectLogics();
+	std::vector<std::string> objectLogicFiles;
+
+	//for (GameObjectLogic& objectLogic : *objectLogics)
+	for (int i = 0; i < objectLogics->size(); ++i)
+	{
+		objectLogicFiles.push_back((*objectLogics)[i].getScriptFile());
+		rapidxml::xml_node<>* gameLogicFileNode = levelFile.allocate_node(rapidxml::node_element, "File", objectLogicFiles[i].c_str());
+		gameLogicNode->append_node(gameLogicFileNode);
+	}
 
 	std::ofstream file_stored((LEVELDIR + levelName + ".xml").c_str());
 	file_stored << levelFile;
@@ -129,6 +144,88 @@ void XMLWriter::saveMeshFile(std::string meshFileName)
 	meshFile.clear();
 }
 
+void XMLWriter::saveSoundsFile(std::string soundFileName)
+{
+	rapidxml::xml_document<> soundFile;
+	rapidxml::xml_node<>* root = soundFile.allocate_node(rapidxml::node_element, "LevelSounds");
+	soundFile.append_node(root);
+
+	auto sounds = database->getTable("SoundObjects")->getAllResources()->getResourceBuffer();
+
+	std::vector<std::string> soundObjectNames;
+	std::vector<std::string> soundFiles;
+
+	for (auto soundIterator = sounds.begin(); soundIterator != sounds.end(); ++soundIterator)
+	{
+		soundObjectNames.push_back((*soundIterator).second->getName());
+
+		Sound* sound = static_cast<Sound*>((*soundIterator).second);
+		soundFiles.push_back(sound->getSoundFile());
+	}
+
+	for (int i = 0; i < soundObjectNames.size(); ++i)
+	{
+		rapidxml::xml_node<>* soundNode = soundFile.allocate_node(rapidxml::node_element, "SoundObjects", soundFiles[i].c_str());
+		root->append_node(soundNode);
+	}
+
+	std::ofstream file_stored((LEVELDIR + soundFileName).c_str());
+	file_stored << soundFile;
+	file_stored.close();
+	soundFile.clear();
+}
+
+void XMLWriter::saveLightsFile(std::string lightsFileName)
+{
+	const LevelLightsState state = getLightsState();
+
+	rapidxml::xml_document<> levelLights;
+	rapidxml::xml_node<>* root = levelLights.allocate_node(rapidxml::node_element, "LevelLights");
+	levelLights.append_node(root);
+
+
+	for (int i = 0; i < state.lightNames.size(); ++i)
+	{
+		rapidxml::xml_node<>* lightNode = levelLights.allocate_node(rapidxml::node_element, "Lights");
+		lightNode->append_attribute(levelLights.allocate_attribute("name", state.lightNames[i].c_str()));
+		root->append_node(lightNode);
+
+		rapidxml::xml_node<>* positionNode = levelLights.allocate_node(rapidxml::node_element, "Position");
+		lightNode->append_node(positionNode);
+		rapidxml::xml_node<>* positionXNode = levelLights.allocate_node(rapidxml::node_element, "x", state.lightPositions[i][0].c_str());
+		positionNode->append_node(positionXNode);
+		rapidxml::xml_node<>* positionYNode = levelLights.allocate_node(rapidxml::node_element, "y", state.lightPositions[i][1].c_str());
+		positionNode->append_node(positionYNode);
+		rapidxml::xml_node<>* positionZNode = levelLights.allocate_node(rapidxml::node_element, "z", state.lightPositions[i][2].c_str());
+		positionNode->append_node(positionZNode);
+
+		rapidxml::xml_node<>* colourNode = levelLights.allocate_node(rapidxml::node_element, "colour");
+		lightNode->append_node(colourNode);
+		rapidxml::xml_node<>* rNode = levelLights.allocate_node(rapidxml::node_element, "r", state.lightColours[i][0].c_str());
+		colourNode->append_node(rNode);
+		rapidxml::xml_node<>* gNode = levelLights.allocate_node(rapidxml::node_element, "g", state.lightColours[i][1].c_str());
+		colourNode->append_node(gNode);
+		rapidxml::xml_node<>* bNode = levelLights.allocate_node(rapidxml::node_element, "b", state.lightColours[i][2].c_str());
+		colourNode->append_node(bNode);
+		rapidxml::xml_node<>* aNode = levelLights.allocate_node(rapidxml::node_element, "a", state.lightColours[i][3].c_str());
+		colourNode->append_node(aNode);
+
+		rapidxml::xml_node<>* radiusNode = levelLights.allocate_node(rapidxml::node_element, "radius", state.radii[i].c_str());
+		lightNode->append_node(radiusNode);
+
+		rapidxml::xml_node<>* intensityNode = levelLights.allocate_node(rapidxml::node_element, "intensity", state.intensities[i].c_str());
+		lightNode->append_node(intensityNode);
+
+		rapidxml::xml_node<>* shadowCastingNode = levelLights.allocate_node(rapidxml::node_element, "shadowcasting", state.shadowcasting[i].c_str());
+		lightNode->append_node(shadowCastingNode);
+	}
+
+	std::ofstream file_stored((LEVELDIR + lightsFileName).c_str());
+	file_stored << levelLights;
+	file_stored.close();
+	levelLights.clear();
+}
+
 void XMLWriter::saveLevelDetails(std::string levelDetailsFile)
 {
 	const LevelGameObjectsState state = getGameObjectStates();
@@ -136,13 +233,6 @@ void XMLWriter::saveLevelDetails(std::string levelDetailsFile)
 	rapidxml::xml_document<> levelDetails;
 	rapidxml::xml_node<>* root = levelDetails.allocate_node(rapidxml::node_element, "LevelDetails");
 	levelDetails.append_node(root);
-
-	//std::string r;
-	//std::string g;
-	//std::string b;
-	//std::string a;
-
-	std::vector<std::vector<std::array<std::string, 4>>> stringVectors(state.hasPhysicsNode.size());
 
 	int physicsNodeIndex = 0;
 	for (int i = 0; i < state.hasPhysicsNode.size(); ++i)
@@ -366,6 +456,49 @@ LevelGameObjectsState XMLWriter::getGameObjectStates()
 			});
 
 			state.hasPhysicsNode.push_back(false);
+		}
+	}
+
+	return state;
+}
+
+LevelLightsState XMLWriter::getLightsState()
+{
+	auto lights = database->getTable("Lights")->getAllResources()->getResourceBuffer();
+
+	LevelLightsState state;
+
+	for (auto lightsIterator = lights.begin(); lightsIterator != lights.end(); ++lightsIterator)
+	{
+		Light* light = static_cast<Light*>((*lightsIterator).second);
+
+		state.lightNames.push_back(light->getName());
+
+		state.lightPositions.push_back(std::array<std::string, 3>
+		{
+			std::to_string(light->GetPosition().x),
+			std::to_string(light->GetPosition().y),
+			std::to_string(light->GetPosition().z)
+		});
+
+		state.lightColours.push_back(std::array<std::string, 4>
+		{
+			std::to_string(light->GetColour().x),
+			std::to_string(light->GetColour().y),
+			std::to_string(light->GetColour().z),
+			std::to_string(light->GetColour().w)
+		});
+
+		state.radii.push_back(to_string(light->GetRadius()));
+		state.intensities.push_back(to_string(light->GetData().intensity));
+
+		if (light->IsShadowCasting())
+		{
+			state.shadowcasting.push_back("enabled");
+		}
+		else
+		{
+			state.shadowcasting.push_back("disabled");
 		}
 	}
 

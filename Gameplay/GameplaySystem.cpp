@@ -163,10 +163,8 @@ void GameplaySystem::compileGameplayScript(std::string levelScript)
 		return SendMessageActionBuilder::buildSendMessageAction(node);
 	});
 
-	XMLParser xmlParser;
-	xmlParser.loadFile(levelScript);
 	gameLogic = GameLogic(&incomingMessages);
-	gameLogic.compileParsedXMLIntoScript(xmlParser.parsedXml);
+	gameLogic.compileScript(levelScript);
 	gameLogic.executeActionsOnStart();
 }
 

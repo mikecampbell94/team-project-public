@@ -180,8 +180,8 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 
 
-	//XMLWriter writer(database);
-	//writer.saveLevelFile("myLevel");
+	XMLWriter writer(database, gameplay);
+	writer.saveLevelFile("myLevel");
 }
 
 void Startup::switchLevel()

@@ -16,7 +16,8 @@ public:
 	explicit GameLogic(MessageProcessor* messages);
 	~GameLogic();
 
-	void compileParsedXMLIntoScript(const Node* xmlNode);
+	void compileScript(std::string scriptFile);
+	void compileParsedXMLIntoScript(Node* xmlNode);
 
 	void executeMessageBasedActions();
 	void executeTimeBasedActions(const float& deltaTime);
@@ -26,12 +27,12 @@ public:
 	void clearNotifications();
 
 	std::unordered_map<std::string, std::vector<GameplayAction>> getMessageBasedActionsMap() { return messageBasedActions; }
-	
+	std::string getScriptFile();
+
 	float maxTime = 0.0f;
 	float elapsedTime = 0.0f;
 
 	bool isTimed = false;
-
 
 private:
 	MessageProcessor* messages;
@@ -40,6 +41,7 @@ private:
 	std::vector<TimedGameplayAction> timedActions;
 	std::vector<Executable> actionsOnStart;
 
+	std::string scriptFile;
 	std::vector<float> timers;
 	
 

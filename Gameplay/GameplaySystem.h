@@ -37,6 +37,16 @@ public:
 		gameLogic.isTimed = false;
 	}
 
+	std::string getGameplayFile()
+	{
+		return gameLogic.getScriptFile();
+	}
+
+	std::vector<GameObjectLogic>* getGameObjectLogics()
+	{
+		return &objects;
+	}
+
 private:
 	GameLogic gameLogic;
 	std::vector<GameObjectLogic> objects;
