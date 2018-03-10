@@ -7,6 +7,6 @@
 		<File>../Data/UserInterface/MainMenu.xml</File>
 	</UI>
 	<GamePlay>
-		<File>../Data/Gameplay/mainMenuScript.xml</File>
+		<File>Main Menu/mainMenuScript.xml</File>
 	</GamePlay>
 </Level>

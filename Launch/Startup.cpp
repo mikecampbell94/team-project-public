@@ -6,6 +6,7 @@
 #include "DevConsole/LevelEditor.h"
 
 #include "../Utilities/FilePaths.h"
+#include "../Gameplay/Scripting/PaintGameActionBuilder.h"
 #include "Resource Management/XMLWriter.h"
 //#include "Resource Management/XMLWriter.h"
 
@@ -30,6 +31,7 @@ void Startup::initialiseSubsystems()
 	userInterface = new UserInterface(window->getKeyboard(), resolution);
 	initialiseLevelSystem();
 	initialiseInputSystem();
+	PaintGameActionBuilder::initialiseBuilders(database);
 	initialiseGameplaySystem();
 	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
@@ -137,10 +139,9 @@ void Startup::loadMainMenu()
 	XMLParser::deleteAllParsedXML();
 	level->loadLevelFile(LEVELDIR + "MainMenu.xml", gameplay);
 
-	//DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-	//	SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
+	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
 	XMLParser::deleteAllParsedXML();
-
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
 
@@ -164,7 +165,6 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
-	gameplay->setTimedLevel(70000000.f);
 
 	//if(levelFile == "MainMenu.xml")
 	//{

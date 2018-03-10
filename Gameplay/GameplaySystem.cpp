@@ -39,6 +39,19 @@ GameplaySystem::GameplaySystem(Database* database)
 		{
 			compileGameplayScript(tokens[1]);
 		}
+		else if (tokens[0] == "setmaxtime")
+		{
+			if(tokens[1] == "true")
+			{
+				gameLogic.isTimed = true;
+				gameLogic.maxTime = stof(tokens[2]);
+			}
+			else
+			{
+				gameLogic.isTimed = false;
+			}
+		}
+		
 	});
 	
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge, &objects = objects](Message* message)
@@ -96,7 +109,9 @@ void GameplaySystem::updateSubsystem(const float& deltaTime)
 			timer->endTimedSection();
 
 			gameLogic.elapsedTime += (deltaTime * 0.001f);
-			std::cout << gameLogic.elapsedTime << endl;
+
+			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", std::to_string((int)round(gameLogic.maxTime - gameLogic.elapsedTime)),
+				NCLVector3(-75, 310, 0), NCLVector3(30, 30, 30), NCLVector3(1, 0, 0), true, true));
 		}
 		else if(!levelFinished)
 		{
