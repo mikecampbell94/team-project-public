@@ -34,7 +34,7 @@ public:
 	SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, float volume, 
 		bool isLooping, float radius, float pitch, std::string identifier);
 	SoundNode(Sound* sound, NCLVector3 *position, SoundPriority priority, float volume,
-		bool isLooping, float radius, float pitch, std::string identifier);
+		bool isLooping, float radius, float pitch, bool isGlobal, std::string identifier);
 	~SoundNode();
 
 	static SoundNode builder(PlaySoundMessage* message, Sound* sound);
@@ -75,6 +75,11 @@ public:
 		return movingPosition;
 	}
 
+	void setMovingPosition(NCLVector3* position)
+	{
+		movingPosition = position;
+	}
+
 	static bool compareSourcesByPriority(SoundNode& a, SoundNode& b);
 
 	void attachSource(OALSource* s);
@@ -109,5 +114,6 @@ private:
 	float pitch;
 	bool isLooping;
 	double timeLeft;
+	bool isGlobal;
 };
 

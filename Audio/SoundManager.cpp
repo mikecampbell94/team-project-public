@@ -5,6 +5,7 @@
 #include "../Communication/Messages/PlayMovingSoundMessage.h"
 #include "../Communication/Messages/StopSoundMessage.h"
 #include "../Graphics/Utility/Camera.h"
+#include "../Gameplay/GameObject.h"
 
 const int CHANNELS = 128;
 const int FORWARD_DIRECTION = 0;
@@ -112,12 +113,24 @@ void SoundManager::AddNewSoundNode(PlayMovingSoundMessage* message)
 		{
 			Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
 			soundNodes.push_back(SoundNode::builder(message, sound));
+			if (message->isGlobal)
+			{
+				soundNodes.back().setMovingPosition(camera->getPersistentPosition());
+			}
+			else
+			{
+				soundNodes.back().setMovingPosition(static_cast<GameObject*>(database->getTable("GameObjects")->getResource("")));
+			}
 		}
 	}
 	else
 	{
 		Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
 		soundNodes.push_back(SoundNode::builder(message, sound));
+		if (message->isGlobal)
+		{
+			soundNodes.back().setMovingPosition(camera->getPersistentPosition());
+		}
 	}
 }
 

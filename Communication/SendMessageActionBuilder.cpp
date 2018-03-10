@@ -203,6 +203,16 @@ void SendMessageActionBuilder::initialiseNodeBuilders()
 			DeliverySystem::getPostman()->insertMessage(message);
 		};
 	} });
+
+	builders.insert({ "MOVING_SOUND" , [](Node* node)
+	{
+		PlayMovingSoundMessage message = PlayMovingSoundMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	} });
 }
 
 void SendMessageActionBuilder::initialiseDevConsoleBuilders()

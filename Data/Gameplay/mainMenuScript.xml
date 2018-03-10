@@ -13,6 +13,19 @@
         <yaw>25</yaw>
       </rotation>
     </SendMessage>
+	
+	<SendMessage type="MOVING_SOUND">
+		<destination>AudioSystem</destination>
+		<priority>SOUNDPRIORITY_HIGH</priority>
+		<volume>1.0</volume>
+		<radius>1.0</radius>
+		<pitch>1.0</pitch>
+		<isLooping>true</isLooping>
+		<isGlobal>true</isGlobal>
+		<sound>overtheedge</sound>
+		<soundNodeID>MainMenuMusic</soundNodeID>
+	</SendMessage>
+	
   </OnStart>
 
   <Timed interval="0.01">

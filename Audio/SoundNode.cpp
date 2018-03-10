@@ -18,10 +18,11 @@ SoundNode::SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, 
 	enabled = true;
 	oalSource = nullptr;
 	setSound(sound);
+	isGlobal = false;
 }
 
 SoundNode::SoundNode(Sound* sound, NCLVector3 *position, SoundPriority priority, float volume,
-	bool isLooping, float radius, float pitch, std::string identifier)
+	bool isLooping, float radius, float pitch, bool isGloabl, std::string identifier)
 {
 	this->movingPosition = position;
 	this->priority = priority;
@@ -34,6 +35,7 @@ SoundNode::SoundNode(Sound* sound, NCLVector3 *position, SoundPriority priority,
 	enabled = true;
 	oalSource = nullptr;
 	setSound(sound);
+	this->isGlobal = isGloabl;
 }
 
 SoundNode::~SoundNode()
@@ -52,7 +54,7 @@ SoundNode SoundNode::builder(PlaySoundMessage* message, Sound* sound)
 SoundNode SoundNode::builder(PlayMovingSoundMessage* message, Sound* sound)
 {
 	SoundNode soundNode(sound, message->position, message->priority, message->volume,
-		message->isLooping, message->radius, message->pitch, message->soundNodeIdentifier);
+		message->isLooping, message->radius, message->pitch, message->isGlobal, message->soundNodeIdentifier);
 	soundNode.enabled = true;
 	soundNode.isMoving = true;
 
