@@ -2,12 +2,15 @@
 
 #include "../../Resource Management/XMLParser.h"
 #include "../../Resource Management/Database/Database.h"
+#include "../../Communication/DeliverySystem.h"
 #include "../../Communication/Messages/PaintTrailForGameObjectMessage.h"
 #include "../../Communication/SendMessageActionBuilder.h"
+#include "../../Communication/Messages/ToggleGameObjectMessage.h"
 #include "../GameObject.h"
 #include "../../Physics/PhysicsNode.h"
 
 #include <iostream>
+#include <random>
 
 std::unordered_map<std::string, Builder>PaintGameActionBuilder::builders
 	= std::unordered_map<std::string, Builder>();
@@ -19,6 +22,7 @@ Database* PaintGameActionBuilder::database = nullptr;
 void PaintGameActionBuilder::initialiseBuilders(Database* database)
 {
 	PaintGameActionBuilder::database = database;
+	std::random_device rd;     // only used once to initialise (seed) engine
 
 	builders.insert({ "PrintText", [](Node* node)
 	{
@@ -124,15 +128,26 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		GameObject* gameObject = static_cast<GameObject*>(
 			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
 		float multiplier = stof(node->children[1]->value);
-		Executable sendMessageAction = SendMessageActionBuilder::buildSendMessageAction(node->children[2]);
+		GameObject* powerup = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[2]->value));
+		float duration = stof(node->children[3]->value) * 1000;
 
-		return [gameObject, multiplier, sendMessageAction]()
+		return [gameObject, multiplier, powerup, duration]()
 		{
-			if (gameObject->getScale() == gameObject->stats.defaultScale)
+			if (!gameObject->stats.executeAfter)
 			{
 				gameObject->setPosition(NCLVector3(gameObject->getPosition().x, gameObject->getPosition().y + (gameObject->stats.defaultScale.y * multiplier * .5f), gameObject->getPosition().z));
 				gameObject->setScale(gameObject->stats.defaultScale * multiplier);
-				sendMessageAction();
+				powerup->setEnabled(false);
+
+
+				gameObject->stats.timeToWait = duration;
+				gameObject->stats.executeAfter = [gameObject, powerup]()
+				{
+					gameObject->setScale(gameObject->stats.defaultScale);
+					gameObject->stats.executeAfter = std::function<void()>();
+					powerup->setEnabled(true);
+				};
 			}
 		};
 	} });
@@ -141,36 +156,79 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 	{
 		GameObject* gameObject = static_cast<GameObject*>(
 			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
-		float multiplier = stof(node->children[1]->value);
-		Executable sendMessageAction = SendMessageActionBuilder::buildSendMessageAction(node->children[2]);
+		float multiplier = stof(node->children[1]->value); 
+		GameObject* powerup = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[2]->value));
+		float duration = stof(node->children[3]->value) * 1000;
 
-		return [gameObject, multiplier, sendMessageAction]()
+		return [gameObject, multiplier, powerup, duration]()
 		{
-			if (gameObject->stats.defaultInvMass == 1.f)
+			if (!gameObject->stats.executeAfter)
 			{
 				gameObject->stats.defaultInvMass *= multiplier;
-				sendMessageAction();
+				powerup->setEnabled(false);
+
+				gameObject->stats.timeToWait = duration;
+				gameObject->stats.executeAfter = [gameObject, powerup]()
+				{
+					gameObject->stats.defaultInvMass = 1.f;
+					gameObject->stats.executeAfter = std::function<void()>();
+					powerup->setEnabled(true);
+
+				};
 			}
 		};
 	} });
 
-	builders.insert({ "SetDefaults", [](Node* node)
+
+	builders.insert({ "RandomPowerUp", [&rd = rd](Node* node)
 	{
+		
 		GameObject* gameObject = static_cast<GameObject*>(
 			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		float multiplier = stof(node->children[1]->value);
+		GameObject* powerup = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[2]->value));
+		float duration = stof(node->children[3]->value) * 1000;
 
-		return [gameObject]()
+		return [&rd = rd, gameObject, multiplier, powerup, duration]()
 		{
-			gameObject->setScale(gameObject->stats.defaultScale);
-			gameObject->stats.defaultInvMass = 1.f;
+			if (!gameObject->stats.executeAfter)
+			{
+				powerup->setEnabled(false);
+				gameObject->stats.timeToWait = duration;
+
+				std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+				std::uniform_int_distribution<int> uni(0, 1); // guaranteed unbiased
+				auto random_integer = uni(rng);
+
+				switch (random_integer)
+				{
+					case SCALE_POWERUP:
+					{
+						gameObject->setPosition(NCLVector3(gameObject->getPosition().x, gameObject->getPosition().y + (gameObject->stats.defaultScale.y * multiplier * .5f), gameObject->getPosition().z));
+						gameObject->setScale(gameObject->stats.defaultScale * multiplier);
+						break;
+					}
+					case SPEED_POWERUP:
+					{
+						gameObject->stats.defaultInvMass *= multiplier;
+						break;
+					}
+					default:
+						break;
+				}
+
+				
+				gameObject->stats.executeAfter = [gameObject, powerup]()
+				{
+					gameObject->stats.defaultInvMass = 1.f;
+					gameObject->setScale(gameObject->stats.defaultScale);
+					gameObject->stats.executeAfter = std::function<void()>();
+					powerup->setEnabled(true);
+				};
+			}
 		};
-	} });
-
-
-	builders.insert({ "RandomPowerUp", [](Node* node)
-	{
-		int randNum = rand() % 2;
-		return builders.at(powerUpBuilders[randNum])(node);
 	} });
 
 

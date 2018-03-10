@@ -41,9 +41,18 @@ PhysicsNode * GameObject::getPhysicsNode()
 	return physicsNode;
 }
 
-void GameObject::updatePosition()
+void GameObject::update(float dt)
 {
-	this->position = physicsNode->getPosition();
+	if (stats.executeAfter)
+	{
+		stats.timer += dt;
+		if (stats.timer >= stats.timeToWait)
+		{
+			stats.executeAfter();
+			stats.timer = 0.f;
+		}
+	}
+	position = physicsNode->getPosition();
 	NCLMatrix4 newTransform = this->physicsNode->getWorldSpaceTransform();
 	newTransform = newTransform * NCLMatrix4::scale(scale);
 

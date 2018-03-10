@@ -124,12 +124,8 @@
 				<ScalePlayer>
 					<resource>var</resource>
 					<multiplier>1.25</multiplier>
-
-					<SendMessage type="TOGGLE_GAMEOBJECT">
-						<destination>RenderingSystem</destination>
-						<resource>powerup</resource>
-						<enabled>False</enabled>
-					</SendMessage>
+					<powerupObj>powerup</powerupObj>
+					<duration>5</duration>
 				</ScalePlayer>
 			</Action>
 		</ReceiveMessage> 
@@ -144,12 +140,8 @@
 				<DecreaseMass>
 					<resource>var</resource>
 					<multiplier>3</multiplier>
-
-					<SendMessage type="TOGGLE_GAMEOBJECT">
-						<destination>RenderingSystem</destination>
-						<resource>powerup</resource>
-						<enabled>False</enabled>
-					</SendMessage>
+					<powerupObj>powerup</powerupObj>
+					<duration>5</duration>
 				</DecreaseMass>
 			</Action>
 		</ReceiveMessage>-->
@@ -163,13 +155,9 @@
 
 				<RandomPowerUp>
 					<resource>var</resource>
-					<multiplier>3</multiplier>
-
-					<SendMessage type="TOGGLE_GAMEOBJECT">
-						<destination>RenderingSystem</destination>
-						<resource>powerup</resource>
-						<enabled>False</enabled>
-					</SendMessage>
+					<multiplier>2</multiplier>
+					<powerupObj>powerup</powerupObj>
+					<duration>5</duration>
 				</RandomPowerUp>
 			</Action>
 		</ReceiveMessage>

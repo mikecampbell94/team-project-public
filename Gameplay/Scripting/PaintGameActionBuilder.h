@@ -6,6 +6,13 @@
 class Database;
 struct Node;
 
+enum PowerUps
+{
+	SCALE_POWERUP,
+	SPEED_POWERUP
+
+};
+
 typedef std::function<void()> Executable;
 typedef std::function<Executable(Node*)> Builder;
 typedef std::function<Executable(std::vector<std::string>)> DevConsoleNodeBuilder;
