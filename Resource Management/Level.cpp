@@ -35,13 +35,13 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 		}
 		else if (child->nodeType == "GamePlay")
 		{
-			gameplay->compileGameplayScript(child->children[0]->value);
+			gameplay->compileGameplayScript(LEVELDIR + child->children[0]->value);
 		}
 		else if (child->nodeType == "GameLogic")
 		{
 			for (Node* grandChild : child->children)
 			{
-				gameplay->addGameObjectScript(grandChild->value);
+				gameplay->addGameObjectScript(LEVELDIR + grandChild->value);
 			}
 		}
 		else
