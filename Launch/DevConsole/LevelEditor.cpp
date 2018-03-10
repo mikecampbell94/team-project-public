@@ -11,6 +11,7 @@
 #include "Resource Management/XMLWriter.h"
 #include "../Gameplay/GameplaySystem.h"
 #include "FilePaths.h"
+#include "Utility/Light.h"
 
 std::map<std::string, LevelEditorAction> LevelEditor::actions
 	= std::map<std::string, LevelEditorAction>();
@@ -86,18 +87,40 @@ void LevelEditor::initialiseLevelEditor(Database* providedDatabase, GameplaySyst
 		database->getTable("Meshes")->addNewResource(mesh);
 	} });
 
-	//actions.insert({ "loadsounds", [&database = database](std::vector<std::string> devConsoleTokens)
-	//{
-	//	Mesh* mesh = new Mesh(devConsoleTokens[2].substr(5), 1);
-	//	mesh->setName(devConsoleTokens[1]);
+	//loadsound soundName sound=../Data/...
+	actions.insert({ "loadsounds", [&database = database](std::vector<std::string> devConsoleTokens)
+	{
+		Sound* sound = new Sound(devConsoleTokens[2].substr(6));
+		sound->setName(devConsoleTokens[1]);
 
-	//	if (devConsoleTokens.size() == 4)
-	//	{
-	//		mesh->loadTexture(devConsoleTokens[3].substr(8));
-	//	}
+		database->getTable("SoundObjects")->addNewResource(sound);
+	} });
 
-	//	database->getTable("Meshes")->addNewResource(mesh);
-	//} });
+	//addlight lightName position=0,0,0 colour=1,1,1,1 radius=1 intensity=1 shadow=true
+	actions.insert({"addlight", [](std::vector<std::string> devConsoleTokens)
+	{
+		std::string positionString = devConsoleTokens[2].substr(9);
+		NCLVector3 position = NCLVector3::builder(positionString);
+
+		std::string colourString = devConsoleTokens[3].substr(7);
+		NCLVector4 colour = NCLVector4::builder(colourString);
+
+		float radius = stof(devConsoleTokens[4].substr(7));
+		float intensity = stof(devConsoleTokens[5].substr(10));
+		bool shadowCasting = devConsoleTokens[6].substr(7) == "true";
+
+		Light* light = new Light(position, colour, radius, intensity, shadowCasting);
+		light->setName(devConsoleTokens[1]);
+
+		database->getTable("Lights")->addNewResource(light);
+
+		DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "addlight " + devConsoleTokens[1]));
+	} });
+
+	actions.insert({ "removelight", [](std::vector<std::string> devConsoleTokens)
+	{
+		DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "removelight " + devConsoleTokens[1]));
+	} });
 
 	actions.insert({ "debugcamera", [](std::vector<std::string> devConsoleTokens)
 	{
