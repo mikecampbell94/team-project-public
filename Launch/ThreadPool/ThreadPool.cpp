@@ -1,11 +1,9 @@
 #include "ThreadPool.h"
-#include <ostream>
-#include <iostream>
 
 ThreadPool::ThreadPool(const int numThreads)
 {
 	running = true;
-	InitialiseWorkers(numThreads);
+	initialiseWorkers(numThreads);
 }
 
 ThreadPool::ThreadPool()
@@ -15,18 +13,18 @@ ThreadPool::ThreadPool()
 	//Create as many threads as the hardware allows but keep one for the main thread.
 	const int numThreads = (std::max)(std::thread::hardware_concurrency(), unsigned(2)) - 1;
 
-	InitialiseWorkers(numThreads);
+	initialiseWorkers(numThreads);
 }
 
-void ThreadPool::InitialiseWorkers(int numWorkers)
+void ThreadPool::initialiseWorkers(int numWorkers)
 {
 	for (int i = 0; i < numWorkers; ++i)
 	{
-		threads.emplace_back(&ThreadPool::FindNewTask, this);
+		threads.emplace_back(&ThreadPool::continiouslyPollForNewTask, this);
 	}
 }
 
-void ThreadPool::FindNewTask()
+void ThreadPool::continiouslyPollForNewTask()
 {
 	//Continiously poll the queue until all work is done
 	while (running) 
@@ -41,7 +39,7 @@ void ThreadPool::FindNewTask()
 	}
 }
 
-void ThreadPool::JoinAll()
+void ThreadPool::joinAllThreads()
 {
 	for (auto& thread : threads) 
 	{

@@ -35,49 +35,31 @@ public:
 		running = false;
 		taskQueue.Invalidate();
 
-		JoinAll();
+		joinAllThreads();
 	}
 
-	/*
-	  Give the thread pool a task to do y getting
-	  a thread to carry out a function/method.
-	  Using auto because its easier and reads better...
-	*/
 	template <typename Function, typename... Params>
-	auto SubmitJob(Function&& func, Params&&... params)
+	inline auto submitJob(Function&& func, Params&&... params)
 	{
-		/*
-		  Create a function template with the passed in function
-		  reference and any number of parameters.
-		*/
 		auto thisTask = bind(forward<Function>(func), forward<Params>(params)...);
 
-		using resultType = result_of_t<decltype(thisTask)()>; //What will the function return?
-		using packagedTask = packaged_task<resultType()>;		 //Prepare the function for async...
+		using resultType = std::result_of_t<decltype(thisTask)()>; //What will the function return?
+		using packagedTask = std::packaged_task<resultType()>;		 //Prepare the function for async...
 		using taskType = ThreadTask<packagedTask>;			 //Create a thread task for that function.
 
-															 //So fancy things can be done.
-		packagedTask			task{ move(thisTask) };
-		TaskFuture<resultType>	result{ task.get_future() };
+		packagedTask task{ move(thisTask) };
+		TaskFuture<resultType> result{ task.get_future() };
 
-		//Let a thread carry the task out.
-		taskQueue.Push(make_unique<taskType>(move(task)));
+		taskQueue.Push(std::make_unique<taskType>(move(task)));
 		return result;
 	}
 
 private:
-	std::atomic_bool paused = false;
+	void initialiseWorkers(int numWorkers);
+	void continiouslyPollForNewTask();
+	void joinAllThreads();
 
-	//Initialise threads
-	void InitialiseWorkers(int numWorkers);
-
-	//Threads use this continiously and grab a task to perform.
-	void FindNewTask();
-
-	//Invalidate queue and join all threads.
-	void JoinAll();
-
-	std::atomic_bool running; //Should the threads still be finding tasks to carry out?
+	std::atomic_bool running;
 	ThreadQueue<std::unique_ptr<Task>> taskQueue;
 	std::vector<std::thread> threads;
 };

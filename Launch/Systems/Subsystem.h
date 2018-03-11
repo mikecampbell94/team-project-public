@@ -13,7 +13,8 @@ public:
 
 	virtual ~Subsystem();
 
-	virtual void updateSubsystem(const float& deltaTime = 0.0f) = 0;
+	void updateSubsystem(const float& deltaTime = 0.0f);
+	virtual void updateNextFrame(const float& deltaTime = 0.0f) = 0;
 
 	void processMessages();
 

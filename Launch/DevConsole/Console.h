@@ -12,7 +12,7 @@ public:
 	Console(Keyboard* keyboard, Camera* camera, Mouse* mouse);
 	~Console();
 
-	void updateSubsystem(const float& deltaTime) override;
+	void updateNextFrame(const float& deltaTime) override;
 
 private:
 	void toggleConsoleEnabled();

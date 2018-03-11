@@ -137,7 +137,7 @@ Console::~Console()
 {
 }
 
-void Console::updateSubsystem(const float & deltaTime)
+void Console::updateNextFrame(const float & deltaTime)
 {
 	//input = "text Gameplay addgameobjectlogic ../Data/GameObjectLogic/aiObjectLogic.xml";
 

@@ -18,7 +18,7 @@ public:
 	void initialise(Database* database);
 
 	void SetSceneToRender(SceneManager* scene, Database* database);
-	void updateSubsystem(const float& deltaTime) override;
+	void updateNextFrame(const float& deltaTime) override;
 
 	void clearScores()
 	{

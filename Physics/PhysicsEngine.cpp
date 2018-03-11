@@ -234,7 +234,7 @@ void PhysicsEngine::removeAllPhysicsObjects()
 	physicsNodes.clear();
 }
 
-void PhysicsEngine::updateSubsystem(const float& deltaTime)
+void PhysicsEngine::updateNextFrame(const float& deltaTime)
 {
 	timer->beginTimedSection();
 

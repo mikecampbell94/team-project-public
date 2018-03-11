@@ -19,7 +19,7 @@ public:
 		PlayerBase* playerbase, GameplaySystem* gameplay);
 	~NetworkClient();
 
-	void updateSubsystem(const float& deltaTime) override;
+	void updateNextFrame(const float& deltaTime) override;
 
 	void connectToServer();
 	void waitForOtherClients(int numberToWaitFor);

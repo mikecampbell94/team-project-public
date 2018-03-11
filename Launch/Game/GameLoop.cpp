@@ -78,26 +78,17 @@ void GameLoop::executeGameLoop()
 	camera->setPitch(24.0f);
 	camera->setYaw(-133.0f);
 
-	//MOVE AUDIO FROM GAME LOOP TO SOMEWHERE ELSE LIKE GAMEPLAY
-	//DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-	//	SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "strawberries", "BackgroundMusic"));
-
 	while (window->updateWindow() && !quit)
 	{
 		float deltaTime = loopTimer->getTimeSinceLastRetrieval() * deltaTimeMultiplier;
 
 		engine->updateNextSystemFrame(deltaTime);
-		updateGameObjects(deltaTime);
-
-		DeliverySystem::getPostman()->deliverAllMessages();
-
-		engine->processMessagesForAllSubsystems();
 		incomingMessages.processMessagesInBuffer();
 
 		DeliverySystem::getPostman()->clearAllMessages();
-
+		updateGameObjects(deltaTime);
+		DeliverySystem::getPostman()->deliverAllMessages();
 	}
-
 }
 
 void GameLoop::updateGameObjects(float deltaTime)

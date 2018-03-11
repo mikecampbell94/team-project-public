@@ -3,7 +3,7 @@
 #include "Communication/DeliverySystem.h"
 #include "Communication/LetterBox.h"
 #include <iostream>
-#include <chrono>
+#include <ctime>
 
 System::System()
 {
@@ -17,14 +17,16 @@ System::~System()
 
 void System::updateNextSystemFrame(const float& deltaTime)
 {
+	auto start = std::clock();
+
 	vector<TaskFuture<void>> updates;
 
 	for (Subsystem* subsystem : subsystems)
 	{
-		updates.push_back(threadPool.SubmitJob([deltaTime, subsystem]()
+		updates.push_back(threadPool.submitJob([](float deltaTime, Subsystem* subsystem)
 		{
 			subsystem->updateSubsystem(deltaTime);
-		}));
+		}, deltaTime, subsystem));
 	}
 
 	renderer->updateSubsystem(deltaTime);
@@ -33,16 +35,10 @@ void System::updateNextSystemFrame(const float& deltaTime)
 	{
 		task.Complete();
 	}
-}
 
-void System::processMessagesForAllSubsystems()
-{
-	renderer->processMessages();
+	auto end = std::clock();
 
-	for (Subsystem* subsystem : subsystems)
-	{
-		subsystem->processMessages();
-	}
+	std::cout << end - start << std::endl;
 }
 
 void System::addSubsystem(Subsystem* subsystem)

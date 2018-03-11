@@ -28,7 +28,7 @@ Profiler::Profiler(Keyboard* keyboard, Database* database, FPSCounter* fpsCounte
 	memoryWatcher = MemoryWatcher(database->MaxSize(), database);
 }
 
-void Profiler::updateSubsystem(const float& deltatime)
+void Profiler::updateNextFrame(const float& deltatime)
 {
 	fpsCounter->calculateFPS(deltatime);
 

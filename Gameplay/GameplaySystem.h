@@ -16,7 +16,7 @@ public:
 	GameplaySystem(Database* database);
 	~GameplaySystem();
 
-	void updateSubsystem(const float& deltaTime) override;
+	void updateNextFrame(const float& deltaTime) override;
 
 	void connectPlayerbase(PlayerBase* playerbase);
 	void compileGameplayScript(std::string levelScript);

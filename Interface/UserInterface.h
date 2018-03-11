@@ -13,7 +13,7 @@ public:
 
 	void initialise(std::string menuFile, Database* database);
 
-	void updateSubsystem(const float& deltaTime) override;
+	void updateNextFrame(const float& deltaTime) override;
 
 private:
 	void toggleModule();

@@ -85,7 +85,7 @@ GameplaySystem::~GameplaySystem()
 {
 }
 
-void GameplaySystem::updateSubsystem(const float& deltaTime)
+void GameplaySystem::updateNextFrame(const float& deltaTime)
 {
 	if (gameLogic.isTimed) 
 	{

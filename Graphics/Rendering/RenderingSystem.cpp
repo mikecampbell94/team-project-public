@@ -221,7 +221,7 @@ void RenderingSystem::SetSceneToRender(SceneManager* scene, Database* database)
 	renderer->initialise(scene, database);
 }
 
-void RenderingSystem::updateSubsystem(const float& deltaTime)
+void RenderingSystem::updateNextFrame(const float& deltaTime)
 {
 	timer->beginTimedSection();
 	renderer->update(deltaTime);

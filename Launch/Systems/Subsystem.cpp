@@ -14,6 +14,12 @@ Subsystem::~Subsystem()
 	delete timer;
 }
 
+void Subsystem::updateSubsystem(const float& deltaTime)
+{
+	processMessages();
+	updateNextFrame(deltaTime);
+}
+
 void Subsystem::processMessages()
 {
 	timer->beginChildTimedSection("Message Processing");

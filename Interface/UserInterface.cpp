@@ -49,7 +49,7 @@ void UserInterface::initialise(std::string menuFile, Database* database)
 	UserInterfaceDisplay::provide(menu);
 }
 
-void UserInterface::updateSubsystem(const float& deltaTime)
+void UserInterface::updateNextFrame(const float& deltaTime)
 {
 	if (keyboard->keyTriggered(KEYBOARD_ESCAPE))
 	{

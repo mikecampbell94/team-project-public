@@ -35,7 +35,7 @@ public:
 	void addConstraint(Constraint* c) { constraints.push_back(c); }
 
 
-	void updateSubsystem(const float& deltaTime) override;
+	void updateNextFrame(const float& deltaTime) override;
 
 
 	inline float getUpdateTimestep() const 
