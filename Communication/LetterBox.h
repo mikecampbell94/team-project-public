@@ -55,7 +55,7 @@ public:
 	void cancelOutgoingMessages() override;
 
 private:
-	MessageStorage messageStorage;
+	MessageStorage* messageStorage;
 
 	MessageBuffer<Message> messageBuffer;
 	MessageBuffer<PlayerInputMessage> playerInputMessageBuffer;

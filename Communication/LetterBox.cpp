@@ -3,21 +3,22 @@
 
 LetterBox::LetterBox()
 {
-	messageStorage = MessageStorage();
+	messageStorage = new MessageStorage();
 }
 
 LetterBox::~LetterBox()
 {
+	delete messageStorage;
 }
 
 void LetterBox::addDeliveryPoint(const std::string& bufferName)
 {
-	messageStorage.addMessageBuffer(bufferName);
+	messageStorage->addMessageBuffer(bufferName);
 }
 
 std::queue<Message*>* LetterBox::getDeliveryPoint(const std::string& bufferName)
 {
-	return messageStorage.getMessageBufferByName(bufferName);
+	return messageStorage->getMessageBufferByName(bufferName);
 }
 
 void LetterBox::insertMessage(Message message)
@@ -188,7 +189,7 @@ void LetterBox::clearAllMessages()
 	
 	toggleGameObjectBuffer.clearSentMessages();
 	togglePlayerInputKeyBuffer.clearSentMessages();
-	messageStorage.clearMessageStorage();
+	messageStorage->clearMessageStorage();
 }
 
 void LetterBox::cancelOutgoingMessages()

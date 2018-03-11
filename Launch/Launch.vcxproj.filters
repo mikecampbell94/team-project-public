@@ -49,6 +49,9 @@
     <ClCompile Include="DevConsole\LevelEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ThreadPool\ThreadPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Systems\Subsystem.h" />
@@ -63,5 +66,10 @@
     <ClInclude Include="Profiler\Profiler.h" />
     <ClInclude Include="DevConsole\Console.h" />
     <ClInclude Include="DevConsole\LevelEditor.h" />
+    <ClInclude Include="ThreadPool\ThreadPool.h" />
+    <ClInclude Include="ThreadPool\ThreadQueue.h" />
+    <ClInclude Include="Tasks\Task.h" />
+    <ClInclude Include="Tasks\TaskFuture.h" />
+    <ClInclude Include="Tasks\ThreadTask.h" />
   </ItemGroup>
 </Project>

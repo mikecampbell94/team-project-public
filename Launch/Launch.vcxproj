@@ -165,6 +165,7 @@
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Systems\Subsystem.cpp" />
     <ClCompile Include="Systems\System.cpp" />
+    <ClCompile Include="ThreadPool\ThreadPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DevConsole\Console.h" />
@@ -179,6 +180,11 @@
     <ClInclude Include="Startup.h" />
     <ClInclude Include="Systems\Subsystem.h" />
     <ClInclude Include="Systems\System.h" />
+    <ClInclude Include="Tasks\Task.h" />
+    <ClInclude Include="Tasks\TaskFuture.h" />
+    <ClInclude Include="Tasks\ThreadTask.h" />
+    <ClInclude Include="ThreadPool\ThreadPool.h" />
+    <ClInclude Include="ThreadPool\ThreadQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

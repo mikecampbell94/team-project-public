@@ -5,6 +5,8 @@
 
 #include <vector>
 #include <memory>
+#include "Launch/ThreadPool/ThreadPool.h"
+#include "Rendering/RenderingSystem.h"
 
 class LetterBox;
 
@@ -20,9 +22,12 @@ public:
 	void addSubsystem(Subsystem* subsystem);
 	std::vector<Subsystem*> getSubSystems();
 
+	RenderingSystem* renderer;
+
 private:
 	std::vector<Subsystem*> subsystems;
 	MessageStorage messageBuffers;
 	LetterBox* letterBox;
+	ThreadPool threadPool;
 };
 
