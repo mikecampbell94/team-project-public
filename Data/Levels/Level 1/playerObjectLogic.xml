@@ -47,11 +47,23 @@
 	<PaintGameLogic>
 
 		<OnStart>
+			
+
+			<CreateMeteorPool>
+				<resource>var</resource>
+				<amount>5</amount>
+				<Mesh>SphereMesh</Mesh>
+				<Size>2</Size>
+				<isReflective>0.8</isReflective>
+			</CreateMeteorPool>
+
 			<SetMaxPaint>
 				<resource>var</resource>
 				<paint>100</paint>
 			</SetMaxPaint>
 		</OnStart>
+
+
 
 
 		<ReceiveMessage type="CollisionMessage">

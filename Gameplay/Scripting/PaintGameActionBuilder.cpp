@@ -64,6 +64,60 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		};
 	} });
 
+	builders.insert({ "CreateMeteorPool", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		int amount = stoi(node->children[1]->value);
+		std::string meshName = node->children[2]->value;
+		float size = stof(node->children[3]->value);
+		float reflectiveStrength = stof(node->children[4]->value);
+		std::string baseName = node->children[0]->value + "Meteor";
+
+		return [gameObject, amount, meshName, size, reflectiveStrength, baseName]()
+		{
+			Database* database = PaintGameActionBuilder::database;
+			for (int i = 0; i < amount; i++)
+			{
+				GameObject* meteor = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(baseName + std::to_string(i)));
+				if (meteor == nullptr)
+				{
+					SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getResource(meshName)));
+					sceneNode->SetColour(gameObject->stats.colourToPaint);
+					sceneNode->isReflective = true;
+					sceneNode->reflectiveStrength = reflectiveStrength;
+
+					meteor = new GameObject();
+					meteor->setSize(sizeof(GameObject));
+					meteor->setName(baseName + std::to_string(i));
+					meteor->setSceneNode(sceneNode);
+					meteor->stats.colourToPaint = gameObject->stats.colourToPaint;
+					meteor->setScale(NCLVector3(size, size, size));
+
+					PhysicsNode* physicsNode = new PhysicsNode();
+					physicsNode->setParent(meteor);
+					physicsNode->transmitCollision = true;
+					physicsNode->setCollisionShape("Sphere");
+					physicsNode->setInverseMass(0.5f);
+					physicsNode->setInverseInertia(physicsNode->getCollisionShape()->buildInverseInertia(physicsNode->getInverseMass()));
+					physicsNode->setStatic(false);
+
+					meteor->setPhysicsNode(physicsNode);
+
+					meteor->setPosition(gameObject->getPosition() + NCLVector3(i * 10, 50, 0));
+					meteor->setRotation(NCLVector4(0.f, 0.f, 0.f, 0.f));
+					meteor->setEnabled(true);
+
+					PaintGameActionBuilder::database->getTable("GameObjects")->addNewResource(meteor);
+					DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "addscenenode " + meteor->getName()));
+					DeliverySystem::getPostman()->insertMessage(TextMessage("Physics", "addphysicsnode " + meteor->getName()));
+				}
+			}
+			
+			
+		};
+	} });
+
 	builders.insert({ "ReducePaint", [](Node* node)
 	{
 		GameObject* gameObject = static_cast<GameObject*>(
