@@ -148,6 +148,7 @@
     <ClInclude Include="Messages\PaintTrailForGameObjectMessage.h" />
     <ClInclude Include="Messages\UpdatePositionMessage.h" />
     <ClInclude Include="Messages\TextMeshMessage.h" />
+    <ClInclude Include="ThreadSafeMessageBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Messages\TogglePlayerInputKeyMessage.cpp" />

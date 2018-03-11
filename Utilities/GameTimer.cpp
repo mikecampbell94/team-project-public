@@ -56,11 +56,12 @@ void GameTimer::beginTimedSection()
 void GameTimer::endTimedSection()
 {
 	sectionEndTime = getMillisecondsSinceStart();
+	timeTakenForSection = sectionEndTime - sectionStartTime;
 }
 
 float GameTimer::getTimeTakenForSection()
 {
-	return (sectionEndTime - sectionStartTime)/* / (CLOCKS_PER_SEC)*/;
+	return timeTakenForSection;
 }
 
 void GameTimer::beginChildTimedSection(std::string childTimerName)
