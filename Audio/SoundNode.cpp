@@ -132,11 +132,18 @@ void SoundNode::update(float msec)
 			ALfloat pos[] = { position.x, position.y, position.z };
 			alSourcefv(oalSource->source, AL_POSITION, pos);
 		}
-		else
+		else if (isMoving && !isGlobal)
+		{
+			position = gObj->getPosition();
+			ALfloat pos[] = { position.x, position.y, position.z };
+			alSourcefv(oalSource->source, AL_POSITION, pos);
+		}
+		else if (isMoving && isGlobal)
 		{
 			ALfloat pos[] = { movingPosition->x, movingPosition->y, movingPosition->z };
 			alSourcefv(oalSource->source, AL_POSITION, pos);
 		}
+		
 
 		alSourcef(oalSource->source, AL_GAIN, volume);
 		alSourcei(oalSource->source, AL_LOOPING, isLooping ? 1 : 0);

@@ -49,7 +49,7 @@
 		<radius>1.0</radius>
 		<pitch>1.0</pitch>
 		<isLooping>true</isLooping>
-		<isGlobal>false</isGlobal>
+		<isGlobal>true</isGlobal>
 		<sound>vega</sound>
 		<soundNodeID>LevelMusic</soundNodeID>
 	</SendMessage>

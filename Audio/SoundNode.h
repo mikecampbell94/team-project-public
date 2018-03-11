@@ -3,6 +3,7 @@
 #include "../Utilities/Maths/Vector3.h"
 #include "../Utilities/Maths/Matrix4.h"
 #include "Sound.h"
+#include "../Gameplay/GameObject.h"
 
 class PlaySoundMessage;
 class PlayMovingSoundMessage;
@@ -80,6 +81,16 @@ public:
 		movingPosition = position;
 	}
 
+	void setGameObject(GameObject* gObj)
+	{
+		this->gObj = gObj;
+	}
+
+	void setPosition(NCLVector3 position)
+	{
+		this->position = position;
+	}
+
 	static bool compareSourcesByPriority(SoundNode& a, SoundNode& b);
 
 	void attachSource(OALSource* s);
@@ -89,7 +100,13 @@ public:
 
 	bool enabled = false;
 	bool isMoving = false;
+	bool isGlobal;
 	std::string identifier;
+
+	GameObject* getObject()
+	{
+		return gObj;
+	}
 
 private:
 	void setSound(Sound *s);
@@ -114,6 +131,8 @@ private:
 	float pitch;
 	bool isLooping;
 	double timeLeft;
-	bool isGlobal;
+	
+
+	GameObject* gObj;
 };
 

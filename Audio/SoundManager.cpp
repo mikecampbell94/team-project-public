@@ -7,6 +7,7 @@
 #include "../Graphics/Utility/Camera.h"
 #include "../Gameplay/GameObject.h"
 
+
 const int CHANNELS = 128;
 const int FORWARD_DIRECTION = 0;
 const int UPWARDS_DIRECTION = 1;
@@ -119,7 +120,9 @@ void SoundManager::AddNewSoundNode(PlayMovingSoundMessage* message)
 			}
 			else
 			{
-				soundNodes.back().setMovingPosition(static_cast<GameObject*>(database->getTable("GameObjects")->getResource("")));
+				GameObject* gObj =  static_cast<GameObject*>(database->getTable("GameObjects")->getResource(message->gameObjectID));
+				soundNodes.back().setGameObject(gObj);
+				soundNodes.back().setPosition(gObj->getPosition());
 			}
 		}
 	}
@@ -130,6 +133,12 @@ void SoundManager::AddNewSoundNode(PlayMovingSoundMessage* message)
 		if (message->isGlobal)
 		{
 			soundNodes.back().setMovingPosition(camera->getPersistentPosition());
+		}
+		else
+		{
+			GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(message->gameObjectID));
+			soundNodes.back().setGameObject(gObj);
+			soundNodes.back().setPosition(gObj->getPosition());
 		}
 	}
 }
@@ -186,10 +195,10 @@ void SoundManager::updateListenerToCameraPosition()
 	orientation[UPWARDS_DIRECTION].y = camera->viewMatrix.values[5];
 	orientation[UPWARDS_DIRECTION].z = camera->viewMatrix.values[9];
 
-	ALfloat listenerPos[] = { listenerPosition.x, listenerPosition.y, listenerPosition.z };
+	ALfloat listenerPos[] = { listenerPosition.x, listenerPosition.y, listenerPosition.z  };
 	ALfloat listenerOri[] = { 
-		orientation[FORWARD_DIRECTION].x, orientation[FORWARD_DIRECTION].y, orientation[FORWARD_DIRECTION].z, 
-		orientation[UPWARDS_DIRECTION].x, orientation[UPWARDS_DIRECTION].y, orientation[UPWARDS_DIRECTION].z };
+		orientation[FORWARD_DIRECTION].x, orientation[FORWARD_DIRECTION].y, -orientation[FORWARD_DIRECTION].z, 
+		orientation[UPWARDS_DIRECTION].x, orientation[UPWARDS_DIRECTION].y, -orientation[UPWARDS_DIRECTION].z };
 
 	alListenerfv(AL_POSITION, listenerPos);
 	alListenerfv(AL_ORIENTATION, listenerOri);
@@ -201,11 +210,11 @@ void SoundManager::cullNodes()
 	{
 		float distanceBetweenListenerAndSoundNode;
 
-		if(!node.isMoving)
+		if(!node.isMoving || (node.isMoving && !node.isGlobal))
 		{
 			distanceBetweenListenerAndSoundNode = (listenerPosition - node.getPosition()).length();
 		}
-		else
+		else if (node.isMoving && node.isGlobal)
 		{
 			distanceBetweenListenerAndSoundNode = (listenerPosition - *node.getMovingPosition()).length();
 		}

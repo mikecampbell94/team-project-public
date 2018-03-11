@@ -9,7 +9,7 @@ class PlayMovingSoundMessage : public Message
 public:
 	PlayMovingSoundMessage(const std::string& desinationName, NCLVector3 *position,
 		SoundPriority priority, float volume, float radius, float pitch, bool isLooping, bool isGlobal,
-		std::string soundID, std::string soundNodeIdentifier);
+		std::string soundID, std::string soundNodeIdentifier, std::string gameObjectID);
 	~PlayMovingSoundMessage();
 
 	static PlayMovingSoundMessage builder(Node* node);
@@ -23,5 +23,6 @@ public:
 	bool isGlobal;
 	std::string soundID;
 	std::string soundNodeIdentifier;
+	std::string gameObjectID;
 };
 

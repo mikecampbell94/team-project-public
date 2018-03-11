@@ -2,7 +2,7 @@
 
 PlayMovingSoundMessage::PlayMovingSoundMessage(const std::string& destinationName, NCLVector3 *position,
 	SoundPriority priority, float volume, float radius,
-	float pitch, bool isLooping, bool isGlobal, std::string soundID, std::string soundNodeIdentifier)
+	float pitch, bool isLooping, bool isGlobal, std::string soundID, std::string soundNodeIdentifier, std::string gameObjectID)
 	: Message(destinationName, MOVING_SOUND)
 {
 	this->position = position;
@@ -14,6 +14,7 @@ PlayMovingSoundMessage::PlayMovingSoundMessage(const std::string& destinationNam
 	this->soundID = soundID;
 	this->soundNodeIdentifier = soundNodeIdentifier;
 	this->isGlobal = isGlobal;
+	this->gameObjectID = gameObjectID;
 }
 
 PlayMovingSoundMessage::~PlayMovingSoundMessage()
@@ -32,6 +33,7 @@ PlayMovingSoundMessage PlayMovingSoundMessage::builder(Node* node)
 	bool isGlobal = false;
 	std::string soundID = "";
 	std::string soundNodeIdentifier = "";
+	std::string gameObjectID = "";
 
 	for (Node* childNode : node->children)
 	{
@@ -100,7 +102,11 @@ PlayMovingSoundMessage PlayMovingSoundMessage::builder(Node* node)
 		{
 			soundNodeIdentifier = childNode->value;
 		}
+		else if (childNode->nodeType == "gameObjectID")
+		{
+			gameObjectID = childNode->value;
+		}
 	}
-	return PlayMovingSoundMessage(destination, &position, priority, volume, radius, pitch, isLooping, isGlobal, soundID, soundNodeIdentifier);
+	return PlayMovingSoundMessage(destination, &position, priority, volume, radius, pitch, isLooping, isGlobal, soundID, soundNodeIdentifier, gameObjectID);
 }
 

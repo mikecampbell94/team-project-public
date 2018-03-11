@@ -41,6 +41,33 @@
 			</Action>
 		</ReceiveMessage>
 
+		<ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition>
+				<objectIdentifier>var</objectIdentifier>
+			</Condition>
+			<Condition type="OR">
+				<colliderIdentifier>player0</colliderIdentifier>
+				<colliderIdentifier>player1</colliderIdentifier>
+				<colliderIdentifier>player2</colliderIdentifier>
+				<colliderIdentifier>AI</colliderIdentifier>
+				<colliderIdentifier>AI2</colliderIdentifier>
+				<colliderIdentifier>enemy</colliderIdentifier>
+			</Condition>
+
+			<SendMessage type="MOVING_SOUND">
+				<destination>AudioSystem</destination>
+				<priority>SOUNDPRIORITY_HIGH</priority>
+				<volume>0.5</volume>
+				<radius>1.0</radius>
+				<pitch>1.0</pitch>
+				<isLooping>false</isLooping>
+				<isGlobal>true</isGlobal>
+				<sound>punch1</sound>
+				<soundNodeID>collision</soundNodeID>
+			</SendMessage>
+		</Action>
+	 </ReceiveMessage>
 		
 	</GameplayScript>
 
