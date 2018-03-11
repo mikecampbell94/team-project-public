@@ -77,6 +77,9 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		return [gameObject, amount, meshName, size, reflectiveStrength, baseName]()
 		{
 			Database* database = PaintGameActionBuilder::database;
+
+			gameObject->stats.meteors = amount;
+
 			for (int i = 0; i < amount; i++)
 			{
 				GameObject* meteor = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(baseName + std::to_string(i)));
@@ -106,7 +109,8 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 
 					meteor->setPosition(gameObject->getPosition() + NCLVector3(i * 10, 50, 0));
 					meteor->setRotation(NCLVector4(0.f, 0.f, 0.f, 0.f));
-					meteor->setEnabled(true);
+					
+					meteor->setEnabled(false);
 
 					PaintGameActionBuilder::database->getTable("GameObjects")->addNewResource(meteor);
 					DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "addscenenode " + meteor->getName()));
@@ -226,6 +230,53 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 				gameObject->stats.executeAfter = [gameObject, powerup]()
 				{
 					gameObject->stats.defaultInvMass = 1.f;
+					gameObject->stats.executeAfter = std::function<void()>();
+					powerup->setEnabled(true);
+
+				};
+			}
+		};
+	} });
+
+	builders.insert({ "MeteorStrike", [&rd = rd](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		GameObject* powerup = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[2]->value));
+		float duration = stof(node->children[3]->value) * 1000;
+
+		return [gameObject, powerup, duration, &rd = rd]()
+		{
+			if (!gameObject->stats.executeAfter)
+			{
+				powerup->setEnabled(false);
+
+				for (int i = 0; i < gameObject->stats.meteors; ++i)
+				{
+					GameObject* meteor = static_cast<GameObject*>(
+						PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
+					
+					std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+					std::uniform_int_distribution<int> uni(-2, 2); // guaranteed unbiased
+					auto random_integer1 = uni(rng);
+					auto random_integer2 = uni(rng);
+
+					meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i*10), random_integer2 * 10));
+					meteor->setEnabled(true);
+
+				}
+
+				gameObject->stats.timeToWait = duration;
+				gameObject->stats.executeAfter = [gameObject, powerup]()
+				{
+					for (int i = 0; i < gameObject->stats.meteors; ++i)
+					{
+						GameObject* meteor = static_cast<GameObject*>(
+							PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
+						meteor->setEnabled(false);
+
+					}
 					gameObject->stats.executeAfter = std::function<void()>();
 					powerup->setEnabled(true);
 
