@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <memory>
-#include "Launch/ThreadPool/ThreadPool.h"
+#include "../Threading/ThreadPool/ThreadPool.h"
 #include "Rendering/RenderingSystem.h"
 
 class LetterBox;
@@ -28,5 +28,7 @@ private:
 	MessageStorage messageBuffers;
 	LetterBox* letterBox;
 	ThreadPool threadPool;
+
+	std::vector<TaskFuture<void>> rendererThread;
 };
 

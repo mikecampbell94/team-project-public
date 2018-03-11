@@ -20,20 +20,13 @@
 class ThreadPool
 {
 public:
-	/*
-	  Create a thread pool with the maximum number of threads available 
-	  on the current machine.
-	  Subtract 1 (for main thread). 
-	  Therefore a check is needed to ensure there is always at least 1 thread.
-	*/
 	ThreadPool();
-
-	//Number of threads is previously known...
 	ThreadPool(const int numThreads);
 
-	~ThreadPool() {
+	~ThreadPool() 
+	{
 		running = false;
-		taskQueue.Invalidate();
+		taskQueue.invalidate();
 
 		joinAllThreads();
 	}
@@ -50,7 +43,7 @@ public:
 		packagedTask task{ move(thisTask) };
 		TaskFuture<resultType> result{ task.get_future() };
 
-		taskQueue.Push(std::make_unique<taskType>(move(task)));
+		taskQueue.push(std::make_unique<taskType>(move(task)));
 		return result;
 	}
 

@@ -18,12 +18,18 @@ public:
 
 	~TaskFuture() 
 	{
-		if (tFuture.valid()) tFuture.get();
+		//if (tFuture.valid())
+		//{
+		//	tFuture.get();
+		//}
 	}
 
 	auto Complete()
 	{
-		return tFuture.get();
+		//if (tFuture.valid())
+		//{
+			return tFuture.get();
+		//}
 	}
 
 	TaskFuture& operator=(TaskFuture&& other) = default;

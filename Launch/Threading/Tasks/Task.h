@@ -3,10 +3,10 @@
 class Task
 {
 public:
-	Task()				= default;
-	Task(Task&& other)	= default;
+	Task() = default;
+	Task(Task&& other) = default;
 
-	virtual ~Task()		= default;
+	virtual ~Task() = default;
 
 	virtual void execute() = 0;
 
