@@ -90,9 +90,9 @@ void AddLighting(int index, vec3 position, vec3 normal, vec4 albedo, inout vec4 
 					vec2 texelSize = 1.0f / textureSize(shadows, 0);
 					int sampleCount = 0;
 
-					for (int x = -12; x <= 12; ++x)
+					for (int x = -4; x <= 4; ++x)
 					{
-						for (int y = -12; y <= 12; ++y)
+						for (int y = -4; y <= 4; ++y)
 						{
 							vec2 sampleCoord = vec2(x, y) * texelSize * 100.0f;
 							shadow += textureProj(shadows, shadowProj + vec4(sampleCoord, 0.0f, 0.0f));
