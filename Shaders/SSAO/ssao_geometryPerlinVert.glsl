@@ -83,7 +83,7 @@ void main(void)
 	{
 		float n = noise(vec3(aPos.x*100 + time / 50,aPos.z*100 + time / 50,time / 50)/ 170.0) / 1.0 + noise(vec3(aPos.x*100 + time / 30,aPos.z*100 + time / 30,time / 30)/64.0) / 2.0
 		+ noise(vec3(aPos.x*100 + time / 30,aPos.z + time / 30,time / 30)/32.0) / 10.0;
-		newPos.y += n*5;
+		newPos.y += n*13;
 	}
 	
 	
