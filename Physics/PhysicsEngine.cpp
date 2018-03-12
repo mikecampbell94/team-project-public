@@ -88,13 +88,16 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 			Quaternion::axisAngleToQuaterion(NCLVector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z), rotateMessage->rotation.w));
 	});
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database](Message* message)
+
+	float dt = getDeltaTime();
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::APPLY_FORCE, [database, this](Message* message)
 	{
 		ApplyForceMessage* applyForceMessage = static_cast<ApplyForceMessage*>(message);
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(applyForceMessage->gameObjectID));
 
-		NCLVector3 force = applyForceMessage->force;
+		NCLVector3 force = applyForceMessage->force * this->getDeltaTime() * 1000;
 
 		if (applyForceMessage->isRandom)
 		{
@@ -144,7 +147,7 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 		gObj->getPhysicsNode()->applyImpulse(impulse);
 	});
 
-	float dt = getDeltaTime();
+	
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [database, &dt](Message* message)
 	{
