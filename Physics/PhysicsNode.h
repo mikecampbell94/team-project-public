@@ -46,7 +46,7 @@ public:
 		, appliedForce(0.0f, 0.0f, 0.0f)
 		, acceleration(0.0f, 0.0f, 0.0f)
 	{
-
+		
 	}
 	~PhysicsNode()
 	{
@@ -231,6 +231,8 @@ public:
 		if (collisionShape) collisionShape->setParent(NULL);
 		collisionShape = colShape;
 		if (collisionShape) collisionShape->setParent(this);
+
+		setBroadPhaseShape("Sphere");
 	}
 
 
@@ -240,23 +242,7 @@ public:
 		
 		if (broadphaseShapeString == "Sphere")
 		{
-			/*if (parent->getScale().x >= parent->getScale().y && parent->getScale().x >= parent->getScale().z)
-			{*/
-				colShape = new SphereCollisionShape(sqrt(((pow(parent->getScale().x,2)))  + ((pow(parent->getScale().y, 2))) + ((pow(parent->getScale().z, 2)))));
-		/*	}
-			else if (parent->getScale().y >= parent->getScale().x && parent->getScale().y >= parent->getScale().z)
-			{
-				colShape = new SphereCollisionShape(parent->getScale().y);
-			}
-			else
-			{
-				colShape = new SphereCollisionShape(parent->getScale().z);
-			}*/
-				
-		}
-		else if (broadphaseShapeString == "Box")
-		{
-			colShape = new CuboidCollisionShape(parent->getScale());
+			colShape = new SphereCollisionShape(sqrt(((pow(parent->getScale().x,2)))  + ((pow(parent->getScale().y, 2))) + ((pow(parent->getScale().z, 2)))));		
 		}
 		else
 		{
@@ -321,6 +307,7 @@ public:
 	bool toDeleteInOctree = false;
 	bool movedSinceLastBroadPhase = false;
 	bool transmitCollision = false;
+	bool multipleTransmitions = false;
 	bool hasTransmittedCollision = false;
 
 

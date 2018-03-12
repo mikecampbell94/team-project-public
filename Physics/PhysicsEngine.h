@@ -14,7 +14,7 @@ class OctreePartitioning;
 
 //Number of jacobi iterations to apply in order to
 // assure the constraints are solved. (Last tutorial)
-#define SOLVER_ITERATIONS 50
+#define SOLVER_ITERATIONS 20
 
 struct CollisionPair
 {

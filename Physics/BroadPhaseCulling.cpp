@@ -29,8 +29,8 @@ void BroadPhaseCulling::init(NCLVector3 minVal, NCLVector3 maxVal)
 bool BroadPhaseCulling::SphereSphereCollision(const PhysicsNode* a, const PhysicsNode* b)
 {
 	if (boundingBox == boundingShapes::Sphere) {
-		SphereCollisionShape* aSphr = dynamic_cast<SphereCollisionShape*>(a->getBroadPhaseShape());
-		SphereCollisionShape* bSphr = dynamic_cast<SphereCollisionShape*>(b->getBroadPhaseShape());
+		SphereCollisionShape* aSphr = static_cast<SphereCollisionShape*>(a->getBroadPhaseShape());
+		SphereCollisionShape* bSphr = static_cast<SphereCollisionShape*>(b->getBroadPhaseShape());
 
 		if (aSphr && bSphr) {
 			if ((b->getPosition() - a->getPosition()).length() <= aSphr->getRadius() + bSphr->getRadius()) return true;
@@ -44,7 +44,7 @@ void BroadPhaseCulling::sortNode(PhysicsNode * p)
 	//collision detection with axis aligned boundingBox of Octrees
 	if (p->getBroadPhaseShape()) {
 
-		float radius = dynamic_cast<SphereCollisionShape*>(p->getBroadPhaseShape())->getRadius();
+		float radius = static_cast<SphereCollisionShape*>(p->getBroadPhaseShape())->getRadius();
 		NCLVector3 centre = p->getPosition();
 		//use iterator instead 
 		for (int i = 0; i < bpAreas.size(); ++i) {

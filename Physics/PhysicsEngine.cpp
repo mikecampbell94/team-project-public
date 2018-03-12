@@ -174,15 +174,25 @@ void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 
 
 	physicsNodes.push_back(obj);
-	BpOct.sortNode(obj);
+	if (obj->getEnabled())
+	{
+		BpOct.sortNode(obj);
+	}
+	
 
 	obj->setOnCollisionCallback([](PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData collisionData)
 	{
 		if (this_obj->transmitCollision)
 		{
-			DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
-				this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
-			this_obj->hasTransmittedCollision = true;
+			if (!this_obj->hasTransmittedCollision)
+			{
+				DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
+					this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
+				if (!this_obj->multipleTransmitions)
+				{
+					this_obj->hasTransmittedCollision = true;
+				}
+			}
 			
 			return true;
 		}
@@ -338,7 +348,7 @@ void PhysicsEngine::broadPhaseCollisions()
 	PhysicsNode* nodeB;
 
 	for (PhysicsNode * p : physicsNodes) {
-		if (p->getLinearVelocity().length() > 0) {
+		if (p->getLinearVelocity().lengthSquared() > 0 && p->getEnabled()) {
 			BpOct.sortNode(p);
 		}
 	}
@@ -363,8 +373,6 @@ void PhysicsEngine::broadPhaseCollisions()
 
 					if (!(nodeA->getIsStatic() && nodeB->getIsStatic()))
 					{
-						if (nodeA->getEnabled() && nodeB->getEnabled())
-						{
 							if (BroadPhaseCulling::SphereSphereCollision(nodeA, nodeB))
 							{
 								CollisionPair cp;
@@ -373,7 +381,6 @@ void PhysicsEngine::broadPhaseCollisions()
 
 								broadphaseColPairs.push_back(cp);
 							}
-						}
 					}
 				}
 			}
