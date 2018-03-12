@@ -19,16 +19,16 @@ public:
 	void updateNextSystemFrame(const float& deltaTime);
 
 	void addSubsystem(Subsystem* subsystem);
+	void addConcurrentSubsystem(Subsystem* subsystem);
+
 	std::vector<Subsystem*> getSubSystems();
 
-	RenderingSystem* renderer;
-
 private:
-	std::vector<Subsystem*> subsystems;
 	MessageStorage messageBuffers;
 	LetterBox* letterBox;
 	ThreadPool threadPool;
 
-	std::vector<TaskFuture<void>> rendererThread;
+	std::vector<Subsystem*> subsystems;
+	std::vector<Subsystem*> concurrentSubsystems;
 };
 

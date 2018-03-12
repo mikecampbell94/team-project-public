@@ -21,7 +21,7 @@ void System::updateNextSystemFrame(const float& deltaTime)
 
 	vector<TaskFuture<void>> updates;
 
-	for (Subsystem* subsystem : subsystems)
+	for (Subsystem* subsystem : concurrentSubsystems)
 	{
 		updates.push_back(threadPool.submitJob([](float deltaTime, Subsystem* subsystem)
 		{
@@ -29,7 +29,10 @@ void System::updateNextSystemFrame(const float& deltaTime)
 		}, deltaTime, subsystem));
 	}
 
-	renderer->updateSubsystem(deltaTime);
+	for (Subsystem* subsystem : subsystems)
+	{
+		subsystem->updateSubsystem(deltaTime);
+	}
 
 	for (auto& task : updates)
 	{
@@ -46,7 +49,16 @@ void System::addSubsystem(Subsystem* subsystem)
 	subsystems.push_back(subsystem);
 }
 
+void System::addConcurrentSubsystem(Subsystem* subsystem)
+{
+	concurrentSubsystems.push_back(subsystem);
+}
+
 std::vector<Subsystem*> System::getSubSystems()
 {
-	return subsystems;
+	vector<Subsystem*> allSubsystems;
+	allSubsystems.insert(std::end(allSubsystems), std::begin(subsystems), std::end(subsystems));
+	allSubsystems.insert(std::end(allSubsystems), std::begin(concurrentSubsystems), std::end(concurrentSubsystems));
+
+	return allSubsystems;
 }
