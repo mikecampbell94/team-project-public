@@ -30,27 +30,27 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 	compileGameLogic(parsedScript->children[GAME_LOGIC_NODE], resources->children);
 	compilePaintGameLogic(parsedScript->children[PAINT_GAME_LOGIC_NODE], resources->children);
 
-	for (GameLogic* logic : logics)
+	for (GameLogic& logic : logics)
 	{
-		logic->executeActionsOnStart();
+		logic.executeActionsOnStart();
 	}
 }
 
 void GameObjectLogic::notify(const std::string& messageType, Message* message)
 {
-	for (GameLogic* logic : logics)
+	for (GameLogic& logic : logics)
 	{
-		logic->notifyMessageActions(messageType, message);
+		logic.notifyMessageActions(messageType, message);
 	}
 }
 
 void GameObjectLogic::updatelogic(const float& deltaTime)
 {
-	for (GameLogic* logic : logics)
+	for (GameLogic& logic : logics)
 	{
-		logic->executeMessageBasedActions();
-		logic->executeTimeBasedActions(deltaTime);
-		logic->clearNotifications();
+		logic.executeMessageBasedActions();
+		logic.executeTimeBasedActions(deltaTime);
+		logic.clearNotifications();
 	}
 }
 
@@ -82,9 +82,8 @@ void GameObjectLogic::compileLogicFromNodes(Node* logicNode, const std::vector<N
 
 		changeResource(&logicNode, resource->value);
 
-		logicToGameObjects.insert({ gObj, GameLogic(messages) });
-		logics.push_back(&(logicToGameObjects.at(gObj)));
-		logics[logics.size() - 1]->compileParsedXMLIntoScript(logicNode);
+		logics.push_back(GameLogic(messages));
+		logics[logics.size() - 1].compileParsedXMLIntoScript(logicNode);
 
 		changeResourceBack(&logicNode, resource->value);
 	}

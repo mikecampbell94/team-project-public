@@ -50,15 +50,13 @@ void GameLogic::compileParsedXMLIntoScript(Node* xmlNode)
 
 void GameLogic::executeMessageBasedActions()
 {
-	if(!messageBasedActions.empty())
+	if (!messageBasedActions.empty())
 	{
 		for (int i = 0; i < publishers.size(); ++i)
 		{
-			if (messageBasedActions.find(publishers[i].first) != messageBasedActions.end())
+			if (publishers[i].first == "CollisionMessage" || publishers[i].first == "InputMessage")
 			{
-				std::vector<GameplayAction>* executables = &messageBasedActions.at(publishers[i].first);
-
-				for (GameplayAction executable : *executables)
+				for (GameplayAction& executable : messageBasedActions[publishers[i].first])
 				{
 					executable(publishers[i].second);
 				}
