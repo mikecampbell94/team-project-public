@@ -63,7 +63,7 @@
 				<pitch>1.0</pitch>
 				<isLooping>false</isLooping>
 				<isGlobal>true</isGlobal>
-				<sound>punch1</sound>
+				<sound>smack1</sound>
 				<soundNodeID>collision</soundNodeID>
 			</SendMessage>
 		</Action>
