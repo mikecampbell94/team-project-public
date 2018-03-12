@@ -51,7 +51,7 @@
 				<resource>var</resource>
 				<amount>10</amount>
 				<Mesh>SphereMesh</Mesh>
-				<Size>2.5</Size>
+				<Size>10</Size>
 				<isReflective>0.8</isReflective>
 			</CreateMeteorPool>
 

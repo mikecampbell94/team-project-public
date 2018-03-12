@@ -12,5 +12,6 @@
 	<GameLogic>
 		<File>Level 1/aiObjectLogic.xml</File>
 		<File>Level 1/playerObjectLogic.xml</File>
+		<File>Level 1/meteorObjectLogic.xml</File>
 	</GameLogic>
 </Level>

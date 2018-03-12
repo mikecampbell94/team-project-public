@@ -258,11 +258,11 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 						PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
 					
 					std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
-					std::uniform_int_distribution<int> uni(-2, 2); // guaranteed unbiased
+					std::uniform_int_distribution<int> uni(-4, 4); // guaranteed unbiased
 					auto random_integer1 = uni(rng);
 					auto random_integer2 = uni(rng);
 
-					meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i*10), random_integer2 * 10));
+					meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i*20), random_integer2 * 10));
 					meteor->setEnabled(true);
 
 				}
@@ -270,13 +270,6 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 				gameObject->stats.timeToWait = duration;
 				gameObject->stats.executeAfter = [gameObject, powerup]()
 				{
-					for (int i = 0; i < gameObject->stats.meteors; ++i)
-					{
-						GameObject* meteor = static_cast<GameObject*>(
-							PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
-						meteor->setEnabled(false);
-
-					}
 					gameObject->stats.executeAfter = std::function<void()>();
 					powerup->setEnabled(true);
 

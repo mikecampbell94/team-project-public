@@ -154,7 +154,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
-      <TransmitCollision>True</TransmitCollision>
+      <TransmitCollision>False</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
       <Mass>0</Mass>
       <isCollision>True</isCollision>
@@ -236,7 +236,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
-      <TransmitCollision>True</TransmitCollision>
+      <TransmitCollision>False</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
       <Mass>1</Mass>
       <isCollision>True</isCollision>
@@ -513,7 +513,7 @@
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
-      <TransmitCollision>True</TransmitCollision>
+      <TransmitCollision>False</TransmitCollision>
       <CollisionShape>Box</CollisionShape>
       <Mass>0</Mass>
       <isCollision>True</isCollision>
