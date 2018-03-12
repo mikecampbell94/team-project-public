@@ -8,6 +8,7 @@
 #include "Manifold.h"
 #include "BroadPhaseCulling.h"
 #include <vector>
+#include <unordered_set>
 
 class OctreePartitioning;
 
@@ -20,7 +21,18 @@ struct CollisionPair
 {
 	PhysicsNode* pObjectA;
 	PhysicsNode* pObjectB;
+	bool operator==(const CollisionPair& rhs) const { return(pObjectA == rhs.pObjectA && pObjectB == rhs.pObjectB) ? true : false; };
 };
+
+namespace std {
+	template <> struct hash<CollisionPair>
+	{
+		size_t operator()(const CollisionPair &x) const {
+			return hash<float>()(x.pObjectA->getPosition().x) + hash<float>()(x.pObjectB->getPosition().y) + hash<float>()(x.pObjectA->getPosition().y) + hash<float>()(x.pObjectB->getPosition().y);
+		}
+	};
+}
+
 
 class PhysicsEngine : public Subsystem
 {
@@ -95,7 +107,7 @@ private:
 	float		dampingFactor;
 
 
-	std::vector<CollisionPair>  broadphaseColPairs;
+	std::unordered_set<CollisionPair>  broadphaseColPairs;
 
 	std::vector<PhysicsNode*>	physicsNodes;
 

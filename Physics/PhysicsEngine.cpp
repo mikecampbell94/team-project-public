@@ -379,7 +379,7 @@ void PhysicsEngine::broadPhaseCollisions()
 								cp.pObjectA = nodeA;
 								cp.pObjectB = nodeB;
 
-								broadphaseColPairs.push_back(cp);
+								broadphaseColPairs.insert(cp);
 							}
 					}
 				}
@@ -429,9 +429,8 @@ void PhysicsEngine::narrowPhaseCollisions()
 
 		CollisionDetectionSAT colDetect;
 
-		for (size_t i = 0; i < broadphaseColPairs.size(); ++i)
+		for (CollisionPair cp : broadphaseColPairs)
 		{
-			CollisionPair& cp = broadphaseColPairs[i];
 
 			CollisionShape *shapeA = cp.pObjectA->getCollisionShape();
 			CollisionShape *shapeB = cp.pObjectB->getCollisionShape();
