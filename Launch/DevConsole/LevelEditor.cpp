@@ -60,7 +60,6 @@ void LevelEditor::initialiseLevelEditor(Database* providedDatabase, GameplaySyst
 		PhysicsNode* physicsnode = new PhysicsNode();
 		physicsnode->setParent(gameObject);
 		physicsnode->setEnabled(true);
-		physicsnode->setIsCollision(true);
 		physicsnode->transmitCollision = true;
 		physicsnode->setCollisionShape(devConsoleTokens[2].substr(6));
 		physicsnode->setInverseMass(stof(devConsoleTokens[3].substr(8)));

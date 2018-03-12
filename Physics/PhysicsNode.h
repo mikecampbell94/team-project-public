@@ -276,6 +276,7 @@ public:
 	bool toDeleteInOctree = false;
 	bool movedSinceLastBroadPhase = false;
 	bool transmitCollision = false;
+	bool multipleTransmitions = false;
 	bool hasTransmittedCollision = false;
 
 

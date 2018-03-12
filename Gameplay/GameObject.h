@@ -11,6 +11,7 @@ struct PaintGameStats
 	int maxPaint;
 	int currentPaint = 0;
 	float defaultInvMass = 1.f;
+	int meteors;
 	NCLVector4 colourToPaint;
 	NCLVector3 defaultScale;
 	float timeToWait;
