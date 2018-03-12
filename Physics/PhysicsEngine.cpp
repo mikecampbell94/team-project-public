@@ -465,13 +465,9 @@ void PhysicsEngine::narrowPhaseCollisions()
 void PhysicsEngine::InitialiseOctrees(int entityLimit)
 {
 	BpOct.init(NCLVector3(-200,-200,-200),NCLVector3(200,200,200));
-
-	/*octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
-	octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
-=======
 	//octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
 	//octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
->>>>>>> remotes/origin/master*/
+
 
 	//if (physicsNodes.size() > 0)
 	//{
@@ -487,5 +483,4 @@ void PhysicsEngine::InitialiseOctrees(int entityLimit)
 	//}
 
 	//broadphaseColPairs = octree->GetAllCollisionPairs();
-	////broadphaseColPairs = octree->GetAllCollisionPairs();
 }

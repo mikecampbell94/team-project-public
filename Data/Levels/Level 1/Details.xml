@@ -9,33 +9,32 @@
         <A>1</A>
       </Colour>
       <isReflective>0.8</isReflective>
-		</SceneNode>
-		<Enabled>True/False</Enabled>
-		<Position>
-			<X>0</X>
-			<Y>100</Y>
-			<Z>0</Z>
-		</Position>
-		<Rotation>
-			<X>000</X>
-			<Y>000</Y>
-			<Z>000</Z>
-			<W>000</W>
-		</Rotation>
-		<Scale>
-			<X>5</X>
-			<Y>5</Y>
-			<Z>5</Z>
-		</Scale>
-		<PhysicsNode>
-			<Enabled>True</Enabled>
-			<TransmitCollision>True</TransmitCollision>
-			<CollisionShape>Sphere</CollisionShape>
-			<Mass>1</Mass>
-			<isCollision>True</isCollision>
-			<Elasticity>0.5</Elasticity>
-			<Friction>0.9</Friction>
-      <Damping>0.995</Damping>
+</SceneNode>
+    <Enabled>True/False</Enabled>
+    <Position>
+      <X>0</X>
+      <Y>300</Y>
+      <Z>0</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>5</X>
+      <Y>5</Y>
+      <Z>5</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0.5</Elasticity>
+      <Friction>0.9</Friction>      <Damping>0.995</Damping>
       <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
@@ -481,21 +480,21 @@
     </PhysicsNode>
   </GameObjects>
 
-<GameObjects id ="paintPool" >
+<GameObjects id ="floor" >
 		<SceneNode>
-		<Mesh>HeightMap</Mesh>
+		<Mesh>CubeMesh</Mesh>
 		<Colour>
 		  <R>1</R>
-		  <G>0</G>
+		  <G>1</G>
 		  <B>1</B>
 		  <A>1</A>
 		</Colour>
 		</SceneNode>
 		<Enabled>True</Enabled>
 		<Position>
-			<X>100</X>
-			<Y>70</Y>
-			<Z>100</Z>
+			<X>000</X>
+			<Y>000</Y>
+			<Z>000</Z>
 		</Position>
 		<Rotation>
 			<X>000</X>
@@ -504,9 +503,9 @@
 			<W>45</W>
 		</Rotation>
 		<Scale>
-			<X>1.5</X>
-			<Y>1.5</Y>
-			<Z>1.5</Z>
+			<X>180</X>
+			<Y>50</Y>
+			<Z>180</Z>
 		</Scale>
 		<PhysicsNode>
 		<Enabled>True</Enabled>
@@ -516,8 +515,46 @@
 		<isCollision>True</isCollision>
 		<Elasticity>0.5</Elasticity>
 		<Friction>0.9</Friction>
-		<isStatic>True</isStatic>
+	  <isStatic>True</isStatic>
 		</PhysicsNode>
-</GameObjects> 
+</GameObjects>
+  <GameObjects id ="paintPool" >
+    <SceneNode>
+      <Mesh>HeightMap</Mesh>
+      <Colour>
+        <R>1</R>
+        <G>0</G>
+        <B>1</B>
+        <A>1</A>
+      </Colour>
+    </SceneNode>
+    <Enabled>True</Enabled>
+    <Position>
+      <X>100</X>
+      <Y>70</Y>
+      <Z>100</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>1</Y>
+      <Z>000</Z>
+      <W>45</W>
+    </Rotation>
+    <Scale>
+      <X>1.5</X>
+      <Y>1.5</Y>
+      <Z>1.5</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Box</CollisionShape>
+      <Mass>0</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0.5</Elasticity>
+      <Friction>0.9</Friction>
+      <isStatic>True</isStatic>
+    </PhysicsNode>
+  </GameObjects> 
 
 </LevelDetails>
