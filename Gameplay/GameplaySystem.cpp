@@ -56,11 +56,16 @@ GameplaySystem::GameplaySystem(Database* database)
 	
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge, &objects = objects](Message* message)
 	{
-		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
+		PlayerInputMessage* playerInputMessage = static_cast<PlayerInputMessage*>(message);
+		
+		inputBridge.processPlayerInputMessage(*playerInputMessage);
+
+		std::string gameObject = "player" + playerInputMessage->player->getPlayerID();
+		
 
 		for (GameObjectLogic& object : objects)
 		{
-			object.notify("InputMessage", message);
+			object.notify("InputMessage", message, gameObject);
 		}
 	});
 
@@ -72,7 +77,13 @@ GameplaySystem::GameplaySystem(Database* database)
 		
 		for (GameObjectLogic& object : objects)
 		{
-			object.notify("CollisionMessage", message);
+			for (GameLogic& logic : object.logics)
+			{
+				if (collisionmessage->objectIdentifier == logic.gameObject)
+				{
+					object.notify("CollisionMessage", message, collisionmessage->objectIdentifier);
+				}
+			}
 		}
 
 	});
