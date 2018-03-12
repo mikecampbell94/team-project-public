@@ -16,6 +16,7 @@ public:
 	~RenderingSystem();
 
 	void initialise(Database* database);
+	void renderLoadingScreen(const float& deltaTime);
 
 	void SetSceneToRender(SceneManager* scene, Database* database);
 	void updateNextFrame(const float& deltaTime) override;

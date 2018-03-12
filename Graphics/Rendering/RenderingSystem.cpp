@@ -216,6 +216,11 @@ void RenderingSystem::initialise(Database* database)
 	});
 }
 
+void RenderingSystem::renderLoadingScreen(const float& deltaTime)
+{
+	renderer->renderLoadingScreen(deltaTime);
+}
+
 void RenderingSystem::SetSceneToRender(SceneManager* scene, Database* database)
 {
 	renderer->initialise(scene, database);

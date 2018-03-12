@@ -62,6 +62,7 @@ void Startup::initialiseRenderingSystem()
 	nodes = new std::vector<SceneNode*>();
 	scene = new SceneManager(camera, nodes);
 
+	rendering->renderLoadingScreen(0.0f);
 	//rendering->initialise(database);
 	//rendering->SetSceneToRender(scene);
 }

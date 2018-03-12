@@ -19,6 +19,8 @@ public:
 	Renderer(GameTimer* parentTimer, Window* window, Camera* camera);
 	~Renderer();
 
+	void renderLoadingScreen(const float& deltatime);
+
 	void initialise(SceneManager* sceneManager, Database* database);
 	void update(const float& deltatime);
 
@@ -51,5 +53,8 @@ private:
 	NCLVector2 resolution;
 	NCLMatrix4 globalProjectionMatrix;
 	NCLMatrix4 globalOrthographicMatrix;
+
+	SceneNode* loadingScreenMesh;
+	Shader* loadingScreenShader;
 };
 
