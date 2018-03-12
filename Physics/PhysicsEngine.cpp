@@ -144,13 +144,15 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 		gObj->getPhysicsNode()->applyImpulse(impulse);
 	});
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [database](Message* message)
+	float dt = getDeltaTime();
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::UPDATE_POSITION, [database, &dt](Message* message)
 	{
 		UpdatePositionMessage* positionMessage = static_cast<UpdatePositionMessage*>(message);
 
 		GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(positionMessage->gameObjectID));
 
-		gObj->getPhysicsNode()->setPosition(positionMessage->position);
+		gObj->getPhysicsNode()->setPosition((positionMessage->position)*dt);
 	});
 
 	updateTimestep = 1.0f / 60.f;
