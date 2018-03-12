@@ -49,6 +49,7 @@ public:
 	void insertMessage(RotateGameObjectMessage message) override;
 	void insertMessage(ToggleGameObjectMessage message) override;
 	void insertMessage(TogglePlayerInputKeyMessage message) override;
+	void insertMessage(DebugMessage message) override;
 
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
@@ -80,5 +81,6 @@ private:
 	MessageBuffer<RotateGameObjectMessage> rotateGameObjectBuffer;
 	MessageBuffer<ToggleGameObjectMessage> toggleGameObjectBuffer;
 	MessageBuffer<TogglePlayerInputKeyMessage> togglePlayerInputKeyBuffer;
+	MessageBuffer<DebugMessage> debugBuffer;
 };
 

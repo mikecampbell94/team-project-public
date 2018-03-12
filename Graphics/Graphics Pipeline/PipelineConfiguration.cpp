@@ -69,6 +69,10 @@ void PipelineConfiguration::initialiseModules(Database* database)
 	scoreCounter->initialise();
 	scoreCounter->paintTrailTexture = &paintTrail->paintTrailTexture;
 
+	wireframe = new Wireframe("Wireframe", resolution, camera);
+	wireframe->linkShaders();
+	wireframe->initialise();
+
 	gBuffer->setReflectionTextureID(skybox->textureID);
 }
 
@@ -83,4 +87,5 @@ void PipelineConfiguration::buildPipeline(GraphicsPipeline* pipeline)
 	pipeline->addModule(uiModule);
 	pipeline->addModule(gameText);
 	pipeline->addModule(scoreCounter);
+	pipeline->addModule(wireframe);
 }

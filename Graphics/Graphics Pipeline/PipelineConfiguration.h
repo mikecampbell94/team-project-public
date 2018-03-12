@@ -20,6 +20,7 @@
 #include "Graphics Settings/PaintTrail.h"
 #include "Graphics Settings/GameText.h"
 #include "Graphics Settings/ScoreCounter.h"
+#include "Graphics Settings/Wireframe.h"
 
 class Database;
 class Camera;
@@ -54,5 +55,6 @@ private:
 	PaintTrail* paintTrail;
 	GameText* gameText;
 	ScoreCounter* scoreCounter;
+	Wireframe* wireframe;
 };
 

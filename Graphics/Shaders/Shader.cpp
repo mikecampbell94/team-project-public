@@ -145,7 +145,7 @@ string Shader::IncludeShader(string includeLine)
 
 void Shader::SetDefaultAttributes() {
 	glBindAttribLocation(program, 0, "position");
-	//glBindAttribLocation(program, COLOUR_BUFFER, "colour");
+	glBindAttribLocation(program, 1, "colour");
 	//glBindAttribLocation(program, NORMAL_BUFFER, "normal");
 	//glBindAttribLocation(program, TANGENT_BUFFER, "tangent");
 	glBindAttribLocation(program, 2, "texCoord");
