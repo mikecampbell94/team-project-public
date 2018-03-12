@@ -52,12 +52,12 @@ void ScoreCounter::initialise()
 
 void ScoreCounter::apply()
 {
-	currentCount++;
+	elapsedTime += timer.getTimeSinceLastRetrieval();
 
-	if (currentCount > maxCount)
+	if (elapsedTime >= 240.0f)
 	{
 		calculateScores();
-		currentCount = 0;
+		elapsedTime = 0;
 	}
 	
 	displayScores();
