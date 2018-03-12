@@ -34,6 +34,8 @@ public:
 
 	bool isTimed = false;
 
+	std::string gameObject = "";
+
 private:
 	MessageProcessor* messages;
 	std::vector<std::pair<std::string, Message>> publishers;
@@ -43,6 +45,8 @@ private:
 
 	std::string scriptFile = "";
 	std::vector<float> timers;
+
+	
 	
 
 };

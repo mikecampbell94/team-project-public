@@ -36,11 +36,17 @@ void GameObjectLogic::compileParsedXMLIntoScript()
 	}
 }
 
-void GameObjectLogic::notify(const std::string& messageType, Message* message)
+void GameObjectLogic::notify(const std::string& messageType, Message* message, std::string gameObject)
 {
+	CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
+
 	for (GameLogic& logic : logics)
 	{
-		logic.notifyMessageActions(messageType, message);
+		if (gameObject == logic.gameObject)
+		{
+			logic.notifyMessageActions(messageType, message);
+		}
+		
 	}
 }
 
@@ -84,6 +90,7 @@ void GameObjectLogic::compileLogicFromNodes(Node* logicNode, const std::vector<N
 
 		logics.push_back(GameLogic(messages));
 		logics[logics.size() - 1].compileParsedXMLIntoScript(logicNode);
+		logics[logics.size() - 1].gameObject = resource->value;
 
 		changeResourceBack(&logicNode, resource->value);
 	}
