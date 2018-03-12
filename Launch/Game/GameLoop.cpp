@@ -39,6 +39,7 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 		{
 			DeliverySystem::getPostman()->cancelOutgoingMessages();
 			startup->switchLevel();
+			//startup->unloadLevel();
 			deltaTimeMultiplier = 1.0f;
 			//engine->processMessagesForAllSubsystems();
 			//DeliverySystem::getPostman()->clearAllMessages();
@@ -52,6 +53,7 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 			{
 				startup->loadLevel(tokens[2], false);
 			}
+			XMLParser::deleteAllParsedXML();
 		}
 		else if (tokens[0] == "deltatime")
 		{

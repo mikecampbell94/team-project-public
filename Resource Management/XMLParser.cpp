@@ -5,6 +5,8 @@
 
 const int XML_DATA_START = 0;
 
+std::vector<Node*> XMLParser::rootNodesToDelete = std::vector<Node*>();
+
 XMLParser::XMLParser()
 {
 }
@@ -40,6 +42,8 @@ std::string XMLParser::loadFile(std::string filename)
 	parsedXml = new Node();
 	recursivelyParse(firstNode, &parsedXml);
 
+	XMLParser::rootNodesToDelete.push_back(parsedXml);
+
 	return parsedXml->nodeType;
 }
 
@@ -65,6 +69,16 @@ void XMLParser::recursivelyParse(rapidxml::xml_node<>* unParsedNode, Node** pars
 			recursivelyParse(unParsedNode, &(*parsedNode)->children[i]);
 		}
 	}
+}
+
+void XMLParser::deleteAllParsedXML()
+{
+	for (Node* rootNode : XMLParser::rootNodesToDelete)
+	{
+		deleteAllNodes(rootNode);
+	}
+
+	XMLParser::rootNodesToDelete.clear();
 }
 
 void XMLParser::deleteAllNodes(Node* currentNode)

@@ -39,6 +39,7 @@ void Startup::initialiseSubsystems()
 	game->addWindowToGameLoop(window);
 	game->addCameraToGameLoop(camera);
 	game->addGameTimerToGameLoop(loopTimer);
+	LevelEditor::initialiseLevelEditor(database, gameplay);
 }
 
 void Startup::initialiseRenderingSystem()
@@ -102,7 +103,6 @@ void Startup::initialiseDatabaseAndTables()
 {
 	database = new Database();
 	tableCreation = new TableCreation(database);
-	LevelEditor::initialiseLevelEditor(database);
 	profiler = new Profiler(window->getKeyboard(), database, new FPSCounter());
 	game->database = database;
 }
@@ -136,8 +136,9 @@ void Startup::addSystemsToEngine()
 
 void Startup::loadMainMenu()
 {
-	level->loadLevelFile(LEVELDIR"MainMenu.xml", gameplay);
-
+	XMLParser::deleteAllParsedXML();
+	level->loadLevelFile(LEVELDIR + "MainMenu.xml", gameplay);
+	XMLParser::deleteAllParsedXML();
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
 
@@ -146,8 +147,8 @@ void Startup::loadMainMenu()
 
 void Startup::loadLevel(std::string levelFile, bool online)
 {
+	XMLParser::deleteAllParsedXML();
 	
-
 	gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
 	physics->InitialiseOctrees(100);
@@ -164,20 +165,31 @@ void Startup::loadLevel(std::string levelFile, bool online)
 
 	//XMLWriter writer(database);
 	//writer.saveLevelFile("myLevel");
+	XMLParser::deleteAllParsedXML();
 }
 
 void Startup::switchLevel()
 {
+	XMLParser::deleteAllParsedXML();
+	gameplay->setDefaultGameplayScript();
+	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
+	rendering->clearPainters();
 	level->unloadLevelWhileKeepingUserInterface();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	XMLParser::deleteAllParsedXML();
 }
 
 void Startup::unloadLevel()
 {
+	XMLParser::deleteAllParsedXML();
+	gameplay->setDefaultGameplayScript();
+	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
+	rendering->clearPainters();
 	level->unloadLevel();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	XMLParser::deleteAllParsedXML();
 }
 
 void Startup::beginOnlineLobby()

@@ -31,6 +31,10 @@ public:
 	GraphicsModule* getGraphicsModule(const std::string& moduleName);
 
 	GraphicsPipeline* getPipeLine() { return &pipeline; }
+	SceneManager* getSceneManager()
+	{
+		return sceneManager;
+	}
 
 private:
 	void updateScene(const float& msec) override;

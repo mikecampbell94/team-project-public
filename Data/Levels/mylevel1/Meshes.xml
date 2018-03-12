@@ -5,8 +5,5 @@
 	<Meshes name="CubeMesh">
 		<MeshFile>../Data/Resources/Meshes/centeredcube.obj</MeshFile>
 	</Meshes>
-	<Meshes name="cube">
-		<MeshFile>../Data/Resources/Meshes/centeredcube.obj</MeshFile>
-	</Meshes>
 </LevelMeshes>
 

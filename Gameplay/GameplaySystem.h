@@ -26,6 +26,16 @@ public:
 	void deleteGameObjectScripts();
 	void compileGameObjectScripts();
 
+	std::string getGameplayFile()
+	{
+		return gameplayScript;
+	}
+
+	std::vector<GameObjectLogic>* getGameObjectLogics()
+	{
+		return &objects;
+	}
+
 private:
 	GameLogic gameLogic;
 	std::vector<GameObjectLogic> objects;
@@ -36,6 +46,7 @@ private:
 
 
 	std::vector<std::string> gameObjectLogicRemoveBuffer;
+	std::string gameplayScript = "";
 	bool levelFinished = false;
 };
 

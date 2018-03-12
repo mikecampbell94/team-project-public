@@ -56,6 +56,11 @@ public:
 		return buffer;
 	}
 
+	std::string getSoundFile()
+	{
+		return file;
+	}
+
 	ALenum getOALFormat();
 	double getLength();
 
@@ -64,6 +69,7 @@ public:
 
 private:
 	ALuint buffer;
+	std::string file;
 
 	char *data;
 	float freqRate;
