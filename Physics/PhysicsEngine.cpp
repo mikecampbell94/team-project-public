@@ -362,12 +362,26 @@ void PhysicsEngine::broadPhaseCollisions()
 			{
 				for (size_t j = i + 1; j < p.nodesInArea.size(); ++j)
 				{
-					nodeA = p.nodesInArea[i];
-					nodeB = p.nodesInArea[j];
+					if (p.nodesInArea[i]->getEnabled())
+					{
+						nodeA = p.nodesInArea[i];
+					}
+					else 
+					{
+						continue;
+					}
+					
+					if (p.nodesInArea[j]->getEnabled())
+					{
+						nodeB = p.nodesInArea[j];
+					}
+					else
+					{
+						continue;
+					}
 
 					//lets check collisions with broadphase shapes
-
-
+				
 
 					//Check they both atleast have collision shapes
 
