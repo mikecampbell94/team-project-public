@@ -114,7 +114,7 @@ void SoundNode::detachSource()
 	alSourceStop(oalSource->source);
 	alSourcei(oalSource->source, AL_BUFFER, 0);
 	oalSource->inUse = false;
-	oalSource = NULL;
+	oalSource = nullptr;
 }
 
 void SoundNode::update(float msec)

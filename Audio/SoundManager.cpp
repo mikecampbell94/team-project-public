@@ -27,8 +27,9 @@ SoundManager::~SoundManager()
 
 	for (vector<OALSource*>::iterator i = OALSources.begin(); i != OALSources.end(); ++i)
 	{
-		alDeleteSources(1, &(*i)->source);
 		delete *i;
+		*i = nullptr;
+		alDeleteSources(1, &(*i)->source);
 	}
 
 	alcDestroyContext(context);
@@ -168,7 +169,7 @@ void SoundManager::update(const float& deltaTime)
 		}
 		else
 		{
-			if(node.state == SoundState::PAUSED)
+			if(node.getState() == SoundState::PAUSED)
 			{
 				node.unpauseSound();
 			}
