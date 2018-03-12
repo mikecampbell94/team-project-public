@@ -162,7 +162,18 @@ void SoundManager::update(const float& deltaTime)
 
 	for (SoundNode& node : soundNodes)
 	{
-		node.update(deltaTime);
+		if (deltaTime == 0.0f)
+		{
+			node.pauseSound();
+		}
+		else
+		{
+			if(node.state == SoundState::PAUSED)
+			{
+				node.unpauseSound();
+			}
+			node.update(deltaTime);
+		}
 	}
 
 	cullNodes();

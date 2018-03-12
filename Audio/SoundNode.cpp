@@ -100,6 +100,7 @@ void SoundNode::attachSource(OALSource *s)
 	alSourcei(oalSource->source, AL_BUFFER, sound->getBuffer());
 	alSourcef(oalSource->source, AL_SEC_OFFSET, (sound->getLength() / 1000.0) - (timeLeft / 1000.0));
 	alSourcePlay(oalSource->source);
+	state = SoundState::PLAYING;
 }
 
 void SoundNode::detachSource()
@@ -119,12 +120,12 @@ void SoundNode::detachSource()
 void SoundNode::update(float msec)
 {
 	timeLeft -= msec;
-	
-	while (isLooping && timeLeft < 0.0f) 
+
+	while (isLooping && timeLeft < 0.0f)
 	{
 		timeLeft += sound->getLength();
 	}
-	
+
 	if (oalSource)
 	{
 		if (!isMoving)
@@ -143,11 +144,23 @@ void SoundNode::update(float msec)
 			ALfloat pos[] = { movingPosition->x, movingPosition->y, movingPosition->z };
 			alSourcefv(oalSource->source, AL_POSITION, pos);
 		}
-		
+
 
 		alSourcef(oalSource->source, AL_GAIN, volume);
 		alSourcei(oalSource->source, AL_LOOPING, isLooping ? 1 : 0);
 		alSourcef(oalSource->source, AL_MAX_DISTANCE, radius);
 		alSourcef(oalSource->source, AL_REFERENCE_DISTANCE, radius * 0.2f);
 	}
+}
+
+void SoundNode::pauseSound()
+{
+	state = SoundState::PAUSED;
+	alSourcePause(oalSource->source);
+}
+
+void SoundNode::unpauseSound()
+{
+	state = SoundState::PLAYING;
+	alSourcePlay(oalSource->source);
 }

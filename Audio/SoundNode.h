@@ -5,6 +5,12 @@
 #include "Sound.h"
 #include "../Gameplay/GameObject.h"
 
+enum SoundState
+{
+	PLAYING,
+	PAUSED
+};
+
 class PlaySoundMessage;
 class PlayMovingSoundMessage;
 class StopSoundMessage;
@@ -102,11 +108,15 @@ public:
 	bool isMoving = false;
 	bool isGlobal;
 	std::string identifier;
+	SoundState state;
 
 	GameObject* getObject()
 	{
 		return gObj;
 	}
+
+	void pauseSound();
+	void unpauseSound();
 
 private:
 	void setSound(Sound *s);
@@ -131,6 +141,8 @@ private:
 	float pitch;
 	bool isLooping;
 	double timeLeft;
+
+	
 	
 
 	GameObject* gObj;
