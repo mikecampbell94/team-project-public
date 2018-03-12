@@ -26,15 +26,14 @@ public:
 	void deleteGameObjectScripts();
 	void compileGameObjectScripts();
 
-	//hardcoded test stuff REMOVE!
-	void setTimedLevel(float maxTime)
+	std::string getGameplayFile()
 	{
-		gameLogic.maxTime = maxTime;
-		gameLogic.isTimed = true;
+		return gameplayScript;
 	}
-	void setUnTimedLevel()
+
+	std::vector<GameObjectLogic>* getGameObjectLogics()
 	{
-		gameLogic.isTimed = false;
+		return &objects;
 	}
 
 private:
@@ -44,7 +43,10 @@ private:
 	XMLParser inputParser;
 	Database* database;
 
+
+
 	std::vector<std::string> gameObjectLogicRemoveBuffer;
+	std::string gameplayScript = "";
 	bool levelFinished = false;
 };
 

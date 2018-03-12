@@ -35,13 +35,13 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 		}
 		else if (child->nodeType == "GamePlay")
 		{
-			gameplay->compileGameplayScript(child->children[0]->value);
+			gameplay->compileGameplayScript(LEVELDIR + child->children[0]->value);
 		}
 		else if (child->nodeType == "GameLogic")
 		{
 			for (Node* grandChild : child->children)
 			{
-				gameplay->addGameObjectScript(grandChild->value);
+				gameplay->addGameObjectScript(LEVELDIR + grandChild->value);
 			}
 		}
 		else
@@ -49,8 +49,6 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 			parser.loadFile(LEVELDIR + child->value);
 			for (Node* grandchild : parser.parsedXml->children)
 			{
-				listOfObjectTypesInLevel.insert(grandchild->nodeType);
-
 				database->addResourceToTable(grandchild->nodeType, grandchild);
 			}
 
@@ -65,39 +63,34 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 
 void Level::unloadLevelWhileKeepingUserInterface()
 {
-	//send message to renderer to clear score ui
-	//DeliverySystem::getPostman()->insertMessage(ClearScoresMessage("RenderingSystem", "ScoreCounter"));
-
 	MoveCameraRelativeToGameObjectMessage::resourceName = "";
 	(*sceneManager->getAllNodes())->clear();
 	(*sceneManager->getAllLights())->clear();
 	physics->removeAllPhysicsObjects();
 
-	for each (std::string table in listOfObjectTypesInLevel)
+	std::vector<Table<Resource>*> tables = database->getAllTables();
+
+	for (Table<Resource>* table : tables)
 	{
-		if (table != "UIMeshes")
+		if (table->getName() != "UIMeshes")
 		{
-			database->getTable(table)->getAllResources()->deleteAllResources();
+			table->getAllResources()->deleteAllResources();
 		}
 	}
 }
 
 void Level::unloadLevel()
 {
-	//send message to renderer to clear score ui
-	
-
 	MoveCameraRelativeToGameObjectMessage::resourceName = "";
 	(*sceneManager->getAllNodes())->clear();
 	(*sceneManager->getAllLights())->clear();
 	physics->removeAllPhysicsObjects();
 
-	
+	std::vector<Table<Resource>*> tables = database->getAllTables();
 
-	//for (std::vector<std::string>::const_iterator it = listOfObjectTypesInLevel.begin(); it != listOfObjectTypesInLevel.end(); ++it)
-	for each (std::string table in listOfObjectTypesInLevel)
+	for (Table<Resource>* table : tables)
 	{
-		database->getTable(table)->getAllResources()->deleteAllResources();
+		table->getAllResources()->deleteAllResources();
 	}
 }
 

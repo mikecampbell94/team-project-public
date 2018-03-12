@@ -176,19 +176,17 @@ void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 	physicsNodes.push_back(obj);
 	BpOct.sortNode(obj);
 
-	if (obj->transmitCollision)
+	obj->setOnCollisionCallback([](PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData collisionData)
 	{
-		obj->setOnCollisionCallback([](PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData collisionData)
+		if (this_obj->transmitCollision)
 		{
-			if (!this_obj->hasTransmittedCollision)
-			{
-				DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
-					this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
-				this_obj->hasTransmittedCollision = true;
-			}
+			DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
+				this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
+			this_obj->hasTransmittedCollision = true;
+			
 			return true;
-		});
-	}
+		}
+	});
 
 	obj->setOnUpdateCallback(std::bind(
 		&PhysicsEngine::OctreeChanged,
@@ -227,7 +225,7 @@ void PhysicsEngine::removeAllPhysicsObjects()
 	{
 		if (obj->getParent())
 			obj->getParent()->setPhysicsNode(nullptr);
-		//delete obj;
+		delete obj;
 	}
 	physicsNodes.clear();
 	BpOct.clear();
@@ -470,19 +468,24 @@ void PhysicsEngine::InitialiseOctrees(int entityLimit)
 
 	/*octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
 	octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
+=======
+	//octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
+	//octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
+>>>>>>> remotes/origin/master*/
 
-	if (physicsNodes.size() > 0)
-	{
-		octree->BuildInitialTree();
-	}
+	//if (physicsNodes.size() > 0)
+	//{
+	//	octree->BuildInitialTree();
+	//}
 
-	octreeChanged = false;
-	octreeInitialised = true;
+	//octreeChanged = false;
+	//octreeInitialised = true;
 
-	for (PhysicsNode* node : physicsNodes)
-	{
-		node->movedSinceLastBroadPhase = false;
-	}
+	//for (PhysicsNode* node : physicsNodes)
+	//{
+	//	node->movedSinceLastBroadPhase = false;
+	//}
 
-	broadphaseColPairs = octree->GetAllCollisionPairs();*/
+	//broadphaseColPairs = octree->GetAllCollisionPairs();
+	////broadphaseColPairs = octree->GetAllCollisionPairs();
 }

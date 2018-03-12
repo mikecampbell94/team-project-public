@@ -59,9 +59,12 @@ ButtonAction ButtonActionCreator::createButtonAction(Node* actionNode)
 {
 	if (actionNode->name == "Start")
 	{
-		return [node = actionNode]()
+		std::string s1 = actionNode->children[0]->value;
+		std::string s2 = actionNode->children[1]->value;
+
+		return [s1, s2]()
 		{
-			DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "Start " + node->children[0]->value + " " + node->children[1]->value));
+			DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "Start " + s1 + " " + s2));
 		};
 	}
 	else if (actionNode->name == "Resolution")
@@ -69,7 +72,7 @@ ButtonAction ButtonActionCreator::createButtonAction(Node* actionNode)
 		float xResolution = std::stof(actionNode->children[0]->value);
 		float yResolution = std::stof(actionNode->children[1]->value);
 
-		return [node = actionNode, xResolution, yResolution]()
+		return [xResolution, yResolution]()
 		{
 			DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "Resolution " + std::to_string(xResolution) + " " + std::to_string(yResolution)));
 		};

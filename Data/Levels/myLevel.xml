@@ -1,6 +1,8 @@
 <Level>
-	<File>myLevel/Meshes.xml</File>
-	<File>myLevel/Details.xml</File>
+	<File>mylevel/Meshes.xml</File>
+	<File>mylevel/Details.xml</File>
+	<File>mylevel/Sounds.xml</File>
+	<File>mylevel/Lights.xml</File>
 	<UI>
 		<File>../Data/UserInterface/InGameMenu.xml</File>
 	</UI>

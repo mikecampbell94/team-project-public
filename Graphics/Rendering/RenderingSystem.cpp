@@ -61,6 +61,23 @@ void RenderingSystem::initialise(Database* database)
 		{
 			renderer->removeSceneNodeByResourceName(tokens[1]);
 		}
+		else if (tokens[0] == "addlight")
+		{
+			Light* light = static_cast<Light*>(database->getTable("Lights")->getResource(tokens[1]));
+			(*renderer->getSceneManager()->getAllLights())->push_back(light);
+		}
+		else if (tokens[0] == "removelight")
+		{
+			for (auto lightIterator = (*renderer->getSceneManager()->getAllLights())->begin();
+				lightIterator != (*renderer->getSceneManager()->getAllLights())->end(); ++lightIterator)
+			{
+				if ((*lightIterator)->getName() == tokens[1])
+				{
+					(*renderer->getSceneManager()->getAllLights())->erase(lightIterator);
+					break;
+				}
+			}
+		}
 		else if (tokens[0] == "Resolution")
 		{
 			NCLVector2 resolution(stof(tokens[1]), stof(tokens[2]));
