@@ -5,10 +5,11 @@
 #include <iostream>
 #include <ctime>
 
-System::System()
+System::System(ThreadPool* threadPool)
 {
 	letterBox = new LetterBox();
 	DeliverySystem::provide(letterBox);
+	this->threadPool = threadPool;
 }
 
 System::~System()
@@ -23,7 +24,7 @@ void System::updateNextSystemFrame(const float& deltaTime)
 
 	for (Subsystem* subsystem : concurrentSubsystems)
 	{
-		updates.push_back(threadPool.submitJob([](float deltaTime, Subsystem* subsystem)
+		updates.push_back(threadPool->submitJob([](float deltaTime, Subsystem* subsystem)
 		{
 			subsystem->updateSubsystem(deltaTime);
 		}, deltaTime, subsystem));

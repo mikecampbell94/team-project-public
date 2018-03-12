@@ -7,24 +7,11 @@
 #pragma comment(lib, "Resource Management.lib")
 #pragma comment(lib, "Audio.lib")
 #pragma comment(lib, "Physics.lib")
-//#pragma comment(lib, "IPHLPAPI.lib")
 
 #include <enet\enet.h>
-
-
-
 #include "Systems\System.h"
-#include "Game/GameLoop.h"
-
-#include "Graphics/Rendering/RenderingSystem.h"
-
 #include "Launch/Startup.h"
-
-//#include <iphlpapi.h>
-#include <Utilities/NetworkBase.h>
 #include "Communication/SendMessageActionBuilder.h"
-//#include "../Tuts_Network_Server/NetworkBase.h"
-//#include <ENET/include/enet/enet.h>
 
 int main()
 {
@@ -34,21 +21,26 @@ int main()
 	}
 
 	SendMessageActionBuilder::initialiseBuilders();
+	ThreadPool threadPool;
 	
+	Startup startup(&threadPool);
+	startup.initialiseRenderingSystem();
 
-	Startup startup;
-	startup.initialiseSubsystems();
-	//startup.loadLevel("TestLevel.txt");
-	startup.loadMainMenu();
+	bool loaded = false;
+
+	threadPool.submitJob([&startup = startup, &loaded = loaded]()
+	{
+		startup.initialiseSubsystems();
+		startup.loadMainMenu();
+
+		loaded = true;
+	});
+
+	while (!loaded)
+	{
+		startup.renderLoadingScreen();
+	}
 	startup.startGameLoop();
-
-	//ShutdownClass here
-	//shutdown.clearAllSubsystems();
-	//shutdown.close(); ?
-
-	//System engine;
-	//GameLoop game(engine);
-	//game.executeGameLoop();
 
     return 0;
 }

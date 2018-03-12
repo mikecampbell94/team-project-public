@@ -10,9 +10,9 @@
 #include "Resource Management/XMLWriter.h"
 //#include "Resource Management/XMLWriter.h"
 
-Startup::Startup()
+Startup::Startup(ThreadPool* threadpool)
 {
-	engine = new System();
+	engine = new System(threadpool);
 	game = new GameLoop(engine, nullptr, this);
 	loopTimer = new GameTimer();
 }
@@ -22,9 +22,13 @@ Startup::~Startup()
 
 }
 
+void Startup::renderLoadingScreen()
+{
+	rendering->renderLoadingScreen(0.0f);
+}
+
 void Startup::initialiseSubsystems()
 {
-	initialiseRenderingSystem();
 	initialiseDatabaseAndTables();
 	initialiseAudioSystem();
 	physics = new PhysicsEngine(database);
@@ -61,8 +65,9 @@ void Startup::initialiseRenderingSystem()
 	
 	nodes = new std::vector<SceneNode*>();
 	scene = new SceneManager(camera, nodes);
+	rendering->initialise(database);
+	rendering->SetSceneToRender(scene, database);
 
-	rendering->renderLoadingScreen(0.0f);
 	//rendering->initialise(database);
 	//rendering->SetSceneToRender(scene);
 }
@@ -75,14 +80,12 @@ void Startup::initialiseAudioSystem()
 void Startup::initialiseInputSystem()
 {
 	//---------------------------------
-	rendering->initialise(database);
 	//---------------------------------
 
 	//node = new SceneNode("../Data/meshes/centeredcube.obj");
 	//node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
 
 	//-------------------------------------------
-	rendering->SetSceneToRender(scene, database);
 	//-------------------------------------------
 
 	keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
@@ -167,17 +170,17 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
 
-	if(levelFile == "MainMenu.xml")
-	{
-		DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-			SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
-	}
-	else
-	{
-		//Maybe have a parser in audio system to parse xml script for audio - then use the game object logic parser for object logic audio?
-		DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-			SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "vega", "LevelMusic"));
-	}
+	//if(levelFile == "MainMenu.xml")
+	//{
+	//	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+	//		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
+	//}
+	//else
+	//{
+	//	//Maybe have a parser in audio system to parse xml script for audio - then use the game object logic parser for object logic audio?
+	//	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
+	//		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "vega", "LevelMusic"));
+	//}
 
 	
 

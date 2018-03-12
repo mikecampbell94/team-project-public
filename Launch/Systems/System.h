@@ -13,7 +13,7 @@ class LetterBox;
 class System
 {
 public:
-	System();
+	System(ThreadPool* threadPool);
 	~System();
 
 	void updateNextSystemFrame(const float& deltaTime);
@@ -26,7 +26,7 @@ public:
 private:
 	MessageStorage messageBuffers;
 	LetterBox* letterBox;
-	ThreadPool threadPool;
+	ThreadPool* threadPool;
 
 	std::vector<Subsystem*> subsystems;
 	std::vector<Subsystem*> concurrentSubsystems;
