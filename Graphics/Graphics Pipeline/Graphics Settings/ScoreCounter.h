@@ -3,6 +3,7 @@
 #include "../GraphicsModule.h"
 #include "../../Shaders/ComputeShader.h"
 #include "../../Meshes/TextMesh.h"
+#include "../../Utilities/GameTimer.h"
 
 class Database;
 
@@ -49,7 +50,7 @@ private:
 	std::vector<NCLVector4> coloursToCount;
 	std::vector<std::string> scoreHolders;
 
-	int maxCount = 60;
-	int currentCount = 0;
+	GameTimer timer;
+	float elapsedTime = 0;
 };
 
