@@ -112,7 +112,7 @@ public:
 	float reflectiveStrength = 0.0f;
 
 protected:
-	bool		enabled;
+	
 	SceneNode*	parent;
 	Mesh*		mesh;
 	NCLMatrix4		worldTransform;
