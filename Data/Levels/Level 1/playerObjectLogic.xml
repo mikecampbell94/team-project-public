@@ -41,6 +41,7 @@
 			</Action>
 		</ReceiveMessage>
 
+	
 		<ReceiveMessage type="CollisionMessage">
 		<Action>
 			<Condition>
@@ -55,6 +56,7 @@
 				<colliderIdentifier>enemy</colliderIdentifier>
 			</Condition>
 
+			
 			<SendMessage type="MOVING_SOUND">
 				<destination>AudioSystem</destination>
 				<priority>SOUNDPRIORITY_HIGH</priority>
@@ -63,11 +65,13 @@
 				<pitch>1.0</pitch>
 				<isLooping>false</isLooping>
 				<isGlobal>true</isGlobal>
-				<sound>punch1</sound>
+				<sound>smack1</sound>
 				<soundNodeID>collision</soundNodeID>
 			</SendMessage>
+			
 		</Action>
 	 </ReceiveMessage>
+	 
 		
 	</GameplayScript>
 

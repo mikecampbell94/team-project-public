@@ -19,7 +19,7 @@ Startup::Startup()
 
 Startup::~Startup()
 {
-
+	
 }
 
 void Startup::initialiseSubsystems()
@@ -175,8 +175,8 @@ void Startup::switchLevel()
 	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
 	rendering->clearPainters();
-	level->unloadLevelWhileKeepingUserInterface();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	level->unloadLevelWhileKeepingUserInterface();
 	XMLParser::deleteAllParsedXML();
 }
 
@@ -187,8 +187,8 @@ void Startup::unloadLevel()
 	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
 	rendering->clearPainters();
-	level->unloadLevel();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	level->unloadLevel();
 	XMLParser::deleteAllParsedXML();
 }
 

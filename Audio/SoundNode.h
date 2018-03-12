@@ -108,11 +108,16 @@ public:
 	bool isMoving = false;
 	bool isGlobal;
 	std::string identifier;
-	SoundState state;
+	
 
 	GameObject* getObject()
 	{
 		return gObj;
+	}
+
+	SoundState getState()
+	{
+		return state;
 	}
 
 	void pauseSound();
@@ -141,9 +146,7 @@ private:
 	float pitch;
 	bool isLooping;
 	double timeLeft;
-
-	
-	
+	SoundState state;
 
 	GameObject* gObj;
 };

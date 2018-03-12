@@ -62,6 +62,7 @@
 		<!--<DecreasePaint>var</DecreasePaint>-->
 	</Timed>
 	
+	
 	<Timed interval="0.5">
 		<SendMessage type="MOVING_SOUND">
 			<destination>AudioSystem</destination>
@@ -76,6 +77,7 @@
 			<gameObjectID>enemy</gameObjectID>
 		</SendMessage>
     </Timed>
+	
 </GameplayScript>
 
 <HardCodedLogic>
