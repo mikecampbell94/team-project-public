@@ -101,7 +101,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					physicsNode->setParent(meteor);
 					physicsNode->transmitCollision = true;
 					physicsNode->setCollisionShape("Sphere");
-					physicsNode->setInverseMass(0.5f);
+					physicsNode->setInverseMass(0.2f);
 					physicsNode->setInverseInertia(physicsNode->getCollisionShape()->buildInverseInertia(physicsNode->getInverseMass()));
 					physicsNode->setStatic(false);
 
@@ -258,11 +258,11 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 						PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
 					
 					std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
-					std::uniform_int_distribution<int> uni(-4, 4); // guaranteed unbiased
+					std::uniform_int_distribution<int> uni(-6, 6); // guaranteed unbiased
 					auto random_integer1 = uni(rng);
 					auto random_integer2 = uni(rng);
 
-					meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i*20), random_integer2 * 10));
+					meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i*40), random_integer2 * 10));
 					meteor->setEnabled(true);
 
 				}
@@ -297,7 +297,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 				gameObject->stats.timeToWait = duration;
 
 				std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
-				std::uniform_int_distribution<int> uni(0, 1); // guaranteed unbiased
+				std::uniform_int_distribution<int> uni(0, 2); // guaranteed unbiased
 				auto random_integer = uni(rng);
 
 				switch (random_integer)
@@ -311,6 +311,24 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					case SPEED_POWERUP:
 					{
 						gameObject->stats.defaultInvMass *= multiplier;
+						break;
+					}
+					case METEOR_POWERUP:
+					{
+						for (int i = 0; i < gameObject->stats.meteors; ++i)
+						{
+							GameObject* meteor = static_cast<GameObject*>(
+								PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
+
+							std::mt19937 rng2(rd());    // random-number engine used (Mersenne-Twister in this case)
+							std::uniform_int_distribution<int> uni2(-6, 6); // guaranteed unbiased
+							auto random_integer1 = uni2(rng2);
+							auto random_integer2 = uni2(rng2);
+
+							meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10));
+							meteor->setEnabled(true);
+
+						}
 						break;
 					}
 					default:

@@ -50,8 +50,8 @@
 			<CreateMeteorPool>
 				<resource>var</resource>
 				<amount>10</amount>
-				<Mesh>SphereMesh</Mesh>
-				<Size>10</Size>
+				<Mesh>MeteorMesh</Mesh>
+				<Size>20</Size>
 				<isReflective>0.8</isReflective>
 			</CreateMeteorPool>
 
@@ -151,7 +151,7 @@
 					<duration>5</duration>
 				</DecreaseMass>
 			</Action>
-		</ReceiveMessage>-->
+		</ReceiveMessage>
 
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
@@ -167,9 +167,9 @@
 					<duration>5</duration>
 				</MeteorStrike>
 			</Action>
-		</ReceiveMessage>
+		</ReceiveMessage>-->
 
-		<!-- <ReceiveMessage type="CollisionMessage">
+		<ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition type="AND">
 					<objectIdentifier>var</objectIdentifier>
@@ -183,7 +183,7 @@
 					<duration>5</duration>
 				</RandomPowerUp>
 			</Action>
-		</ReceiveMessage> -->
+		</ReceiveMessage>
 
 
 		<Timed interval="0.5">

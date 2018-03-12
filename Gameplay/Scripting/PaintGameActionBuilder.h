@@ -9,7 +9,8 @@ struct Node;
 enum PowerUps
 {
 	SCALE_POWERUP,
-	SPEED_POWERUP
+	SPEED_POWERUP,
+	METEOR_POWERUP
 
 };
 
