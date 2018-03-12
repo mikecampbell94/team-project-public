@@ -23,6 +23,9 @@ public:
 	~Startup();
 
 	void initialiseRenderingSystem();
+	void startUserInterface();
+	void startRenderingSystem();
+	void setupMeshes();
 	void renderLoadingScreen();
 	void initialiseSubsystems();
 	void startGameLoop();

@@ -14,7 +14,7 @@ SubMesh::SubMesh(vector<Vertex> vertices, vector<unsigned int> indices,
 	distanceFromCamera = 0.0f;
 	baseColour = NCLVector4(0.6f, 0.6f, 0.6f, 1.0f);
 
-	SetupMesh();
+	//SetupMesh();
 
 	CalculateBoundingRadius();
 }

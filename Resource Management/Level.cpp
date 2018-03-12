@@ -31,7 +31,8 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 	{
 		if (child->nodeType == "UI")
 		{
-			userInterface->initialise(child->children[0]->value, database);
+			userInterface->setMenuFile(child->children[0]->value);
+			//userInterface->initialise(child->children[0]->value, database);
 		}
 		else if (child->nodeType == "GamePlay")
 		{

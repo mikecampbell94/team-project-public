@@ -36,10 +36,15 @@ int main()
 		loaded = true;
 	});
 
+
 	while (!loaded)
 	{
 		startup.renderLoadingScreen();
 	}
+
+	startup.startRenderingSystem();
+	startup.setupMeshes();
+	startup.startUserInterface();
 	startup.startGameLoop();
 
     return 0;

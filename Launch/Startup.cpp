@@ -24,7 +24,7 @@ Startup::~Startup()
 
 void Startup::renderLoadingScreen()
 {
-	rendering->renderLoadingScreen(0.0f);
+	rendering->renderLoadingScreen(15.0f);
 }
 
 void Startup::initialiseSubsystems()
@@ -65,11 +65,24 @@ void Startup::initialiseRenderingSystem()
 	
 	nodes = new std::vector<SceneNode*>();
 	scene = new SceneManager(camera, nodes);
-	rendering->initialise(database);
-	rendering->SetSceneToRender(scene, database);
-
 	//rendering->initialise(database);
 	//rendering->SetSceneToRender(scene);
+}
+
+void Startup::startUserInterface()
+{
+	userInterface->initialise(database);
+}
+
+void Startup::startRenderingSystem()
+{
+	rendering->initialise(database);
+	rendering->SetSceneToRender(scene, database);
+}
+
+void Startup::setupMeshes()
+{
+	rendering->setupMeshes();
 }
 
 void Startup::initialiseAudioSystem()
@@ -79,6 +92,9 @@ void Startup::initialiseAudioSystem()
 
 void Startup::initialiseInputSystem()
 {
+	//rendering->initialise(database);
+	//rendering->SetSceneToRender(scene, database);
+
 	//---------------------------------
 	//---------------------------------
 
@@ -148,7 +164,6 @@ void Startup::loadMainMenu()
 	XMLParser::deleteAllParsedXML();
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
-
 	//gameplay->setUnTimedLevel();
 }
 

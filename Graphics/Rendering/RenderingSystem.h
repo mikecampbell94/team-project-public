@@ -18,6 +18,7 @@ public:
 	void initialise(Database* database);
 	void renderLoadingScreen(const float& deltaTime);
 
+	void setupMeshes();
 	void SetSceneToRender(SceneManager* scene, Database* database);
 	void updateNextFrame(const float& deltaTime) override;
 
@@ -35,6 +36,7 @@ private:
 	std::unique_ptr<Renderer> renderer;
 	std::map<std::string, bool> graphicsConfig;
 	GraphicsPipeline pipeline;
+	SceneManager* scene;
 	Camera* camera;
 	bool blockCamera = false;
 };

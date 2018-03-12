@@ -36,6 +36,10 @@ Renderer::Renderer(GameTimer* parentTimer, Window* window, Camera* camera)
 
 	loadingScreenMesh = new SceneNode("../Data/Resources/Meshes/cube.obj", NCLVector4(1,0,0,1));
 	loadingScreenMesh->GetMesh()->loadTexture("../Data/Resources/Textures/sleepyboi.png");
+	loadingScreenMesh->GetMesh()->setupMesh();
+	loadingScreenMesh->SetTransform(NCLVector3(0, 0, -10));
+	loadingScreenMesh->SetModelScale(NCLVector3(1, 1, 1));
+	loadingScreenMesh->Update(0.0f);
 
 	loadingScreenShader = new Shader(SHADERDIR"/basicVertex.glsl", SHADERDIR"/basicFrag.glsl", "", true);
 	loadingScreenShader->LinkProgram();
@@ -56,8 +60,9 @@ void Renderer::renderLoadingScreen(const float& deltatime)
 	camera->setPitch(0);
 	camera->setYaw(0);
 
-	loadingScreenMesh->SetTransform(NCLVector3(0, 0, -10));
-	loadingScreenMesh->SetModelScale(NCLVector3(1, 1, 1));
+	loadingScreenMesh->SetTransform(loadingScreenMesh->GetTransform()
+		* NCLMatrix4::rotation(5.0f, NCLVector3(0,1,0)));
+
 	loadingScreenMesh->Update(deltatime);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

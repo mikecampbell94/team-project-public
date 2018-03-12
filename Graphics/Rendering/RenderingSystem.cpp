@@ -221,8 +221,19 @@ void RenderingSystem::renderLoadingScreen(const float& deltaTime)
 	renderer->renderLoadingScreen(deltaTime);
 }
 
+void RenderingSystem::setupMeshes()
+{
+	std::vector<SceneNode*>** nodes = scene->getAllNodes();
+
+	for (SceneNode* node : **nodes)
+	{
+		node->GetMesh()->setupMesh();
+	}
+}
+
 void RenderingSystem::SetSceneToRender(SceneManager* scene, Database* database)
 {
+	this->scene = scene;
 	renderer->initialise(scene, database);
 }
 
