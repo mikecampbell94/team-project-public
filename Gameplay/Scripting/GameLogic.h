@@ -14,6 +14,7 @@ class GameLogic
 public:
 	GameLogic() = default;
 	explicit GameLogic(MessageProcessor* messages);
+	GameLogic(MessageProcessor* messages, Node* xmlNode);
 	~GameLogic();
 
 	void compileScript(std::string scriptFile);

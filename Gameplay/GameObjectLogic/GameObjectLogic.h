@@ -37,8 +37,7 @@ private:
 	Database* database;
 	MessageProcessor* messages;
 
-	std::map<GameObject*, GameLogic> logicToGameObjects;
-	std::vector<GameLogic*> logics;
+	std::vector<GameLogic> logics;
 	std::map<std::string, std::function<void()>> fucntionsOnStart;
 };
 
