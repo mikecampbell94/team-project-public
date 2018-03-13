@@ -12,6 +12,8 @@ public:
 		std::string soundID, std::string soundNodeIdentifier);
 	~PlaySoundMessage();
 
+	static PlaySoundMessage builder(Node* node);
+
 	NCLVector3 position;
 	SoundPriority priority;
 	float volume;

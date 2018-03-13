@@ -17,6 +17,7 @@ struct PaintGameStats
 	float timeToWait;
 	std::function<void()> executeAfter = std::function<void()>();
 	float timer;
+	bool canJump = false;
 };
 
 class GameObject : public Resource
@@ -56,7 +57,7 @@ public:
 	PaintGameStats stats;
 
 private: 
-	SceneNode *sceneNode;
+	SceneNode *sceneNode = nullptr;
 	PhysicsNode *physicsNode = nullptr;
 
 	

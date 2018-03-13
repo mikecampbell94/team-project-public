@@ -5,6 +5,8 @@
 #include "../Communication/Messages/PlayMovingSoundMessage.h"
 #include "../Communication/Messages/StopSoundMessage.h"
 #include "../Graphics/Utility/Camera.h"
+#include "../Gameplay/GameObject.h"
+
 
 const int CHANNELS = 128;
 const int FORWARD_DIRECTION = 0;
@@ -25,8 +27,9 @@ SoundManager::~SoundManager()
 
 	for (vector<OALSource*>::iterator i = OALSources.begin(); i != OALSources.end(); ++i)
 	{
-		alDeleteSources(1, &(*i)->source);
 		delete *i;
+		*i = nullptr;
+		alDeleteSources(1, &(*i)->source);
 	}
 
 	alcDestroyContext(context);
@@ -112,12 +115,32 @@ void SoundManager::AddNewSoundNode(PlayMovingSoundMessage* message)
 		{
 			Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
 			soundNodes.push_back(SoundNode::builder(message, sound));
+			if (message->isGlobal)
+			{
+				soundNodes.back().setMovingPosition(camera->getPersistentPosition());
+			}
+			else
+			{
+				GameObject* gObj =  static_cast<GameObject*>(database->getTable("GameObjects")->getResource(message->gameObjectID));
+				soundNodes.back().setGameObject(gObj);
+				soundNodes.back().setPosition(gObj->getPosition());
+			}
 		}
 	}
 	else
 	{
 		Sound* sound = static_cast<Sound*>(database->getTable("SoundObjects")->getResource(message->soundID));
 		soundNodes.push_back(SoundNode::builder(message, sound));
+		if (message->isGlobal)
+		{
+			soundNodes.back().setMovingPosition(camera->getPersistentPosition());
+		}
+		else
+		{
+			GameObject* gObj = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(message->gameObjectID));
+			soundNodes.back().setGameObject(gObj);
+			soundNodes.back().setPosition(gObj->getPosition());
+		}
 	}
 }
 
@@ -140,7 +163,18 @@ void SoundManager::update(const float& deltaTime)
 
 	for (SoundNode& node : soundNodes)
 	{
-		node.update(deltaTime);
+		if (deltaTime == 0.0f)
+		{
+			node.pauseSound();
+		}
+		else
+		{
+			if(node.getState() == SoundState::PAUSED)
+			{
+				node.unpauseSound();
+			}
+			node.update(deltaTime);
+		}
 	}
 
 	cullNodes();
@@ -173,10 +207,10 @@ void SoundManager::updateListenerToCameraPosition()
 	orientation[UPWARDS_DIRECTION].y = camera->viewMatrix.values[5];
 	orientation[UPWARDS_DIRECTION].z = camera->viewMatrix.values[9];
 
-	ALfloat listenerPos[] = { listenerPosition.x, listenerPosition.y, listenerPosition.z };
+	ALfloat listenerPos[] = { listenerPosition.x, listenerPosition.y, listenerPosition.z  };
 	ALfloat listenerOri[] = { 
-		orientation[FORWARD_DIRECTION].x, orientation[FORWARD_DIRECTION].y, orientation[FORWARD_DIRECTION].z, 
-		orientation[UPWARDS_DIRECTION].x, orientation[UPWARDS_DIRECTION].y, orientation[UPWARDS_DIRECTION].z };
+		orientation[FORWARD_DIRECTION].x, orientation[FORWARD_DIRECTION].y, -orientation[FORWARD_DIRECTION].z, 
+		orientation[UPWARDS_DIRECTION].x, orientation[UPWARDS_DIRECTION].y, -orientation[UPWARDS_DIRECTION].z };
 
 	alListenerfv(AL_POSITION, listenerPos);
 	alListenerfv(AL_ORIENTATION, listenerOri);
@@ -188,11 +222,11 @@ void SoundManager::cullNodes()
 	{
 		float distanceBetweenListenerAndSoundNode;
 
-		if(!node.isMoving)
+		if(!node.isMoving || (node.isMoving && !node.isGlobal))
 		{
 			distanceBetweenListenerAndSoundNode = (listenerPosition - node.getPosition()).length();
 		}
-		else
+		else if (node.isMoving && node.isGlobal)
 		{
 			distanceBetweenListenerAndSoundNode = (listenerPosition - *node.getMovingPosition()).length();
 		}

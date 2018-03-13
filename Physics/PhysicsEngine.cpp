@@ -306,7 +306,8 @@ void PhysicsEngine::updatePhysics()
 	timer->beginChildTimedSection("Integrate Velocity");
 	for (PhysicsNode* obj : physicsNodes) 
 	{
-		obj->integrateForVelocity(updateTimestep);
+		if(obj->getEnabled())
+			obj->integrateForVelocity(updateTimestep);
 	}
 	timer->endChildTimedSection("Integrate Velocity");
 	
@@ -323,7 +324,8 @@ void PhysicsEngine::updatePhysics()
 	timer->beginChildTimedSection("Integrate Position");
 	for (PhysicsNode* obj : physicsNodes)
 	{
-		obj->integrateForPosition(updateTimestep);
+		if (obj->getEnabled())
+			obj->integrateForPosition(updateTimestep);
 	}
 	timer->endChildTimedSection("Integrate Position");
 	

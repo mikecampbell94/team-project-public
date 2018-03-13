@@ -3,6 +3,13 @@
 #include "../Utilities/Maths/Vector3.h"
 #include "../Utilities/Maths/Matrix4.h"
 #include "Sound.h"
+#include "../Gameplay/GameObject.h"
+
+enum SoundState
+{
+	PLAYING,
+	PAUSED
+};
 
 class PlaySoundMessage;
 class PlayMovingSoundMessage;
@@ -10,7 +17,7 @@ class StopSoundMessage;
 
 enum SoundPriority 
 {
-	SOUNDPRIORTY_LOW,
+	SOUNDPRIORITY_LOW,
 	SOUNDPRIORITY_MEDIUM,
 	SOUNDPRIORITY_HIGH,
 	SOUNDPRIORITY_ALWAYS
@@ -34,7 +41,7 @@ public:
 	SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, float volume, 
 		bool isLooping, float radius, float pitch, std::string identifier);
 	SoundNode(Sound* sound, NCLVector3 *position, SoundPriority priority, float volume,
-		bool isLooping, float radius, float pitch, std::string identifier);
+		bool isLooping, float radius, float pitch, bool isGlobal, std::string identifier);
 	~SoundNode();
 
 	static SoundNode builder(PlaySoundMessage* message, Sound* sound);
@@ -75,6 +82,21 @@ public:
 		return movingPosition;
 	}
 
+	void setMovingPosition(NCLVector3* position)
+	{
+		movingPosition = position;
+	}
+
+	void setGameObject(GameObject* gObj)
+	{
+		this->gObj = gObj;
+	}
+
+	void setPosition(NCLVector3 position)
+	{
+		this->position = position;
+	}
+
 	static bool compareSourcesByPriority(SoundNode& a, SoundNode& b);
 
 	void attachSource(OALSource* s);
@@ -84,7 +106,22 @@ public:
 
 	bool enabled = false;
 	bool isMoving = false;
+	bool isGlobal;
 	std::string identifier;
+	
+
+	GameObject* getObject()
+	{
+		return gObj;
+	}
+
+	SoundState getState()
+	{
+		return state;
+	}
+
+	void pauseSound();
+	void unpauseSound();
 
 private:
 	void setSound(Sound *s);
@@ -109,5 +146,8 @@ private:
 	float pitch;
 	bool isLooping;
 	double timeLeft;
+	SoundState state;
+
+	GameObject* gObj;
 };
 

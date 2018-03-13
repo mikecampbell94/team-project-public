@@ -19,7 +19,7 @@ Startup::Startup()
 
 Startup::~Startup()
 {
-
+	
 }
 
 void Startup::initialiseSubsystems()
@@ -138,9 +138,6 @@ void Startup::loadMainMenu()
 {
 	XMLParser::deleteAllParsedXML();
 	level->loadLevelFile(LEVELDIR + "MainMenu.xml", gameplay);
-
-	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
 	XMLParser::deleteAllParsedXML();
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
@@ -166,23 +163,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
 
-	//if(levelFile == "MainMenu.xml")
-	//{
-	//	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-	//		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
-	//}
-	//else
-	//{
-	//	//Maybe have a parser in audio system to parse xml script for audio - then use the game object logic parser for object logic audio?
-	//	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-	//		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "vega", "LevelMusic"));
-	//}
-
-	
-
-
-
-	//XMLWriter writer(database, gameplay);
+	//XMLWriter writer(database);
 	//writer.saveLevelFile("myLevel");
 	XMLParser::deleteAllParsedXML();
 }
@@ -194,8 +175,8 @@ void Startup::switchLevel()
 	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
 	rendering->clearPainters();
-	level->unloadLevelWhileKeepingUserInterface();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	level->unloadLevelWhileKeepingUserInterface();
 	XMLParser::deleteAllParsedXML();
 }
 
@@ -206,8 +187,8 @@ void Startup::unloadLevel()
 	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
 	rendering->clearPainters();
-	level->unloadLevel();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	level->unloadLevel();
 	XMLParser::deleteAllParsedXML();
 }
 

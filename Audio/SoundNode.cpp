@@ -18,10 +18,11 @@ SoundNode::SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, 
 	enabled = true;
 	oalSource = nullptr;
 	setSound(sound);
+	isGlobal = false;
 }
 
 SoundNode::SoundNode(Sound* sound, NCLVector3 *position, SoundPriority priority, float volume,
-	bool isLooping, float radius, float pitch, std::string identifier)
+	bool isLooping, float radius, float pitch, bool isGloabl, std::string identifier)
 {
 	this->movingPosition = position;
 	this->priority = priority;
@@ -34,6 +35,7 @@ SoundNode::SoundNode(Sound* sound, NCLVector3 *position, SoundPriority priority,
 	enabled = true;
 	oalSource = nullptr;
 	setSound(sound);
+	this->isGlobal = isGloabl;
 }
 
 SoundNode::~SoundNode()
@@ -52,7 +54,7 @@ SoundNode SoundNode::builder(PlaySoundMessage* message, Sound* sound)
 SoundNode SoundNode::builder(PlayMovingSoundMessage* message, Sound* sound)
 {
 	SoundNode soundNode(sound, message->position, message->priority, message->volume,
-		message->isLooping, message->radius, message->pitch, message->soundNodeIdentifier);
+		message->isLooping, message->radius, message->pitch, message->isGlobal, message->soundNodeIdentifier);
 	soundNode.enabled = true;
 	soundNode.isMoving = true;
 
@@ -98,6 +100,7 @@ void SoundNode::attachSource(OALSource *s)
 	alSourcei(oalSource->source, AL_BUFFER, sound->getBuffer());
 	alSourcef(oalSource->source, AL_SEC_OFFSET, (sound->getLength() / 1000.0) - (timeLeft / 1000.0));
 	alSourcePlay(oalSource->source);
+	state = SoundState::PLAYING;
 }
 
 void SoundNode::detachSource()
@@ -111,18 +114,18 @@ void SoundNode::detachSource()
 	alSourceStop(oalSource->source);
 	alSourcei(oalSource->source, AL_BUFFER, 0);
 	oalSource->inUse = false;
-	oalSource = NULL;
+	oalSource = nullptr;
 }
 
 void SoundNode::update(float msec)
 {
 	timeLeft -= msec;
-	
-	while (isLooping && timeLeft < 0.0f) 
+
+	while (isLooping && timeLeft < 0.0f)
 	{
 		timeLeft += sound->getLength();
 	}
-	
+
 	if (oalSource)
 	{
 		if (!isMoving)
@@ -130,15 +133,34 @@ void SoundNode::update(float msec)
 			ALfloat pos[] = { position.x, position.y, position.z };
 			alSourcefv(oalSource->source, AL_POSITION, pos);
 		}
-		else
+		else if (isMoving && !isGlobal)
+		{
+			position = gObj->getPosition();
+			ALfloat pos[] = { position.x, position.y, position.z };
+			alSourcefv(oalSource->source, AL_POSITION, pos);
+		}
+		else if (isMoving && isGlobal)
 		{
 			ALfloat pos[] = { movingPosition->x, movingPosition->y, movingPosition->z };
 			alSourcefv(oalSource->source, AL_POSITION, pos);
 		}
+
 
 		alSourcef(oalSource->source, AL_GAIN, volume);
 		alSourcei(oalSource->source, AL_LOOPING, isLooping ? 1 : 0);
 		alSourcef(oalSource->source, AL_MAX_DISTANCE, radius);
 		alSourcef(oalSource->source, AL_REFERENCE_DISTANCE, radius * 0.2f);
 	}
+}
+
+void SoundNode::pauseSound()
+{
+	state = SoundState::PAUSED;
+	alSourcePause(oalSource->source);
+}
+
+void SoundNode::unpauseSound()
+{
+	state = SoundState::PLAYING;
+	alSourcePlay(oalSource->source);
 }
