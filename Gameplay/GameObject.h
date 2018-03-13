@@ -57,7 +57,7 @@ public:
 	PaintGameStats stats;
 
 private: 
-	SceneNode *sceneNode;
+	SceneNode *sceneNode = nullptr;
 	PhysicsNode *physicsNode = nullptr;
 
 	
