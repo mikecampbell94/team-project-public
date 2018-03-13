@@ -105,7 +105,10 @@
     <ClInclude Include="Messages\TogglePlayerInputKeyMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Messages\DebugMessage.h">
+    <ClInclude Include="Messages\DebugLineMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages\DebugCircleMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -194,7 +197,10 @@
     <ClCompile Include="Messages\TogglePlayerInputKeyMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Messages\DebugMessage.cpp">
+    <ClCompile Include="Messages\DebugLineMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\DebugCircleMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

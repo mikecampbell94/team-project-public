@@ -60,6 +60,7 @@ private:
 	UserInterface* userInterface;
 	NetworkClient* network;
 	Profiler* profiler;
+	Keyboard* keyboard;
 
 	GameTimer* loopTimer;
 	Window* window;

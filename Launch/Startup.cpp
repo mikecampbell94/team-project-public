@@ -8,7 +8,6 @@
 #include "../Utilities/FilePaths.h"
 #include "../Gameplay/Scripting/PaintGameActionBuilder.h"
 #include "Resource Management/XMLWriter.h"
-//#include "Resource Management/XMLWriter.h"
 
 Startup::Startup()
 {
@@ -27,7 +26,7 @@ void Startup::initialiseSubsystems()
 	initialiseRenderingSystem();
 	initialiseDatabaseAndTables();
 	initialiseAudioSystem();
-	physics = new PhysicsEngine(database);
+	physics = new PhysicsEngine(database, window->getKeyboard());
 	userInterface = new UserInterface(window->getKeyboard(), resolution);
 	initialiseLevelSystem();
 	initialiseInputSystem();

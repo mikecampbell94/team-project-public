@@ -9,6 +9,7 @@
 #include <vector>
 
 class OctreePartitioning;
+class Keyboard;
 
 
 //Number of jacobi iterations to apply in order to
@@ -25,7 +26,7 @@ class PhysicsEngine : public Subsystem
 {
 public:
 	
-	PhysicsEngine(Database* database);
+	PhysicsEngine(Database* database, Keyboard* keyboard);
 	~PhysicsEngine();
 
 	void addPhysicsObject(PhysicsNode* obj);
@@ -83,7 +84,6 @@ private:
 
 	void narrowPhaseCollisions();
 
-
 	float		updateTimestep, updateRealTimeAccum;
 	
 	NCLVector3		gravity;
@@ -103,4 +103,6 @@ private:
 
 	Database* database;
 
+	Keyboard* keyboard;
+	bool wireframeRendering = false;
 };

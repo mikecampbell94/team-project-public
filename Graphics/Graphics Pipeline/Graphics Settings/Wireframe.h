@@ -16,19 +16,28 @@ public:
 	void regenerateShaders() override;
 
 	void addLine(NCLVector3 from, NCLVector3 to, NCLVector3 colour);
+	void addCircle(NCLVector3 position, float radius, NCLVector3 colour);
 
 private:
+	void updateWireframes();
 	void locateUniforms() override;
+
+	void buildLinesFromCircles();
+	void splitCircle(int circleIndex);
+	void renderLines();
 
 	Shader* debugShader;
 
-	std::vector<NCLVector3> points;
-	std::vector<NCLVector3> colours;
+	std::vector<NCLVector3> linePoints;
+	std::vector<NCLVector3> lineColours;
+
+	std::vector<NCLVector3> circlePositions;
+	std::vector<float> radii;
+	std::vector<NCLVector3> circleColours;
 
 	GLuint array;
-	GLuint buffer;
+	GLuint buffers[2];
 
-	//hello haha test
 	Camera* camera;
 };
 

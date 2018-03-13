@@ -4,7 +4,7 @@ uniform mat4 viewProjMatrix;
 
 
 in  vec3 position;
-//in  vec3 colour;
+in  vec3 colour;
 
 out Vertex {
 	vec4 colour;
@@ -12,5 +12,5 @@ out Vertex {
 
 void main(void)	{
 	gl_Position	  = viewProjMatrix * vec4(position, 1.0);
-	OUT.colour    = vec4(1,0,0,1);
+	OUT.colour    = vec4(colour, 1.0f);
 }

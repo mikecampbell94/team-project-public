@@ -16,6 +16,7 @@
 #include "Messages/UpdatePositionMessage.h"
 #include "Messages/ToggleGameObjectMessage.h"
 #include "Messages/ClearScoresMessage.h"
+#include "Messages/DebugLineMessage.h"
 
 class LetterBox : public MessagingService
 {
@@ -49,7 +50,8 @@ public:
 	void insertMessage(RotateGameObjectMessage message) override;
 	void insertMessage(ToggleGameObjectMessage message) override;
 	void insertMessage(TogglePlayerInputKeyMessage message) override;
-	void insertMessage(DebugMessage message) override;
+	void insertMessage(DebugLineMessage message) override;
+	void insertMessage(DebugCircleMessage message) override;
 
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
@@ -81,6 +83,7 @@ private:
 	MessageBuffer<RotateGameObjectMessage> rotateGameObjectBuffer;
 	MessageBuffer<ToggleGameObjectMessage> toggleGameObjectBuffer;
 	MessageBuffer<TogglePlayerInputKeyMessage> togglePlayerInputKeyBuffer;
-	MessageBuffer<DebugMessage> debugBuffer;
+	MessageBuffer<DebugLineMessage> debugLineBuffer;
+	MessageBuffer<DebugCircleMessage> debugCircleBuffer;
 };
 

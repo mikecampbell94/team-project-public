@@ -188,3 +188,10 @@ void CuboidCollisionShape::constructCubeHull()
 	cubeHull.AddFace(NCLVector3(1.0f, 0.0f, 0.0f), 4, face5);
 	cubeHull.AddFace(NCLVector3(-1.0f, 0.0f, 0.0f), 4, face6);
 }
+
+void CuboidCollisionShape::debugDraw() const
+{
+	// Just draw the cuboid hull-mesh at the position of our PhysicsNode
+	NCLMatrix4 transform = this->parent()->getWorldSpaceTransform() * NCLMatrix4::scale(halfDims);
+	cubeHull.DebugDraw(transform);
+}
