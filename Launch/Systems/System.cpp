@@ -55,6 +55,19 @@ void System::addConcurrentSubsystem(Subsystem* subsystem)
 	concurrentSubsystems.push_back(subsystem);
 }
 
+void System::processAllMessages()
+{
+	//for (Subsystem* subsystem : concurrentSubsystems)
+	//{
+	//	subsystem->processMessages();
+	//}
+
+	//for (Subsystem* subsystem : subsystems)
+	//{
+	//	subsystem->processMessages();
+	//}
+}
+
 std::vector<Subsystem*> System::getSubSystems()
 {
 	vector<Subsystem*> allSubsystems;

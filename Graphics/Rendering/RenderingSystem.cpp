@@ -87,6 +87,13 @@ void RenderingSystem::initialise(Database* database)
 		{
 			blockCamera = !blockCamera;
 		}
+		else if (tokens[0] == "setupmesh")
+		{
+			GameObject* gameObject = static_cast<GameObject*>(
+				database->getTable("GameObjects")->getResource(tokens[1]));
+
+			gameObject->getSceneNode()->GetMesh()->setupMesh();
+		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_GAMEOBJECT, [database = database](Message* message)
@@ -132,7 +139,8 @@ void RenderingSystem::initialise(Database* database)
 		GameObject* gameObject = static_cast<GameObject*>(
 			database->getTable("GameObjects")->getResource(toggleMessage->gameObjectID));
 
-		gameObject->setEnabled(toggleMessage->isEnabled);
+		gameObject->getSceneNode()->setEnabled(toggleMessage->isEnabled);
+		//gameObject->setEnabled(toggleMessage->isEnabled);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)

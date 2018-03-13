@@ -14,9 +14,20 @@ PhysicsEngine::PhysicsEngine(Database* database) : Subsystem("Physics")
 
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::PLAYER_INPUT, MessageType::RELATIVE_TRANSFORM, 
 		MessageType::APPLY_FORCE, MessageType::APPLY_IMPULSE, MessageType::UPDATE_POSITION, MessageType::ABSOLUTE_TRANSFORM,
-		MessageType::MOVE_GAMEOBJECT, MessageType::SCALE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT};
+		MessageType::MOVE_GAMEOBJECT, MessageType::SCALE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT, MessageType::TOGGLE_GAMEOBJECT};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("Physics"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TOGGLE_GAMEOBJECT, [database = database](Message* message)
+	{
+		ToggleGameObjectMessage* toggleMessage = static_cast<ToggleGameObjectMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			database->getTable("GameObjects")->getResource(toggleMessage->gameObjectID));
+
+		gameObject->getPhysicsNode()->setEnabled(toggleMessage->isEnabled);
+		//gameObject->setEnabled(toggleMessage->isEnabled);
+	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [database = database, this](Message* message)
 	{

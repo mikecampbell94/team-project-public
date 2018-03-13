@@ -45,16 +45,16 @@ InputManager::InputManager(PlayerBase* playerbase)
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TOGGLE_PLAYER_INPUT, [&keysToBlock = keysToBlock, &keysToUnblock = keysToUnblock](Message* message)
 	{
-		TogglePlayerInputKeyMessage* toggleInputMessage = static_cast<TogglePlayerInputKeyMessage*>(message);
+		//TogglePlayerInputKeyMessage* toggleInputMessage = static_cast<TogglePlayerInputKeyMessage*>(message);
 
-		if (!toggleInputMessage->enabled)
-		{
-			keysToBlock.push_back(std::make_pair(toggleInputMessage->playerGameObjectName, toggleInputMessage->key));
-		}
-		else
-		{
-			keysToUnblock.push_back(std::make_pair(toggleInputMessage->playerGameObjectName, toggleInputMessage->key));
-		}
+		//if (!toggleInputMessage->enabled)
+		//{
+		//	keysToBlock.push_back(std::make_pair(toggleInputMessage->playerGameObjectName, toggleInputMessage->key));
+		//}
+		//else
+		//{
+		//	keysToUnblock.push_back(std::make_pair(toggleInputMessage->playerGameObjectName, toggleInputMessage->key));
+		//}
 	});
 
 	blocked = false;

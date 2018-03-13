@@ -55,6 +55,11 @@
 					<resource>var</resource>
 					<enabled>false</enabled>
 				</SendMessage>
+			  <SendMessage type="TOGGLE_GAMEOBJECT">
+			    <destination>Physics</destination>
+			    <resource>var</resource>
+			    <enabled>false</enabled>
+			  </SendMessage>
 
 			</Action>
 		</ReceiveMessage>

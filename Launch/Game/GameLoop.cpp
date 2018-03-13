@@ -89,6 +89,15 @@ void GameLoop::executeGameLoop()
 		DeliverySystem::getPostman()->clearAllMessages();
 		updateGameObjects(deltaTime);
 		DeliverySystem::getPostman()->deliverAllMessages();
+
+		
+		//engine->updateNextSystemFrame(deltaTime);
+		//
+		//engine->processAllMessages();
+		//incomingMessages.processMessagesInBuffer();
+		//DeliverySystem::getPostman()->clearAllMessages();
+		//updateGameObjects(deltaTime);
+		//DeliverySystem::getPostman()->deliverAllMessages();
 	}
 }
 

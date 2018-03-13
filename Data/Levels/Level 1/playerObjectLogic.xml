@@ -53,7 +53,6 @@
 				<amount>10</amount>
 				<Mesh>MeteorMesh</Mesh>
 				<Size>20</Size>
-				<isReflective>0.8</isReflective>
 			</CreateMeteorPool>
 
 			<SetMaxPaint>
@@ -137,7 +136,7 @@
 				<PaintMinion>
 					<resource>var</resource>
 					<minion>AI</minion>
-				</PainMinion>
+				</PaintMinion>
 			</Action>
 		</ReceiveMessage>
 
@@ -151,7 +150,7 @@
 				<PaintMinion>
 					<resource>var</resource>
 					<minion>AI2</minion>
-				</PainMinion>
+				</PaintMinion>
 			</Action>
 		</ReceiveMessage>
 

@@ -101,10 +101,9 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		int amount = stoi(node->children[1]->value);
 		std::string meshName = node->children[2]->value;
 		float size = stof(node->children[3]->value);
-		float reflectiveStrength = stof(node->children[4]->value);
 		std::string baseName = node->children[0]->value + "Meteor";
 
-		return [gameObject, amount, meshName, size, reflectiveStrength, baseName]()
+		return [gameObject, amount, meshName, size, baseName]()
 		{
 			Database* database = PaintGameActionBuilder::database;
 
@@ -117,8 +116,6 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 				{
 					SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getResource(meshName)));
 					sceneNode->SetColour(gameObject->stats.colourToPaint);
-					sceneNode->isReflective = true;
-					sceneNode->reflectiveStrength = reflectiveStrength;
 
 					meteor = new GameObject();
 					meteor->setSize(sizeof(GameObject));
@@ -144,6 +141,10 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					PaintGameActionBuilder::database->getTable("GameObjects")->addNewResource(meteor);
 					DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "addscenenode " + meteor->getName()));
 					DeliverySystem::getPostman()->insertMessage(TextMessage("Physics", "addphysicsnode " + meteor->getName()));
+					DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "setupmesh " + meteor->getName()));
+
+					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("RenderingSystem", meteor->getName(), false));
+					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("Physics", meteor->getName(), false));
 				}
 			}
 			
@@ -291,9 +292,12 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					auto random_integer1 = uni(rng);
 					auto random_integer2 = uni(rng);
 
-					meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i*40), random_integer2 * 10));
-					meteor->setEnabled(true);
 
+					//DeliverySystem::getPostman()->insertMessage(MoveGameObjectMessage("Physics", meteor->getName(), gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10)));
+					meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10));
+					meteor->setEnabled(true);
+					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("RenderingSystem", meteor->getName(), true));
+					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("Physics", meteor->getName(), true));
 				}
 
 				gameObject->stats.timeToWait = duration;
@@ -349,11 +353,13 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 							GameObject* meteor = static_cast<GameObject*>(
 								PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
 
-							std::mt19937 rng2(rd());    // random-number engine used (Mersenne-Twister in this case)
-							std::uniform_int_distribution<int> uni2(-6, 6); // guaranteed unbiased
-							auto random_integer1 = uni2(rng2);
-							auto random_integer2 = uni2(rng2);
+							std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+							std::uniform_int_distribution<int> uni(-6, 6); // guaranteed unbiased
+							auto random_integer1 = uni(rng);
+							auto random_integer2 = uni(rng);
 
+
+							//DeliverySystem::getPostman()->insertMessage(MoveGameObjectMessage("Physics", meteor->getName(), gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10)));
 							meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10));
 							meteor->setEnabled(true);
 

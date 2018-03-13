@@ -521,6 +521,6 @@
       <Friction>0.9</Friction>
       <isStatic>True</isStatic>
     </PhysicsNode>
-  </GameObjects> 
+  </GameObjects>
 
 </LevelDetails>

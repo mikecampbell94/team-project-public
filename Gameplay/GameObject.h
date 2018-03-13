@@ -54,6 +54,7 @@ public:
 	}
 
 	bool isEnabled = true;
+	bool toEnable = false;
 	PaintGameStats stats;
 
 private: 
