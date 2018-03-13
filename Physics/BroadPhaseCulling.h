@@ -22,7 +22,7 @@ public:
 	BroadPhaseCulling();
 	~BroadPhaseCulling();
 
-	void init(NCLVector3 minVal, NCLVector3 maxVal);
+	void initBroadphase(NCLVector3 minVal, NCLVector3 maxVal);
 
 
 
