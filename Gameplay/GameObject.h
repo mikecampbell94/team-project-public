@@ -11,11 +11,13 @@ struct PaintGameStats
 	int maxPaint;
 	int currentPaint = 0;
 	float defaultInvMass = 1.f;
+	int meteors;
 	NCLVector4 colourToPaint;
 	NCLVector3 defaultScale;
 	float timeToWait;
 	std::function<void()> executeAfter = std::function<void()>();
 	float timer;
+	bool canJump = false;
 };
 
 class GameObject : public Resource
@@ -36,7 +38,7 @@ public:
 	void setScale(NCLVector3 scale);
 	void setEnabled(bool isEnabled);
 
-	const NCLVector3& getScale() const
+	 const NCLVector3& getScale() const 
 	{
 		return scale;
 	}
@@ -55,7 +57,7 @@ public:
 	PaintGameStats stats;
 
 private: 
-	SceneNode *sceneNode;
+	SceneNode *sceneNode = nullptr;
 	PhysicsNode *physicsNode = nullptr;
 
 	

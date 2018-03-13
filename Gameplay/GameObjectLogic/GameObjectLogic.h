@@ -16,13 +16,15 @@ public:
 	~GameObjectLogic();
 
 	void compileParsedXMLIntoScript();
-	void notify(const std::string& messageType, Message* message);
+	void notify(const std::string& messageType, Message* message, std::string gameObject = "");
 	void updatelogic(const float& deltaTime);
 	
 	std::string getScriptFile()
 	{
 		return scriptFile;
 	}
+
+	std::vector<GameLogic> logics;
 
 private:
 	void compileGameLogic(Node* gameLogicNode, const std::vector<Node*>& resources);
@@ -37,7 +39,7 @@ private:
 	Database* database;
 	MessageProcessor* messages;
 
-	std::vector<GameLogic> logics;
+	
 	std::map<std::string, std::function<void()>> fucntionsOnStart;
 };
 

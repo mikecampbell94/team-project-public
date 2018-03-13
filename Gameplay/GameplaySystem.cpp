@@ -56,23 +56,28 @@ GameplaySystem::GameplaySystem(Database* database)
 	
 	incomingMessages.addActionToExecuteOnMessage(MessageType::PLAYER_INPUT, [&gameLogic = gameLogic, &inputBridge = inputBridge, &objects = objects](Message* message)
 	{
-		inputBridge.processPlayerInputMessage(*static_cast<PlayerInputMessage*>(message));
+		PlayerInputMessage* playerInputMessage = static_cast<PlayerInputMessage*>(message);
+		
+		inputBridge.processPlayerInputMessage(*playerInputMessage);
+
 
 		for (GameObjectLogic& object : objects)
 		{
-			object.notify("InputMessage", message);
+   			object.notify("InputMessage", message, playerInputMessage->player->getGameObject()->getName());
 		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::COLLISION, [&gameLogic = gameLogic, &objects = objects](Message* message)
 	{
+		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
+
 		gameLogic.notifyMessageActions("CollisionMessage", message);
 
-		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
+		
 		
 		for (GameObjectLogic& object : objects)
 		{
-			object.notify("CollisionMessage", message);
+			object.notify("CollisionMessage", message, collisionmessage->objectIdentifier);
 		}
 
 	});

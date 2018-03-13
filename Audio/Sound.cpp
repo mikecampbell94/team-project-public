@@ -29,8 +29,10 @@ Sound::Sound(std::string filePath)
 
 Sound::~Sound(void) 
 {
-	delete data;
 	alDeleteBuffers(1, &buffer);
+	buffer = 0;
+	delete data;
+	data = nullptr;
 }
 
 double	Sound::getLength() 

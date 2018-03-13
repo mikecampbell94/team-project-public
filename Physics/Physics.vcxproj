@@ -36,7 +36,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="AABBUtility.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="BroadPhaseCulling.h" />
     <ClInclude Include="CollisionDetectionSAT.h" />
     <ClInclude Include="CollisionShape.h" />
     <ClInclude Include="Constraint.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="SphereCollisionShape.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BroadPhaseCulling.cpp" />
     <ClCompile Include="CollisionDetectionSAT.cpp" />
     <ClCompile Include="CuboidCollisionShape.cpp" />
     <ClCompile Include="GeometryUtils.cpp" />

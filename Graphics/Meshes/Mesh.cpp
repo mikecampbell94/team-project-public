@@ -172,16 +172,18 @@ SubMesh* Mesh::ProcessMesh(aiMesh *mesh, const aiScene *scene)
 Mesh * Mesh::GenerateHeightMap(int width, int height)
 {
 	SubMesh * heightMap = new SubMesh();
-	
-	for (int x = 0; x < width; ++x)
+
+	for (int x = 0; x <= width; ++x)
 	{
-		for (int z = 0; z < height; ++z)
+		for (int z = 0; z <= height; ++z)
 		{
-			int indexOffset = (x * width) + z;
+			//int indexOffset = (x * width) + z;
 
 			Vertex vertex;
+			float Xoffset = (float)(2.05 * ((x - width / 2)) / (float)width);
+			float Zoffset = (float)(2.05 * ((z - height / 2)) / (float)height);
 
-			vertex.Position = NCLVector3(x,0,z);
+			vertex.Position = NCLVector3(Xoffset,5, Zoffset);
 			vertex.Normal = NCLVector3(0, 1, 0);
 			vertex.TexCoords = NCLVector2((float)x/width, (float)z/height);
 			vertex.Tangent = NCLVector3(1, 0, 0);

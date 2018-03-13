@@ -56,51 +56,50 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 
 	physicsnode->setParent(parent);
 
-	std::string physicsEnabled = node->children[0]->value;
-
-	if (physicsEnabled == "True")
+	for (Node* child : node->children)
 	{
-		physicsnode->setEnabled(true);
-	}
-	else
-	{
-		physicsnode->setEnabled(false);
-	}
-	std::string CollisionEnabled = node->children[4]->value;
-	if (CollisionEnabled == "True")
-	{
-		physicsnode->setIsCollision(true);
-	}
-	else
-	{
-		physicsnode->setIsCollision(false);
-	}
-	physicsnode->transmitCollision = node->children[1]->value == "True";
-	physicsnode->setCollisionShape(node->children[2]->value);
-	physicsnode->setInverseMass(stof(node->children[3]->value));
-	physicsnode->setInverseInertia(physicsnode->getCollisionShape()->buildInverseInertia(physicsnode->getInverseMass()));
-	physicsnode->setElasticity(stof(node->children[5]->value));
-	physicsnode->setFriction(stof(node->children[6]->value));
-
-	if (node->children.size() == 9)
-	{
-		physicsnode->setDamping(stof(node->children[7]->value));
-	}
-
-	if (node->children.size() > 8)
-	{
-		std::string staticObject = node->children[8]->value;
-
-		if (staticObject == "True")
+		if (child->nodeType == "Enabled")
 		{
-			physicsnode->setStatic(true);
+			physicsnode->setEnabled(child->value == "True");
 		}
-		else
+		else if (child->nodeType == "TransmitCollision")
 		{
-			physicsnode->setStatic(false);
+			physicsnode->transmitCollision = child->value == "True";
+		}
+		else if (child->nodeType == "MultipleTransmitions")
+		{
+			physicsnode->multipleTransmitions = child->value == "True";
+		}
+		else if (child->nodeType == "CollisionShape")
+		{
+			physicsnode->setCollisionShape(child->value);
+		}
+		else if (child->nodeType == "Mass")
+		{
+			physicsnode->setInverseMass(stof(child->value));
+			physicsnode->setInverseInertia(physicsnode->getCollisionShape()->buildInverseInertia(physicsnode->getInverseMass()));
+		}
+		else if (child->nodeType == "Elasticity")
+		{
+			physicsnode->setElasticity(stof(child->value));
+		}
+		else if (child->nodeType == "Friction")
+		{
+			physicsnode->setFriction(stof(child->value));
+		}
+		else if (child->nodeType == "Damping")
+		{
+			physicsnode->setDamping(stof(child->value));
+		}
+		else if (child->nodeType == "isStatic")
+		{
+			physicsnode->setStatic(child->value == "True");
+		}
+		else if (child->nodeType == "isCollision")
+		{
+			physicsnode->setIsCollision(child->value == "True");
 		}
 	}
-
 	return physicsnode;
 }
 
