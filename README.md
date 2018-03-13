@@ -40,7 +40,7 @@ Please install OpenAL with Audio/OpenAL 1.1 SDK/redist/oalinst.exe.
 * static will dictate whether it is moveable or not. Static nodes will not collide with eachother. Must be either 'true' or 'false'.
 * **IMPORTANT. A SCALE MUST BE SET FOR A GAMEOBJECT BEFORE ADDING A PHYSICS NODE**
 
-5. Load a mesh into the resource manager. 
+5. Load a mesh into the resource manager
 
 `loadmesh NewMeshIdentifier mesh=.../Directory/Example/someMesh.obj`
 `loadmesh NewMeshIdentifier mesh=.../Directory/Example/someMesh.obj texture=../Directory/AnotherExample/someTexture.png`
@@ -49,5 +49,41 @@ Please install OpenAL with Audio/OpenAL 1.1 SDK/redist/oalinst.exe.
 * A texture is optional.
 * **WARNING MAY BE SLOW DEPENDING ON SIZE OF THE MESH**
 
-6.
+6. Load a sound into the resource manager
+
+`loadsound  NewSoundName sound=../Data/...`
+
+* NewSoundName is the sounds identifier to be used for scripting and playing.
+
+7. Add a light to the scene
+
+`addlight NewLightName position=0,0,0 colour=1,1,1,1 radius=1 intensity=1 shadow=true`
+
+* radius and intensity can be any values.
+* shadow dictates whether the light will cast a shadow on objects in the scene or not. Must be either 'true' or 'false'.
+
+8. Save the level to file
+
+`savelevel LevelName`
+
+* writes all resources and current state of the game to XML files. Must ideally be used when the game is not being played.
+
+9. Stop playing the level
+
+`quit`
+
+* stops level playback and resets to position of original save.
+* **ENSURE LEVEL IS SAVED BEFORE QUITTING**
+
+10. Start the level
+
+`start`
+
+11. Others
+
+`removelight lightName`
+
+`removescenenode gameObjectName`
+
+`removephysicsnode gameObjectName`
 
