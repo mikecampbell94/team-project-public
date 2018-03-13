@@ -15,6 +15,8 @@
 #include "CollisionDetectionSAT.h"
 #include "../Launch/Networking/DeadReckoning.h"
 
+#include <cmath>
+
 class PhysicsNode;
 
 typedef std::function<bool(PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData)> PhysicsCollisionCallback;
@@ -44,7 +46,7 @@ public:
 		, appliedForce(0.0f, 0.0f, 0.0f)
 		, acceleration(0.0f, 0.0f, 0.0f)
 	{
-
+		
 	}
 	~PhysicsNode()
 	{
@@ -229,7 +231,36 @@ public:
 		if (collisionShape) collisionShape->setParent(NULL);
 		collisionShape = colShape;
 		if (collisionShape) collisionShape->setParent(this);
+
+		setBroadPhaseShape("Sphere");
 	}
+
+
+	inline void setBroadPhaseShape(std::string broadphaseShapeString)
+	{
+		CollisionShape* colShape;
+		
+		if (broadphaseShapeString == "Sphere")
+		{
+			colShape = new SphereCollisionShape(sqrt(((pow(parent->getScale().x,2)))  + ((pow(parent->getScale().y, 2))) + ((pow(parent->getScale().z, 2)))));		
+		}
+		else
+		{
+			colShape = nullptr;
+		}
+
+		if (collisionShape) collisionShape->setParent(NULL);
+		this->broadPhaseShape = colShape;
+		if (collisionShape) collisionShape->setParent(this);
+	}
+
+
+	inline CollisionShape* getBroadPhaseShape() const
+	{
+		return broadPhaseShape;
+	}
+
+
 	inline void setEnabled(bool isPhy)
 	{
 		enabled = isPhy;
@@ -318,6 +349,7 @@ private:
 	NCLMatrix3     invInertia;
 
 	CollisionShape*		collisionShape;
+	CollisionShape*		broadPhaseShape;
 	PhysicsCollisionCallback	onCollisionCallback;
 
 	float	elasticity;

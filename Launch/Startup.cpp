@@ -151,7 +151,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	
 	gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
-	physics->InitialiseOctrees(100);
+	physics->InitialiseOctrees(8);
 	level->loadLevelFile(LEVELDIR + levelFile, gameplay);
 
 	if (!online)

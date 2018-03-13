@@ -134,7 +134,6 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					physicsNode->setInverseMass(0.2f);
 					physicsNode->setInverseInertia(physicsNode->getCollisionShape()->buildInverseInertia(physicsNode->getInverseMass()));
 					physicsNode->setStatic(false);
-
 					meteor->setPhysicsNode(physicsNode);
 
 					meteor->setPosition(gameObject->getPosition() + NCLVector3(i * 10, 50, 0));
