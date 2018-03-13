@@ -183,7 +183,7 @@ Mesh * Mesh::GenerateHeightMap(int width, int height)
 			float Xoffset = (float)(2.05 * ((x - width / 2)) / (float)width);
 			float Zoffset = (float)(2.05 * ((z - height / 2)) / (float)height);
 
-			vertex.Position = NCLVector3(Xoffset,5, Zoffset);
+			vertex.Position = NCLVector3(Xoffset,15, Zoffset);
 			vertex.Normal = NCLVector3(0, 1, 0);
 			vertex.TexCoords = NCLVector2((float)x/width, (float)z/height);
 			vertex.Tangent = NCLVector3(1, 0, 0);

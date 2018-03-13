@@ -95,6 +95,12 @@
 					<colliderIdentifier>thirdfloorlinker6</colliderIdentifier>
 					<colliderIdentifier>thirdfloorlinker7</colliderIdentifier>
 					<colliderIdentifier>paintPool</colliderIdentifier>
+					<colliderIdentifier>jumpplatform1</colliderIdentifier>
+					<colliderIdentifier>jumpplatform2</colliderIdentifier>
+					<colliderIdentifier>jumpplatform3</colliderIdentifier>
+					<colliderIdentifier>jumpplatform4</colliderIdentifier>
+					<colliderIdentifier>jumpplatform5</colliderIdentifier>
+					<colliderIdentifier>jumpplatform6</colliderIdentifier>
 				</Condition>
 				<LetJump>
 					<resource>var</resource>

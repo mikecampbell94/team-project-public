@@ -2,9 +2,9 @@
   
   <Lights name="light1">
     <position>
-      <x>100</x>
-      <y>150</y>
-      <z>-200</z>
+      <x>200</x>
+      <y>300</y>
+      <z>100</z>
     </position>
     <colour>
       <r>1.0</r>
