@@ -54,7 +54,7 @@ void ScoreCounter::apply()
 {
 	elapsedTime += timer.getTimeSinceLastRetrieval();
 
-	if (elapsedTime >= 240.0f)
+	if (elapsedTime >= 3000.0f)
 	{
 		calculateScores();
 		elapsedTime = 0;
