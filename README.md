@@ -87,3 +87,36 @@ Please install OpenAL with Audio/OpenAL 1.1 SDK/redist/oalinst.exe.
 
 `removephysicsnode gameObjectName`
 
+#### Messages
+
+1. Pausing/Resuming the game
+
+`text GameLoop deltatime disable`
+`text GameLoop deltatime enable`
+
+2. Moving a game object
+
+`movegameobject SubsystemToDeliverTo GameObjectName position=0,0,0
+
+* Will snap a game object to that position.
+* If the game object has a scene node only, SubsystemToDeliverTo must be RenderingSystem. 
+* If the game object has a scene node and a physics node, SubsystemToDeliverTo must be Physics
+
+3. Scaling a game object
+
+`scalegameobject SubsystemToDeliverTo GameObjectName scale=0,0,0
+
+* Will set the size of a game object to that scale.
+* If the game object has a scene node only, SubsystemToDeliverTo must be RenderingSystem. 
+* If the game object has a scene node and a physics node, SubsystemToDeliverTo must be Physics
+
+3. Rotate a game object
+
+`rotategameobject SubsystemToDeliverTo GameObjectName rotate=0,0,0,0
+
+* Will set the orientation of the gameobjec to that rotation.
+* the first 3 components of rotate are the axes on which to rotate. The 4th compoinent is how many degrees to rotate by.
+* For example, a rotation on the Y axis only by 45 degrees will be rotate=0,1,0,45.
+* If the game object has a scene node only, SubsystemToDeliverTo must be RenderingSystem. 
+* If the game object has a scene node and a physics node, SubsystemToDeliverTo must be Physics
+
