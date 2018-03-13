@@ -13,6 +13,12 @@ class GameplaySystem;
 class PlayerBase;
 class Database;
 
+struct MinionColour
+{
+	int minionIndex;
+	NCLVector4 minionColour;
+};
+
 class NetworkClient : public Subsystem
 {
 public:
@@ -28,6 +34,8 @@ public:
 private:
 	void broadcastKinematicState();
 	void broadcastMinionState();
+
+	void broadcastPaintedMinion();
 
 	void updateDeadReckoningForConnectedClients();
 	void updateDeadReckoningForMinions();
@@ -50,6 +58,9 @@ private:
 	bool connectedToServer;
 	bool joinedGame;
 	bool inLobby = false;
+
+	MinionColour minionColour;
+	bool transmitMinionColour = false;
 
 	std::map<GameObject*, DeadReckoning> clientDeadReckonings;
 	std::map<GameObject*, MinionDeadReckoning> minionDeadReckonings;

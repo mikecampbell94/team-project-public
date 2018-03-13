@@ -74,6 +74,12 @@ struct MinionKinematicState
 	NCLVector3 linearAcceleration;
 };
 
+struct MinionColour
+{
+	int minionIndex;
+	NCLVector4 minionColour;
+};
+
 enum
 {
 	NEW_ID,
@@ -164,6 +170,16 @@ int main(int arcg, char** argv)
 					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(MinionKinematicState), 0);
 					enet_host_broadcast(server.m_pNetwork, 0, packet);
 				}
+
+				else if (evnt.packet->dataLength == sizeof(MinionColour))
+				{
+					MinionColour recievedPlayerPacket;
+					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(MinionColour));
+
+					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(MinionColour), 0);
+					enet_host_broadcast(server.m_pNetwork, 0, packet);
+				}
+
 
 				enet_packet_destroy(evnt.packet);
 			}

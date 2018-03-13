@@ -45,7 +45,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		return [gameObject]()
 		{
 			
-				DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", gameObject->getName()));
+				DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "insertMinion " + gameObject->getName()));
 
 		};
 	} });
@@ -229,10 +229,17 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 
 		return [gameObject, minion]()
 		{
+
 			if (gameObject->stats.currentPaint > 0)
 			{
 				minion->getSceneNode()->SetColour(gameObject->stats.colourToPaint);
 				minion->stats.colourToPaint = gameObject->stats.colourToPaint;
+
+				if (PaintGameActionBuilder::localPlayer == gameObject->getName()
+					&& PaintGameActionBuilder::online)
+				{
+					DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "paintMinion " + minion->getName()));
+				}
 			}
 		};
 	} });

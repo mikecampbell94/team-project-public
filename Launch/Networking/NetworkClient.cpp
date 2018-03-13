@@ -23,6 +23,8 @@ struct IntegerData
 	int data;
 };
 
+
+
 const float UPDATE_FREQUENCY = 50.0f;
 const float UPDATE_TIMESTEP = 1.0f / 60.0f;
 
@@ -41,13 +43,36 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 	joinedGame = false;
 	updateRealTimeAccum = 0.0f;
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&database = this->database, &objectsToToTransmitStatesFor = objectsToToTransmitStatesFor](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&database = this->database, &objectsToToTransmitStatesFor = objectsToToTransmitStatesFor,
+	&transmitMinionColour = transmitMinionColour, &minionColour = minionColour](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
-		GameObject* gameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(textMessage->text));
+		istringstream iss(textMessage->text);
+		vector<string> tokens{ istream_iterator<string>{iss},
+			std::istream_iterator<string>{} };
 
-		objectsToToTransmitStatesFor.push_back(gameObject);
+		if (tokens[0] == "insertMinion")
+		{
+			GameObject* gameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(tokens[1]));
+
+			objectsToToTransmitStatesFor.push_back(gameObject);
+		}
+		else if (tokens[0] == "paintMinion")
+		{
+			for (int i = 0; i < objectsToToTransmitStatesFor.size(); ++i)
+			{
+				if (objectsToToTransmitStatesFor[i]->getName() == tokens[1])
+				{
+					minionColour.minionIndex = i;
+					minionColour.minionColour = objectsToToTransmitStatesFor[i]->stats.colourToPaint;
+					transmitMinionColour = true;
+					break;
+				}
+			}
+		}
+
+		
 	});
 
 	waitingInLobbyText = PeriodicTextModifier("Waiting for players", ".", 3);
@@ -106,6 +131,13 @@ void NetworkClient::updateNextFrame(const float& deltaTime)
 			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", playerName,
 				client->getPhysicsNode()->getPosition() + NCLVector3(24, 14, 0), NCLVector3(7, 7, 1), NCLVector3(1, 1, 1), false));
 		}
+
+		if (transmitMinionColour)
+		{
+			transmitMinionColour = false;
+			broadcastPaintedMinion();
+		}
+
 	}
 	else
 	{
@@ -132,7 +164,7 @@ void NetworkClient::connectToServer()
 {
 	if (network.Initialize(0))
 	{
-		serverConnection = network.ConnectPeer(10, 70, 33, 11, 1234);
+		serverConnection = network.ConnectPeer(10, 70, 32, 168, 1234);
 		connectedToServer = true;
 	}
 }
@@ -173,6 +205,12 @@ void NetworkClient::broadcastMinionState()
 		ENetPacket* packet = enet_packet_create(&state, sizeof(MinionKinematicState), 0);
 		enet_peer_send(serverConnection, 0, packet);
 	}
+}
+
+void NetworkClient::broadcastPaintedMinion()
+{
+	ENetPacket* packet = enet_packet_create(&minionColour, sizeof(MinionColour), 0);
+	enet_peer_send(serverConnection, 0, packet);
 }
 
 void NetworkClient::updateDeadReckoningForConnectedClients()
@@ -252,6 +290,14 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 
 					minionDeadReckonings[client] = MinionDeadReckoning(recievedState);
 				}
+			}
+			else if (evnt.packet->dataLength == sizeof(MinionColour) && joinedGame)
+			{
+				MinionColour recievedState;
+				memcpy(&recievedState, evnt.packet->data, sizeof(MinionColour));
+
+				objectsToToTransmitStatesFor[recievedState.minionIndex]->stats.colourToPaint = recievedState.minionColour;
+				objectsToToTransmitStatesFor[recievedState.minionIndex]->getSceneNode()->SetColour(recievedState.minionColour);
 			}
 		}
 
