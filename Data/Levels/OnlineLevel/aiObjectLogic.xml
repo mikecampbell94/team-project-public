@@ -51,13 +51,13 @@
         <isRandom>True</isRandom>
         <force>
           <random>
-            <min>-2</min>
-            <max>2</max>
+            <min>-8</min>
+            <max>8</max>
           </random>
           <Y>0</Y>
           <random>
-            <min>-2</min>
-            <max>2</max>
+            <min>-8</min>
+            <max>8</max>
           </random>
         </force>
       </SendMessage>
