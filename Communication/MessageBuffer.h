@@ -2,6 +2,12 @@
 
 #include "MessageStorage.h"
 
+#include <atomic>
+#include <condition_variable>
+#include <mutex>
+#include <queue>
+#include <utility>
+
 template <class MessageType>
 class MessageBuffer
 {
@@ -14,7 +20,7 @@ public:
 		outgoingMessages.push(message);
 	}
 
-	void sendMessages(MessageStorage& messageStorage)
+	void sendMessages(MessageStorage* messageStorage)
 	{
 		while (!outgoingMessages.empty())
 		{
@@ -22,7 +28,7 @@ public:
 			outgoingMessages.pop();
 
 			sentMessages.push(message);
-			messageStorage.sendMessage(&sentMessages.back());
+			messageStorage->sendMessage(&sentMessages.back());
 		}
 	}
 

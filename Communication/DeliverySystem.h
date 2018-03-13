@@ -6,8 +6,8 @@ class DeliverySystem
 {
 public:
 	static MessagingService* getPostman() 
-	{ 
-		return service; 
+	{
+		return service;
 	}
 
 	static void provide(MessagingService* newService)

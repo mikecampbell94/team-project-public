@@ -11,7 +11,7 @@ public:
 	AudioSystem(Database *database, Camera *camera);
 	~AudioSystem() = default;
 
-	void updateSubsystem(const float& deltaTime) override;
+	void updateNextFrame(const float& deltaTime) override;
 
 	void clearSoundNodesWhenUnloadingLevel()
 	{

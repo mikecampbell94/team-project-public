@@ -13,14 +13,20 @@
 
 class NetworkClient;
 class Database;
+class ThreadPool;
 
 class Startup
 {
 
 public:
-	Startup();
+	Startup(ThreadPool* threadpool);
 	~Startup();
 
+	void initialiseRenderingSystem();
+	void startUserInterface();
+	void startRenderingSystem();
+	void setupMeshes();
+	void renderLoadingScreen();
 	void initialiseSubsystems();
 	void startGameLoop();
 
@@ -32,7 +38,6 @@ public:
 	void beginOnlineLobby();
 
 private:
-	void initialiseRenderingSystem();
 	void initialiseAudioSystem();
 	void initialiseInputSystem();
 	void initialiseDatabaseAndTables();

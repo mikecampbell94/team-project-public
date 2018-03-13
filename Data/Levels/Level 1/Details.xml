@@ -9,7 +9,7 @@
         <A>1</A>
       </Colour>
       <isReflective>0.8</isReflective>
-    </SceneNode>
+</SceneNode>
     <Enabled>True/False</Enabled>
     <Position>
       <X>0</X>
@@ -35,8 +35,8 @@
       <Mass>1</Mass>
       <isCollision>True</isCollision>
       <Elasticity>0.5</Elasticity>
-      <Friction>0.9</Friction>
-      <Damping>0.995</Damping>
+      <Friction>0.9</Friction>      
+	  <Damping>0.995</Damping>
       <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
@@ -337,7 +337,7 @@
     <Enabled>True</Enabled>
     <Position>
       <X>-12.5</X>
-      <Y>250</Y>
+      <Y>100</Y>
       <Z>0</Z>
     </Position>
     <Rotation>
@@ -443,7 +443,7 @@
       <Damping>0.995</Damping>
       <isStatic>False</isStatic>
     </PhysicsNode>
-  </GameObjects>
+  </GameObjects> 
 
   <GameObjects id ="floor" >
     <SceneNode>
@@ -507,9 +507,9 @@
       <W>45</W>
     </Rotation>
     <Scale>
-      <X>1.5</X>
+      <X>30</X>
       <Y>1.5</Y>
-      <Z>1.5</Z>
+      <Z>30</Z>
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
@@ -522,4 +522,5 @@
       <isStatic>True</isStatic>
     </PhysicsNode>
   </GameObjects> 
+
 </LevelDetails>

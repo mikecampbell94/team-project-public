@@ -15,7 +15,7 @@
 #include "Messages/PaintTrailForGameObjectMessage.h"
 #include "Messages/UpdatePositionMessage.h"
 #include "Messages/ToggleGameObjectMessage.h"
-#include "Messages/ClearScoresMessage.h"
+#include "ThreadSafeMessageBuffer.h"
 #include "Messages/DebugLineMessage.h"
 
 class LetterBox : public MessagingService
@@ -58,7 +58,7 @@ public:
 	void cancelOutgoingMessages() override;
 
 private:
-	MessageStorage messageStorage;
+	MessageStorage* messageStorage;
 
 	MessageBuffer<Message> messageBuffer;
 	MessageBuffer<PlayerInputMessage> playerInputMessageBuffer;
@@ -75,7 +75,7 @@ private:
 	MessageBuffer<PreparePaintSurfaceMessage> preparePaintSurfaceBuffer;
 	MessageBuffer<PaintTrailForGameObjectMessage> paintTrailForGameObjectBuffer;
 	MessageBuffer<UpdatePositionMessage> updatePositionBuffer;
-	MessageBuffer<TextMeshMessage> textMeshBuffer;
+	ThreadSafeMessageBuffer<TextMeshMessage> textMeshBuffer;
 	MessageBuffer<AddScoreHolderMessage> scoreBuffer;
 	MessageBuffer<AbsoluteTransformMessage> absoluteTransformBuffer;
 	MessageBuffer<MoveGameObjectMessage> moveGameObjectBuffer;

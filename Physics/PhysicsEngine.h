@@ -6,7 +6,9 @@
 #include "PhysicsNode.h"
 #include "Constraint.h"
 #include "Manifold.h"
+#include "BroadPhaseCulling.h"
 #include <vector>
+#include <unordered_set>
 
 class OctreePartitioning;
 class Keyboard;
@@ -14,13 +16,24 @@ class Keyboard;
 
 //Number of jacobi iterations to apply in order to
 // assure the constraints are solved. (Last tutorial)
-#define SOLVER_ITERATIONS 50
+#define SOLVER_ITERATIONS 20
 
 struct CollisionPair
 {
 	PhysicsNode* pObjectA;
 	PhysicsNode* pObjectB;
+	bool operator==(const CollisionPair& rhs) const { return(pObjectA == rhs.pObjectA && pObjectB == rhs.pObjectB) ? true : false; };
 };
+
+namespace std {
+	template <> struct hash<CollisionPair>
+	{
+		size_t operator()(const CollisionPair &x) const {
+			return hash<float>()(x.pObjectA->getPosition().x) + hash<float>()(x.pObjectB->getPosition().y) + hash<float>()(x.pObjectA->getPosition().y) + hash<float>()(x.pObjectB->getPosition().y);
+		}
+	};
+}
+
 
 class PhysicsEngine : public Subsystem
 {
@@ -36,7 +49,7 @@ public:
 	void addConstraint(Constraint* c) { constraints.push_back(c); }
 
 
-	void updateSubsystem(const float& deltaTime) override;
+	void updateNextFrame(const float& deltaTime) override;
 
 
 	inline float getUpdateTimestep() const 
@@ -70,6 +83,10 @@ public:
 		return updateTimestep; 
 	}
 
+	inline BroadPhaseCulling& getBPcull() { return BpOct; };
+
+	inline int getNumCols() const { return broadphaseColPairs.size(); };
+
 	void OctreeChanged(const NCLMatrix4 &matrix)
 	{
 		octreeChanged = true;
@@ -90,16 +107,20 @@ private:
 	float		dampingFactor;
 
 
-	std::vector<CollisionPair>  broadphaseColPairs;
+	std::unordered_set<CollisionPair>  broadphaseColPairs;
 
 	std::vector<PhysicsNode*>	physicsNodes;
 
 	std::vector<Constraint*>	constraints;
 	std::vector<Manifold*>		manifolds;
 
+	BroadPhaseCulling BpOct;
+
+
 	bool		octreeChanged = false;
 	bool		octreeInitialised = false;
-	OctreePartitioning* octree;
+	//OctreePartitioning* octree;
+
 
 	Database* database;
 

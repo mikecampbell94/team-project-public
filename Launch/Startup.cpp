@@ -9,21 +9,25 @@
 #include "../Gameplay/Scripting/PaintGameActionBuilder.h"
 #include "Resource Management/XMLWriter.h"
 
-Startup::Startup()
+Startup::Startup(ThreadPool* threadpool)
 {
-	engine = new System();
+	engine = new System(threadpool);
 	game = new GameLoop(engine, nullptr, this);
 	loopTimer = new GameTimer();
 }
 
 Startup::~Startup()
 {
+	
+}
 
+void Startup::renderLoadingScreen()
+{
+	rendering->renderLoadingScreen(15.0f);
 }
 
 void Startup::initialiseSubsystems()
 {
-	initialiseRenderingSystem();
 	initialiseDatabaseAndTables();
 	initialiseAudioSystem();
 	physics = new PhysicsEngine(database, window->getKeyboard());
@@ -60,9 +64,24 @@ void Startup::initialiseRenderingSystem()
 	
 	nodes = new std::vector<SceneNode*>();
 	scene = new SceneManager(camera, nodes);
-
 	//rendering->initialise(database);
 	//rendering->SetSceneToRender(scene);
+}
+
+void Startup::startUserInterface()
+{
+	userInterface->initialise(database);
+}
+
+void Startup::startRenderingSystem()
+{
+	rendering->initialise(database);
+	rendering->SetSceneToRender(scene, database);
+}
+
+void Startup::setupMeshes()
+{
+	rendering->setupMeshes();
 }
 
 void Startup::initialiseAudioSystem()
@@ -72,15 +91,16 @@ void Startup::initialiseAudioSystem()
 
 void Startup::initialiseInputSystem()
 {
+	//rendering->initialise(database);
+	//rendering->SetSceneToRender(scene, database);
+
 	//---------------------------------
-	rendering->initialise(database);
 	//---------------------------------
 
 	//node = new SceneNode("../Data/meshes/centeredcube.obj");
 	//node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
 
 	//-------------------------------------------
-	rendering->SetSceneToRender(scene, database);
 	//-------------------------------------------
 
 	keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
@@ -118,14 +138,14 @@ void Startup::initialiseGameplaySystem()
 
 void Startup::addSystemsToEngine()
 {
-	engine->addSubsystem(gameplay);
-	engine->addSubsystem(inputManager);
+	engine->addConcurrentSubsystem(gameplay);
+	engine->addConcurrentSubsystem(inputManager);
 	engine->addSubsystem(rendering);
-	engine->addSubsystem(audio);
-	engine->addSubsystem(userInterface);
-	engine->addSubsystem(physics);
-	engine->addSubsystem(profiler);
-	engine->addSubsystem(new Console(window->getKeyboard(), camera, window->getMouse()));
+	engine->addConcurrentSubsystem(audio);
+	engine->addConcurrentSubsystem(userInterface);
+	engine->addConcurrentSubsystem(physics);
+	engine->addConcurrentSubsystem(profiler);
+	engine->addConcurrentSubsystem(new Console(window->getKeyboard(), camera, window->getMouse()));
 
 	for (Subsystem * subsystem : engine->getSubSystems())
 	{
@@ -137,13 +157,9 @@ void Startup::loadMainMenu()
 {
 	XMLParser::deleteAllParsedXML();
 	level->loadLevelFile(LEVELDIR + "MainMenu.xml", gameplay);
-
-	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
 	XMLParser::deleteAllParsedXML();
 	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
 	//userInterface->initialise(database);
-
 	//gameplay->setUnTimedLevel();
 }
 
@@ -153,7 +169,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	
 	gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
-	physics->InitialiseOctrees(100);
+	physics->InitialiseOctrees(8);
 	level->loadLevelFile(LEVELDIR + levelFile, gameplay);
 
 	if (!online)
@@ -165,23 +181,7 @@ void Startup::loadLevel(std::string levelFile, bool online)
 	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
 
-	//if(levelFile == "MainMenu.xml")
-	//{
-	//	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-	//		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "overtheedge", "BackgroundMusic"));
-	//}
-	//else
-	//{
-	//	//Maybe have a parser in audio system to parse xml script for audio - then use the game object logic parser for object logic audio?
-	//	DeliverySystem::getPostman()->insertMessage(PlayMovingSoundMessage("AudioSystem", camera->getPersistentPosition(),
-	//		SOUNDPRIORITY_HIGH, 1.0f, 1.0f, 1.0f, true, "vega", "LevelMusic"));
-	//}
-
-	
-
-
-
-	//XMLWriter writer(database, gameplay);
+	//XMLWriter writer(database);
 	//writer.saveLevelFile("myLevel");
 	XMLParser::deleteAllParsedXML();
 }
@@ -193,8 +193,8 @@ void Startup::switchLevel()
 	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
 	rendering->clearPainters();
-	level->unloadLevelWhileKeepingUserInterface();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	level->unloadLevelWhileKeepingUserInterface();
 	XMLParser::deleteAllParsedXML();
 }
 
@@ -205,8 +205,8 @@ void Startup::unloadLevel()
 	gameplay->deleteGameObjectScripts();
 	rendering->clearScores();
 	rendering->clearPainters();
-	level->unloadLevel();
 	audio->clearSoundNodesWhenUnloadingLevel();
+	level->unloadLevel();
 	XMLParser::deleteAllParsedXML();
 }
 

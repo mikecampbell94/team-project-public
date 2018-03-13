@@ -34,6 +34,36 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		};
 	} });
 
+	builders.insert({ "Jump", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		float impulse = stof(node->children[1]->value);
+
+		return [gameObject, impulse]()
+		{
+			if (gameObject->stats.canJump)
+			{
+				gameObject->getPhysicsNode()->applyImpulse(NCLVector3(0.f, impulse, 0.f));
+				gameObject->stats.canJump = false;
+			}
+
+		};
+	} });
+
+	builders.insert({ "LetJump", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		
+		return [gameObject]()
+		{
+			gameObject->stats.canJump = true;
+		};
+	} });
+
+
+
 	builders.insert({ "CheckPaint", [](Node* node)
 	{
 		Executable sendMessageAction = SendMessageActionBuilder::buildSendMessageAction(node->children[1]);
@@ -104,7 +134,6 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					physicsNode->setInverseMass(0.2f);
 					physicsNode->setInverseInertia(physicsNode->getCollisionShape()->buildInverseInertia(physicsNode->getInverseMass()));
 					physicsNode->setStatic(false);
-
 					meteor->setPhysicsNode(physicsNode);
 
 					meteor->setPosition(gameObject->getPosition() + NCLVector3(i * 10, 50, 0));

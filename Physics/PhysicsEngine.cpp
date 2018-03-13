@@ -178,14 +178,14 @@ PhysicsEngine::~PhysicsEngine()
 
 void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 {
-	if (octreeInitialised)
-	{
-		octreeChanged = true;
-		obj->movedSinceLastBroadPhase = true;
-		octree->AddNode(obj);
-	}
+
 
 	physicsNodes.push_back(obj);
+	if (obj->getEnabled())
+	{
+		BpOct.sortNode(obj);
+	}
+	
 
 	obj->setOnCollisionCallback([](PhysicsNode* this_obj, PhysicsNode* colliding_obj, CollisionData collisionData)
 	{
@@ -245,9 +245,10 @@ void PhysicsEngine::removeAllPhysicsObjects()
 		delete obj;
 	}
 	physicsNodes.clear();
+	BpOct.clear();
 }
 
-void PhysicsEngine::updateSubsystem(const float& deltaTime)
+void PhysicsEngine::updateNextFrame(const float& deltaTime)
 {
 	timer->beginTimedSection();
 
@@ -277,6 +278,9 @@ void PhysicsEngine::updateSubsystem(const float& deltaTime)
 	}
 	if (wireframeRendering)
 	{
+		BpOct.DebugDraw();
+
+
 		for (PhysicsNode* node : physicsNodes)
 		{
 			NCLVector3 nodePosition = node->getPosition();
@@ -399,7 +403,8 @@ void PhysicsEngine::updatePhysics()
 	timer->beginChildTimedSection("Integrate Velocity");
 	for (PhysicsNode* obj : physicsNodes) 
 	{
-		obj->integrateForVelocity(updateTimestep);
+		if(obj->getEnabled())
+			obj->integrateForVelocity(updateTimestep);
 	}
 	timer->endChildTimedSection("Integrate Velocity");
 	
@@ -416,7 +421,8 @@ void PhysicsEngine::updatePhysics()
 	timer->beginChildTimedSection("Integrate Position");
 	for (PhysicsNode* obj : physicsNodes)
 	{
-		obj->integrateForPosition(updateTimestep);
+		if (obj->getEnabled())
+			obj->integrateForPosition(updateTimestep);
 	}
 	timer->endChildTimedSection("Integrate Position");
 	
@@ -424,22 +430,79 @@ void PhysicsEngine::updatePhysics()
 
 void PhysicsEngine::broadPhaseCollisions()
 {
-	//if (physicsNodes.size() > 0)
-	//{
-	//	if (octreeChanged)
-	//	{
-	//		octree->UpdateTree();
-	//		octreeChanged = false;
-	//		broadphaseColPairs = octree->GetAllCollisionPairs();
-	//	}
-	//}
+	/*if (physicsNodes.size() > 0)
+	{
+		if (octreeChanged)
+		{
+			octree->UpdateTree();
+			octreeChanged = false;
+			broadphaseColPairs = octree->GetAllCollisionPairs();
+		}
+	}*/
+
 
 	broadphaseColPairs.clear();
 
 	PhysicsNode* nodeA;
 	PhysicsNode* nodeB;
 
+	for (PhysicsNode * p : physicsNodes) {
+		if (p->getLinearVelocity().lengthSquared() > 0 && p->getEnabled()) {
+			BpOct.sortNode(p);
+		}
+	}
+
 	if (physicsNodes.size() > 0)
+	{
+		for (BParea &p : BpOct.getBpAreas()) 
+		{
+
+			for (size_t i = 0; i < p.nodesInArea.size() - 1 && p.nodesInArea.size() > 0; ++i)
+			{
+				for (size_t j = i + 1; j < p.nodesInArea.size(); ++j)
+				{
+					if (p.nodesInArea[i]->getEnabled())
+					{
+						nodeA = p.nodesInArea[i];
+					}
+					else 
+					{
+						continue;
+					}
+					
+					if (p.nodesInArea[j]->getEnabled())
+					{
+						nodeB = p.nodesInArea[j];
+					}
+					else
+					{
+						continue;
+					}
+
+					//lets check collisions with broadphase shapes
+				
+
+					//Check they both atleast have collision shapes
+
+					if (!(nodeA->getIsStatic() && nodeB->getIsStatic()))
+					{
+							if (BroadPhaseCulling::SphereSphereCollision(nodeA, nodeB))
+							{
+								CollisionPair cp;
+								cp.pObjectA = nodeA;
+								cp.pObjectB = nodeB;
+
+								broadphaseColPairs.insert(cp);
+							}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+	/*if (physicsNodes.size() > 0)
 	{
 		for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
 		{
@@ -469,7 +532,7 @@ void PhysicsEngine::broadPhaseCollisions()
 			}
 		}
 	}
-}
+}*/
 
 void PhysicsEngine::narrowPhaseCollisions()
 {
@@ -479,9 +542,8 @@ void PhysicsEngine::narrowPhaseCollisions()
 
 		CollisionDetectionSAT colDetect;
 
-		for (size_t i = 0; i < broadphaseColPairs.size(); ++i)
+		for (CollisionPair cp : broadphaseColPairs)
 		{
-			CollisionPair& cp = broadphaseColPairs[i];
 
 			CollisionShape *shapeA = cp.pObjectA->getCollisionShape();
 			CollisionShape *shapeB = cp.pObjectB->getCollisionShape();
@@ -521,8 +583,10 @@ void PhysicsEngine::narrowPhaseCollisions()
 
 void PhysicsEngine::InitialiseOctrees(int entityLimit)
 {
+	BpOct.initBroadphase(NCLVector3(-200,-200,-200),NCLVector3(200,200,200));
 	//octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
 	//octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
+
 
 	//if (physicsNodes.size() > 0)
 	//{

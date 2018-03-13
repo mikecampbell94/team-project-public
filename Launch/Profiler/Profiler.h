@@ -17,7 +17,7 @@ public:
 	Profiler(Keyboard* keyboard, Database* database, FPSCounter* fpsCounter);
 	~Profiler() {}
 
-	void updateSubsystem(const float& deltatime) override;
+	void updateNextFrame(const float& deltatime) override;
 	void addSubsystemTimer(std::string name, GameTimer* timer);
 
 private:

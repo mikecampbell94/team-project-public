@@ -3,6 +3,7 @@
 #include "../../Input/Devices/Keyboard.h"
 #include "UserInterfaceDisplay.h"
 #include "../Input/InputControl.h"
+#include "../Resource Management/Database/Database.h"
 
 UserInterface::UserInterface(Keyboard* keyboard, NCLVector2 resolution) : Subsystem("UserInterface")
 {
@@ -38,18 +39,29 @@ UserInterface::~UserInterface()
 	delete menu;
 }
 
-void UserInterface::initialise(std::string menuFile, Database* database)
+void UserInterface::setMenuFile(std::string newMenuFile)
+{
+	menuFile = newMenuFile;
+}
+
+void UserInterface::initialise(Database* database)
 {
 	if (menu != nullptr)
 	{
 		delete menu;
 	}
 
+	auto UIMeshesResources = database->getTable("UIMeshes")->getAllResources()->getResourceBuffer();
+	for (auto UIMeshIterator = UIMeshesResources.begin(); UIMeshIterator != UIMeshesResources.end(); UIMeshIterator++)
+	{
+		static_cast<Mesh*>((*UIMeshIterator).second)->setupMesh();
+	}
+
 	menu = new Menu(menuFile, database);
 	UserInterfaceDisplay::provide(menu);
 }
 
-void UserInterface::updateSubsystem(const float& deltaTime)
+void UserInterface::updateNextFrame(const float& deltaTime)
 {
 	if (keyboard->keyTriggered(KEYBOARD_ESCAPE))
 	{

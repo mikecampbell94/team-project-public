@@ -66,7 +66,7 @@ InputManager::~InputManager()
 	delete playerbase;
 }
 
-void InputManager::updateSubsystem(const float& deltatime)
+void InputManager::updateNextFrame(const float& deltatime)
 {
 	blockKeysFromMessages();
 	unblockKeysFromMessages();

@@ -93,6 +93,7 @@ void GameObject::setScale(NCLVector3 scale)
 	if (physicsNode != nullptr)
 	{
 		this->physicsNode->getCollisionShape()->setScale(scale, this->physicsNode->getInverseMass());
+		this->physicsNode->getBroadPhaseShape()->setScale(scale, 1);
 	}
 	else
 	{

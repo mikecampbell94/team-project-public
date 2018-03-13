@@ -9,6 +9,12 @@ GameLogic::GameLogic(MessageProcessor* messages)
 	this->messages = messages;
 }
 
+GameLogic::GameLogic(MessageProcessor* messages, Node* xmlNode)
+{
+	this->messages = messages;
+	compileParsedXMLIntoScript(xmlNode);
+}
+
 GameLogic::~GameLogic()
 {
 }
@@ -57,6 +63,20 @@ void GameLogic::executeMessageBasedActions()
 			if (publishers[i].first == "CollisionMessage" || publishers[i].first == "InputMessage")
 			{
 				for (GameplayAction& executable : messageBasedActions[publishers[i].first])
+				{
+					executable(publishers[i].second);
+				}
+			}
+		}
+	}
+
+	if (!messageBasedActions.empty())
+	{
+		for (int i = 0; i < publishers.size(); ++i)
+		{
+			if (publishers[i].first == "CollisionMessage" || publishers[i].first == "InputMessage")
+			{
+				for (GameplayAction& executable : messageBasedActions.at(publishers[i].first))
 				{
 					executable(publishers[i].second);
 				}

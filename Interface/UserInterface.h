@@ -11,13 +11,15 @@ public:
 	UserInterface(Keyboard* mouse, NCLVector2 resolution);
 	~UserInterface();
 
-	void initialise(std::string menuFile, Database* database);
+	void setMenuFile(std::string newMenuFile);
+	void initialise(Database* database);
 
-	void updateSubsystem(const float& deltaTime) override;
+	void updateNextFrame(const float& deltaTime) override;
 
 private:
 	void toggleModule();
 
+	std::string menuFile;
 	Keyboard* keyboard;
 	NCLVector2 resolution;
 	Menu* menu = nullptr;

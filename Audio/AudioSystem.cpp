@@ -29,7 +29,7 @@ AudioSystem::AudioSystem(Database *database, Camera *camera) : Subsystem("AudioS
 	});
 }
 
-void AudioSystem::updateSubsystem(const float& deltaTime)
+void AudioSystem::updateNextFrame(const float& deltaTime)
 {
 	timer->beginTimedSection();
 

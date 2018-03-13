@@ -54,7 +54,18 @@ public:
 	};
 
 	void LoadModel(std::string path);
+	void setupMesh()
+	{
+		for (SubMesh* submesh : meshes)
+		{
+			submesh->SetupMesh();
+		}
 
+		if (textureFile != "")
+		{
+			loadTexture(textureFile);
+		}
+	}
 	void SetTransformForAllSubMeshes(NCLMatrix4 transform);
 
 	void ProcessNode(aiNode *node, const aiScene *scene);
@@ -80,6 +91,10 @@ public:
 	
 
 	void loadTexture(std::string filepath);
+	void setTextureFile(std::string textureFile)
+	{
+		this->textureFile = textureFile;
+	}
 
 	//Model Data 
 	std::vector<SubMesh*> meshes;
@@ -99,6 +114,5 @@ public:
 	float radius;
 
 	bool perlin = false;
-
 };
 

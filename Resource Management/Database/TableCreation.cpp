@@ -55,22 +55,20 @@ void TableCreation::addMesh() const
 			mesh->setName(node->name);
 			mesh->loadTexture(node->children[1]->value);
 			mesh->perlin = stoi(node->children[2]->value);
-
 		}
 		else
 		{
 			mesh = new Mesh(node->children[0]->value, 1);
+
 			if (node->children.size() > 1)
 			{
-				mesh->loadTexture(node->children[1]->value);
-
+				//mesh->loadTexture(node->children[1]->value);
+				mesh->setTextureFile(node->children[1]->value);
 			}
 
 			mesh->setName(node->name);
 		}
 
-		
-		
 		return mesh;
 	}));
 }

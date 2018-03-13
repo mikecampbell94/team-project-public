@@ -43,6 +43,9 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 	{
 		if (p->getPlayerID() == playerID)
 		{
+			std::string playerName = "player" + std::to_string(id);
+			GameObject* playerGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
+			p->setGameObject(playerGameObject);
 			return p;
 		}
 	}

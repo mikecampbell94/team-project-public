@@ -34,12 +34,49 @@ Renderer::Renderer(GameTimer* parentTimer, Window* window, Camera* camera)
 	//globalProjectionMatrix = Matrix4::perspective(1.0f, 150000.0f, resolution.x / resolution.y, 60.0f);
 	globalOrthographicMatrix = NCLMatrix4::orthographic(-1.0f,10000.0f, width / 2.0f, -width / 2.0f, height / 2.0f, -height / 2.0f);
 
+	loadingScreenMesh = new SceneNode("../Data/Resources/Meshes/cube.obj", NCLVector4(1,0,0,1));
+	loadingScreenMesh->GetMesh()->loadTexture("../Data/Resources/Textures/sleepyboi.png");
+	loadingScreenMesh->GetMesh()->setupMesh();
+	loadingScreenMesh->SetTransform(NCLVector3(0, 0, -10));
+	loadingScreenMesh->SetModelScale(NCLVector3(1, 1, 1));
+	loadingScreenMesh->Update(0.0f);
+
+	loadingScreenShader = new Shader(SHADERDIR"/basicVertex.glsl", SHADERDIR"/basicFrag.glsl", "", true);
+	loadingScreenShader->LinkProgram();
+
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	GraphicsUtility::CheckGLError("Renderer Initialisation");
 }
 
 Renderer::~Renderer()
 {
+	delete loadingScreenMesh;
+	delete loadingScreenShader;
+}
+
+void Renderer::renderLoadingScreen(const float& deltatime)
+{
+	camera->setPosition(NCLVector3(0, 0, 0));
+	camera->setPitch(0);
+	camera->setYaw(0);
+
+	loadingScreenMesh->SetTransform(loadingScreenMesh->GetTransform()
+		* NCLMatrix4::rotation(5.0f, NCLVector3(0,1,0)));
+
+	loadingScreenMesh->Update(deltatime);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	glUseProgram(loadingScreenShader->GetProgram());
+	viewMatrix = camera->buildViewMatrix();
+
+	glUniform4fv(glGetUniformLocation(loadingScreenShader->GetProgram(), "colour"), 1, (float*)&loadingScreenMesh->getColour());
+	glUniformMatrix4fv(glGetUniformLocation(loadingScreenShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(loadingScreenShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
+	glUniform1i(glGetUniformLocation(loadingScreenShader->GetProgram(), "hasTexture"), 1);
+
+	loadingScreenMesh->Draw(*loadingScreenShader);
+	swapBuffers();
 }
 
 void Renderer::initialise(SceneManager* sceneManager, Database* database)

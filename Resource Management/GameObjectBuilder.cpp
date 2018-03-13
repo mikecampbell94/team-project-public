@@ -100,8 +100,6 @@ PhysicsNode * GameObjectBuilder::buildPhysicsNode(Node * node, GameObject * pare
 			physicsnode->setIsCollision(child->value == "True");
 		}
 	}
-
-
 	return physicsnode;
 }
 

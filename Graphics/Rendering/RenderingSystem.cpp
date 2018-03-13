@@ -231,12 +231,28 @@ void RenderingSystem::initialise(Database* database)
 	});
 }
 
+void RenderingSystem::renderLoadingScreen(const float& deltaTime)
+{
+	renderer->renderLoadingScreen(deltaTime);
+}
+
+void RenderingSystem::setupMeshes()
+{
+	std::vector<SceneNode*>** nodes = scene->getAllNodes();
+
+	for (SceneNode* node : **nodes)
+	{
+		node->GetMesh()->setupMesh();
+	}
+}
+
 void RenderingSystem::SetSceneToRender(SceneManager* scene, Database* database)
 {
+	this->scene = scene;
 	renderer->initialise(scene, database);
 }
 
-void RenderingSystem::updateSubsystem(const float& deltaTime)
+void RenderingSystem::updateNextFrame(const float& deltaTime)
 {
 	timer->beginTimedSection();
 	renderer->update(deltaTime);

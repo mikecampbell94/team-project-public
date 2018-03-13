@@ -50,7 +50,7 @@ NetworkClient::~NetworkClient()
 {
 }
 
-void NetworkClient::updateSubsystem(const float& deltaTime)
+void NetworkClient::updateNextFrame(const float& deltaTime)
 {
 	timer->beginTimedSection();
 

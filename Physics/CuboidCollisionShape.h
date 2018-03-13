@@ -46,6 +46,8 @@ public:
 		return halfDims.z; 
 	}
 
+	static Hull getcubeHull() { return cubeHull; };
+
 
 	virtual NCLMatrix3 buildInverseInertia(float invMass) const override;
 

@@ -14,7 +14,7 @@ public:
 	InputManager(PlayerBase* playerbase);
 	~InputManager();
 
-	void updateSubsystem(const float& deltatime) override;
+	void updateNextFrame(const float& deltatime) override;
 
 	PlayerBase* GetPlayerbase() const
 	{
