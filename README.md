@@ -20,7 +20,7 @@ Please install OpenAL with Audio/OpenAL 1.1 SDK/redist/oalinst.exe.
 
 2. Create a game object
 
-.. `spawngameobject GameObjectName`
+... `spawngameobject GameObjectName`
 
 * gameobjectname is the resource identifier.
 
