@@ -191,11 +191,11 @@ int main(int arcg, char** argv)
 			{
 				if (evnt.packet->dataLength == sizeof(KinematicState))
 				{
-					/*KinematicState recievedPlayerPacket;
+					KinematicState recievedPlayerPacket;
 					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(KinematicState));
 
 					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(KinematicState), 0);
-					enet_host_broadcast(server.m_pNetwork, 0, packet);*/
+					enet_host_broadcast(server.m_pNetwork, 0, packet);
 				}
 				else if (evnt.packet->dataLength == sizeof(MinionKinematicState))
 				{
