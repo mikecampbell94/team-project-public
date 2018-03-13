@@ -101,6 +101,8 @@ public:
 
 			cerr << tag << "  -  GL_" << error.c_str() << "\n";
 			err = glGetError();
+
+			std::cout << error << std::endl;
 		}
 	}
 

@@ -17,6 +17,7 @@
 #include "../../Communication/Messages/PreparePaintSurfaceMessage.h"
 #include "../../Communication/Messages/AddScoreHolderMessage.h"
 #include "../../Communication/Messages/ToggleGameObjectMessage.h"
+#include "../../Communication/Messages/DebugLineMessage.h"
 #include "../Utilities/GameTimer.h"
 #include <iterator>
 #include "../../Communication/Messages/AbsoluteTransformMessage.h"
@@ -38,9 +39,23 @@ void RenderingSystem::initialise(Database* database)
 	std::vector<MessageType> types = { MessageType::TEXT, MessageType::TEXT_MESH_MESSAGE, MessageType::RELATIVE_TRANSFORM,
 		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
 		MessageType::SCALE_GAMEOBJECT, MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER,
-		MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT, MessageType::TOGGLE_GAMEOBJECT };
+		MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT,
+		MessageType::TOGGLE_GAMEOBJECT, MessageType::DEBUG_LINE, MessageType::DEBUG_CIRCLE};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::DEBUG_LINE, [&renderer = renderer](Message* message)
+	{
+		DebugLineMessage* debugLineMessage = static_cast<DebugLineMessage*>(message);
+		static_cast<Wireframe*>(renderer->getGraphicsModule("Wireframe"))->addLine(debugLineMessage->from, debugLineMessage->to, debugLineMessage->colour);
+	});
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::DEBUG_CIRCLE, [&renderer = renderer](Message* message)
+	{
+		DebugCircleMessage* debugCircleMessage = static_cast<DebugCircleMessage*>(message);
+		static_cast<Wireframe*>(renderer->getGraphicsModule("Wireframe"))->addCircle(debugCircleMessage->position, debugCircleMessage->radius, debugCircleMessage->colour);
+	});
+
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&renderer = renderer, database = database, &blockCamera = blockCamera](Message* message)
 	{

@@ -215,3 +215,34 @@ void Hull::GetMinMaxVerticesInAxis(const NCLVector3& local_axis, int* out_min_ve
 	if (out_max_vert) *out_max_vert = maxVertex;
 }
 
+void Hull::DebugDraw(const NCLMatrix4& transform)
+{
+	//Draw all Hull Polygons
+	for (HullFace& face : m_vFaces)
+	{
+		//Render Polygon as triangle fan
+		if (face._vert_ids.size() > 2)
+		{
+			NCLVector3 polygon_start = transform * m_vVertices[face._vert_ids[0]]._pos;
+			NCLVector3 polygon_last = transform * m_vVertices[face._vert_ids[1]]._pos;
+
+			for (size_t idx = 2; idx < face._vert_ids.size(); ++idx)
+			{
+				NCLVector3 polygon_next = transform * m_vVertices[face._vert_ids[idx]]._pos;
+
+				/*DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
+					NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
+					NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
+					NCLVector3(0.5, 0.5, 1)));
+				Wireframe::addLine(polygon_start, polygon_last, polygon_next, NCLVector4(1.0f, 1.0f, 1.0f, 0.2f));*/
+				polygon_last = polygon_next;
+			}
+		}
+	}
+
+	//Draw all Hull Edges
+	for (HullEdge& edge : m_vEdges)
+	{
+		DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem", transform * m_vVertices[edge._vStart]._pos, transform * m_vVertices[edge._vEnd]._pos, NCLVector3(0.5, 0.5, 1)));
+	}
+}

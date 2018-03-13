@@ -105,10 +105,15 @@
     <ClInclude Include="Messages\TogglePlayerInputKeyMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ThreadSafeMessageBuffer.h">
+<ClInclude Include="Messages\DebugLineMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
+    <ClInclude Include="Messages\DebugCircleMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+<ClInclude Include="ThreadSafeMessageBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp">
       <Filter>Source Files</Filter>
@@ -192,6 +197,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\TogglePlayerInputKeyMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\DebugLineMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages\DebugCircleMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

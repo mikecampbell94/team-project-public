@@ -12,5 +12,5 @@ out Vertex {
 
 void main(void)	{
 	gl_Position	  = viewProjMatrix * vec4(position, 1.0);
-	OUT.colour    = vec4(colour,1);
+	OUT.colour    = vec4(colour, 1.0f);
 }

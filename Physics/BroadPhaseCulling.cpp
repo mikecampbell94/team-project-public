@@ -111,5 +111,13 @@ bool BroadPhaseCulling::intersect(NCLVector3 minVal, NCLVector3 maxVal, NCLVecto
 
 void BroadPhaseCulling::DebugDraw()
 {
+	for (BParea cube : bpAreas) {
 
+		NCLVector3 scale = (cube.maxVal - cube.minVal) / 2;
+
+		NCLMatrix4 transform = NCLMatrix4::translation(cube.minVal + ((cube.maxVal - cube.minVal) / 2)) * NCLMatrix4::scale(NCLVector3(scale.x, scale.y, scale.z));
+		int numNodes = cube.nodesInArea.size();
+		float full = numNodes / (float)maxNodes;
+		CuboidCollisionShape::getcubeHull().DebugDraw(transform);
+	}
 }
