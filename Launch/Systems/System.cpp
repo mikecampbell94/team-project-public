@@ -18,8 +18,7 @@ System::~System()
 
 void System::updateNextSystemFrame(const float& deltaTime)
 {
-	auto start = std::clock();
-
+	
 	vector<TaskFuture<void>> updates;
 
 	for (Subsystem* subsystem : concurrentSubsystems)
@@ -42,7 +41,6 @@ void System::updateNextSystemFrame(const float& deltaTime)
 
 	auto end = std::clock();
 
-	std::cout << end - start << std::endl;
 }
 
 void System::addSubsystem(Subsystem* subsystem)

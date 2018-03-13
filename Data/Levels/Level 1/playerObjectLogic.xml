@@ -1,6 +1,5 @@
 <GameObjectLogic>
 
-  <EnableOnline>True</EnableOnline>
 	<Resources>
 		<resource>player0</resource>
 		<resource>player1</resource>

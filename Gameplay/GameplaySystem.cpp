@@ -9,6 +9,7 @@
 #include "../Utilities/GameTimer.h"
 #include "../Input/Devices/Keyboard.h"
 #include "../Communication/SendMessageActionBuilder.h"
+#include "Scripting\PaintGameActionBuilder.h"
 
 GameplaySystem::GameplaySystem(Database* database)
 	: Subsystem("Gameplay")
@@ -117,6 +118,13 @@ void GameplaySystem::updateNextFrame(const float& deltaTime)
 
 			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", std::to_string((int)round(gameLogic.maxTime - gameLogic.elapsedTime)),
 				NCLVector3(-75, 310, 0), NCLVector3(30, 30, 30), NCLVector3(1, 0, 0), true, true));
+
+			if (PaintGameActionBuilder::online)
+			{
+				PaintGameActionBuilder::r1 = PaintGameActionBuilder::r1ToSet;
+				PaintGameActionBuilder::r2 = PaintGameActionBuilder::r2ToSet;
+				PaintGameActionBuilder::r3 = PaintGameActionBuilder::r3ToSet;
+			}
 		}
 		else if(!levelFinished)
 		{

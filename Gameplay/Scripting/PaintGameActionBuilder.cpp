@@ -18,6 +18,12 @@ std::string PaintGameActionBuilder::powerUpBuilders[2] = { "ScalePlayer", "Decre
 Database* PaintGameActionBuilder::database = nullptr;
 std::string PaintGameActionBuilder::localPlayer = "";
 bool PaintGameActionBuilder::online = false;
+int PaintGameActionBuilder::r1 = 0;
+int PaintGameActionBuilder::r2 = 0;
+int PaintGameActionBuilder::r3 = 0;
+int PaintGameActionBuilder::r1ToSet = 0;
+int PaintGameActionBuilder::r2ToSet = 0;
+int PaintGameActionBuilder::r3ToSet = 0;
 
 void PaintGameActionBuilder::initialiseBuilders(Database* database)
 {
@@ -319,18 +325,14 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 				{
 					GameObject* meteor = static_cast<GameObject*>(
 						PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
-					
+
 					std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
 					std::uniform_int_distribution<int> uni(-6, 6); // guaranteed unbiased
 					auto random_integer1 = uni(rng);
 					auto random_integer2 = uni(rng);
 
-
-					//DeliverySystem::getPostman()->insertMessage(MoveGameObjectMessage("Physics", meteor->getName(), gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10)));
 					meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10));
 					meteor->setEnabled(true);
-					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("RenderingSystem", meteor->getName(), true));
-					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("Physics", meteor->getName(), true));
 				}
 
 				gameObject->stats.timeToWait = duration;
@@ -391,8 +393,6 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 							auto random_integer1 = uni(rng);
 							auto random_integer2 = uni(rng);
 
-
-							//DeliverySystem::getPostman()->insertMessage(MoveGameObjectMessage("Physics", meteor->getName(), gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10)));
 							meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10));
 							meteor->setEnabled(true);
 
@@ -415,9 +415,79 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		};
 	} });
 
+	builders.insert({ "RandomNetworkedPowerUp", [](Node* node)
+	{
+
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		float multiplier = stof(node->children[1]->value);
+		GameObject* powerup = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[2]->value));
+		float duration = stof(node->children[3]->value) * 1000;
+
+		return [gameObject, multiplier, powerup, duration]()
+		{
+			if (!gameObject->stats.executeAfter)
+			{
+				powerup->setEnabled(false);
+				gameObject->stats.timeToWait = duration;
+
+
+				switch (PaintGameActionBuilder::r1)
+				{
+				case SCALE_POWERUP:
+				{
+					gameObject->setPosition(NCLVector3(gameObject->getPosition().x, gameObject->getPosition().y + (gameObject->stats.defaultScale.y * multiplier * .5f), gameObject->getPosition().z));
+					gameObject->setScale(gameObject->stats.defaultScale * multiplier);
+					break;
+				}
+				case SPEED_POWERUP:
+				{
+					gameObject->stats.defaultInvMass *= multiplier;
+					break;
+				}
+				case METEOR_POWERUP:
+				{
+
+					for (int i = 0; i < gameObject->stats.meteors; ++i)
+					{
+						GameObject* meteor = static_cast<GameObject*>(
+							PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
+
+						meteor->setPosition(gameObject->getPosition() + NCLVector3(PaintGameActionBuilder::r2 * 10, 100 + (i * 40), PaintGameActionBuilder::r3 * 10));
+						meteor->setEnabled(true);
+
+					}
+					break;
+				}
+				default:
+					break;
+				}
+
+
+				gameObject->stats.executeAfter = [gameObject, powerup]()
+				{
+					gameObject->stats.defaultInvMass = 1.f;
+					gameObject->setScale(gameObject->stats.defaultScale);
+					gameObject->stats.executeAfter = std::function<void()>();
+					powerup->setEnabled(true);
+				};
+
+				
+
+				if (PaintGameActionBuilder::localPlayer == gameObject->getName()
+					&& PaintGameActionBuilder::online)
+				{
+					DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "powerUpCollision " + gameObject->getName() + " " + powerup->getName()));
+				}
+
+			}
+		};
+	} });
 
 
 
+	
 
 
 }

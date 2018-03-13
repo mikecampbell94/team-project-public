@@ -26,6 +26,14 @@ public:
 
 	static std::string localPlayer;
 	static bool online;
+
+	static int r1;
+	static int r2;
+	static int r3;
+
+	static int r1ToSet;
+	static int r2ToSet;
+	static int r3ToSet;
 private:
 	static std::unordered_map<std::string, Builder> builders;
 	static std::string powerUpBuilders[2];

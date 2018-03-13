@@ -43,6 +43,7 @@ FOR MORE NETWORKING INFORMATION SEE "Tuts_Network_Client -> Net1_Client.h"
 
 //Needed to get computer adapter IPv4 addresses via windows
 #include <iphlpapi.h>
+#include <random>
 #pragma comment(lib, "IPHLPAPI.lib")
 
 #define SERVER_PORT 1234
@@ -92,6 +93,21 @@ struct IntegerData
 	int data;
 };
 
+struct PowerUpCollision
+{
+	int player;
+	int powerUp;
+	int offset;
+};
+
+struct RandomIntegers
+{
+	int r1;
+	int r2;
+	int r3;
+	bool first;
+};
+
 int onExit(int exitcode)
 {
 	server.Release();
@@ -101,6 +117,7 @@ int onExit(int exitcode)
 
 int main(int arcg, char** argv)
 {
+	std::random_device rd;
 	if (enet_initialize() != 0)
 	{
 		fprintf(stderr, "An error occurred while initializing ENet.\n");
@@ -149,6 +166,24 @@ int main(int arcg, char** argv)
 
 				ENetPacket* packet = enet_packet_create(&numberOfPlayersMessage, sizeof(IntegerData), 0);
 				enet_host_broadcast(server.m_pNetwork, 0, packet);
+
+				std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+				std::uniform_int_distribution<int> uni(0, 2); // guaranteed unbiased
+				auto r1 = uni(rng);
+
+				std::mt19937 rng2(rd());    // random-number engine used (Mersenne-Twister in this case)
+				std::uniform_int_distribution<int> uni2(-6, 6); // guaranteed unbiased
+				auto r2 = uni2(rng2);
+				auto r3 = uni2(rng2);
+
+				RandomIntegers rndInts;
+				rndInts.r1 = r1;
+				rndInts.r2 = r2;
+				rndInts.r3 = r3;
+				rndInts.first = true;
+
+				ENetPacket* packet2 = enet_packet_create(&rndInts, sizeof(RandomIntegers), 0);
+				enet_host_broadcast(server.m_pNetwork, 0, packet2);
 			}
 			break;
 
@@ -156,11 +191,11 @@ int main(int arcg, char** argv)
 			{
 				if (evnt.packet->dataLength == sizeof(KinematicState))
 				{
-					KinematicState recievedPlayerPacket;
+					/*KinematicState recievedPlayerPacket;
 					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(KinematicState));
 
 					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(KinematicState), 0);
-					enet_host_broadcast(server.m_pNetwork, 0, packet);
+					enet_host_broadcast(server.m_pNetwork, 0, packet);*/
 				}
 				else if (evnt.packet->dataLength == sizeof(MinionKinematicState))
 				{
@@ -178,6 +213,35 @@ int main(int arcg, char** argv)
 
 					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(MinionColour), 0);
 					enet_host_broadcast(server.m_pNetwork, 0, packet);
+				}
+
+				else if (evnt.packet->dataLength == sizeof(PowerUpCollision))
+				{
+					MinionColour recievedPlayerPacket;
+					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(PowerUpCollision));
+
+					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(PowerUpCollision), 0);
+					enet_host_broadcast(server.m_pNetwork, 0, packet);
+
+
+					std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+					std::uniform_int_distribution<int> uni(0, 2); // guaranteed unbiased
+					auto r1 = uni(rng);
+
+					std::mt19937 rng2(rd());    // random-number engine used (Mersenne-Twister in this case)
+					std::uniform_int_distribution<int> uni2(-6, 6); // guaranteed unbiased
+					auto r2 = uni2(rng2);
+					auto r3 = uni2(rng2);
+
+					RandomIntegers rndInts;
+					rndInts.r1 = r1;
+					rndInts.r2 = r2;
+					rndInts.r3 = r3;
+					rndInts.first = false;
+
+					ENetPacket* packet2 = enet_packet_create(&rndInts, sizeof(RandomIntegers), 0);
+					enet_host_broadcast(server.m_pNetwork, 0, packet2);
+
 				}
 
 

@@ -3,6 +3,7 @@
 #include "../Input/Players/PlayerBase.h"
 #include "../Gameplay/GameplaySystem.h"
 #include "../Communication/Messages/UpdatePositionMessage.h"
+#include "../../Communication/Messages/CollisionMessage.h"
 #include "../Resource Management/Database/Database.h"
 #include "../Gameplay/GameObject.h"
 #include "../Physics/PhysicsNode.h"
@@ -43,8 +44,16 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 	joinedGame = false;
 	updateRealTimeAccum = 0.0f;
 
+
+	//replace for doing it automatically
+	powerUps.push_back("powerup");
+
+
+
+
+
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&database = this->database, &objectsToToTransmitStatesFor = objectsToToTransmitStatesFor,
-	&transmitMinionColour = transmitMinionColour, &minionColour = minionColour](Message* message)
+	&transmitMinionColour = transmitMinionColour, &minionColour = minionColour, &powerUpCollision = powerUpCollision, &transmitPowerUpCollision = transmitPowerUpCollision](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
@@ -70,6 +79,12 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 					break;
 				}
 			}
+		}
+		else if (tokens[0] == "powerUpCollision")
+		{
+			powerUpCollision.player = stoi(tokens[1].substr(tokens[1].find_first_of("0123456789")));
+			powerUpCollision.powerUp = 0;
+			transmitPowerUpCollision = true;
 		}
 
 		
@@ -136,6 +151,12 @@ void NetworkClient::updateNextFrame(const float& deltaTime)
 		{
 			transmitMinionColour = false;
 			broadcastPaintedMinion();
+		}
+
+		if (transmitPowerUpCollision)
+		{
+			transmitPowerUpCollision = false;
+			broadcastPowerUpCollision();
 		}
 
 	}
@@ -213,6 +234,12 @@ void NetworkClient::broadcastPaintedMinion()
 	enet_peer_send(serverConnection, 0, packet);
 }
 
+void NetworkClient::broadcastPowerUpCollision()
+{
+	ENetPacket* packet = enet_packet_create(&powerUpCollision, sizeof(PowerUpCollision), 0);
+	enet_peer_send(serverConnection, 0, packet);
+}
+
 void NetworkClient::updateDeadReckoningForConnectedClients()
 {
 	for (auto client = clientDeadReckonings.begin(); client != clientDeadReckonings.end(); ++client)
@@ -237,7 +264,7 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 		&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, &inLobby = inLobby,
 		&joinedGame = joinedGame, &database = database, &numberOfOtherPlayersToWaitFor = numberOfOtherPlayersToWaitFor,
 		&msCounter = msCounter, &clientDeadReckonings = clientDeadReckonings, &minionDeadReckonings = minionDeadReckonings,
-		&objectsToToTransmitStatesFor = objectsToToTransmitStatesFor](const ENetEvent& evnt)
+		&objectsToToTransmitStatesFor = objectsToToTransmitStatesFor, &powerUps = powerUps](const ENetEvent& evnt)
 	{
 		if (evnt.type == ENET_EVENT_TYPE_RECEIVE)
 		{
@@ -299,6 +326,42 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 				objectsToToTransmitStatesFor[recievedState.minionIndex]->stats.colourToPaint = recievedState.minionColour;
 				objectsToToTransmitStatesFor[recievedState.minionIndex]->getSceneNode()->SetColour(recievedState.minionColour);
 			}
+			else if (evnt.packet->dataLength == sizeof(PowerUpCollision) && joinedGame)
+			{
+				PowerUpCollision recievedState;
+				memcpy(&recievedState, evnt.packet->data, sizeof(PowerUpCollision));
+
+				if (recievedState.player != clientID)
+				{
+					const std::string playerName = "player" + to_string(recievedState.player);
+
+					GameObject* player = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
+
+
+					DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", CollisionData(),
+						playerName, powerUps[recievedState.powerUp]));
+				}
+			}
+			else if (evnt.packet->dataLength == sizeof(RandomIntegers) && joinedGame)
+			{
+				RandomIntegers recievedState;
+				memcpy(&recievedState, evnt.packet->data, sizeof(RandomIntegers));
+
+				if (recievedState.first)
+				{
+					PaintGameActionBuilder::r1 = recievedState.r1;
+					PaintGameActionBuilder::r2 = recievedState.r2;
+					PaintGameActionBuilder::r3 = recievedState.r3;
+				}
+				else
+				{
+					PaintGameActionBuilder::r1ToSet = recievedState.r1;
+					PaintGameActionBuilder::r2ToSet = recievedState.r2;
+					PaintGameActionBuilder::r3ToSet = recievedState.r3;
+				}
+			}
+
+			
 		}
 
 		enet_packet_destroy(evnt.packet);

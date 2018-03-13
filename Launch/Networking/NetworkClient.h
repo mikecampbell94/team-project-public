@@ -19,6 +19,21 @@ struct MinionColour
 	NCLVector4 minionColour;
 };
 
+struct PowerUpCollision
+{
+	int player;
+	int powerUp;
+	int offset;
+};
+
+struct RandomIntegers
+{
+	int r1;
+	int r2;
+	int r3;
+	bool first;
+};
+
 class NetworkClient : public Subsystem
 {
 public:
@@ -36,6 +51,7 @@ private:
 	void broadcastMinionState();
 
 	void broadcastPaintedMinion();
+	void broadcastPowerUpCollision();
 
 	void updateDeadReckoningForConnectedClients();
 	void updateDeadReckoningForMinions();
@@ -61,6 +77,10 @@ private:
 
 	MinionColour minionColour;
 	bool transmitMinionColour = false;
+
+	PowerUpCollision powerUpCollision;
+	bool transmitPowerUpCollision = false;
+	std::vector<std::string> powerUps;
 
 	std::map<GameObject*, DeadReckoning> clientDeadReckonings;
 	std::map<GameObject*, MinionDeadReckoning> minionDeadReckonings;

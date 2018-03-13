@@ -156,7 +156,7 @@ void SoundNode::update(float msec)
 void SoundNode::pauseSound()
 {
 	state = SoundState::PAUSED;
-	alSourcePause(oalSource->source);
+	//alSourcePause(oalSource->source);
 }
 
 void SoundNode::unpauseSound()
