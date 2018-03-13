@@ -9,52 +9,59 @@
 
 
 	<GameplayScript>
-		<ReceiveMessage type="InputMessage">
-			<Action>
-				<Condition>
-					<playerName>var</playerName>
-					<key>32</key>
-				</Condition>
+		
 
-				<SendMessage type="TOGGLE_INPUT_KEY">
-					<destination>InputManager</destination>
-					<player>var</player>
-					<key>KEYBOARD_SPACE</key>
-					<enabled>False</enabled>
-				</SendMessage>
-			</Action>
-		</ReceiveMessage>
-
+	
 		<ReceiveMessage type="CollisionMessage">
-			<Action>
-				<Condition type="AND">
-					<objectIdentifier>var</objectIdentifier>
-					<colliderIdentifier>floor</colliderIdentifier>
-				</Condition>
+		<Action>
+			<Condition>
+				<objectIdentifier>var</objectIdentifier>
+			</Condition>
+			<Condition type="OR">
+				<colliderIdentifier>player0</colliderIdentifier>
+				<colliderIdentifier>player1</colliderIdentifier>
+				<colliderIdentifier>player2</colliderIdentifier>
+				<colliderIdentifier>AI</colliderIdentifier>
+				<colliderIdentifier>AI2</colliderIdentifier>
+				<colliderIdentifier>enemy</colliderIdentifier>
+			</Condition>
 
-				<SendMessage type="TOGGLE_INPUT_KEY">
-					<destination>InputManager</destination>
-					<player>var</player>
-					<key>KEYBOARD_SPACE</key>
-					<enabled>True</enabled>
-				</SendMessage>
-			</Action>
-		</ReceiveMessage>
-
+			
+			<SendMessage type="MOVING_SOUND">
+				<destination>AudioSystem</destination>
+				<priority>SOUNDPRIORITY_HIGH</priority>
+				<volume>0.5</volume>
+				<radius>1.0</radius>
+				<pitch>1.0</pitch>
+				<isLooping>false</isLooping>
+				<isGlobal>true</isGlobal>
+				<sound>smack1</sound>
+				<soundNodeID>collision</soundNodeID>
+			</SendMessage>
+			
+		</Action>
+	 </ReceiveMessage>
+	 
 		
 	</GameplayScript>
 
 	<PaintGameLogic>
 
 		<OnStart>
+			<CreateMeteorPool>
+				<resource>var</resource>
+				<amount>10</amount>
+				<Mesh>MeteorMesh</Mesh>
+				<Size>20</Size>
+				<isReflective>0.8</isReflective>
+			</CreateMeteorPool>
+
 			<SetMaxPaint>
 				<resource>var</resource>
 				<paint>100</paint>
 			</SetMaxPaint>
-			<PrintText>
-				<text>Hard coded logic text printing</text>
-			</PrintText>
 		</OnStart>
+
 
 		<ReceiveMessage type="InputMessage">
 			<Action>
@@ -63,19 +70,54 @@
 					<key>32</key>
 				</Condition>
 
-				<PrintText>
-					<text>Hard coded logic text printing</text>
-				</PrintText>
-
-				
+				<Jump>
+					<resource>var</resource>
+					<impulse>6</impulse>
+				</Jump>
 			</Action>
 		</ReceiveMessage>
 
+		<!-- OBJECTS WHERE THE PLAYER CAN JUMP FROM -->
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
-				<Condition type="AND">
+				<Condition>
 					<objectIdentifier>var</objectIdentifier>
+				</Condition>
+				<Condition type="OR">
 					<colliderIdentifier>floor</colliderIdentifier>
+					<colliderIdentifier>floor1</colliderIdentifier>
+					<colliderIdentifier>stair1</colliderIdentifier>
+					<colliderIdentifier>stair2</colliderIdentifier>
+					<colliderIdentifier>stair3</colliderIdentifier>
+					<colliderIdentifier>stair4</colliderIdentifier>
+					<colliderIdentifier>stair5</colliderIdentifier>
+					<colliderIdentifier>stair6</colliderIdentifier>
+					<colliderIdentifier>stair7</colliderIdentifier>
+					<colliderIdentifier>stair8</colliderIdentifier>
+					<colliderIdentifier>stair9</colliderIdentifier>
+					<colliderIdentifier>stair10</colliderIdentifier>
+					<colliderIdentifier>stair11</colliderIdentifier>
+					<colliderIdentifier>stair12</colliderIdentifier>
+					
+					<colliderIdentifier>paintPool</colliderIdentifier>
+				</Condition>
+
+				<LetJump>
+					<resource>var</resource>
+				</LetJump>
+			</Action>
+		</ReceiveMessage>
+
+
+		<!-- OBJECTS WHERE THE PLAYER CAN PAINT -->
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition>
+					<objectIdentifier>var</objectIdentifier>
+				</Condition>
+				<Condition type="OR">
+					<colliderIdentifier>floor</colliderIdentifier>
+					<colliderIdentifier>floor1</colliderIdentifier>
 				</Condition>
 
 				<CheckPaint>
@@ -141,12 +183,8 @@
 				<ScalePlayer>
 					<resource>var</resource>
 					<multiplier>1.25</multiplier>
-
-					<SendMessage type="TOGGLE_GAMEOBJECT">
-						<destination>RenderingSystem</destination>
-						<resource>powerup</resource>
-						<enabled>False</enabled>
-					</SendMessage>
+					<powerupObj>powerup</powerupObj>
+					<duration>5</duration>
 				</ScalePlayer>
 			</Action>
 		</ReceiveMessage> 
@@ -161,13 +199,25 @@
 				<DecreaseMass>
 					<resource>var</resource>
 					<multiplier>3</multiplier>
-
-					<SendMessage type="TOGGLE_GAMEOBJECT">
-						<destination>RenderingSystem</destination>
-						<resource>powerup</resource>
-						<enabled>False</enabled>
-					</SendMessage>
+					<powerupObj>powerup</powerupObj>
+					<duration>5</duration>
 				</DecreaseMass>
+			</Action>
+		</ReceiveMessage>
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>powerup</colliderIdentifier>
+				</Condition>
+
+				<MeteorStrike>
+					<resource>var</resource>
+					<multiplier>3</multiplier>
+					<powerupObj>powerup</powerupObj>
+					<duration>5</duration>
+				</MeteorStrike>
 			</Action>
 		</ReceiveMessage>-->
 
@@ -180,13 +230,9 @@
 
 				<RandomPowerUp>
 					<resource>var</resource>
-					<multiplier>3</multiplier>
-
-					<SendMessage type="TOGGLE_GAMEOBJECT">
-						<destination>RenderingSystem</destination>
-						<resource>powerup</resource>
-						<enabled>False</enabled>
-					</SendMessage>
+					<multiplier>2</multiplier>
+					<powerupObj>powerup</powerupObj>
+					<duration>5</duration>
 				</RandomPowerUp>
 			</Action>
 		</ReceiveMessage>
