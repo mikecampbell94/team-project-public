@@ -104,6 +104,10 @@ void GameObject::setScale(NCLVector3 scale)
 void GameObject::setEnabled(bool isEnabled)
 {
 	this->isEnabled = isEnabled;
-	this->physicsNode->setEnabled(isEnabled);
+	if (this->physicsNode != nullptr)
+	{
+		this->physicsNode->setEnabled(isEnabled);
+	}
+	
 	this->sceneNode->setEnabled(isEnabled);
 }

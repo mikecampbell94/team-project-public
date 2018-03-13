@@ -47,12 +47,19 @@
 	<PaintGameLogic>
 
 		<OnStart>
+			<CreateMeteorPool>
+				<resource>var</resource>
+				<amount>10</amount>
+				<Mesh>MeteorMesh</Mesh>
+				<Size>20</Size>
+				<isReflective>0.8</isReflective>
+			</CreateMeteorPool>
+
 			<SetMaxPaint>
 				<resource>var</resource>
 				<paint>100</paint>
 			</SetMaxPaint>
 		</OnStart>
-
 
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
@@ -143,6 +150,22 @@
 					<powerupObj>powerup</powerupObj>
 					<duration>5</duration>
 				</DecreaseMass>
+			</Action>
+		</ReceiveMessage>
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>powerup</colliderIdentifier>
+				</Condition>
+
+				<MeteorStrike>
+					<resource>var</resource>
+					<multiplier>3</multiplier>
+					<powerupObj>powerup</powerupObj>
+					<duration>5</duration>
+				</MeteorStrike>
 			</Action>
 		</ReceiveMessage>-->
 

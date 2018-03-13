@@ -191,9 +191,15 @@ void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 	{
 		if (this_obj->transmitCollision)
 		{
-			DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
-				this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
-			this_obj->hasTransmittedCollision = true;
+			if (!this_obj->hasTransmittedCollision)
+			{
+				DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", collisionData,
+					this_obj->getParent()->getName(), colliding_obj->getParent()->getName()));
+				if (!this_obj->multipleTransmitions)
+				{
+					this_obj->hasTransmittedCollision = true;
+				}
+			}
 			
 			return true;
 		}
