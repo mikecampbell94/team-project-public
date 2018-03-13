@@ -77,13 +77,7 @@ GameplaySystem::GameplaySystem(Database* database)
 		
 		for (GameObjectLogic& object : objects)
 		{
-			for (GameLogic& logic : object.logics)
-			{
-				if (collisionmessage->objectIdentifier == logic.gameObject)
-				{
-					object.notify("CollisionMessage", message, collisionmessage->objectIdentifier);
-				}
-			}
+			object.notify("CollisionMessage", message, collisionmessage->objectIdentifier);
 		}
 
 	});
