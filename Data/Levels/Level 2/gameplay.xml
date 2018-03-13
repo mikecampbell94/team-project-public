@@ -19,37 +19,12 @@
     
     <SendMessage type="PREPARE_PAINT_SURFACE">
       <destination>RenderingSystem</destination>
-      <resource>floor</resource>
-      
-      <resource>platformasstair</resource>
-      <resource>platformwithfirststair</resource>
-      <resource>platformassecondstair</resource>
-      <resource>secondfloor1</resource>
-      <resource>secondfloor2</resource>
-      <resource>secondfloor3</resource>
-      <resource>platformasthirdstair1</resource>
-      <resource>platformasthirdstair2</resource>
-      <resource>thirdfloor1</resource>
-      <resource>platformasstair1</resource>
-      <resource>platformwithfirststair1</resource>
-      <resource>platformassecondstair1</resource>
-      <resource>secondfloor4</resource>
-      <resource>secondfloor5</resource>
-      <resource>secondfloor6</resource>
-      <resource>platformasthirdstair3</resource>
-      <resource>platformasthirdstair4</resource>
-      <resource>thirdfloor2</resource>
-      <resource>thirdfloor3</resource>
-      <resource>thirdfloorlinker1</resource>
-      <resource>thirdfloorlinker2</resource>
-      <resource>Crossing3f</resource>
-      <resource>thirdfloorlinker3</resource>
+      <resource>floor</resource> 
+	  <resource>thirdfloor3</resource>      
+      <resource>Crossing3f</resource>      
       <resource>thirdfloor4</resource>
       <resource>thirdfloor5</resource>
-      <resource>thirdfloorlinker4</resource>
-      <resource>thirdfloorlinker5</resource>
-      <resource>thirdfloorlinker6</resource>
-      <resource>thirdfloorlinker7</resource>
+     
     </SendMessage>
 
     <SendMessage type="ADD_SCORE_HOLDER">
