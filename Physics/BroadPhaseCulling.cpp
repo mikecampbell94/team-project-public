@@ -12,7 +12,7 @@ BroadPhaseCulling::~BroadPhaseCulling()
 {
 }
 
-void BroadPhaseCulling::init(NCLVector3 minVal, NCLVector3 maxVal)
+void BroadPhaseCulling::initBroadphase(NCLVector3 minVal, NCLVector3 maxVal)
 {
 	NCLVector3 areaSize = (maxVal - minVal) / 2;
 	for (int x = 0; x < 2; ++x) {

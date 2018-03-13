@@ -15,7 +15,6 @@
 #include "Messages/PaintTrailForGameObjectMessage.h"
 #include "Messages/UpdatePositionMessage.h"
 #include "Messages/ToggleGameObjectMessage.h"
-#include "Messages/ClearScoresMessage.h"
 #include "ThreadSafeMessageBuffer.h"
 
 class LetterBox : public MessagingService
