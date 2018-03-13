@@ -7,6 +7,7 @@
 #include <set>
 #include "DeadReckoning.h"
 #include "../Utilities/Text/PeriodicTextModifier.h"
+#include "MinionDeadReckoning.h"
 
 class GameplaySystem;
 class PlayerBase;
@@ -26,7 +27,11 @@ public:
 
 private:
 	void broadcastKinematicState();
+	void broadcastMinionState();
+
 	void updateDeadReckoningForConnectedClients();
+	void updateDeadReckoningForMinions();
+
 	void processNetworkMessages(const float& deltaTime);
 
 	int clientID;
@@ -40,12 +45,15 @@ private:
 	PlayerBase* playerbase; 
 	GameplaySystem* gameplay;
 	Database* database;
+	std::vector<GameObject*> objectsToToTransmitStatesFor;
 
 	bool connectedToServer;
 	bool joinedGame;
 	bool inLobby = false;
 
 	std::map<GameObject*, DeadReckoning> clientDeadReckonings;
+	std::map<GameObject*, MinionDeadReckoning> minionDeadReckonings;
+
 	std::set<std::string> recievedClients;
 	float timeSinceLastBroadcast = 0.0f;
 	float msCounter = 0.0f;

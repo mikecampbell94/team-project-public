@@ -40,3 +40,15 @@ GameObject* NetworkMessageProcessor::getUpdatedDeadReckoningGameObject(std::stri
 
 	return client;
 }
+
+GameObject* NetworkMessageProcessor::getUpdatedDeadReckoningGameObject(std::string objectName,
+	MinionKinematicState& kinematicState, Database* database)
+{
+	GameObject* client = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(objectName));
+
+	client->getPhysicsNode()->constantAcceleration = true;
+	client->getPhysicsNode()->setLinearVelocity(kinematicState.linearVelocity);
+	client->getPhysicsNode()->setAcceleration(kinematicState.linearAcceleration);
+
+	return client;
+}

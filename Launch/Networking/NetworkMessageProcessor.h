@@ -2,6 +2,7 @@
 
 #include "NetworkBase.h"
 #include "DeadReckoning.h"
+#include "MinionDeadReckoning.h"
 #include "GameplaySystem.h"
 #include "Players/PlayerBase.h"
 
@@ -19,5 +20,7 @@ public:
 		InputRecorder* playerInputRecorder);
 	static GameObject* getUpdatedDeadReckoningGameObject(std::string objectName,
 		KinematicState& kinematicState, Database* database);
+	static GameObject* getUpdatedDeadReckoningGameObject(std::string objectName,
+		MinionKinematicState& kinematicState, Database* database);
 };
 

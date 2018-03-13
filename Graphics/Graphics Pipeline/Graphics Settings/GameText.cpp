@@ -53,6 +53,7 @@ void GameText::apply()
 		{
 			viewMatrix = camera->buildViewMatrix();
 			bufferedScales[i].x = -bufferedScales[i].x;
+			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 		}
 

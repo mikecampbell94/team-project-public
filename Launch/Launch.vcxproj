@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="DevConsole\Console.cpp" />
     <ClCompile Include="DevConsole\LevelEditor.cpp" />
+    <ClCompile Include="Networking\MinionDeadReckoning.cpp" />
     <ClCompile Include="Profiler\Profiler.cpp" />
     <ClCompile Include="Profiler\MemoryWatcher.cpp" />
     <ClCompile Include="Profiler\FPSCounter.cpp" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="DevConsole\Console.h" />
     <ClInclude Include="DevConsole\LevelEditor.h" />
+    <ClInclude Include="Networking\MinionDeadReckoning.h" />
     <ClInclude Include="Profiler\Profiler.h" />
     <ClInclude Include="Profiler\MemoryWatcher.h" />
     <ClInclude Include="Profiler\FPSCounter.h" />

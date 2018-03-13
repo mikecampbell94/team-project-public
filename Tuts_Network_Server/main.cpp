@@ -63,6 +63,17 @@ struct KinematicState
 	NCLVector3 linearVelocity;
 	NCLVector3 linearAcceleration;
 };
+
+struct MinionKinematicState
+{
+	int minionIndex;
+	int padding;
+
+	NCLVector3 position;
+	NCLVector3 linearVelocity;
+	NCLVector3 linearAcceleration;
+};
+
 enum
 {
 	NEW_ID,
@@ -143,6 +154,14 @@ int main(int arcg, char** argv)
 					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(KinematicState));
 
 					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(KinematicState), 0);
+					enet_host_broadcast(server.m_pNetwork, 0, packet);
+				}
+				else if (evnt.packet->dataLength == sizeof(MinionKinematicState))
+				{
+					MinionKinematicState recievedPlayerPacket;
+					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(MinionKinematicState));
+
+					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(MinionKinematicState), 0);
 					enet_host_broadcast(server.m_pNetwork, 0, packet);
 				}
 

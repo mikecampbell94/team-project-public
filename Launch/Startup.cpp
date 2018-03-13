@@ -212,6 +212,7 @@ void Startup::unloadLevel()
 
 void Startup::beginOnlineLobby()
 {
+	PaintGameActionBuilder::online = true;
 	engine->addSubsystem(network);
 	network->waitForOtherClients(2);
 	network->connectToServer();

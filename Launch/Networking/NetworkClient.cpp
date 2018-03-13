@@ -9,6 +9,7 @@
 #include "NetworkMessageProcessor.h"
 #include <ctime>
 #include "../Utilities/GameTimer.h"
+#include "Scripting/PaintGameActionBuilder.h"
 
 enum
 {
@@ -28,8 +29,9 @@ const float UPDATE_TIMESTEP = 1.0f / 60.0f;
 NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database,
 	PlayerBase* playerbase, GameplaySystem* gameplay) : Subsystem("NetworkClient")
 {
-	incomingMessages = MessageProcessor(std::vector<MessageType> {}, 
+	incomingMessages = MessageProcessor(std::vector<MessageType> {MessageType::TEXT}, 
 		DeliverySystem::getPostman()->getDeliveryPoint("NetworkClient"));
+
 
 	this->keyboardAndMouse = keyboardAndMouse;
 	this->playerbase = playerbase;
@@ -38,6 +40,15 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 	connectedToServer = false;
 	joinedGame = false;
 	updateRealTimeAccum = 0.0f;
+
+	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&database = this->database, &objectsToToTransmitStatesFor = objectsToToTransmitStatesFor](Message* message)
+	{
+		TextMessage* textMessage = static_cast<TextMessage*>(message);
+
+		GameObject* gameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(textMessage->text));
+
+		objectsToToTransmitStatesFor.push_back(gameObject);
+	});
 
 	waitingInLobbyText = PeriodicTextModifier("Waiting for players", ".", 3);
 
@@ -65,6 +76,11 @@ void NetworkClient::updateNextFrame(const float& deltaTime)
 		if (timeSinceLastBroadcast >= UPDATE_FREQUENCY && joinedGame)
 		{
 			broadcastKinematicState();
+
+			if (clientID == 0)
+			{
+				broadcastMinionState();
+			}
 		}
 		timer->endChildTimedSection("Broadcast Kinematic State");
 
@@ -72,6 +88,12 @@ void NetworkClient::updateNextFrame(const float& deltaTime)
 		if (updateRealTimeAccum >= UPDATE_TIMESTEP)
 		{
 			updateDeadReckoningForConnectedClients();
+
+			if (clientID != 0)
+			{
+				updateDeadReckoningForMinions();
+			}
+
 			updateRealTimeAccum = 0.0f;
 		}
 		timer->endChildTimedSection("Dead Reckoning");
@@ -138,9 +160,33 @@ void NetworkClient::broadcastKinematicState()
 	enet_peer_send(serverConnection, 0, packet);
 }
 
+void NetworkClient::broadcastMinionState()
+{
+	for (int i = 0; i < objectsToToTransmitStatesFor.size(); ++i)
+	{
+		MinionKinematicState state;
+		state.minionIndex = i;
+		state.position = objectsToToTransmitStatesFor[i]->getPosition();
+		state.linearVelocity = objectsToToTransmitStatesFor[i]->getPhysicsNode()->getLinearVelocity();
+		state.linearAcceleration = objectsToToTransmitStatesFor[i]->getPhysicsNode()->getAcceleration();
+
+		ENetPacket* packet = enet_packet_create(&state, sizeof(MinionKinematicState), 0);
+		enet_peer_send(serverConnection, 0, packet);
+	}
+}
+
 void NetworkClient::updateDeadReckoningForConnectedClients()
 {
 	for (auto client = clientDeadReckonings.begin(); client != clientDeadReckonings.end(); ++client)
+	{
+		client->second.predictPosition(UPDATE_TIMESTEP);
+		client->second.blendStates(client->first->getPhysicsNode());
+	}
+}
+
+void NetworkClient::updateDeadReckoningForMinions()
+{
+	for (auto client = minionDeadReckonings.begin(); client != minionDeadReckonings.end(); ++client)
 	{
 		client->second.predictPosition(UPDATE_TIMESTEP);
 		client->second.blendStates(client->first->getPhysicsNode());
@@ -152,7 +198,8 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 	network.ServiceNetwork(deltaTime, [&serverConnection = serverConnection, &gameplay = gameplay,
 		&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, &inLobby = inLobby,
 		&joinedGame = joinedGame, &database = database, &numberOfOtherPlayersToWaitFor = numberOfOtherPlayersToWaitFor,
-		&msCounter = msCounter, &clientDeadReckonings = clientDeadReckonings](const ENetEvent& evnt)
+		&msCounter = msCounter, &clientDeadReckonings = clientDeadReckonings, &minionDeadReckonings = minionDeadReckonings,
+		&objectsToToTransmitStatesFor = objectsToToTransmitStatesFor](const ENetEvent& evnt)
 	{
 		if (evnt.type == ENET_EVENT_TYPE_RECEIVE)
 		{
@@ -164,6 +211,7 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 				if (message.type == NEW_ID)
 				{
 					clientID = message.data;
+					PaintGameActionBuilder::localPlayer = "player" + to_string(clientID);
 					NetworkMessageProcessor::joinGame(clientID, playerbase, gameplay, keyboardAndMouse);
 					joinedGame = true;
 				}
@@ -189,6 +237,20 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 						recievedState, database);
 
 					clientDeadReckonings[client] = DeadReckoning(recievedState);
+				}
+			}
+			else if (evnt.packet->dataLength == sizeof(MinionKinematicState) && joinedGame)
+			{
+				MinionKinematicState recievedState;
+				memcpy(&recievedState, evnt.packet->data, sizeof(MinionKinematicState));
+
+				if (clientID != 0)
+				{
+
+					GameObject* client = NetworkMessageProcessor::getUpdatedDeadReckoningGameObject(objectsToToTransmitStatesFor[recievedState.minionIndex]->getName(),
+						recievedState, database);
+
+					minionDeadReckonings[client] = MinionDeadReckoning(recievedState);
 				}
 			}
 		}

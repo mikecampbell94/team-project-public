@@ -24,6 +24,8 @@ public:
 	static void initialiseBuilders(Database* database);
 	static Executable buildExecutable(Node* node);
 
+	static std::string localPlayer;
+	static bool online;
 private:
 	static std::unordered_map<std::string, Builder> builders;
 	static std::string powerUpBuilders[2];

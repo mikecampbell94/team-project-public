@@ -14,15 +14,41 @@
 
 std::unordered_map<std::string, Builder>PaintGameActionBuilder::builders
 	= std::unordered_map<std::string, Builder>();
-
 std::string PaintGameActionBuilder::powerUpBuilders[2] = { "ScalePlayer", "DecreaseMass" };
-
 Database* PaintGameActionBuilder::database = nullptr;
+std::string PaintGameActionBuilder::localPlayer = "";
+bool PaintGameActionBuilder::online = false;
 
 void PaintGameActionBuilder::initialiseBuilders(Database* database)
 {
 	PaintGameActionBuilder::database = database;
 	std::random_device rd;     // only used once to initialise (seed) engine
+
+	builders.insert({"MoveMinions", [](Node* node)
+	{
+		Executable sendMessageAction = SendMessageActionBuilder::buildSendMessageAction(node->children[0]);
+		return [sendMessageAction]()
+		{
+			if (PaintGameActionBuilder::localPlayer == "player0"
+				|| !PaintGameActionBuilder::online)
+			{
+				sendMessageAction();
+			}
+		};
+	} });
+
+	builders.insert({ "TransmitMinion", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		
+		return [gameObject]()
+		{
+			
+				DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", gameObject->getName()));
+
+		};
+	} });
 
 	builders.insert({ "PrintText", [](Node* node)
 	{
