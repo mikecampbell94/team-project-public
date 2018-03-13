@@ -60,20 +60,20 @@ GameplaySystem::GameplaySystem(Database* database)
 		
 		inputBridge.processPlayerInputMessage(*playerInputMessage);
 
-		std::string gameObject = "player" + playerInputMessage->player->getPlayerID();
-		
 
 		for (GameObjectLogic& object : objects)
 		{
-			object.notify("InputMessage", message, gameObject);
+			object.notify("InputMessage", message, playerInputMessage->player->getGameObject()->getName());
 		}
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::COLLISION, [&gameLogic = gameLogic, &objects = objects](Message* message)
 	{
+		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
+
 		gameLogic.notifyMessageActions("CollisionMessage", message);
 
-		CollisionMessage* collisionmessage = static_cast<CollisionMessage*>(message);
+		
 		
 		for (GameObjectLogic& object : objects)
 		{
