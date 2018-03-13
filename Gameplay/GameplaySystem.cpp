@@ -63,7 +63,7 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		for (GameObjectLogic& object : objects)
 		{
-			object.notify("InputMessage", message, playerInputMessage->player->getGameObject()->getName());
+   			object.notify("InputMessage", message, playerInputMessage->player->getGameObject()->getName());
 		}
 	});
 

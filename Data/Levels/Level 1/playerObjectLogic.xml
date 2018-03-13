@@ -9,37 +9,7 @@
 
 
 	<GameplayScript>
-		<ReceiveMessage type="InputMessage">
-			<Action>
-				<Condition>
-					<playerName>var</playerName>
-					<key>32</key>
-				</Condition>
-
-				<SendMessage type="TOGGLE_INPUT_KEY">
-					<destination>InputManager</destination>
-					<player>var</player>
-					<key>KEYBOARD_SPACE</key>
-					<enabled>False</enabled>
-				</SendMessage>
-			</Action>
-		</ReceiveMessage>
-
-		<ReceiveMessage type="CollisionMessage">
-			<Action>
-				<Condition type="AND">
-					<objectIdentifier>var</objectIdentifier>
-					<colliderIdentifier>floor</colliderIdentifier>
-				</Condition>
-
-				<SendMessage type="TOGGLE_INPUT_KEY">
-					<destination>InputManager</destination>
-					<player>var</player>
-					<key>KEYBOARD_SPACE</key>
-					<enabled>True</enabled>
-				</SendMessage>
-			</Action>
-		</ReceiveMessage>
+		
 
 	
 		<ReceiveMessage type="CollisionMessage">
@@ -92,6 +62,40 @@
 			</SetMaxPaint>
 		</OnStart>
 
+
+		<ReceiveMessage type="InputMessage">
+			<Action>
+				<Condition type="AND">
+					<playerName>var</playerName>
+					<key>32</key>
+				</Condition>
+
+				<Jump>
+					<resource>var</resource>
+					<impulse>15</impulse>
+				</Jump>
+			</Action>
+		</ReceiveMessage>
+
+		<!-- OBJECTS WHERE THE PLAYER CAN JUMP FROM -->
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition>
+					<objectIdentifier>var</objectIdentifier>
+				</Condition>
+				<Condition type="OR">
+					<colliderIdentifier>floor</colliderIdentifier>
+					<colliderIdentifier>paintPool</colliderIdentifier>
+				</Condition>
+
+				<LetJump>
+					<resource>var</resource>
+				</LetJump>
+			</Action>
+		</ReceiveMessage>
+
+
+		<!-- OBJECTS WHERE THE PLAYER CAN PAINT -->
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition type="AND">
