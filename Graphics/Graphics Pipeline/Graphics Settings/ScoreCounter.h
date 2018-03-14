@@ -27,7 +27,12 @@ public:
 	{
 		scoreHolders.clear();
 		coloursToCount.clear();
-		scores.clear();
+
+		for (int i = 0; i < 4; ++i)
+		{
+			scores[i] = 0;
+		}
+
 		enabled = false;
 	}
 
@@ -46,11 +51,13 @@ private:
 	GLuint redCounter;
 	GLuint yellowCounter;
 
-	std::vector<int> scores;
+	int scores[4] = { 0, 0, 0, 0 };
 	std::vector<NCLVector4> coloursToCount;
 	std::vector<std::string> scoreHolders;
 
 	GameTimer timer;
 	float elapsedTime = 0;
+
+	int* scoreData;
 };
 

@@ -27,6 +27,8 @@ void main()
 
 	for (int i = 0; i < arraySize; i++)
 	{
+		//atomicExchange(scores[i], 0)
+
 		if (colour.rgb == colours[i].rgb)
 		{
 			atomicAdd(scores[i], 1);

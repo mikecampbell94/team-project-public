@@ -32,7 +32,7 @@ void ScoreCounter::bufferScoreHolder(std::string scoreHoldername)
 
 	scoreHolders.push_back(scoreHoldername);
 	coloursToCount.push_back(scoreHolderColour);
-	scores.push_back(0);
+	//scores.push_back(0);
 }
 
 void ScoreCounter::linkShaders()
@@ -47,7 +47,13 @@ void ScoreCounter::regenerateShaders()
 
 void ScoreCounter::initialise()
 {
-	playerScoresSSBO = GraphicsUtility::InitSSBO(1, 4, playerScoresSSBO, sizeof(int), &scores, GL_STATIC_COPY);
+	glGenBuffers(1, &playerScoresSSBO);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, playerScoresSSBO);
+	glBufferStorage(GL_SHADER_STORAGE_BUFFER, sizeof(int) * 4, scores, GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT | GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, playerScoresSSBO);
+	scoreData = (int*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, sizeof(int) * 4,   GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT | GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
 	coloursSSBO = GraphicsUtility::InitSSBO(1, 5, coloursSSBO, sizeof(NCLVector4), &coloursToCount, GL_STATIC_COPY);
 }
 
@@ -70,13 +76,8 @@ void ScoreCounter::calculateScores()
 
 	for (int i = 0; i < scoreHolders.size(); ++i)
 	{
-		scores[i] = 0;
+		scoreData[i] = 0;
 	}
-
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, playerScoresSSBO);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(int) * scores.size(),
-		&scores[0], GL_STATIC_COPY);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, coloursSSBO);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(NCLVector4) * coloursToCount.size(),
@@ -89,15 +90,8 @@ void ScoreCounter::calculateScores()
 	glUniform1i(glGetUniformLocation(computeShader->GetProgram(), "paintTrailTexture"), 6);
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, *paintTrailTexture);
-
+	glMemoryBarrier(GL_ALL_BARRIER_BITS);
 	computeShader->Compute(NCLVector3(64, 36, 1));
-	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_ATOMIC_COUNTER_BARRIER_BIT);
-
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, playerScoresSSBO);
-	GLvoid* p = glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-	memcpy(&scores[0], p, sizeof(int) * scores.size());
-	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void ScoreCounter::displayScores()
@@ -114,12 +108,19 @@ void ScoreCounter::displayScores()
 
 	for (int i = 0; i < scoreHolders.size(); ++i)
 	{
+		if (scoreData[i] != 0)
+		{
+			scores[i] = scoreData[i];
+		}
+	}
+
+	for (int i = 0; i < scoreHolders.size(); ++i)
+	{
 		viewMatrix.toIdentity();
 		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 
 		NCLVector3 colour(coloursToCount[i].x, coloursToCount[i].y, coloursToCount[i].z);
 		glUniform3fv(glGetUniformLocation(currentShader->GetProgram(), "colour"), 1, (float*)&colour);
-
 
 		float percentage = scores[i] / 15000.0f;
 		int score = int(percentage * 100.0f);
