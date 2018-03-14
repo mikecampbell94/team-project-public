@@ -47,6 +47,7 @@ void GameText::apply()
 		if (bufferedOrthographicUsage[i] == true)
 		{
 			viewMatrix.toIdentity();
+			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
 			glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 		}
 		else
@@ -86,6 +87,7 @@ void GameText::apply()
 	for (int i = 0; i < bufferedBackgroundText.size(); ++i)
 	{
 		viewMatrix.toIdentity();
+		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);
 		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);
 
 		NCLVector3 colour(bufferedBackgroundColours[i].x, bufferedBackgroundColours[i].y, bufferedBackgroundColours[i].z);

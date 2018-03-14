@@ -75,6 +75,13 @@ struct MinionKinematicState
 	NCLVector3 linearAcceleration;
 };
 
+struct PlayerScore
+{
+	int playerID;
+	int playerScore;
+	int offset[2];
+};
+
 enum
 {
 	NEW_ID,
@@ -233,7 +240,14 @@ int main(int arcg, char** argv)
 					enet_host_broadcast(server.m_pNetwork, 0, packet2);
 
 				}
+				else if (evnt.packet->dataLength == sizeof(PlayerScore))
+				{
+					PlayerScore recievedPlayerPacket;
+					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(PlayerScore));
 
+					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(PlayerScore), 0);
+					enet_host_broadcast(server.m_pNetwork, 0, packet);
+				}
 
 				enet_packet_destroy(evnt.packet);
 			}

@@ -27,6 +27,13 @@ struct RandomIntegers
 	bool first;
 };
 
+struct PlayerScore
+{
+	int playerID;
+	int playerScore;
+	int offset[2];
+};
+
 class NetworkClient : public Subsystem
 {
 public:
@@ -42,12 +49,14 @@ public:
 private:
 	void broadcastKinematicState();
 	void broadcastMinionState();
-
+	void broadcastPlayerScores();
 	void broadcastCollision();
 
 	void updateDeadReckoningForConnectedClients();
 	void updateDeadReckoningForMinions();
 
+	void displayPlayerScores();
+	
 	void processNetworkMessages(const float& deltaTime);
 
 	int clientID;
@@ -82,5 +91,9 @@ private:
 	PeriodicTextModifier waitingInLobbyText;
 	int numberOfFramesInLobby = 0;
 	int numDots = 0;
+
+	std::map<std::string, int> playerScores;
+
+	std::vector<PlayerScore> scoresToSend;
 };
 

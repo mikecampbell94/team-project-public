@@ -7,6 +7,7 @@
 #include "../../Gameplay/GameObject.h"
 
 #include <math.h>
+#include "../../../Gameplay/Scripting/PaintGameActionBuilder.h"
 
 ScoreCounter::ScoreCounter(const std::string identifier, const NCLVector2 resolution, Database* database)
 	: GraphicsModule(identifier, resolution)
@@ -134,6 +135,11 @@ void ScoreCounter::displayScores()
 
 		TextMesh textMesh(name, *font);
 		textMesh.Draw(*currentShader, NCLMatrix4::translation(NCLVector3(290, (i * -20.0f) + 320, 0)) * NCLMatrix4::scale(NCLVector3(20, 20, 1)));
+
+		if (PaintGameActionBuilder::online)
+		{
+			DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "sendscore " + to_string(i) + " " + to_string(score)));
+		}
 	}
 
 	glDisable(GL_BLEND);

@@ -45,14 +45,9 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 	updateRealTimeAccum = 0.0f;
 
 
-	//replace for doing it automatically
-	//colliders.push_back("powerup");
-	//colliders.push_back("paintPool");
-
-
-
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&database = this->database, &objectsToToTransmitStatesFor = objectsToToTransmitStatesFor,
-		&networkedCollision = networkedCollision, &transmitNetworkedCollision = transmitNetworkedCollision, &colliders = colliders](Message* message)
+		&networkedCollision = networkedCollision, &transmitNetworkedCollision = transmitNetworkedCollision, &colliders = colliders, 
+		&scoresToSend = scoresToSend](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
@@ -83,6 +78,14 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 		else if (tokens[0] == "insertCollider")
 		{
 			colliders.push_back(tokens[1]);
+		}
+		else if (tokens[0] == "sendscore")
+		{
+			PlayerScore sc;
+			sc.playerID = stoi(tokens[1]);
+			sc.playerScore = stoi(tokens[2]);
+
+			scoresToSend.push_back(sc);
 		}
 	});
 
@@ -149,6 +152,15 @@ void NetworkClient::updateNextFrame(const float& deltaTime)
 			broadcastCollision();
 		}
 
+		if (clientID != 0)
+		{
+			displayPlayerScores();
+		}
+
+		//if(scoresToSend.size() == numberOfOtherPlayersToWaitFor)
+		//{
+			broadcastPlayerScores();
+		//}
 	}
 	else
 	{
@@ -175,7 +187,7 @@ void NetworkClient::connectToServer()
 {
 	if (network.Initialize(0))
 	{
-		serverConnection = network.ConnectPeer(10, 70, 32, 168, 1234);
+		serverConnection = network.ConnectPeer(10, 70, 33, 11, 1234);
 		connectedToServer = true;
 	}
 }
@@ -218,6 +230,16 @@ void NetworkClient::broadcastMinionState()
 	}
 }
 
+void NetworkClient::broadcastPlayerScores()
+{
+	for (PlayerScore ps : scoresToSend)
+	{
+		ENetPacket* packet = enet_packet_create(&ps, sizeof(PlayerScore), 0);
+		enet_peer_send(serverConnection, 0, packet);
+	}
+	scoresToSend.clear();
+}
+
 void NetworkClient::broadcastCollision()
 {
 	ENetPacket* packet = enet_packet_create(&networkedCollision, sizeof(NetworkedCollision), 0);
@@ -242,13 +264,39 @@ void NetworkClient::updateDeadReckoningForMinions()
 	}
 }
 
+void NetworkClient::displayPlayerScores()
+{
+	int i = 0;
+	for (auto scoreHolderIterator = playerScores.begin(); scoreHolderIterator != playerScores.end(); ++scoreHolderIterator)
+	{
+		int score = scoreHolderIterator->second;
+		std::string name = scoreHolderIterator->first + " : " + std::to_string(score);
+
+		int numDigits = score > 0 ? (int)log10((double)score) + 1 : 1;
+		int numSpacesToAdd = 5 - numDigits;
+		for (int j = 0; j < numSpacesToAdd; ++j)
+		{
+			name += " ";
+		}
+
+		NCLVector4 colour = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(scoreHolderIterator->first))->stats.colourToPaint;
+
+		DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", name, NCLVector3(290, (i * -20.0f) + 320, 0), NCLVector3(20, 20, 1),
+			NCLVector3(colour.x, colour.y, colour.z), true, true));
+
+		++i;
+	}
+
+	std::cout << i << std::endl;
+}
+
 void NetworkClient::processNetworkMessages(const float& deltaTime)
 {
 	network.ServiceNetwork(deltaTime, [&serverConnection = serverConnection, &gameplay = gameplay,
 		&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, &inLobby = inLobby,
 		&joinedGame = joinedGame, &database = database, &numberOfOtherPlayersToWaitFor = numberOfOtherPlayersToWaitFor,
 		&msCounter = msCounter, &clientDeadReckonings = clientDeadReckonings, &minionDeadReckonings = minionDeadReckonings,
-		&objectsToToTransmitStatesFor = objectsToToTransmitStatesFor, &colliders = colliders](const ENetEvent& evnt)
+		&objectsToToTransmitStatesFor = objectsToToTransmitStatesFor, &colliders = colliders, &playerScores = playerScores](const ENetEvent& evnt)
 	{
 		if (evnt.type == ENET_EVENT_TYPE_RECEIVE)
 		{
@@ -260,6 +308,12 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 				if (message.type == NEW_ID)
 				{
 					clientID = message.data;
+
+					if (clientID != 0)
+					{
+						DeliverySystem::getPostman()->insertMessage(ToggleGraphicsModuleMessage("RenderingSystem", "ScoreCounter", false));
+					}
+
 					PaintGameActionBuilder::localPlayer = "player" + to_string(clientID);
 					NetworkMessageProcessor::joinGame(clientID, playerbase, gameplay, keyboardAndMouse);
 					joinedGame = true;
@@ -339,7 +393,17 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 					}
 				}
 			}
+			else if (evnt.packet->dataLength == sizeof(PlayerScore) && joinedGame)
+			{
+				//if (clientID != 0)
+				//{
+					PlayerScore recievedScore;
+					memcpy(&recievedScore, evnt.packet->data, sizeof(PlayerScore));
 
+					std::string playerName = "player" + to_string(recievedScore.playerID);
+					playerScores[playerName] = recievedScore.playerScore;
+				//}
+			}
 			
 		}
 
