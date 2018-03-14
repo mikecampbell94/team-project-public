@@ -40,7 +40,7 @@ void RenderingSystem::initialise(Database* database)
 		MessageType::TOGGLE_GRAPHICS_MODULE, MessageType::MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT, MessageType::PREPARE_PAINT_SURFACE,
 		MessageType::SCALE_GAMEOBJECT, MessageType::PAINT_TRAIL_FOR_GAMEOBJECT, MessageType::ADD_SCORE_HOLDER,
 		MessageType::ABSOLUTE_TRANSFORM, MessageType::MOVE_GAMEOBJECT, MessageType::ROTATE_GAMEOBJECT,
-		MessageType::TOGGLE_GAMEOBJECT, MessageType::DEBUG_LINE, MessageType::DEBUG_CIRCLE};
+		MessageType::TOGGLE_GAMEOBJECT, MessageType::DEBUG_LINE, MessageType::DEBUG_SPHERE};
 
 	incomingMessages = MessageProcessor(types, DeliverySystem::getPostman()->getDeliveryPoint("RenderingSystem"));
 
@@ -50,10 +50,10 @@ void RenderingSystem::initialise(Database* database)
 		static_cast<Wireframe*>(renderer->getGraphicsModule("Wireframe"))->addLine(debugLineMessage->from, debugLineMessage->to, debugLineMessage->colour);
 	});
 
-	incomingMessages.addActionToExecuteOnMessage(MessageType::DEBUG_CIRCLE, [&renderer = renderer](Message* message)
+	incomingMessages.addActionToExecuteOnMessage(MessageType::DEBUG_SPHERE, [&renderer = renderer](Message* message)
 	{
-		DebugCircleMessage* debugCircleMessage = static_cast<DebugCircleMessage*>(message);
-		static_cast<Wireframe*>(renderer->getGraphicsModule("Wireframe"))->addCircle(debugCircleMessage->position, debugCircleMessage->radius, debugCircleMessage->colour);
+		DebugSphereMessage* debugCircleMessage = static_cast<DebugSphereMessage*>(message);
+		static_cast<Wireframe*>(renderer->getGraphicsModule("Wireframe"))->addSphere(debugCircleMessage->position, debugCircleMessage->radius, debugCircleMessage->colour);
 	});
 
 

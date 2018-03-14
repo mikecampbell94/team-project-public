@@ -26,7 +26,7 @@
 #include "Messages/ToggleGameObjectMessage.h"
 #include "Messages/TogglePlayerInputKeyMessage.h"
 #include "Messages/DebugLineMessage.h"
-#include "Messages/DebugCircleMessage.h"
+#include "Messages/DebugSphereMessage.h"
 
 //exposed interface
 class MessagingService 
@@ -59,7 +59,7 @@ public:
 	virtual void insertMessage(ToggleGameObjectMessage message) = 0;
 	virtual void insertMessage(TogglePlayerInputKeyMessage message) = 0;
 	virtual void insertMessage(DebugLineMessage message) = 0;
-	virtual void insertMessage(DebugCircleMessage message) = 0;
+	virtual void insertMessage(DebugSphereMessage message) = 0;
 
 	virtual void deliverAllMessages() = 0;
 	virtual void clearAllMessages() = 0;

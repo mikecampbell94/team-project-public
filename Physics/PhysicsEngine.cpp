@@ -291,85 +291,9 @@ void PhysicsEngine::updateNextFrame(const float& deltaTime)
 	{
 		BpOct.DebugDraw();
 
-
 		for (PhysicsNode* node : physicsNodes)
 		{
-			NCLVector3 nodePosition = node->getPosition();
-
-			if (node->collisionShapeType == "Sphere")
-			{
-				DeliverySystem::getPostman()->insertMessage(DebugCircleMessage("RenderingSystem", nodePosition, static_cast<SphereCollisionShape*>(node->getCollisionShape())->getRadius(), NCLVector3(1, 0, 0)));
-			}
-			else
-			{
-				CuboidCollisionShape* cubColShp = static_cast<CuboidCollisionShape*>(node->getCollisionShape());
-				cubColShp->debugDraw();
-
-
-
-				//NCLVector3 cuboidHalfdims = static_cast<CuboidCollisionShape*>(node->getCollisionShape())->getHalfDims();
-				////1->2
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////1->8
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////1->7
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////4->6
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////4->5
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////4->3
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////7->6
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////7->5
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////8->6
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////8->3
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////2->3
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				////2->5
-				//DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-				//	NCLVector3(nodePosition.x + cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y - cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-				//	NCLVector3(0.5, 0.5, 1)));
-				
-			}
+			node->getCollisionShape()->debugDraw();
 		}
 	}
 

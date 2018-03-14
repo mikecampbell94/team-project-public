@@ -17,6 +17,8 @@ public:
 		return radius;
 	}
 
+	void debugDraw() override;
+
 	virtual NCLMatrix3 buildInverseInertia(float invMass) const override;
 
 	virtual void getCollisionAxes(const PhysicsNode* otherObject, std::vector<NCLVector3>& out_axes) const override;

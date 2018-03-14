@@ -2,9 +2,9 @@
   
   <Lights name="light1">
     <position>
-      <x>0</x>
-      <y>250</y>
-      <z>0</z>
+      <x>200</x>
+      <y>300</y>
+      <z>100</z>
     </position>
     <colour>
       <r>1.0</r>
@@ -19,18 +19,18 @@
   
   <Lights name="light2">
     <position>
-      <x>-450</x>
-      <y>150</y>
-      <z>-450</z>
+      <x>-100</x>
+      <y>100</y>
+      <z>-100</z>
     </position>
     <colour>
-      <r>0.6</r>
-      <g>0.6</g>
-      <b>0.9</b>
+      <r>1.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
       <a>1.0</a>
     </colour>
-    <radius>250</radius>
-    <intensity>1.5</intensity>
+    <radius>100</radius>
+    <intensity>3.0</intensity>
     <shadowcasting>disabled</shadowcasting>
   </Lights>
   
