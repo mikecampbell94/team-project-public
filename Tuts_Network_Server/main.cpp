@@ -75,12 +75,6 @@ struct MinionKinematicState
 	NCLVector3 linearAcceleration;
 };
 
-struct MinionColour
-{
-	int minionIndex;
-	NCLVector4 minionColour;
-};
-
 enum
 {
 	NEW_ID,
@@ -93,10 +87,10 @@ struct IntegerData
 	int data;
 };
 
-struct PowerUpCollision
+struct NetworkedCollision
 {
-	int player;
-	int powerUp;
+	int playerID;
+	int colliderIndex;
 	int offset;
 };
 
@@ -205,22 +199,13 @@ int main(int arcg, char** argv)
 					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(MinionKinematicState), 0);
 					enet_host_broadcast(server.m_pNetwork, 0, packet);
 				}
-
-				else if (evnt.packet->dataLength == sizeof(MinionColour))
+				
+				else if (evnt.packet->dataLength == sizeof(NetworkedCollision))
 				{
-					MinionColour recievedPlayerPacket;
-					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(MinionColour));
+					NetworkedCollision recievedPlayerPacket;
+					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(NetworkedCollision));
 
-					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(MinionColour), 0);
-					enet_host_broadcast(server.m_pNetwork, 0, packet);
-				}
-
-				else if (evnt.packet->dataLength == sizeof(PowerUpCollision))
-				{
-					MinionColour recievedPlayerPacket;
-					memcpy(&recievedPlayerPacket, evnt.packet->data, sizeof(PowerUpCollision));
-
-					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(PowerUpCollision), 0);
+					ENetPacket* packet = enet_packet_create(&recievedPlayerPacket, sizeof(NetworkedCollision), 0);
 					enet_host_broadcast(server.m_pNetwork, 0, packet);
 
 

@@ -13,16 +13,10 @@ class GameplaySystem;
 class PlayerBase;
 class Database;
 
-struct MinionColour
+struct NetworkedCollision
 {
-	int minionIndex;
-	NCLVector4 minionColour;
-};
-
-struct PowerUpCollision
-{
-	int player;
-	int powerUp;
+	int playerID;
+	int colliderIndex;
 	int offset;
 };
 
@@ -50,8 +44,7 @@ private:
 	void broadcastKinematicState();
 	void broadcastMinionState();
 
-	void broadcastPaintedMinion();
-	void broadcastPowerUpCollision();
+	void broadcastCollision();
 
 	void updateDeadReckoningForConnectedClients();
 	void updateDeadReckoningForMinions();
@@ -75,12 +68,9 @@ private:
 	bool joinedGame;
 	bool inLobby = false;
 
-	MinionColour minionColour;
-	bool transmitMinionColour = false;
-
-	PowerUpCollision powerUpCollision;
-	bool transmitPowerUpCollision = false;
-	std::vector<std::string> powerUps;
+	NetworkedCollision networkedCollision;
+	bool transmitNetworkedCollision = false;
+	std::vector<std::string> colliders;
 
 	std::map<GameObject*, DeadReckoning> clientDeadReckonings;
 	std::map<GameObject*, MinionDeadReckoning> minionDeadReckonings;

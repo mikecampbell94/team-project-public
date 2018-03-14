@@ -46,14 +46,13 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 
 
 	//replace for doing it automatically
-	powerUps.push_back("powerup");
-
-
+	//colliders.push_back("powerup");
+	//colliders.push_back("paintPool");
 
 
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT, [&database = this->database, &objectsToToTransmitStatesFor = objectsToToTransmitStatesFor,
-	&transmitMinionColour = transmitMinionColour, &minionColour = minionColour, &powerUpCollision = powerUpCollision, &transmitPowerUpCollision = transmitPowerUpCollision](Message* message)
+		&networkedCollision = networkedCollision, &transmitNetworkedCollision = transmitNetworkedCollision, &colliders = colliders](Message* message)
 	{
 		TextMessage* textMessage = static_cast<TextMessage*>(message);
 
@@ -66,28 +65,25 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 			GameObject* gameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(tokens[1]));
 
 			objectsToToTransmitStatesFor.push_back(gameObject);
+			colliders.push_back(tokens[1]);
 		}
-		else if (tokens[0] == "paintMinion")
+		else if (tokens[0] == "collision")
 		{
-			for (int i = 0; i < objectsToToTransmitStatesFor.size(); ++i)
+			for (int i = 0; i < colliders.size(); ++i)
 			{
-				if (objectsToToTransmitStatesFor[i]->getName() == tokens[1])
+				if (colliders[i] == tokens[2])
 				{
-					minionColour.minionIndex = i;
-					minionColour.minionColour = objectsToToTransmitStatesFor[i]->stats.colourToPaint;
-					transmitMinionColour = true;
+					networkedCollision.colliderIndex = i;
+					networkedCollision.playerID = stoi(tokens[1].substr(tokens[1].find_first_of("0123456789")));
+					transmitNetworkedCollision = true;
 					break;
 				}
 			}
 		}
-		else if (tokens[0] == "powerUpCollision")
+		else if (tokens[0] == "insertCollider")
 		{
-			powerUpCollision.player = stoi(tokens[1].substr(tokens[1].find_first_of("0123456789")));
-			powerUpCollision.powerUp = 0;
-			transmitPowerUpCollision = true;
+			colliders.push_back(tokens[1]);
 		}
-
-		
 	});
 
 	waitingInLobbyText = PeriodicTextModifier("Waiting for players", ".", 3);
@@ -147,16 +143,10 @@ void NetworkClient::updateNextFrame(const float& deltaTime)
 				client->getPhysicsNode()->getPosition() + NCLVector3(24, 14, 0), NCLVector3(7, 7, 1), NCLVector3(1, 1, 1), false));
 		}
 
-		if (transmitMinionColour)
+		if (transmitNetworkedCollision)
 		{
-			transmitMinionColour = false;
-			broadcastPaintedMinion();
-		}
-
-		if (transmitPowerUpCollision)
-		{
-			transmitPowerUpCollision = false;
-			broadcastPowerUpCollision();
+			transmitNetworkedCollision = false;
+			broadcastCollision();
 		}
 
 	}
@@ -228,15 +218,9 @@ void NetworkClient::broadcastMinionState()
 	}
 }
 
-void NetworkClient::broadcastPaintedMinion()
+void NetworkClient::broadcastCollision()
 {
-	ENetPacket* packet = enet_packet_create(&minionColour, sizeof(MinionColour), 0);
-	enet_peer_send(serverConnection, 0, packet);
-}
-
-void NetworkClient::broadcastPowerUpCollision()
-{
-	ENetPacket* packet = enet_packet_create(&powerUpCollision, sizeof(PowerUpCollision), 0);
+	ENetPacket* packet = enet_packet_create(&networkedCollision, sizeof(NetworkedCollision), 0);
 	enet_peer_send(serverConnection, 0, packet);
 }
 
@@ -264,7 +248,7 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 		&keyboardAndMouse = keyboardAndMouse, &playerbase = playerbase, &clientID = clientID, &inLobby = inLobby,
 		&joinedGame = joinedGame, &database = database, &numberOfOtherPlayersToWaitFor = numberOfOtherPlayersToWaitFor,
 		&msCounter = msCounter, &clientDeadReckonings = clientDeadReckonings, &minionDeadReckonings = minionDeadReckonings,
-		&objectsToToTransmitStatesFor = objectsToToTransmitStatesFor, &powerUps = powerUps](const ENetEvent& evnt)
+		&objectsToToTransmitStatesFor = objectsToToTransmitStatesFor, &colliders = colliders](const ENetEvent& evnt)
 	{
 		if (evnt.type == ENET_EVENT_TYPE_RECEIVE)
 		{
@@ -318,28 +302,17 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 					minionDeadReckonings[client] = MinionDeadReckoning(recievedState);
 				}
 			}
-			else if (evnt.packet->dataLength == sizeof(MinionColour) && joinedGame)
+			else if (evnt.packet->dataLength == sizeof(NetworkedCollision) && joinedGame)
 			{
-				MinionColour recievedState;
-				memcpy(&recievedState, evnt.packet->data, sizeof(MinionColour));
+				NetworkedCollision recievedState;
+				memcpy(&recievedState, evnt.packet->data, sizeof(NetworkedCollision));
 
-				objectsToToTransmitStatesFor[recievedState.minionIndex]->stats.colourToPaint = recievedState.minionColour;
-				objectsToToTransmitStatesFor[recievedState.minionIndex]->getSceneNode()->SetColour(recievedState.minionColour);
-			}
-			else if (evnt.packet->dataLength == sizeof(PowerUpCollision) && joinedGame)
-			{
-				PowerUpCollision recievedState;
-				memcpy(&recievedState, evnt.packet->data, sizeof(PowerUpCollision));
-
-				if (recievedState.player != clientID)
+				if (recievedState.playerID != clientID)
 				{
-					const std::string playerName = "player" + to_string(recievedState.player);
-
-					GameObject* player = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
-
+					const std::string playerName = "player" + to_string(recievedState.playerID);
 
 					DeliverySystem::getPostman()->insertMessage(CollisionMessage("Gameplay", CollisionData(),
-						playerName, powerUps[recievedState.powerUp]));
+						playerName, colliders[recievedState.colliderIndex]));
 				}
 			}
 			else if (evnt.packet->dataLength == sizeof(RandomIntegers) && joinedGame)
