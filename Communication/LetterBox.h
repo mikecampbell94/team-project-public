@@ -51,7 +51,7 @@ public:
 	void insertMessage(ToggleGameObjectMessage message) override;
 	void insertMessage(TogglePlayerInputKeyMessage message) override;
 	void insertMessage(DebugLineMessage message) override;
-	void insertMessage(DebugCircleMessage message) override;
+	void insertMessage(DebugSphereMessage message) override;
 
 	void deliverAllMessages() override;
 	void clearAllMessages() override;
@@ -84,6 +84,6 @@ private:
 	MessageBuffer<ToggleGameObjectMessage> toggleGameObjectBuffer;
 	MessageBuffer<TogglePlayerInputKeyMessage> togglePlayerInputKeyBuffer;
 	MessageBuffer<DebugLineMessage> debugLineBuffer;
-	MessageBuffer<DebugCircleMessage> debugCircleBuffer;
+	MessageBuffer<DebugSphereMessage> debugCircleBuffer;
 };
 

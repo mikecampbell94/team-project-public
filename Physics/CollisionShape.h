@@ -27,6 +27,7 @@ public:
 	virtual ~CollisionShape() {}
 
 	virtual NCLMatrix3 buildInverseInertia(float invMass) const = 0;
+	virtual void debugDraw() = 0;
 
 	inline void setParent(PhysicsNode* node) 
 	{ 

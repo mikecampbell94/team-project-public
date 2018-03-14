@@ -18,6 +18,11 @@ SphereCollisionShape::~SphereCollisionShape()
 {
 }
 
+void SphereCollisionShape::debugDraw()
+{
+	DeliverySystem::getPostman()->insertMessage(DebugSphereMessage("RenderingSystem", parent()->getPosition(), radius, NCLVector3(1, 0, 0)));
+}
+
 NCLMatrix3 SphereCollisionShape::buildInverseInertia(float invMass) const
 {
 	float i = 2.5f * invMass / (radius * radius);

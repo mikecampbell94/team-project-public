@@ -230,17 +230,11 @@ void Hull::DebugDraw(const NCLMatrix4& transform)
 			{
 				NCLVector3 polygon_next = transform * m_vVertices[face._vert_ids[idx]]._pos;
 
-				/*DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem",
-					NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z + cuboidHalfdims.z),
-					NCLVector3(nodePosition.x - cuboidHalfdims.x, nodePosition.y + cuboidHalfdims.y, nodePosition.z - cuboidHalfdims.z),
-					NCLVector3(0.5, 0.5, 1)));
-				Wireframe::addLine(polygon_start, polygon_last, polygon_next, NCLVector4(1.0f, 1.0f, 1.0f, 0.2f));*/
 				polygon_last = polygon_next;
 			}
 		}
 	}
 
-	//Draw all Hull Edges
 	for (HullEdge& edge : m_vEdges)
 	{
 		DeliverySystem::getPostman()->insertMessage(DebugLineMessage("RenderingSystem", transform * m_vVertices[edge._vStart]._pos, transform * m_vVertices[edge._vEnd]._pos, NCLVector3(0.5, 0.5, 1)));

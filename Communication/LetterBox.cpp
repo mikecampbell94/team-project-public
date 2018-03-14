@@ -140,7 +140,7 @@ void LetterBox::insertMessage(DebugLineMessage message)
 	debugLineBuffer.insertOutgoingMessage(message);
 }
 
-void LetterBox::insertMessage(DebugCircleMessage message)
+void LetterBox::insertMessage(DebugSphereMessage message)
 {
 	debugCircleBuffer.insertOutgoingMessage(message);
 }

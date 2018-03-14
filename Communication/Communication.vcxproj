@@ -118,7 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Messages\DebugCircleMessage.h" />
+    <ClInclude Include="Messages\DebugSphereMessage.h" />
     <ClInclude Include="Messages\DebugLineMessage.h" />
     <ClInclude Include="Messages\TogglePlayerInputKeyMessage.h" />
     <ClInclude Include="Messages\ToggleGameObjectMessage.h" />
@@ -153,7 +153,7 @@
     <ClInclude Include="ThreadSafeMessageBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Messages\DebugCircleMessage.cpp" />
+    <ClCompile Include="Messages\DebugSphereMessage.cpp" />
     <ClCompile Include="Messages\DebugLineMessage.cpp" />
     <ClCompile Include="Messages\TogglePlayerInputKeyMessage.cpp" />
     <ClCompile Include="Messages\ToggleGameObjectMessage.cpp" />

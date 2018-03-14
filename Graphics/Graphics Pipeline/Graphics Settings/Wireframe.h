@@ -16,14 +16,13 @@ public:
 	void regenerateShaders() override;
 
 	void addLine(NCLVector3 from, NCLVector3 to, NCLVector3 colour);
-	void addCircle(NCLVector3 position, float radius, NCLVector3 colour);
+	void addSphere(NCLVector3 position, float radius, NCLVector3 colour);
 
 private:
-	void updateWireframes();
 	void locateUniforms() override;
 
-	void buildLinesFromCircles();
-	void splitCircle(int circleIndex);
+	void buildLinesFromSpheres();
+	void splitSphere(int circleIndex);
 	void renderLines();
 
 	Shader* debugShader;
@@ -31,9 +30,9 @@ private:
 	std::vector<NCLVector3> linePoints;
 	std::vector<NCLVector3> lineColours;
 
-	std::vector<NCLVector3> circlePositions;
+	std::vector<NCLVector3> spherePositions;
 	std::vector<float> radii;
-	std::vector<NCLVector3> circleColours;
+	std::vector<NCLVector3> sphereColours;
 
 	GLuint array;
 	GLuint buffers[2];
