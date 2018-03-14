@@ -55,7 +55,7 @@ void ScoreCounter::apply()
 {
 	elapsedTime += timer.getTimeSinceLastRetrieval();
 
-	if (elapsedTime >= 3000.0f)
+	if (elapsedTime >= 30.0f)
 	{
 		calculateScores();
 		elapsedTime = 0;
@@ -90,7 +90,7 @@ void ScoreCounter::calculateScores()
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, *paintTrailTexture);
 
-	computeShader->Compute(NCLVector3(1280, 720, 1));
+	computeShader->Compute(NCLVector3(64, 36, 1));
 	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_ATOMIC_COUNTER_BARRIER_BIT);
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, playerScoresSSBO);
