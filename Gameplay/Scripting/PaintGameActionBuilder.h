@@ -28,12 +28,10 @@ public:
 	static bool online;
 
 	static int r1;
-	static int r2;
-	static int r3;
+	static int others[10];
 
 	static int r1ToSet;
-	static int r2ToSet;
-	static int r3ToSet;
+	static int othersToSet[10];
 private:
 	static std::unordered_map<std::string, Builder> builders;
 	static std::string powerUpBuilders[2];

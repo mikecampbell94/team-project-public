@@ -97,8 +97,7 @@ struct NetworkedCollision
 struct RandomIntegers
 {
 	int r1;
-	int r2;
-	int r3;
+	int others[10];
 	bool first;
 };
 
@@ -167,13 +166,15 @@ int main(int arcg, char** argv)
 
 				std::mt19937 rng2(rd());    // random-number engine used (Mersenne-Twister in this case)
 				std::uniform_int_distribution<int> uni2(-6, 6); // guaranteed unbiased
-				auto r2 = uni2(rng2);
-				auto r3 = uni2(rng2);
 
 				RandomIntegers rndInts;
 				rndInts.r1 = r1;
-				rndInts.r2 = r2;
-				rndInts.r3 = r3;
+
+				for (int i = 0; i < 10; ++i)
+				{
+					rndInts.others[i] = uni2(rng2);
+				}
+
 				rndInts.first = true;
 
 				ENetPacket* packet2 = enet_packet_create(&rndInts, sizeof(RandomIntegers), 0);
@@ -220,8 +221,12 @@ int main(int arcg, char** argv)
 
 					RandomIntegers rndInts;
 					rndInts.r1 = r1;
-					rndInts.r2 = r2;
-					rndInts.r3 = r3;
+
+					for (int i = 0; i < 10; ++i)
+					{
+						rndInts.others[i] = uni2(rng2);
+					}
+
 					rndInts.first = false;
 
 					ENetPacket* packet2 = enet_packet_create(&rndInts, sizeof(RandomIntegers), 0);
