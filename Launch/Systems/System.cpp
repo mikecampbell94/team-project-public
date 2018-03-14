@@ -53,19 +53,32 @@ void System::addConcurrentSubsystem(Subsystem* subsystem)
 	concurrentSubsystems.push_back(subsystem);
 }
 
-void System::processAllMessages()
+void System::removeSubsystem(std::string subsystemName)
 {
-	//for (Subsystem* subsystem : concurrentSubsystems)
-	//{
-	//	subsystem->processMessages();
-	//}
+	bool erased = false;
 
-	//for (Subsystem* subsystem : subsystems)
-	//{
-	//	subsystem->processMessages();
-	//}
+	for (auto concurrentSubsystemIterator = concurrentSubsystems.begin(); concurrentSubsystemIterator != concurrentSubsystems.end(); ++concurrentSubsystemIterator)
+	{
+		if ((*concurrentSubsystemIterator)->getSubsystemName() == subsystemName)
+		{
+			concurrentSubsystems.erase(concurrentSubsystemIterator);
+			erased = true;
+			break;
+		}
+	}
+
+	if (!erased)
+	{
+		for (auto subsystemIterator = subsystems.begin(); subsystemIterator != subsystems.end(); ++subsystemIterator)
+		{
+			if ((*subsystemIterator)->getSubsystemName() == subsystemName)
+			{
+				subsystems.erase(subsystemIterator);
+				break;
+			}
+		}
+	}
 }
-
 std::vector<Subsystem*> System::getSubSystems()
 {
 	vector<Subsystem*> allSubsystems;

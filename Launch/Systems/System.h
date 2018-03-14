@@ -21,7 +21,7 @@ public:
 	void addSubsystem(Subsystem* subsystem);
 	void addConcurrentSubsystem(Subsystem* subsystem);
 
-	void processAllMessages();
+	void removeSubsystem(std::string subsystemName);
 
 	std::vector<Subsystem*> getSubSystems();
 

@@ -48,6 +48,7 @@ GameLoop::GameLoop(System* gameSystem, Database* database, Startup* startup)
 			}
 			else
 			{
+				engine->removeSubsystem("NetworkClient");
 				startup->loadLevel(tokens[2], false);
 			}
 
