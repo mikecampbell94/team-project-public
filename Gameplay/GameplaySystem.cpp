@@ -122,8 +122,11 @@ void GameplaySystem::updateNextFrame(const float& deltaTime)
 			if (PaintGameActionBuilder::online)
 			{
 				PaintGameActionBuilder::r1 = PaintGameActionBuilder::r1ToSet;
-				PaintGameActionBuilder::r2 = PaintGameActionBuilder::r2ToSet;
-				PaintGameActionBuilder::r3 = PaintGameActionBuilder::r3ToSet;
+
+				for (int i = 0; i < 10; ++i)
+				{
+					PaintGameActionBuilder::others[i] = PaintGameActionBuilder::othersToSet[i];
+				}
 			}
 		}
 		else if(!levelFinished)

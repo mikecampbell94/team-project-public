@@ -19,11 +19,9 @@ Database* PaintGameActionBuilder::database = nullptr;
 std::string PaintGameActionBuilder::localPlayer = "";
 bool PaintGameActionBuilder::online = false;
 int PaintGameActionBuilder::r1 = 0;
-int PaintGameActionBuilder::r2 = 0;
-int PaintGameActionBuilder::r3 = 0;
+int PaintGameActionBuilder::others[10] = { 0, 0, 0, 0 , 0 , 0 , 0 , 0 , 0 , 0 };
 int PaintGameActionBuilder::r1ToSet = 0;
-int PaintGameActionBuilder::r2ToSet = 0;
-int PaintGameActionBuilder::r3ToSet = 0;
+int PaintGameActionBuilder::othersToSet[10] = { 0, 0, 0, 0 , 0 , 0 , 0 , 0 , 0 , 0 };
 
 void PaintGameActionBuilder::initialiseBuilders(Database* database)
 {
@@ -487,7 +485,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 						GameObject* meteor = static_cast<GameObject*>(
 							PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
 
-						meteor->setPosition(gameObject->getPosition() + NCLVector3(PaintGameActionBuilder::r2 * 10, 100 + (i * 40), PaintGameActionBuilder::r3 * 10));
+						meteor->setPosition(gameObject->getPosition() + NCLVector3(PaintGameActionBuilder::others[i] * 10, 100 + (i * 40), PaintGameActionBuilder::others[9-i] * 10));
 						meteor->setEnabled(true);
 
 					}

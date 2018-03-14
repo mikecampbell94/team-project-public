@@ -175,7 +175,7 @@ void NetworkClient::connectToServer()
 {
 	if (network.Initialize(0))
 	{
-		serverConnection = network.ConnectPeer(10, 70, 32, 168, 1234);
+		serverConnection = network.ConnectPeer(10, 70, 33, 11, 1234);
 		connectedToServer = true;
 	}
 }
@@ -323,14 +323,20 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 				if (recievedState.first)
 				{
 					PaintGameActionBuilder::r1 = recievedState.r1;
-					PaintGameActionBuilder::r2 = recievedState.r2;
-					PaintGameActionBuilder::r3 = recievedState.r3;
+
+					for (int i = 0; i < 10; ++i)
+					{
+						PaintGameActionBuilder::others[i] = recievedState.others[i];
+					}
 				}
 				else
 				{
 					PaintGameActionBuilder::r1ToSet = recievedState.r1;
-					PaintGameActionBuilder::r2ToSet = recievedState.r2;
-					PaintGameActionBuilder::r3ToSet = recievedState.r3;
+
+					for (int i = 0; i < 10; ++i)
+					{
+						PaintGameActionBuilder::othersToSet[i] = recievedState.others[i];
+					}
 				}
 			}
 

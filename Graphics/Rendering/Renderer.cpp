@@ -35,11 +35,14 @@ Renderer::Renderer(GameTimer* parentTimer, Window* window, Camera* camera)
 	globalOrthographicMatrix = NCLMatrix4::orthographic(-1.0f,10000.0f, width / 2.0f, -width / 2.0f, height / 2.0f, -height / 2.0f);
 
 	loadingScreenMesh = new SceneNode("../Data/Resources/Meshes/cube.obj", NCLVector4(1,0,0,1));
-	loadingScreenMesh->GetMesh()->loadTexture("../Data/Resources/Textures/sleepyboi.png");
+	loadingScreenMesh->GetMesh()->loadTexture("../Data/Resources/Textures/loadingtexture.png");
 	loadingScreenMesh->GetMesh()->setupMesh();
 	loadingScreenMesh->SetTransform(NCLVector3(0, 0, -10));
 	loadingScreenMesh->SetModelScale(NCLVector3(1, 1, 1));
 	loadingScreenMesh->Update(0.0f);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	loadingScreenShader = new Shader(SHADERDIR"/basicVertex.glsl", SHADERDIR"/basicFrag.glsl", "", true);
 	loadingScreenShader->LinkProgram();

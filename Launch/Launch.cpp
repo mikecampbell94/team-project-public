@@ -28,19 +28,19 @@ int main()
 
 	bool loaded = false;
 
-	//threadPool.submitJob([&startup = startup, &loaded = loaded]()
-	//{
+	threadPool.submitJob([&startup = startup, &loaded = loaded]()
+	{
 		startup.initialiseSubsystems();
 		startup.loadMainMenu();
 
 		loaded = true;
-	//});
+	});
 
 
-	//while (!loaded)
-	//{
-		//startup.renderLoadingScreen();
-	//}
+	while (!loaded)
+	{
+		startup.renderLoadingScreen();
+	}
 
 	startup.startRenderingSystem();
 	startup.setupMeshes();
