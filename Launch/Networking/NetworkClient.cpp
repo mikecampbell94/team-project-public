@@ -236,6 +236,8 @@ void NetworkClient::broadcastPlayerScores()
 	{
 		ENetPacket* packet = enet_packet_create(&ps, sizeof(PlayerScore), 0);
 		enet_peer_send(serverConnection, 0, packet);
+
+		DeliverySystem::getPostman()->insertMessage(TextMessage("Gameplay", "sendscore " + to_string(ps.playerID) + " " + to_string(ps.playerScore)));
 	}
 	scoresToSend.clear();
 }

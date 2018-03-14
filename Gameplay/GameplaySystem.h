@@ -7,7 +7,6 @@
 #include "GameObjectLogic/GameObjectLogic.h"
 #include "../Resource Management/Database/Database.h"
 
-
 class Database;
 
 class GameplaySystem : public Subsystem
@@ -43,10 +42,10 @@ private:
 	XMLParser inputParser;
 	Database* database;
 
-
-
 	std::vector<std::string> gameObjectLogicRemoveBuffer;
 	std::string gameplayScript = "";
 	bool levelFinished = false;
+
+	std::map<int, int> playerScores;
 };
 

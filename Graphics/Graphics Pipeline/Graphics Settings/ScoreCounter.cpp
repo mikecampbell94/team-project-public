@@ -140,6 +140,8 @@ void ScoreCounter::displayScores()
 		{
 			DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "sendscore " + to_string(i) + " " + to_string(score)));
 		}
+
+		DeliverySystem::getPostman()->insertMessage(TextMessage("Gameplay", "sendscore " + to_string(i) + " " + to_string(score)));
 	}
 
 	glDisable(GL_BLEND);

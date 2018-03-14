@@ -52,6 +52,13 @@ GameplaySystem::GameplaySystem(Database* database)
 				gameLogic.isTimed = false;
 			}
 		}
+		else if (tokens[0] == "sendscore")
+		{
+			int playerID = stoi(tokens[1]);
+			int playerScore = stoi(tokens[2]);
+
+			playerScores[playerID] = playerScore;
+		}
 		
 	});
 	
@@ -140,6 +147,21 @@ void GameplaySystem::updateNextFrame(const float& deltaTime)
 			//send messages
 			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "GAME OVER!",
 				NCLVector3(-50, -50, 0), NCLVector3(50, 50, 50), NCLVector3(1, 0, 0), true, true));
+
+			int winningPlayerID = -1;
+			int minScore = 0;
+
+			for (auto playerScoreIterator = playerScores.begin(); playerScoreIterator != playerScores.end(); ++playerScoreIterator)
+			{
+				if ((*playerScoreIterator).second >= minScore)
+				{
+					winningPlayerID = (*playerScoreIterator).first;
+					minScore = (*playerScoreIterator).second;
+				}
+			}
+
+			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "Player" + std::to_string(winningPlayerID) + " wins!!! :)",
+				NCLVector3(-50, -100, 0), NCLVector3(20, 20, 20), NCLVector3(1, 1, 1), true, true));
 		}
 	}
 	else
