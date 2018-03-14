@@ -56,6 +56,17 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		};
 	} });
 
+	builders.insert({ "TransmitCollider", [](Node* node)
+	{
+		std::string collider = node->children[0]->value;
+		return [collider]()
+		{
+
+			DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "insertCollider " + collider));
+
+		};
+	} });
+
 	builders.insert({ "PrintText", [](Node* node)
 	{
 		std::string text = node->children[0]->value;
@@ -218,11 +229,33 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		GameObject* gameObject = static_cast<GameObject*>(
 			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
 
+
 		return [gameObject]()
 		{
 			gameObject->getPhysicsNode()->setInverseMass(gameObject->stats.defaultInvMass);
 			gameObject->stats.currentPaint = gameObject->stats.maxPaint;
 			gameObject->getSceneNode()->SetColour(gameObject->stats.colourToPaint);
+		};
+	} });
+
+	builders.insert({ "RegainNetworkedPaint", [](Node* node)
+	{
+		GameObject* gameObject = static_cast<GameObject*>(
+			PaintGameActionBuilder::database->getTable("GameObjects")->getResource(node->children[0]->value));
+		std::string paintpool = node->children[1]->value;
+
+
+		return [gameObject, paintpool]()
+		{
+			gameObject->getPhysicsNode()->setInverseMass(gameObject->stats.defaultInvMass);
+			gameObject->stats.currentPaint = gameObject->stats.maxPaint;
+			gameObject->getSceneNode()->SetColour(gameObject->stats.colourToPaint);
+
+			if (PaintGameActionBuilder::localPlayer == gameObject->getName()
+				&& PaintGameActionBuilder::online)
+			{
+				DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "collision " + gameObject->getName() + " " + paintpool));
+			}
 		};
 	} });
 
@@ -244,7 +277,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 				if (PaintGameActionBuilder::localPlayer == gameObject->getName()
 					&& PaintGameActionBuilder::online)
 				{
-					DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "paintMinion " + minion->getName()));
+					DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "collision " + gameObject->getName() + " " + minion->getName()));
 				}
 			}
 		};
@@ -478,7 +511,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 				if (PaintGameActionBuilder::localPlayer == gameObject->getName()
 					&& PaintGameActionBuilder::online)
 				{
-					DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "powerUpCollision " + gameObject->getName() + " " + powerup->getName()));
+					DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "collision " + gameObject->getName() + " " + powerup->getName()));
 				}
 
 			}

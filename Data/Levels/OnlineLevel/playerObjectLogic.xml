@@ -117,9 +117,25 @@
 					<colliderIdentifier>paintPool</colliderIdentifier>
 				</Condition>
 
-				<RegainPaint>
+				<RegainNetworkedPaint>
 					<resource>var</resource>
-				</RegainPaint>
+					<paintpool>paintPool</paintpool>
+				</RegainNetworkedPaint>
+			</Action>
+		</ReceiveMessage>
+
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>paintPool2</colliderIdentifier>
+				</Condition>
+
+				<RegainNetworkedPaint>
+					<resource>var</resource>
+					<paintpool>paintPool2</paintpool>
+				</RegainNetworkedPaint>
 			</Action>
 		</ReceiveMessage>
 
@@ -152,55 +168,6 @@
 			</Action>
 		</ReceiveMessage>
 
-
-		<!--<ReceiveMessage type="CollisionMessage">
-			<Action>
-				<Condition type="AND">
-					<objectIdentifier>var</objectIdentifier>
-					<colliderIdentifier>powerup</colliderIdentifier>
-				</Condition>
-
-				<ScalePlayer>
-					<resource>var</resource>
-					<multiplier>1.25</multiplier>
-					<powerupObj>powerup</powerupObj>
-					<duration>5</duration>
-				</ScalePlayer>
-			</Action>
-		</ReceiveMessage> 
-
-		<ReceiveMessage type="CollisionMessage">
-			<Action>
-				<Condition type="AND">
-					<objectIdentifier>var</objectIdentifier>
-					<colliderIdentifier>powerup</colliderIdentifier>
-				</Condition>
-
-				<DecreaseMass>
-					<resource>var</resource>
-					<multiplier>3</multiplier>
-					<powerupObj>powerup</powerupObj>
-					<duration>5</duration>
-				</DecreaseMass>
-			</Action>
-		</ReceiveMessage>
-
-		<ReceiveMessage type="CollisionMessage">
-			<Action>
-				<Condition type="AND">
-					<objectIdentifier>var</objectIdentifier>
-					<colliderIdentifier>powerup</colliderIdentifier>
-				</Condition>
-
-				<MeteorStrike>
-					<resource>var</resource>
-					<multiplier>3</multiplier>
-					<powerupObj>powerup</powerupObj>
-					<duration>5</duration>
-				</MeteorStrike>
-			</Action>
-		</ReceiveMessage>-->
-
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition type="AND">
@@ -212,6 +179,38 @@
 					<resource>var</resource>
 					<multiplier>2</multiplier>
 					<powerupObj>powerup</powerupObj>
+					<duration>5</duration>
+				</RandomNetworkedPowerUp>
+			</Action>
+		</ReceiveMessage>
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>powerup2</colliderIdentifier>
+				</Condition>
+
+				<RandomNetworkedPowerUp>
+					<resource>var</resource>
+					<multiplier>2</multiplier>
+					<powerupObj>powerup2</powerupObj>
+					<duration>5</duration>
+				</RandomNetworkedPowerUp>
+			</Action>
+		</ReceiveMessage>
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>powerup3</colliderIdentifier>
+				</Condition>
+
+				<RandomNetworkedPowerUp>
+					<resource>var</resource>
+					<multiplier>2</multiplier>
+					<powerupObj>powerup3</powerupObj>
 					<duration>5</duration>
 				</RandomNetworkedPowerUp>
 			</Action>
