@@ -70,6 +70,7 @@ void ScoreCounter::calculateScores()
 
 	for (int i = 0; i < scoreHolders.size(); ++i)
 	{
+	
 		scores[i] = 0;
 	}
 

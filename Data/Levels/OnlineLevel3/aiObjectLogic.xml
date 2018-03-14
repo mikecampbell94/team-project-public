@@ -4,7 +4,6 @@
 	<resource>AI</resource>
 	<resource>AI2</resource>
 	<resource>enemy</resource>
-	<resource>enemy1</resource>
 </Resources>
 
 <GameplayScript>
