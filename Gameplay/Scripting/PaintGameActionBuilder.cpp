@@ -529,3 +529,16 @@ Executable PaintGameActionBuilder::buildExecutable(Node* node)
 {
 	return builders.at(node->nodeType)(node);
 }
+
+void PaintGameActionBuilder::updateBufferedVariables()
+{
+	if (PaintGameActionBuilder::online)
+	{
+		PaintGameActionBuilder::r1 = PaintGameActionBuilder::r1ToSet;
+
+		for (int i = 0; i < 10; ++i)
+		{
+			PaintGameActionBuilder::others[i] = PaintGameActionBuilder::othersToSet[i];
+		}
+	}
+}

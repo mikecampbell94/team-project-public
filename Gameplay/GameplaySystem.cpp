@@ -102,101 +102,19 @@ void GameplaySystem::updateNextFrame(const float& deltaTime)
 {
 	if (gameLogic.isTimed) 
 	{
-		if (gameLogic.elapsedTime < gameLogic.maxTime)
-		{
-			timer->beginTimedSection();
-
-			timer->beginChildTimedSection("Level Logic");
-			gameLogic.executeMessageBasedActions();
-			gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
-			gameLogic.clearNotifications();
-			timer->endChildTimedSection("Level Logic");
-
-			timer->beginChildTimedSection("Object Logic");
-			for (GameObjectLogic& object : objects)
-			{
-				object.updatelogic(deltaTime * 0.001f);
-			}
-			timer->endChildTimedSection("Object Logic");
-
-			timer->endTimedSection();
-
-			gameLogic.elapsedTime += (deltaTime * 0.001f);
-
-			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", std::to_string((int)round(gameLogic.maxTime - gameLogic.elapsedTime)),
-				NCLVector3(-75, 310, 0), NCLVector3(30, 30, 30), NCLVector3(1, 0, 0), true, true));
-
-			if (PaintGameActionBuilder::online)
-			{
-				PaintGameActionBuilder::r1 = PaintGameActionBuilder::r1ToSet;
-
-				for (int i = 0; i < 10; ++i)
-				{
-					PaintGameActionBuilder::others[i] = PaintGameActionBuilder::othersToSet[i];
-				}
-			}
-		}
-		else if(!levelFinished)
-		{
-			levelFinished = true;
-			DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
-			DeliverySystem::getPostman()->insertMessage(TextMessage("UserInterface", "Toggle"));
-		}
-		else
-		{
-			//send messages
-			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "GAME OVER!",
-				NCLVector3(-50, -50, 0), NCLVector3(50, 50, 50), NCLVector3(1, 0, 0), true, true));
-
-			int winningPlayerID = -1;
-			int minScore = 0;
-
-			for (auto playerScoreIterator = playerScores.begin(); playerScoreIterator != playerScores.end(); ++playerScoreIterator)
-			{
-				if ((*playerScoreIterator).second >= minScore)
-				{
-					winningPlayerID = (*playerScoreIterator).first;
-					minScore = (*playerScoreIterator).second;
-				}
-			}
-
-			DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "Player" + std::to_string(winningPlayerID) + " wins!!! :)",
-				NCLVector3(-50, -100, 0), NCLVector3(20, 20, 20), NCLVector3(1, 1, 1), true, true));
-		}
+		updateGameplayWhenTimed(deltaTime);
 	}
 	else
 	{
 		timer->beginTimedSection();
 
-		timer->beginChildTimedSection("Level Logic");
-		gameLogic.executeMessageBasedActions();
-		gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
-		gameLogic.clearNotifications();
-		timer->endChildTimedSection("Level Logic");
-
-		timer->beginChildTimedSection("Object Logic");
-		for (GameObjectLogic& object : objects)
-		{
-			object.updatelogic(deltaTime * 0.001f);
-		}
-		timer->endChildTimedSection("Object Logic");
+		updateGameLogic(deltaTime);
+		updateGameObjectLogics(deltaTime);
 
 		timer->endTimedSection();
 	}
 
-	for (std::string gameObjectLogicToRemove : gameObjectLogicRemoveBuffer)
-	{
-		for (int i = 0; i < objects.size(); ++i)
-		{
-			if (objects[i].getScriptFile() == gameObjectLogicToRemove)
-			{
-				objects.erase(objects.begin() + i);
-				break;
-			}
-		}
-	}
-
-	gameObjectLogicRemoveBuffer.clear();
+	removeScriptsInbuffer();
 }
 
 void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
@@ -246,6 +164,58 @@ void GameplaySystem::compileGameObjectScripts()
 	}
 }
 
+void GameplaySystem::updateGameplayWhenTimed(const float& deltaTime)
+{
+	if (gameLogic.elapsedTime < gameLogic.maxTime)
+	{
+		updateGameplayWithTimeRemaining(deltaTime);
+	}
+	else if (!levelFinished)
+	{
+		levelFinished = true;
+		DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
+		DeliverySystem::getPostman()->insertMessage(TextMessage("UserInterface", "Toggle"));
+	}
+	else
+	{
+		updateGameOverScreen();
+	}
+}
+
+void GameplaySystem::updateGameplayWithTimeRemaining(const float& deltaTime)
+{
+	timer->beginTimedSection();
+
+	updateGameLogic(deltaTime);
+	updateGameObjectLogics(deltaTime);
+
+	timer->endTimedSection();
+
+	updateGameTimer(deltaTime);
+	PaintGameActionBuilder::updateBufferedVariables();
+}
+
+void GameplaySystem::updateGameOverScreen()
+{
+	DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "GAME OVER!",
+		NCLVector3(-50, -50, 0), NCLVector3(50, 50, 50), NCLVector3(1, 0, 0), true, true));
+
+	int winningPlayerID = -1;
+	int minScore = 0;
+
+	for (auto playerScoreIterator = playerScores.begin(); playerScoreIterator != playerScores.end(); ++playerScoreIterator)
+	{
+		if ((*playerScoreIterator).second >= minScore)
+		{
+			winningPlayerID = (*playerScoreIterator).first;
+			minScore = (*playerScoreIterator).second;
+		}
+	}
+
+	DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "Player" + std::to_string(winningPlayerID) + " wins!!! :)",
+		NCLVector3(-50, -100, 0), NCLVector3(20, 20, 20), NCLVector3(1, 1, 1), true, true));
+}
+
 void GameplaySystem::updateGameLogic(const float& deltaTime)
 {
 	timer->beginChildTimedSection("Level Logic");
@@ -253,5 +223,40 @@ void GameplaySystem::updateGameLogic(const float& deltaTime)
 	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
 	gameLogic.clearNotifications();
 	timer->endChildTimedSection("Level Logic");
+}
+
+void GameplaySystem::updateGameObjectLogics(const float& deltaTime)
+{
+	timer->beginChildTimedSection("Object Logic");
+	for (GameObjectLogic& object : objects)
+	{
+		object.updatelogic(deltaTime * 0.001f);
+	}
+	timer->endChildTimedSection("Object Logic");
+}
+
+void GameplaySystem::removeScriptsInbuffer()
+{
+	for (std::string gameObjectLogicToRemove : gameObjectLogicRemoveBuffer)
+	{
+		for (int i = 0; i < objects.size(); ++i)
+		{
+			if (objects[i].getScriptFile() == gameObjectLogicToRemove)
+			{
+				objects.erase(objects.begin() + i);
+				break;
+			}
+		}
+	}
+
+	gameObjectLogicRemoveBuffer.clear();
+}
+
+void GameplaySystem::updateGameTimer(const float& deltaTime)
+{
+	gameLogic.elapsedTime += (deltaTime * 0.001f);
+
+	DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", std::to_string((int)round(gameLogic.maxTime - gameLogic.elapsedTime)),
+		NCLVector3(-75, 310, 0), NCLVector3(30, 30, 30), NCLVector3(1, 0, 0), true, true));
 }
 
