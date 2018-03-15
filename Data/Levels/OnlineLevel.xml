@@ -7,7 +7,7 @@
 		<File>../Data/UserInterface/InGameMenu.xml</File>
 	</UI>
 	<GamePlay>
-		<File>OnlineLevel3/gameplay.xml</File>
+		<File>OnlineLevel/gameplay.xml</File>
 	</GamePlay>
 	<GameLogic>
 		<File>OnlineLevel/networkdCollidersObjectLogic.xml</File>
