@@ -29,7 +29,7 @@ GameplaySystem::GameplaySystem(Database* database)
 
 		if (tokens[0] == "addgameobjectlogic")
 		{
-			objects.push_back(GameObjectLogic(database, &incomingMessages, tokens[1]));
+			objects.push_back(GameObjectLogic(database, tokens[1]));
 			objects[objects.size() - 1].compileParsedXMLIntoScript();
 		}
 		else if (tokens[0] == "removegameobjectlogic")
@@ -119,7 +119,7 @@ void GameplaySystem::updateNextFrame(const float& deltaTime)
 
 void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
 {
-	inputBridge = GameplayInputBridge(playerBase->getPlayers().size());
+	inputBridge = GameplayInputBridge();
 
 	for (int i = 0; i < playerBase->getPlayers().size(); i++)//every ionput action map in playersInGame
 	{
@@ -148,7 +148,7 @@ void GameplaySystem::setDefaultGameplayScript()
 
 void GameplaySystem::addGameObjectScript(std::string scriptFile)
 {
-	objects.push_back(GameObjectLogic(database, &incomingMessages, scriptFile));
+	objects.push_back(GameObjectLogic(database, scriptFile));
 }
 
 void GameplaySystem::deleteGameObjectScripts()

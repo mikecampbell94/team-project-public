@@ -22,7 +22,6 @@ std::function<Executable(Node*)> ActionBuilder::executableBuilder
 
 GameplayAction ActionBuilder::buildAction(Node* node)
 {
-	//Condition condition;
 	std::vector<Condition> conditions;
 	std::vector<Executable> executables;
 

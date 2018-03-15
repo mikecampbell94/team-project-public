@@ -6,9 +6,8 @@
 class GameplayInputBridge
 {
 public:
-	GameplayInputBridge() = default;
-	explicit GameplayInputBridge(const int maxPlayers);
-	~GameplayInputBridge();
+	GameplayInputBridge() {}
+	~GameplayInputBridge() {}
 
 	void addInputActionMapForPlayer(const InputActionMap& mapping);
 	void processPlayerInputMessage(const PlayerInputMessage& message);
@@ -19,7 +18,6 @@ public:
 	}
 
 private:
-	//std::vector<InputActionMap> actionsForEachPlayer;
 	std::unordered_map<int, InputActionMap> actionsForEachPlayer;
 };
 
