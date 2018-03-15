@@ -85,16 +85,9 @@ void SubMesh::Draw(Shader& shader, NCLMatrix4& worldTransform)
 		glBindTexture(GL_TEXTURE_2D, textures[i - 1].id);
 	}
 
-	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
-	//glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4) * transforms.size(),
-	//	(float*)&transforms[0], GL_STATIC_COPY);
-	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
-	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
 	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false, (float*)&worldTransform);
 
 	glBindVertexArray(VAO);
-	//glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
@@ -113,16 +106,9 @@ void SubMesh::Draw(Shader& shader)
 		glBindTexture(GL_TEXTURE_2D, textures[i - 1].id);
 	}
 
-	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
-	//glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4) * transforms.size(),
-	//	(float*)&transforms[0], GL_STATIC_COPY);
-	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
-	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
 	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false, (float*)&transform);
 
 	glBindVertexArray(VAO);
-	//glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
@@ -134,7 +120,6 @@ void SubMesh::DrawShadow(Shader& shader, NCLMatrix4& worldTransform)
 	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false, (float*)&worldTransform);
 
 	glBindVertexArray(VAO);
-	//glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transforms.size());
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
@@ -147,20 +132,4 @@ void SubMesh::addTexture(unsigned int texture)
 	text.type = "diffuseTex";
 	text.id = texture;
 	textures.push_back(text);
-}
-
-void SubMesh::BufferData()
-{
-	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, modelMatricesSSBO);
-	//glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Matrix4),
-	//	(float*)&transform, GL_STATIC_COPY);
-	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, modelMatricesSSBO);
-	//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-}
-
-void SubMesh::DrawOnly()
-{
-	//glBindVertexArray(VAO);
-	//glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, transform);
-	//glBindVertexArray(0);
 }

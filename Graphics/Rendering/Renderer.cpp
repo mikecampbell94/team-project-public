@@ -25,13 +25,9 @@ Renderer::Renderer(GameTimer* parentTimer, Window* window, Camera* camera)
 
 	parentTimer->addChildTimer("Update Scene Management");
 	parentTimer->addChildTimer("Render Modules");
-	//parentTimer->addChildTimer("Render");
-
-	//parentTimer->getChildTimer("Render Modules")->addChildTimer("hELLO");
 
 	pipeline = GraphicsPipeline(parentTimer->getChildTimer("Render Modules"));
 
-	//globalProjectionMatrix = Matrix4::perspective(1.0f, 150000.0f, resolution.x / resolution.y, 60.0f);
 	globalOrthographicMatrix = NCLMatrix4::orthographic(-1.0f,10000.0f, width / 2.0f, -width / 2.0f, height / 2.0f, -height / 2.0f);
 
 	loadingScreenMesh = new SceneNode("../Data/Resources/Meshes/cube.obj", NCLVector4(1,0,0,1));
@@ -92,9 +88,6 @@ void Renderer::initialise(SceneManager* sceneManager, Database* database)
 	graphicsconfigParser.loadXMLFile("../Data/Resources/Graphics Config/graphicsConfigXML.xml");
 	Node* node = graphicsconfigParser.parsedXml;
 
-	//TO-DO
-	//pipeline.intialisePipeline();
-
 	for (int i = 0; i < node->children.size(); i++)
 	{
 		std::string enabled = node->children[i]->value;
@@ -117,13 +110,6 @@ void Renderer::update(const float& deltatime)
 {
 	updateScene(deltatime);
 	renderScene();
-}
-
-void Renderer::changeResolution(NCLVector2 resolution)
-{
-	//Resize(resolution.x, resolution.y);
-
-	//for each (GraphicsModule* module in pipeline.)
 }
 
 void Renderer::addSceneNode(SceneNode* sceneNode)

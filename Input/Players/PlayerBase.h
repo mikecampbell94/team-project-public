@@ -19,7 +19,6 @@ public:
 
 	Player* addNewPlayer(InputRecorder* recorder, int id);
 	void removePlayer(int playerID);
-	void removePlayer(Player* playerRef);
 
 	std::vector<Player*>& getPlayers()
 	{
@@ -37,6 +36,7 @@ public:
 	}
 
 private:
+	Player* getExistingPlayer(Player* player, int existingID);
 	void wipeStoredPlayers();
 
 	std::vector<InputRecorder*> inputRecorders;

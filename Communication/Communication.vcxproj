@@ -120,7 +120,6 @@
   <ItemGroup>
     <ClInclude Include="Messages\DebugSphereMessage.h" />
     <ClInclude Include="Messages\DebugLineMessage.h" />
-    <ClInclude Include="Messages\TogglePlayerInputKeyMessage.h" />
     <ClInclude Include="Messages\ToggleGameObjectMessage.h" />
     <ClInclude Include="Messages\AbsoluteTransformMessage.h" />
     <ClInclude Include="Messages\MoveGameObjectMessage.h" />
@@ -155,7 +154,6 @@
   <ItemGroup>
     <ClCompile Include="Messages\DebugSphereMessage.cpp" />
     <ClCompile Include="Messages\DebugLineMessage.cpp" />
-    <ClCompile Include="Messages\TogglePlayerInputKeyMessage.cpp" />
     <ClCompile Include="Messages\ToggleGameObjectMessage.cpp" />
     <ClCompile Include="Messages\AbsoluteTransformMessage.cpp" />
     <ClCompile Include="Messages\MoveGameObjectMessage.cpp" />

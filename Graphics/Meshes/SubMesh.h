@@ -92,10 +92,6 @@ public:
 
 	void CalculateBoundingRadius()
 	{
-		//float firstMax = max(box.max.x, box.max.y);
-		//float finalMax = max(firstMax, box.max.z);
-		//boundingRadius = finalMax;
-
 		float minLength = abs(box.min.length());
 		float maxLength = abs(box.max.length());
 
@@ -103,9 +99,6 @@ public:
 	}
 
 	void addTexture(unsigned int texture);
-
-	void BufferData();
-	void DrawOnly();
 
 	//Mesh Data
 	std::vector<Vertex> vertices;

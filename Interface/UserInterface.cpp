@@ -78,10 +78,6 @@ void UserInterface::updateNextFrame(const float& deltaTime)
 		{
 			UserInterfaceDisplay::getInterface()->moveSelectedUp();
 		}
-		else if (keyboard->keyTriggered(KEYBOARD_RIGHT))
-		{
-			UserInterfaceDisplay::getInterface()->moveSelectedRight();
-		}
 		else if (keyboard->keyTriggered(KEYBOARD_LEFT))
 		{
 			UserInterfaceDisplay::getInterface()->moveSelectedLeft();

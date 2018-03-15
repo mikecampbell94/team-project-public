@@ -3,23 +3,24 @@
 #include "../../GraphicsCommon.h"
 #include "../../GraphicsUtility.h"
 #include "../../GraphicsCommon.h"
+#include "../../Utility/Camera.h"
 
 MotionBlur::MotionBlur(const std::string identifier, const NCLMatrix4 projmatrix,
-	const NCLVector2 resolution, GBufferData* gBuffer,
-	NCLMatrix4* previousView, NCLMatrix4* currentView, float* fps)
+	const NCLVector2 resolution, GBufferData* gBuffer, Camera* camera)
 	: GraphicsModule(identifier, resolution)
 {
-	blurShader = new Shader(SHADERDIR"/MotionBlur/combinevert.glsl", SHADERDIR"/MotionBlur/combinefrag.glsl");
+	blurShader = new Shader(SHADERDIR"/MotionBlur/combinevert.glsl", SHADERDIR"/MotionBlur/combinefrag.glsl", "", true);
 	this->gBuffer = gBuffer;
 
-	this->previousView = previousView;
-	this->currentView = currentView;
-	this->fps = fps;
+	this->camera = camera;
+	previousView = camera->buildViewMatrix();
+	this->fps = new float(40);
 }
 
 
 MotionBlur::~MotionBlur()
 {
+	delete fps;
 	delete blurShader;
 	glDeleteTextures(1, &colourBuffer[0]);
 }
@@ -66,21 +67,21 @@ void MotionBlur::createTexture()
 void MotionBlur::apply()
 {
 	//glBindFramebuffer(GL_FRAMEBUFFER, screenTexFBO);
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	setCurrentShader(blurShader);
 
-	//glUniformMatrix4fv(glGetUniformLocation(blurShader->GetProgram(), "projMtx"),
-	//	1, false, (float*)&projMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(blurShader->GetProgram(), "projMtx"),
+		1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
 
-	NCLMatrix4 transformEyeSpace = *previousView * NCLMatrix4::Inverse(*currentView);
+	NCLMatrix4 transformEyeSpace = previousView * NCLMatrix4::Inverse(camera->buildViewMatrix());
 	glUniformMatrix4fv(glGetUniformLocation(blurShader->GetProgram(), "transformEyeSpace"),
 		1, false, (float*)&transformEyeSpace);
 
 	/*glUniform1i(glGetUniformLocation(blurShader->GetProgram(), "fps"), static_cast<int>(*fps));*/
-	glUniform1i(glGetUniformLocation(blurShader->GetProgram(), "fps"), 60);
+	glUniform1i(glGetUniformLocation(blurShader->GetProgram(), "fps"), 1);
 	glUniform1i(glGetUniformLocation(blurShader->GetProgram(), "gPosition"), CommonGraphicsData::GPOSITION);
 
 	currentShader->ApplyTexture(CommonGraphicsData::GPOSITION, *gBuffer->gPosition);
@@ -90,4 +91,6 @@ void MotionBlur::apply()
 
 	renderScreenQuad();
 	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	previousView = camera->buildViewMatrix();
 }

@@ -14,7 +14,6 @@ PlayerBase::PlayerBase(Database* database)
 PlayerBase::PlayerBase(Database* database, std::vector<InputRecorder*> allRecorders)
 {
 	this->database = database;
-	//initializePlayers(allRecorders);
 }
 
 PlayerBase::~PlayerBase()
@@ -37,27 +36,24 @@ void PlayerBase::initializePlayers(std::vector<InputRecorder*> allRecorders)
 
 Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 {
-	int playerID = id;// players.size();
+	int playerID = id;
 
-	for (Player* p : players)
+	for (Player* player : players)
 	{
-		if (p->getPlayerID() == playerID)
+		if (player->getPlayerID() == playerID)
 		{
-			std::string playerName = "player" + std::to_string(id);
-			GameObject* playerGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
-			p->setGameObject(playerGameObject);
-			return p;
+			return getExistingPlayer(player, id);
 		}
 	}
 
 	Player* player = new Player(playerID, recorder);
 	players.push_back(player);
 
-
 	InputActionMap newPlayersActions(playerID);
+
 	inputParser.loadXMLFile("../Data/Input/configXML.xml");
 	Node* node = inputParser.parsedXml;
-	//NOW ATTACH NODE
+
 	std::string playerName = "player" + std::to_string(id);
 	MoveCameraRelativeToGameObjectMessage::resourceName = playerName;
 
@@ -120,9 +116,13 @@ void PlayerBase::removePlayer(int playerID)
 	}
 }
 
-void PlayerBase::removePlayer(Player* playerRef)
+Player* PlayerBase::getExistingPlayer(Player* player, int existingID)
 {
-	//todo 
+	std::string playerName = "player" + std::to_string(existingID);
+	GameObject* playerGameObject = static_cast<GameObject*>(database->getTable("GameObjects")->getResource(playerName));
+	player->setGameObject(playerGameObject);
+
+	return player;
 }
 
 void PlayerBase::wipeStoredPlayers()

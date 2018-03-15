@@ -4,8 +4,6 @@
 #include "Graphics Settings/Shadows.h"
 #include "Graphics Settings/BPLighting.h"
 #include "Graphics Settings/GBuffer.h"
-#include "Graphics Settings/Bloom.h"
-#include "Graphics Settings/MotionBlur.h"
 #include "../Utilities/Maths/Vector2.h"
 #include "Graphics Settings/Skybox.h"
 #include "Graphics Settings/Shadows.h"

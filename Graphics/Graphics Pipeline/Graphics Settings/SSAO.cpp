@@ -90,7 +90,7 @@ void SSAO::initSSAOBuffers()
 	//SSAO color buffer
 	glGenTextures(1, &ssaoColorBuffer);
 	GraphicsUtility::CreateScreenTexture(resolution, ssaoColorBuffer, 
-		GL_RED, GL_RGB, GL_FLOAT, GL_NEAREST, 0, false);
+		GL_RED, GL_RGB, GL_FLOAT, GL_NEAREST, 0, true);
 
 	GraphicsUtility::VerifyBuffer("SSAO Frame", false);
 
@@ -98,7 +98,7 @@ void SSAO::initSSAOBuffers()
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFBO);
 	glGenTextures(1, &ssaoColorBufferBlur);
 	GraphicsUtility::CreateScreenTexture(resolution, ssaoColorBufferBlur, 
-		GL_RED, GL_RGB, GL_FLOAT, GL_NEAREST, 0, false);
+		GL_RED, GL_RGB, GL_FLOAT, GL_NEAREST, 0, true);
 
 	GraphicsUtility::VerifyBuffer("Blur", false);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
