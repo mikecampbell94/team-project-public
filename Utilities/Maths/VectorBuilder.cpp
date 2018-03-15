@@ -1,6 +1,7 @@
 #include "VectorBuilder.h"
 #include "Vector3.h"
 #include "Vector4.h"
+#include <random>
 
 float VectorBuilder::getVectorComponentFromNode(const Node* node, float* min, float* max)
 {
@@ -27,7 +28,11 @@ float VectorBuilder::getVectorComponentFromNode(const Node* node, float* min, fl
 
 float VectorBuilder::getRandomVectorComponent(const float mi, const float ma)
 {
-	return (rand() % (int)((ma - mi) * 1000)) / 1000 + mi;
+	std::random_device rd;
+	std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+	std::uniform_int_distribution<int> uni(mi, ma); // guaranteed unbiased
+	auto r1 = uni(rng);
+	return r1;
 }
 
 NCLVector3 VectorBuilder::buildVector3(Node* node)
