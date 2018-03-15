@@ -80,10 +80,12 @@ void LevelEditor::initialiseLevelEditor(Database* providedDatabase, GameplaySyst
 		
 		if (devConsoleTokens.size() == 4)
 		{
-			mesh->loadTexture(devConsoleTokens[3].substr(8));
+			//mesh->loadTexture(devConsoleTokens[3].substr(8));
+			mesh->setTextureFile(devConsoleTokens[3].substr(8));
 		}
 
 		database->getTable("Meshes")->addNewResource(mesh);
+		DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "setupmesh " + devConsoleTokens[1]));
 	} });
 
 	//loadsound soundName sound=../Data/...

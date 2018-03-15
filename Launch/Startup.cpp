@@ -138,14 +138,14 @@ void Startup::initialiseGameplaySystem()
 
 void Startup::addSystemsToEngine()
 {
-	engine->addSubsystem(gameplay);
-	engine->addSubsystem(inputManager);
+	engine->addConcurrentSubsystem(gameplay);
+	engine->addConcurrentSubsystem(inputManager);
 	engine->addSubsystem(rendering);
-	engine->addSubsystem(audio);
-	engine->addSubsystem(userInterface);
-	engine->addSubsystem(physics);
-	engine->addSubsystem(profiler);
-	engine->addSubsystem(new Console(window->getKeyboard(), camera, window->getMouse()));
+	engine->addConcurrentSubsystem(audio);
+	engine->addConcurrentSubsystem(userInterface);
+	engine->addConcurrentSubsystem(physics);
+	engine->addConcurrentSubsystem(profiler);
+	engine->addConcurrentSubsystem(new Console(window->getKeyboard(), camera, window->getMouse()));
 
 	for (Subsystem * subsystem : engine->getSubSystems())
 	{

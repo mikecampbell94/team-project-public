@@ -182,7 +182,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					PaintGameActionBuilder::database->getTable("GameObjects")->addNewResource(meteor);
 					DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "addscenenode " + meteor->getName()));
 					DeliverySystem::getPostman()->insertMessage(TextMessage("Physics", "addphysicsnode " + meteor->getName()));
-					DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "setupmesh " + meteor->getName()));
+					DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "setupmeshgameobject " + meteor->getName()));
 
 					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("RenderingSystem", meteor->getName(), false));
 					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("Physics", meteor->getName(), false));

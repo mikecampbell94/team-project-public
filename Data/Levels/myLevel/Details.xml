@@ -44,7 +44,7 @@
 			<Colour>
 				<R>1.000000</R>
 				<G>0.000000</G>
-				<B>1.000000</B>
+				<B>0.000000</B>
 				<A>1.000000</A>
 			</Colour>
 		</SceneNode>
@@ -55,10 +55,10 @@
 			<Z>0.000000</Z>
 		</Position>
 		<Rotation>
-			<X>0.000000</X>
-			<Y>0.000000</Y>
-			<Z>0.000000</Z>
-			<W>0.000000</W>
+			<X>0.827918</X>
+			<Y>0.396577</Y>
+			<Z>-0.396585</Z>
+			<W>1.758518</W>
 		</Rotation>
 		<Scale>
 			<X>10.000000</X>
@@ -69,7 +69,7 @@
 			<Enabled>True</Enabled>
 			<TransmitCollision>True</TransmitCollision>
 			<CollisionShape>Box</CollisionShape>
-			<Mass>1.000000</Mass>
+			<Mass>0.500000</Mass>
 			<isCollision>True</isCollision>
 			<Elasticity>0.500000</Elasticity>
 			<Friction>0.900000</Friction>

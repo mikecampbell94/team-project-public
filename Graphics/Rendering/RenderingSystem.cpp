@@ -102,12 +102,19 @@ void RenderingSystem::initialise(Database* database)
 		{
 			blockCamera = !blockCamera;
 		}
-		else if (tokens[0] == "setupmesh")
+		else if (tokens[0] == "setupmeshgameobject")
 		{
 			GameObject* gameObject = static_cast<GameObject*>(
 				database->getTable("GameObjects")->getResource(tokens[1]));
 
 			gameObject->getSceneNode()->GetMesh()->setupMesh();
+		}
+		else if (tokens[0] == "setupmesh")
+		{
+			Mesh* mesh = static_cast<Mesh*>(
+				database->getTable("Meshes")->getResource(tokens[1]));
+
+			mesh->setupMesh();
 		}
 	});
 
