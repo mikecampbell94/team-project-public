@@ -14,6 +14,16 @@ System::System(ThreadPool* threadPool)
 
 System::~System()
 {
+	for (Subsystem* subsystem : subsystems)
+	{
+		delete (subsystem);
+	}
+	subsystems.clear();
+	for (Subsystem* subsystem : concurrentSubsystems)
+	{
+		delete (subsystem);
+	}
+	concurrentSubsystems.clear();
 }
 
 void System::updateNextSystemFrame(const float& deltaTime)

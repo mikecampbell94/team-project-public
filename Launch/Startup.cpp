@@ -18,7 +18,17 @@ Startup::Startup(ThreadPool* threadpool)
 
 Startup::~Startup()
 {
-	
+	delete engine;
+	delete game;
+	delete database;
+	delete tableCreation;
+	delete scene;
+	delete level;
+	delete loopTimer;
+	delete window;
+	delete camera;
+	delete keyboardAndMouse;
+
 }
 
 void Startup::renderLoadingScreen()
