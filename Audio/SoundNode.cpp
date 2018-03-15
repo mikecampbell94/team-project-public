@@ -3,6 +3,7 @@
 #include "../Communication/Messages/PlaySoundMessage.h"
 #include "../Communication/Messages/PlayMovingSoundMessage.h"
 #include "../Communication/Messages/StopSoundMessage.h"
+#include "../Gameplay/Scripting/PaintGameActionBuilder.h"
 
 SoundNode::SoundNode(Sound* sound, NCLVector3 position, SoundPriority priority, float volume,
 	bool isLooping, float radius, float pitch, std::string identifier)
@@ -156,7 +157,11 @@ void SoundNode::update(float msec)
 void SoundNode::pauseSound()
 {
 	state = SoundState::PAUSED;
-	alSourcePause(oalSource->source);
+
+	if (!PaintGameActionBuilder::online)
+	{
+		alSourcePause(oalSource->source);
+	}
 }
 
 void SoundNode::unpauseSound()

@@ -155,7 +155,7 @@
 				<PaintMinion>
 					<resource>var</resource>
 					<minion>AI</minion>
-				</PainMinion>
+				</PaintMinion>
 			</Action>
 		</ReceiveMessage>
 
@@ -169,7 +169,7 @@
 				<PaintMinion>
 					<resource>var</resource>
 					<minion>AI2</minion>
-				</PainMinion>
+				</PaintMinion>
 			</Action>
 		</ReceiveMessage>
 

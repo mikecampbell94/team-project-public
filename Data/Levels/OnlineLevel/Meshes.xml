@@ -17,7 +17,7 @@
 	</Meshes>
 
 	<Meshes name="MeteorMesh">
-		<MeshFile>../Data/Resources/Meshes/sphere.obj</MeshFile>
+		<MeshFile>../Data/Resources/Meshes/Rock.obj</MeshFile>
 		<texture>../Data/Resources/Textures/hell.jpg</texture>
 	</Meshes>	
 

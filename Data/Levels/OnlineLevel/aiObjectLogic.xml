@@ -3,7 +3,6 @@
 <Resources>
 	<resource>AI</resource>
 	<resource>AI2</resource>
-	<resource>enemy</resource>
 </Resources>
 
 <GameplayScript>
@@ -74,7 +73,7 @@
 			<isGlobal>false</isGlobal>
 			<sound>bounce</sound>
 			<soundNodeID>crap</soundNodeID>
-			<gameObjectID>enemy</gameObjectID>
+			<gameObjectID>var</gameObjectID>
 		</SendMessage>
     </Timed>
 	
