@@ -3,6 +3,10 @@
 <Resources>
 	<resource>AI</resource>
 	<resource>AI2</resource>
+  <resource>AI3</resource>
+  <resource>AI4</resource>
+  <resource>AI5</resource>
+  <resource>AI6</resource>
 </Resources>
 
 <GameplayScript>

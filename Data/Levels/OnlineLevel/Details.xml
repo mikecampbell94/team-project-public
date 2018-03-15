@@ -533,7 +533,7 @@
     <Enabled>True</Enabled>
     <Position>
       <X>0</X>
-      <Y>200</Y>
+      <Y>55</Y>
       <Z>100</Z>
     </Position>
     <Rotation>
@@ -543,9 +543,9 @@
       <W>000</W>
     </Rotation>
     <Scale>
-      <X>2.5</X>
-      <Y>2.5</Y>
-      <Z>2.5</Z>
+      <X>4</X>
+      <Y>4</Y>
+      <Z>4</Z>
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
@@ -574,7 +574,7 @@
     <Enabled>True</Enabled>
     <Position>
       <X>100</X>
-      <Y>200</Y>
+      <Y>55</Y>
       <Z>50</Z>
     </Position>
     <Rotation>
@@ -584,9 +584,9 @@
       <W>000</W>
     </Rotation>
     <Scale>
-      <X>2.5</X>
-      <Y>2.5</Y>
-      <Z>2.5</Z>
+      <X>4</X>
+      <Y>4</Y>
+      <Z>4</Z>
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
@@ -599,7 +599,171 @@
       <Damping>0.995</Damping>
       <isStatic>False</isStatic>
     </PhysicsNode>
-  </GameObjects> 
+  </GameObjects>
+
+  <GameObjects name="AI3" >
+    <SceneNode>
+      <Mesh>SphereMesh</Mesh>
+      <Colour>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>1</A>
+      </Colour>
+      <isReflective>0.8</isReflective>
+    </SceneNode>
+    <Enabled>True</Enabled>
+    <Position>
+      <X>100</X>
+      <Y>55</Y>
+      <Z>-100</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>4</X>
+      <Y>4</Y>
+      <Z>4</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0</Elasticity>
+      <Friction>0.9</Friction>
+      <Damping>0.995</Damping>
+      <isStatic>False</isStatic>
+    </PhysicsNode>
+  </GameObjects>
+
+  <GameObjects name="AI4" >
+    <SceneNode>
+      <Mesh>SphereMesh</Mesh>
+      <Colour>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>1</A>
+      </Colour>
+      <isReflective>0.8</isReflective>
+    </SceneNode>
+    <Enabled>True</Enabled>
+    <Position>
+      <X>200</X>
+      <Y>55</Y>
+      <Z>-100</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>4</X>
+      <Y>4</Y>
+      <Z>4</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0</Elasticity>
+      <Friction>0.9</Friction>
+      <Damping>0.995</Damping>
+      <isStatic>False</isStatic>
+    </PhysicsNode>
+  </GameObjects>
+
+  <GameObjects name="AI5" >
+    <SceneNode>
+      <Mesh>SphereMesh</Mesh>
+      <Colour>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>1</A>
+      </Colour>
+      <isReflective>0.8</isReflective>
+    </SceneNode>
+    <Enabled>True</Enabled>
+    <Position>
+      <X>250</X>
+      <Y>55</Y>
+      <Z>-100</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>4</X>
+      <Y>4</Y>
+      <Z>4</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0</Elasticity>
+      <Friction>0.9</Friction>
+      <Damping>0.995</Damping>
+      <isStatic>False</isStatic>
+    </PhysicsNode>
+  </GameObjects>
+
+  <GameObjects name="AI6" >
+    <SceneNode>
+      <Mesh>SphereMesh</Mesh>
+      <Colour>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>1</A>
+      </Colour>
+      <isReflective>0.8</isReflective>
+    </SceneNode>
+    <Enabled>True</Enabled>
+    <Position>
+      <X>150</X>
+      <Y>55</Y>
+      <Z>-100</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>4</X>
+      <Y>4</Y>
+      <Z>4</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0</Elasticity>
+      <Friction>0.9</Friction>
+      <Damping>0.995</Damping>
+      <isStatic>False</isStatic>
+    </PhysicsNode>
+  </GameObjects>
 
   <GameObjects id ="floor" >
     <SceneNode>

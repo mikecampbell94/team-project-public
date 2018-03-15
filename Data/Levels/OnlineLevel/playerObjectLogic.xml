@@ -25,6 +25,10 @@
 				<colliderIdentifier>player3</colliderIdentifier>
 				<colliderIdentifier>AI</colliderIdentifier>
 				<colliderIdentifier>AI2</colliderIdentifier>
+        <colliderIdentifier>AI3</colliderIdentifier>
+        <colliderIdentifier>AI4</colliderIdentifier>
+        <colliderIdentifier>AI5</colliderIdentifier>
+			  <colliderIdentifier>AI6</colliderIdentifier>
 			</Condition>
 
 			
@@ -172,6 +176,62 @@
 				</PaintMinion>
 			</Action>
 		</ReceiveMessage>
+
+    <ReceiveMessage type="CollisionMessage">
+      <Action>
+        <Condition type="AND">
+          <objectIdentifier>var</objectIdentifier>
+          <colliderIdentifier>AI3</colliderIdentifier>
+        </Condition>
+
+        <PaintMinion>
+          <resource>var</resource>
+          <minion>AI3</minion>
+        </PaintMinion>
+      </Action>
+    </ReceiveMessage>
+
+    <ReceiveMessage type="CollisionMessage">
+      <Action>
+        <Condition type="AND">
+          <objectIdentifier>var</objectIdentifier>
+          <colliderIdentifier>AI4</colliderIdentifier>
+        </Condition>
+
+        <PaintMinion>
+          <resource>var</resource>
+          <minion>AI4</minion>
+        </PaintMinion>
+      </Action>
+    </ReceiveMessage>
+
+    <ReceiveMessage type="CollisionMessage">
+      <Action>
+        <Condition type="AND">
+          <objectIdentifier>var</objectIdentifier>
+          <colliderIdentifier>AI5</colliderIdentifier>
+        </Condition>
+
+        <PaintMinion>
+          <resource>var</resource>
+          <minion>AI5</minion>
+        </PaintMinion>
+      </Action>
+    </ReceiveMessage>
+
+    <ReceiveMessage type="CollisionMessage">
+      <Action>
+        <Condition type="AND">
+          <objectIdentifier>var</objectIdentifier>
+          <colliderIdentifier>AI6</colliderIdentifier>
+        </Condition>
+
+        <PaintMinion>
+          <resource>var</resource>
+          <minion>AI6</minion>
+        </PaintMinion>
+      </Action>
+    </ReceiveMessage>
 
 		<ReceiveMessage type="CollisionMessage">
 			<Action>

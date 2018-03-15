@@ -288,8 +288,6 @@ void NetworkClient::displayPlayerScores()
 
 		DeliverySystem::getPostman()->insertMessage(TextMessage("Gameplay", "sendscore " + pid + " " + to_string(scoreHolderIterator->second)));
 	}
-
-	
 }
 
 void NetworkClient::processNetworkMessages(const float& deltaTime)
