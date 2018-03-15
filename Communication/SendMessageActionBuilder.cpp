@@ -213,6 +213,16 @@ void SendMessageActionBuilder::initialiseNodeBuilders()
 			DeliverySystem::getPostman()->insertMessage(message);
 		};
 	} });
+
+	builders.insert({ "TEXT_MESH" , [](Node* node)
+	{
+		TextMeshMessage message = TextMeshMessage::builder(node);
+
+		return [message = message]()
+		{
+			DeliverySystem::getPostman()->insertMessage(message);
+		};
+	} });
 }
 
 void SendMessageActionBuilder::initialiseDevConsoleBuilders()

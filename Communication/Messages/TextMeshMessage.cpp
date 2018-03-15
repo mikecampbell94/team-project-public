@@ -15,3 +15,48 @@ TextMeshMessage::TextMeshMessage(const std::string& destinationName, const std::
 TextMeshMessage::~TextMeshMessage()
 {
 }
+
+TextMeshMessage TextMeshMessage::builder(Node* node)
+{
+	std::string nodeDestination = "";
+	bool nodeHasBackground = false;
+	bool nodeOrthographic = false;
+	std::string nodeText = "";
+	NCLVector3 nodeTextPosition = NCLVector3();
+	NCLVector3 nodeTextScale = NCLVector3();
+	NCLVector3 nodeTextColour = NCLVector3();
+
+	for (Node* childNode : node->children)
+	{
+		if (childNode->nodeType == "destination")
+		{
+			nodeDestination = childNode->value;
+		}
+		else if (childNode->nodeType == "hasBackground")
+		{
+			nodeHasBackground = childNode->value == "True";
+		}
+		else if (childNode->nodeType == "orthographic")
+		{
+			nodeOrthographic = childNode->value == "True";
+		}
+		else if (childNode->nodeType == "text")
+		{
+			nodeText = childNode->value;
+		}
+		else if (childNode->nodeType == "position")
+		{
+			nodeTextPosition = NCLVector3::builder(childNode);
+		}
+		else if (childNode->nodeType == "scale")
+		{
+			nodeTextScale = NCLVector3::builder(childNode);
+		}
+		else if (childNode->nodeType == "colour")
+		{
+			nodeTextColour = NCLVector3::builder(childNode);
+		}
+	}
+
+	return TextMeshMessage(nodeDestination, nodeText, nodeTextPosition, nodeTextScale, nodeTextColour, nodeOrthographic, nodeHasBackground);
+}
