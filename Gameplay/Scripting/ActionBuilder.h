@@ -27,6 +27,5 @@ private:
 
 	static Condition buildIfStatement(Node* node);
 	static std::function<Executable(Node*)> executableBuilder;
-	//static Executable buildSendMessageExecutable(Node* node);
 };
 

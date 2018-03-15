@@ -69,20 +69,6 @@ void GameLogic::executeMessageBasedActions()
 			}
 		}
 	}
-
-	if (!messageBasedActions.empty())
-	{
-		for (int i = 0; i < publishers.size(); ++i)
-		{
-			if (publishers[i].first == "CollisionMessage" || publishers[i].first == "InputMessage")
-			{
-				for (GameplayAction& executable : messageBasedActions.at(publishers[i].first))
-				{
-					executable(publishers[i].second);
-				}
-			}
-		}
-	}
 }
 
 void GameLogic::executeTimeBasedActions(const float& deltaTime)

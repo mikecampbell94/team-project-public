@@ -8,10 +8,9 @@ const int RESOURCE_NODE = 0;
 const int GAME_LOGIC_NODE = 1;
 const int PAINT_GAME_LOGIC_NODE = 2;
 
-GameObjectLogic::GameObjectLogic(Database* database, MessageProcessor* messages, std::string script)
+GameObjectLogic::GameObjectLogic(Database* database, std::string script)
 {
 	this->database = database;
-	this->messages = messages;
 
 	scriptFile = script;
 	XMLParser parser;
@@ -88,7 +87,7 @@ void GameObjectLogic::compileLogicFromNodes(Node* logicNode, const std::vector<N
 
 		changeResource(&logicNode, resource->value);
 
-		logics.push_back(GameLogic(messages));
+		logics.push_back(GameLogic());
 		logics[logics.size() - 1].compileParsedXMLIntoScript(logicNode);
 		logics[logics.size() - 1].gameObject = resource->value;
 

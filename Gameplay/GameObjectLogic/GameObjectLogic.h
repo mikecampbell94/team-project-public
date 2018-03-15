@@ -12,7 +12,7 @@ class Database;
 class GameObjectLogic
 {
 public:
-	GameObjectLogic(Database* database, MessageProcessor* messages, std::string script);
+	GameObjectLogic(Database* database, std::string script);
 	~GameObjectLogic();
 
 	void compileParsedXMLIntoScript();
@@ -37,9 +37,7 @@ private:
 	std::string scriptFile;
 	Node* parsedScript;
 	Database* database;
-	MessageProcessor* messages;
 
-	
 	std::map<std::string, std::function<void()>> fucntionsOnStart;
 };
 

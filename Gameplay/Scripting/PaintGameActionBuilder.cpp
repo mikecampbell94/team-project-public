@@ -183,9 +183,6 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "addscenenode " + meteor->getName()));
 					DeliverySystem::getPostman()->insertMessage(TextMessage("Physics", "addphysicsnode " + meteor->getName()));
 					DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "setupmeshgameobject " + meteor->getName()));
-
-					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("RenderingSystem", meteor->getName(), false));
-					//DeliverySystem::getPostman()->insertMessage(ToggleGameObjectMessage("Physics", meteor->getName(), false));
 				}
 			}
 			
@@ -506,23 +503,14 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					powerup->setEnabled(true);
 				};
 
-				
-
 				if (PaintGameActionBuilder::localPlayer == gameObject->getName()
 					&& PaintGameActionBuilder::online)
 				{
 					DeliverySystem::getPostman()->insertMessage(TextMessage("NetworkClient", "collision " + gameObject->getName() + " " + powerup->getName()));
 				}
-
 			}
 		};
 	} });
-
-
-
-	
-
-
 }
 
 Executable PaintGameActionBuilder::buildExecutable(Node* node)
