@@ -7,7 +7,6 @@
 #include "../Utilities/Maths/Vector2.h"
 #include "Graphics Settings/Skybox.h"
 #include "Graphics Settings/Shadows.h"
-#include "Effects/ParticleSystem.h"
 
 #include "GraphicsPipeline.h"
 #include "../Scene Management/SceneManager.h"

@@ -246,3 +246,12 @@ void GameplaySystem::compileGameObjectScripts()
 	}
 }
 
+void GameplaySystem::updateGameLogic(const float& deltaTime)
+{
+	timer->beginChildTimedSection("Level Logic");
+	gameLogic.executeMessageBasedActions();
+	gameLogic.executeTimeBasedActions(deltaTime * 0.001f);
+	gameLogic.clearNotifications();
+	timer->endChildTimedSection("Level Logic");
+}
+

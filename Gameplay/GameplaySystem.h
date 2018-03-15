@@ -36,6 +36,8 @@ public:
 	}
 
 private:
+	void updateGameLogic(const float& deltaTime);
+
 	GameLogic gameLogic;
 	std::vector<GameObjectLogic> objects;
 	GameplayInputBridge inputBridge;
