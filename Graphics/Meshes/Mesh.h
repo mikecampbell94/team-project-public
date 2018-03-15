@@ -23,7 +23,7 @@ public:
 	Mesh(char *path, int numModels)
 	{
 		this->numModels = numModels;
-		LoadModel(path);
+		loadModel(path);
 
 		file = path;
 
@@ -33,7 +33,7 @@ public:
 	Mesh(const string path, int numModels)
 	{
 		this->numModels = numModels;
-		LoadModel(path);
+		loadModel(path);
 
 		file = path;
 		
@@ -53,12 +53,12 @@ public:
 		}
 	};
 
-	void LoadModel(std::string path);
+	void loadModel(std::string path);
 	void setupMesh()
 	{
 		for (SubMesh* submesh : meshes)
 		{
-			submesh->SetupMesh();
+			submesh->setupMesh();
 		}
 
 		if (textureFile != "")
@@ -66,27 +66,27 @@ public:
 			loadTexture(textureFile);
 		}
 	}
-	void SetTransformForAllSubMeshes(NCLMatrix4 transform);
+	void setTransformForAllSubMeshes(NCLMatrix4 transform);
 
-	void ProcessNode(aiNode *node, const aiScene *scene);
-	SubMesh* ProcessMesh(aiMesh *mesh, const aiScene *scene);
+	void processNode(aiNode *node, const aiScene *scene);
+	SubMesh* processMesh(aiMesh *mesh, const aiScene *scene);
 
 
-	static Mesh* GenerateHeightMap(int width, int height);
+	static Mesh* generateHeightMap(int width, int height);
 
-	std::vector<Texture> LoadMaterialTextures(aiMaterial *mat, aiTextureType type,
+	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type,
 		string typeName);
 
-	static unsigned int TextureFromFile(const char *path, const string &directory);
+	static unsigned int textureFromFile(const char *path, const string &directory);
 
-	void SetReflectionAttributesForAllSubMeshes(int isReflective, float strength);
-	void SetbackupColourAttributeForAllSubMeshes(NCLVector4 colour);
+	void setReflectionAttributesForAllSubMeshes(int isReflective, float strength);
+	void setbackupColourAttributeForAllSubMeshes(NCLVector4 colour);
 
-	virtual void Draw(Shader& shader,NCLMatrix4 worldTransform);
+	virtual void draw(Shader& shader,NCLMatrix4 worldTransform);
 
 	float getRadius()
 	{
-		return this->meshes[0]->GetBoundingRadius();
+		return this->meshes[0]->getBoundingRadius();
 	}
 	
 

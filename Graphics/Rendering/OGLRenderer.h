@@ -54,7 +54,7 @@ struct DebugDrawData
 	GLuint buffers[2];
 
 	DebugDrawData();
-	void Draw();
+	void draw();
 
 	~DebugDrawData()
 	{
@@ -62,13 +62,13 @@ struct DebugDrawData
 		glDeleteBuffers(2, buffers);
 	}
 
-	inline void Clear()
+	inline void clear()
 	{
 		lines.clear();
 		colours.clear();
 	}
 
-	inline void AddLine(const NCLVector3 &from, const NCLVector3 &to, const NCLVector3 &fromColour, const NCLVector3 &toColour)
+	inline void addLine(const NCLVector3 &from, const NCLVector3 &to, const NCLVector3 &fromColour, const NCLVector3 &toColour)
 	{
 		lines.push_back(from);
 		lines.push_back(to);
@@ -91,54 +91,54 @@ public:
 	virtual void	updateScene(const float& msec) {}
 	void			swapBuffers();
 
-	bool			HasInitialised() const;
+	bool			hasInitialised() const;
 
-	static void		DrawDebugLine(DebugDrawMode mode, const NCLVector3 &from, const NCLVector3 &to, const NCLVector3 &fromColour = NCLVector3(1, 1, 1), const NCLVector3 &toColour = NCLVector3(1, 1, 1));
-	static void		DrawDebugBox(DebugDrawMode mode, const NCLVector3 &at, const NCLVector3 &scale, const NCLVector3 &colour = NCLVector3(1, 1, 1));
-	static void		DrawDebugCross(DebugDrawMode mode, const NCLVector3 &at, const NCLVector3 &scale, const NCLVector3 &colour = NCLVector3(1, 1, 1));
-	static void		DrawDebugCircle(DebugDrawMode mode, const NCLVector3 &at, const float radius, const NCLVector3 &colour = NCLVector3(1, 1, 1));
+	static void		drawDebugLine(DebugDrawMode mode, const NCLVector3 &from, const NCLVector3 &to, const NCLVector3 &fromColour = NCLVector3(1, 1, 1), const NCLVector3 &toColour = NCLVector3(1, 1, 1));
+	static void		drawDebugBox(DebugDrawMode mode, const NCLVector3 &at, const NCLVector3 &scale, const NCLVector3 &colour = NCLVector3(1, 1, 1));
+	static void		drawDebugCross(DebugDrawMode mode, const NCLVector3 &at, const NCLVector3 &scale, const NCLVector3 &colour = NCLVector3(1, 1, 1));
+	static void		drawDebugCircle(DebugDrawMode mode, const NCLVector3 &at, const float radius, const NCLVector3 &colour = NCLVector3(1, 1, 1));
 
-	void			SetAsDebugDrawingRenderer()
+	void			setAsDebugDrawingRenderer()
 	{
 		debugDrawingRenderer = this;
 	}
 
-	Shader*			GetCurrentShader() const
+	Shader*			getCurrentShader() const
 	{
 		return currentShader;
 	}
 
-	NCLMatrix4 GetViewMatrix() const
+	NCLMatrix4 getViewMatrix() const
 	{
 		return viewMatrix;
 	}
 
-	NCLMatrix4 GetProjectionMatrix() const
+	NCLMatrix4 getProjectionMatrix() const
 	{
 		return projMatrix;
 	}
 
-	NCLMatrix4 GetModelMatrix() const
+	NCLMatrix4 getModelMatrix() const
 	{
 		return modelMatrix;
 	}
 
-	NCLMatrix4 GetTextureMatrix() const
+	NCLMatrix4 getTextureMatrix() const
 	{
 		return textureMatrix;
 	}
 
-	virtual void	Resize(int x, int y);
+	virtual void	resize(int x, int y);
 
 protected:
-	void			UpdateShaderMatrices();
-	void			UpdateShaderMatrices(Shader* shader);
-	void			SetCurrentShader(Shader*s);
+	void			updateShaderMatrices();
+	void			updateShaderMatrices(Shader* shader);
+	void			setCurrentShader(Shader*s);
 
-	void			SetTextureRepeating(GLuint target, bool state);
+	void			setTextureRepeating(GLuint target, bool state);
 
-	void			DrawDebugPerspective(NCLMatrix4*matrix = 0);
-	void			DrawDebugOrtho(NCLMatrix4*matrix = 0);
+	void			drawDebugPerspective(NCLMatrix4*matrix = 0);
+	void			drawDebugOrtho(NCLMatrix4*matrix = 0);
 
 	Shader* currentShader;
 

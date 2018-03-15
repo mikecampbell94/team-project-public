@@ -15,17 +15,17 @@ public:
 	ComputeShader(string compute, bool isVerbose = false);
 	~ComputeShader();
 
-	GLuint	GetProgram() { return program; }
-	void	UseProgram();
-	bool	LinkProgram();
+	GLuint	getProgram() { return program; }
+	void	useProgram();
+	bool	linkProgram();
 
-	void Compute(NCLVector3 workGroups);
+	void compute(NCLVector3 workGroups);
 
-	void Regenerate();
+	void regenerate();
 protected:
-	bool	LoadShaderFile(string from, string & into);
-	string IncludeShader(string includeLine);
-	GLuint	GenerateShader(string from);
+	bool	loadShaderFile(string from, string & into);
+	string includeShader(string includeLine);
+	GLuint	generateShader(string from);
 
 	GLuint	object[1];
 	GLuint	program;

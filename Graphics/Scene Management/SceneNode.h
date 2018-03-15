@@ -30,66 +30,66 @@ public:
 		transform.setPositionVector(position);
 	}
 
-	void  SetTransform(const NCLMatrix4 &matrix)
+	void  setTransform(const NCLMatrix4 &matrix)
 	{
 		transform = matrix;
 	}
 
-	void	SetTransform(NCLVector3 pos) 
+	void	setTransform(NCLVector3 pos) 
 	{
 		transform.setPositionVector(pos);
 	}
 
-	Mesh* GetMesh()
+	Mesh* getMesh()
 	{
 		return mesh;
 	}
 
-	NCLMatrix4 GetTransform()
+	NCLMatrix4 getTransform()
 	{
 		return transform;
 	}
-	NCLMatrix4 GetWorldTransform() const
+	NCLMatrix4 getWorldTransform() const
 	{
 		return worldTransform;
 	}
 
-	void SetColour(NCLVector4 c)
+	void setColour(NCLVector4 c)
 	{
 		this->colour = c;
-		mesh->SetbackupColourAttributeForAllSubMeshes(c);
+		mesh->setbackupColourAttributeForAllSubMeshes(c);
 	}
 
 	NCLVector4 getColour();
 
-	void SetModelScale(NCLVector3 s)
+	void setModelScale(NCLVector3 s)
 	{
 		boundingRadius *= s.length();
 		transform.setScalingVector(s);
 	}
 
-	float GetCameraDistance() const
+	float getCameraDistance() const
 	{
 		return distanceFromCamera;
 	}
-	void	SetCameraDistance(float f) { distanceFromCamera = f; }
+	void	setCameraDistance(float f) { distanceFromCamera = f; }
 
-	void AddChild(SceneNode* s);
-	void RemoveChild(SceneNode* s);
+	void addChild(SceneNode* s);
+	void removeChild(SceneNode* s);
 
-	virtual void Update(float msec);
-	virtual void Draw(Shader& shader);
-	virtual void DrawShadow(Shader& shader);
+	virtual void update(float msec);
+	virtual void draw(Shader& shader);
+	virtual void drawShadow(Shader& shader);
 
-	std::vector<SceneNode*>::const_iterator GetChildIteratorStart() {
+	std::vector<SceneNode*>::const_iterator getChildIteratorStart() {
 		return children.begin();
 	}
 
-	std::vector<SceneNode*>::const_iterator GetChildIteratorEnd() {
+	std::vector<SceneNode*>::const_iterator getChildIteratorEnd() {
 		return children.end();
 	}
 
-	static bool CompareByCameraDistance(SceneNode* a, SceneNode* b) {
+	static bool compareByCameraDistance(SceneNode* a, SceneNode* b) {
 		return (a->distanceFromCamera < b->distanceFromCamera)
 			? true : false;
 	}

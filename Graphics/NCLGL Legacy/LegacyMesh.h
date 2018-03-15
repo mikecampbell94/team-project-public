@@ -22,24 +22,24 @@ public:
 	LegacyMesh(void);
 	virtual ~LegacyMesh(void);
 
-	virtual void	Draw(Shader& shader, NCLMatrix4& worldTransform);
-	static	LegacyMesh*	GenerateTriangle();
-	static	LegacyMesh*	GenerateQuad();
+	virtual void	draw(Shader& shader, NCLMatrix4& worldTransform);
+	static	LegacyMesh*	generateTriangle();
+	static	LegacyMesh*	generateQuad();
 
-	void	SetTexture(GLuint tex) { texture = tex; }
-	GLuint	GetTexture() { return texture; }
+	void	setTexture(GLuint tex) { texture = tex; }
+	GLuint	getTexture() { return texture; }
 
-	void	SetBumpMap(GLuint tex) { bumpTexture = tex; }
-	GLuint	GetBumpMap() { return bumpTexture; }
+	void	setBumpMap(GLuint tex) { bumpTexture = tex; }
+	GLuint	getBumpMap() { return bumpTexture; }
 
-	void	SetColour(NCLVector4 newCol, LegacyMesh* m);
+	void	setColour(NCLVector4 newCol, LegacyMesh* m);
 
 protected:
-	void		BufferData();
-	void		GenerateNormals();
+	void		bufferData();
+	void		generateNormals();
 
-	void		GenerateTangents();
-	NCLVector3		GenerateTangent(const NCLVector3 &a, const NCLVector3 &b,
+	void		generateTangents();
+	NCLVector3		generateTangent(const NCLVector3 &a, const NCLVector3 &b,
 		const NCLVector3 &c, const NCLVector2 &ta,
 		const NCLVector2 &tb, const NCLVector2 &tc);
 

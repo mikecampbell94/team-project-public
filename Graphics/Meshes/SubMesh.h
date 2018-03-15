@@ -43,13 +43,13 @@ public:
 	SubMesh();
 	~SubMesh();
 
-	void Draw(Shader& shader, NCLMatrix4& transform);
-	void Draw(Shader& shader);
-	void DrawShadow(Shader& shader, NCLMatrix4& worldTransform); //Dont bother binding textures.
+	void draw(Shader& shader, NCLMatrix4& transform);
+	void draw(Shader& shader);
+	void drawShadow(Shader& shader, NCLMatrix4& worldTransform); //Dont bother binding textures.
 
 	float previousradius = 0;
 
-	void SetTransform(NCLMatrix4 newTransform)
+	void setTransform(NCLMatrix4 newTransform)
 	{
 		if (newTransform.getScalingVector() != transform.getScalingVector())
 		{
@@ -58,39 +58,39 @@ public:
 			NCLVector3 scale = newTransform.getScalingVector();
 			box.max = box.max * (scale);
 			box.min = box.min * (scale);
-			CalculateBoundingRadius();
+			calculateBoundingRadius();
 		}
 
 		this->transform = newTransform;
 	}
 
-	NCLMatrix4 GetTransform()
+	NCLMatrix4 getTransform()
 	{
 		return transform;
 	}
 
-	float GetBoundingRadius() const
+	float getBoundingRadius() const
 	{
 		return boundingRadius;
 	}
 
-	void SetBoundingRadius(float radius)
+	void setBoundingRadius(float radius)
 	{
 		boundingRadius = radius;
 	}
 
-	void SetCameraDistance(float dist)
+	void setCameraDistance(float dist)
 	{
 		distanceFromCamera = dist;
 	}
 
-	static bool CompareByCameraDistance(const SubMesh* a, const SubMesh* b)
+	static bool compareByCameraDistance(const SubMesh* a, const SubMesh* b)
 	{
 		return (a->distanceFromCamera < b->distanceFromCamera)
 			? true : false;
 	}
 
-	void CalculateBoundingRadius()
+	void calculateBoundingRadius()
 	{
 		//float firstMax = max(box.max.x, box.max.y);
 		//float finalMax = max(firstMax, box.max.z);
@@ -104,8 +104,8 @@ public:
 
 	void addTexture(unsigned int texture);
 
-	void BufferData();
-	void DrawOnly();
+	void bufferData();
+	void drawOnly();
 
 	//Mesh Data
 	std::vector<Vertex> vertices;
@@ -122,7 +122,7 @@ public:
 
 	GLuint modelMatricesSSBO;
 
-	void SetupMesh();
+	void setupMesh();
 
 
 protected:
