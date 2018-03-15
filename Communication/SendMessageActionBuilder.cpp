@@ -34,9 +34,6 @@ Executable SendMessageActionBuilder::buildSendMessageAction(std::string devConso
 	vector<string> tokens{ istream_iterator<string>{iss},
 		istream_iterator<string>{} };
 
-	//std::string action = tokens[0];
-	//std::transform(action.begin(), action.end(), action.begin(), ::toupper);
-
 	return devConsoleBuilder.at(tokens[0])(tokens);
 }
 
