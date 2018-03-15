@@ -122,25 +122,6 @@
       <x>-450</x>
       <y>0</y>
     </position>
-	<scale>
-      <x>50.0</x>
-      <y>20.0</y>
-    </scale>
-    <action>None</action>
-    <text>Online</text>
-    <mesh>UIQuad</mesh>
-	
-	<Button name="Start Online Level">
-    <colour>
-      <r>1.0</r>
-      <g>0.0</g>
-      <b>0.0</b>
-      <a>0.5</a>
-    </colour>
-    <position>
-      <x>-290</x>
-      <y>0</y>
-    </position>
     <scale>
       <x>50.0</x>
       <y>20.0</y>
@@ -151,33 +132,8 @@
     </action>
     <text>Online</text>
     <mesh>UIQuad</mesh>
-	 </Button>
-	 
-	<Button name="Start Online Level3">
-    <colour>
-      <r>1.0</r>
-      <g>0.0</g>
-      <b>0.0</b>
-      <a>0.5</a>
-    </colour>
-    <position>
-      <x>-290</x>
-      <y>-100</y>
-    </position>
-    <scale>
-      <x>50.0</x>
-      <y>20.0</y>
-    </scale>
-    <action type="Start">
-      <Online>True</Online>
-      <Level>OnlineLevel3.xml</Level>
-    </action>
-    <text>Online3</text>
-    <mesh>UIQuad</mesh>
-  </Button>
   </Button>
   
-
   <Button name="Level Editor">
     <colour>
       <r>1.0</r>
