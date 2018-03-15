@@ -232,7 +232,7 @@ void NetworkClient::broadcastPlayerScores()
 		ENetPacket* packet = enet_packet_create(&ps, sizeof(PlayerScore), 0);
 		enet_peer_send(serverConnection, 0, packet);
 
-		DeliverySystem::getPostman()->insertMessage(TextMessage("Gameplay", "sendscore " + to_string(ps.playerID) + " " + to_string(ps.playerScore)));
+		
 	}
 	scoresToSend.clear();
 }
@@ -282,9 +282,14 @@ void NetworkClient::displayPlayerScores()
 			NCLVector3(colour.x, colour.y, colour.z), true, true));
 
 		++i;
+
+		
+		string pid = scoreHolderIterator->first.substr(scoreHolderIterator->first.find_first_of("0123456789"));
+
+		DeliverySystem::getPostman()->insertMessage(TextMessage("Gameplay", "sendscore " + pid + " " + to_string(scoreHolderIterator->second)));
 	}
 
-	std::cout << i << std::endl;
+	
 }
 
 void NetworkClient::processNetworkMessages(const float& deltaTime)
