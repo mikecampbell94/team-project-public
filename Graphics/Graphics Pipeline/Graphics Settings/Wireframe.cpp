@@ -74,7 +74,7 @@ void Wireframe::locateUniforms()
 
 void Wireframe::buildLinesFromSpheres()
 {
-	for (int j = 0; j < spherePositions.size(); ++j)
+	for (int j = 0; j < (int)spherePositions.size(); ++j)
 	{
 		splitSphere(j);
 	}

@@ -220,7 +220,7 @@ void SendMessageActionBuilder::initialiseDevConsoleBuilders()
 
 		std::string data;
 
-		for (int i = 2; i < line.size(); ++i)
+		for (int i = 2; i < (int)line.size(); ++i)
 		{
 			data += " " + line[i];
 		}

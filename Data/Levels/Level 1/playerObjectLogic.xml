@@ -70,7 +70,7 @@
 
 				<Jump>
 					<resource>var</resource>
-					<impulse>15</impulse>
+					<impulse>nullptr</impulse>
 				</Jump>
 			</Action>
 		</ReceiveMessage>

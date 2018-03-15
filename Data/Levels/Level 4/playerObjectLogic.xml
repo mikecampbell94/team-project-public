@@ -67,7 +67,7 @@
 
 				<Jump>
 					<resource>var</resource>
-					<impulse>15</impulse>
+					<impulse>30</impulse>
 				</Jump>
 			</Action>
 		</ReceiveMessage>

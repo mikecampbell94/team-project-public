@@ -10,7 +10,10 @@ Player::Player(int playerID, InputRecorder *recorder)
 
 Player::~Player()
 {
-	delete recorder;
+	if (recorder != nullptr)
+	{
+		delete recorder;
+	}
 }
 
 void Player::setPlayerID(int newID)

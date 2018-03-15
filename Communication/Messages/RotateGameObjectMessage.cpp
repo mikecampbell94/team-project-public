@@ -1,9 +1,10 @@
 #include "RotateGameObjectMessage.h"
 
 RotateGameObjectMessage::RotateGameObjectMessage(const std::string& desinationName, std::string gameObjectID,
-	NCLVector4 rotation)
+	NCLVector4 rotation, bool relative)
 	: Message(desinationName, ROTATE_GAMEOBJECT)
 {
+	this->relative = relative;
 	this->gameObjectID = gameObjectID;
 	this->rotation = rotation;
 }
@@ -17,6 +18,7 @@ RotateGameObjectMessage RotateGameObjectMessage::builder(Node* node)
 	std::string destination = "";
 	std::string object = "";
 	NCLVector4 rotation;
+	bool nodeRelative = false;
 
 	for (Node* childNode : node->children)
 	{
@@ -28,13 +30,17 @@ RotateGameObjectMessage RotateGameObjectMessage::builder(Node* node)
 		{
 			object = childNode->value;
 		}
-		else if (childNode->nodeType == "scale")
+		else if (childNode->nodeType == "rotation")
 		{
 			rotation = VectorBuilder::buildVector4(childNode);
 		}
+		else if (childNode->nodeType == "relative")
+		{
+			nodeRelative = childNode->value == "True";
+		}
 	}
 
-	return RotateGameObjectMessage(destination, object, rotation);
+	return RotateGameObjectMessage(destination, object, rotation, nodeRelative);
 }
 
 RotateGameObjectMessage RotateGameObjectMessage::tokensToMessage(std::vector<std::string> lineTokens)

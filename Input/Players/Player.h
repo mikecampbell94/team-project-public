@@ -29,7 +29,7 @@ public:
 private:
 	GameObject* gameObject;
 	int playerID;
-	InputRecorder *recorder;
+	InputRecorder *recorder = nullptr;
 	InputFilter playerControls;
 
 

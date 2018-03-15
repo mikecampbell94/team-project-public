@@ -4,7 +4,7 @@ Menu::Menu(std::string buttonFile, Database* database)
 {
 	menu = UserInterfaceBuilder::buildButtons(buttonFile, database);
 
-	for (int i = 0; i < menu.size(); ++i)
+	for (int i = 0; i < (int)menu.size(); ++i)
 	{
 		allButtons.push_back(&menu[i]);
 	}
