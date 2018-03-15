@@ -77,4 +77,5 @@ GraphicsModule* GraphicsPipeline::getGraphicsModule(std::string moduleIdentifier
 			return module;
 		}
 	}
+	return nullptr;
 }

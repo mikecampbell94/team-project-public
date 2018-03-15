@@ -30,9 +30,9 @@ float VectorBuilder::getRandomVectorComponent(const float mi, const float ma)
 {
 	std::random_device rd;
 	std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
-	std::uniform_int_distribution<int> uni(mi, ma); // guaranteed unbiased
+	std::uniform_int_distribution<int> uni((int)mi, (int)ma); // guaranteed unbiased
 	auto r1 = uni(rng);
-	return r1;
+	return (float)r1;
 }
 
 NCLVector3 VectorBuilder::buildVector3(Node* node)

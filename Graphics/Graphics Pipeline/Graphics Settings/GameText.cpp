@@ -42,7 +42,7 @@ void GameText::apply()
 	setCurrentShader(UITextShader);
 	updateShaderMatrices();
 
-	for (int i = 0; i < bufferedText.size(); ++i)
+	for (size_t i = 0; i < bufferedText.size(); ++i)
 	{
 		if (bufferedOrthographicUsage[i] == true)
 		{
@@ -84,7 +84,7 @@ void GameText::apply()
 	setCurrentShader(textWithBackgrounShader);
 	updateShaderMatrices();
 
-	for (int i = 0; i < bufferedBackgroundText.size(); ++i)
+	for (size_t i = 0; i < bufferedBackgroundText.size(); ++i)
 	{
 		viewMatrix.toIdentity();
 		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "viewMatrix"), 1, false, (float*)&viewMatrix);

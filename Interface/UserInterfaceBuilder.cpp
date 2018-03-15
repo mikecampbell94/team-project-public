@@ -39,7 +39,7 @@ Button UserInterfaceBuilder::buildButton(Node* node, Database* database, ButtonA
 
 	if (node->children.size() >= 7)
 	{
-		for (int i = 6; i < node->children.size(); ++i)
+		for (size_t i = 6; i < node->children.size(); ++i)
 		{
 			Button childButton = buildButton(node->children[i], database, actionCreator);
 			button.childButtons.push_back(childButton);

@@ -212,6 +212,7 @@ void PhysicsEngine::addPhysicsObject(PhysicsNode * obj)
 			
 			return true;
 		}
+		return false;
 	});
 
 	obj->setOnUpdateCallback(std::bind(
