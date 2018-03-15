@@ -95,8 +95,16 @@ PhysicsEngine::PhysicsEngine(Database* database, Keyboard* keyboard) : Subsystem
 		GameObject* gameObject = static_cast<GameObject*>(
 			database->getTable("GameObjects")->getResource(rotateMessage->gameObjectID));
 
-		gameObject->getPhysicsNode()->setOrientation(
-			Quaternion::axisAngleToQuaterion(NCLVector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z), rotateMessage->rotation.w));
+		if (rotateMessage->relative)
+		{
+			gameObject->getPhysicsNode()->setOrientation(gameObject->getPhysicsNode()->getOrientation() *
+				Quaternion::axisAngleToQuaterion(NCLVector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z), rotateMessage->rotation.w));
+		}
+		else
+		{
+			gameObject->getPhysicsNode()->setOrientation(
+				Quaternion::axisAngleToQuaterion(NCLVector3(rotateMessage->rotation.x, rotateMessage->rotation.y, rotateMessage->rotation.z), rotateMessage->rotation.w));
+		}
 	});
 
 
