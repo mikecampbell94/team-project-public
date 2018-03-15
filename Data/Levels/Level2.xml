@@ -10,7 +10,8 @@
 		<File>Level 2/gameplay.xml</File>
 	</GamePlay>
 	<GameLogic>
-		
+		<File>Level 2/aiObjectLogic.xml</File>
 		<File>Level 2/playerObjectLogic.xml</File>
+		<File>Level 2/meteorObjectLogic.xml</File>
 	</GameLogic>
 </Level>
