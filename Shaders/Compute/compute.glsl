@@ -1,9 +1,10 @@
 #version 430 core
 
-layout(local_size_x = 20, local_size_y = 20, local_size_z = 1) in;
+layout(local_size_x = 10, local_size_y = 10, local_size_z = 1) in;
 
 uniform sampler2D paintTrailTexture;
 uniform int arraySize;
+uniform vec2 resolution;
 
 layout(std430, binding = 4) buffer PlayerScoresBuffer
 {
@@ -20,8 +21,8 @@ void main()
 	int xCoord = int(gl_GlobalInvocationID.x);
 	int yCoord = int(gl_GlobalInvocationID.y);
 
-	float textureCoordX = float(xCoord) / 1920.0;
-	float textureCoordY = float(yCoord) / 1080.0f;
+	float textureCoordX = float(xCoord) / resolution.x;
+	float textureCoordY = float(yCoord) / resolution.y;
 
 	vec4 colour = texture(paintTrailTexture, vec2(textureCoordX, textureCoordY));
 

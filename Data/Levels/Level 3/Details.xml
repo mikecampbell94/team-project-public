@@ -43,7 +43,7 @@
 
   <GameObjects name="powerup" >
     <SceneNode>
-      <Mesh>CubeMesh</Mesh>
+      <Mesh>PowerUp</Mesh>
       <Colour>
         <R>0</R>
         <G>1</G>
@@ -54,7 +54,7 @@
     <Enabled>True/False</Enabled>
     <Position>
       <X>0</X>
-      <Y>155</Y>
+      <Y>165</Y>
       <Z>0</Z>
     </Position>
     <Rotation>
@@ -64,9 +64,9 @@
       <W>000</W>
     </Rotation>
     <Scale>
-      <X>3</X>
-      <Y>3</Y>
-      <Z>3</Z>
+      <X>10</X>
+      <Y>10</Y>
+      <Z>10</Z>
     </Scale>
     <PhysicsNode>
       <Enabled>True</Enabled>
