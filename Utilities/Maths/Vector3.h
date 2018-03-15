@@ -145,26 +145,5 @@ public:
 	inline bool	operator==(const NCLVector3 &A)const {return (A.x == x && A.y == y && A.z == z) ? true : false;};
 	inline bool	operator!=(const NCLVector3 &A)const {return (A.x == x && A.y == y && A.z == z) ? false : true;};
 
-	static NCLVector3 builder(Node* node)
-	{
-		const float x = VectorBuilder::getVectorComponentFromNode(node->children[0]);
-		const float y = VectorBuilder::getVectorComponentFromNode(node->children[1]);
-		const float z = VectorBuilder::getVectorComponentFromNode(node->children[2]);
-		return NCLVector3(x, y, z);
-	}
-
-	static NCLVector3 builder(std::string text)
-	{
-		std::stringstream ss(text);
-		std::string item;
-		std::vector<std::string> tokens;
-
-		while (std::getline(ss, item, ','))
-		{
-			tokens.push_back(item);
-		}
-
-		return NCLVector3(stof(tokens[0]), stof(tokens[1]), stof(tokens[2]));
-	}
 };
 

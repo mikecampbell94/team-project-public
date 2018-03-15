@@ -46,15 +46,15 @@ TextMeshMessage TextMeshMessage::builder(Node* node)
 		}
 		else if (childNode->nodeType == "position")
 		{
-			nodeTextPosition = NCLVector3::builder(childNode);
+			nodeTextPosition = VectorBuilder::buildVector3(childNode);
 		}
 		else if (childNode->nodeType == "scale")
 		{
-			nodeTextScale = NCLVector3::builder(childNode);
+			nodeTextScale = VectorBuilder::buildVector3(childNode);
 		}
 		else if (childNode->nodeType == "colour")
 		{
-			nodeTextColour = NCLVector3::builder(childNode);
+			nodeTextColour = VectorBuilder::buildVector3(childNode);
 		}
 	}
 

@@ -73,7 +73,7 @@ ApplyImpulseMessage ApplyImpulseMessage::tokensToMessage(std::vector<std::string
 	std::string nodeResourcename = lineTokens[2];
 
 	std::string impulseString = lineTokens[3].substr(8);
-	NCLVector3 impulse = NCLVector3::builder(impulseString);
+	NCLVector3 impulse = VectorBuilder::buildVector3(impulseString);
 
 	return ApplyImpulseMessage(nodeDestination, nodeResourcename, false, impulse);
 }

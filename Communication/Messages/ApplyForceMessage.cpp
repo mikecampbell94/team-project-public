@@ -74,7 +74,7 @@ ApplyForceMessage ApplyForceMessage::tokensToMessage(std::vector<std::string> li
 	std::string nodeResourcename = lineTokens[2];
 
 	std::string forceString = lineTokens[3].substr(6);
-	NCLVector3 force = NCLVector3::builder(forceString);
+	NCLVector3 force = VectorBuilder::buildVector3(forceString);
 
 	return ApplyForceMessage(nodeDestination, nodeResourcename, false, force);
 }

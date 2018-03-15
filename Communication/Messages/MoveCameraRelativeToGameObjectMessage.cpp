@@ -34,7 +34,7 @@ MoveCameraRelativeToGameObjectMessage MoveCameraRelativeToGameObjectMessage::bui
 		}
 		else if (childNode->nodeType == "translation")
 		{
-			nodeTranslation = NCLVector3::builder(childNode);
+			nodeTranslation = VectorBuilder::buildVector3(childNode);
 		}
 		else if (childNode->nodeType == "rotation")
 		{

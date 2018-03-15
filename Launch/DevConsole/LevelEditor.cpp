@@ -43,7 +43,7 @@ void LevelEditor::initialiseLevelEditor(Database* providedDatabase, GameplaySyst
 		SceneNode* sceneNode = new SceneNode(static_cast<Mesh*>(database->getTable("Meshes")->getResource(meshName)));
 
 		std::string colourString = devConsoleTokens[3].substr(7);
-		NCLVector4 colour = NCLVector4::builder(colourString);
+		NCLVector4 colour = VectorBuilder::buildVector4(colourString);
 		sceneNode->SetColour(colour);
 
 		gameObject->setSceneNode(sceneNode);
@@ -101,10 +101,10 @@ void LevelEditor::initialiseLevelEditor(Database* providedDatabase, GameplaySyst
 	actions.insert({"addlight", [](std::vector<std::string> devConsoleTokens)
 	{
 		std::string positionString = devConsoleTokens[2].substr(9);
-		NCLVector3 position = NCLVector3::builder(positionString);
+		NCLVector3 position = VectorBuilder::buildVector3(positionString);
 
 		std::string colourString = devConsoleTokens[3].substr(7);
-		NCLVector4 colour = NCLVector4::builder(colourString);
+		NCLVector4 colour = VectorBuilder::buildVector4(colourString);
 
 		float radius = stof(devConsoleTokens[4].substr(7));
 		float intensity = stof(devConsoleTokens[5].substr(10));

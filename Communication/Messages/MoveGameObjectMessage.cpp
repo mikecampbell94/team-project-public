@@ -31,7 +31,7 @@ MoveGameObjectMessage MoveGameObjectMessage::builder(Node* node)
 		}
 		else if (childNode->nodeType == "position")
 		{
-			position = NCLVector3::builder(childNode);
+			position = VectorBuilder::buildVector3(childNode);
 		}
 	}
 
@@ -49,7 +49,7 @@ MoveGameObjectMessage MoveGameObjectMessage::tokensToMessage(std::vector<std::st
 	std::string nodeResourcename = lineTokens[2];
 
 	std::string positionString = lineTokens[3].substr(9);
-	NCLVector3 position = NCLVector3::builder(positionString);
+	NCLVector3 position = VectorBuilder::buildVector3(positionString);
 
 	return MoveGameObjectMessage(nodeDestination, nodeResourcename, position);
 }

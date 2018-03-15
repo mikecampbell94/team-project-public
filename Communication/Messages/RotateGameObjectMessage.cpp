@@ -30,7 +30,7 @@ RotateGameObjectMessage RotateGameObjectMessage::builder(Node* node)
 		}
 		else if (childNode->nodeType == "scale")
 		{
-			rotation = NCLVector4::builder(childNode);
+			rotation = VectorBuilder::buildVector4(childNode);
 		}
 	}
 
@@ -43,7 +43,7 @@ RotateGameObjectMessage RotateGameObjectMessage::tokensToMessage(std::vector<std
 	std::string nodeResourcename = lineTokens[2];
 
 	std::string rotateString = lineTokens[3].substr(7);
-	NCLVector4 rotate = NCLVector4::builder(rotateString);
+	NCLVector4 rotate = VectorBuilder::buildVector4(rotateString);
 
 	return RotateGameObjectMessage(nodeDestination, nodeResourcename, rotate);
 }

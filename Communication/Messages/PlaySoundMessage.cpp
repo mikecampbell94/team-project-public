@@ -40,7 +40,7 @@ PlaySoundMessage PlaySoundMessage::builder(Node* node)
 		}
 		else if (childNode->nodeType == "position")
 		{
-			position = NCLVector3::builder(childNode);
+			position = VectorBuilder::buildVector3(childNode);
 		}
 		else if (childNode->nodeType == "priority")
 		{

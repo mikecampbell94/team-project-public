@@ -158,6 +158,7 @@
     <ClCompile Include="Maths\Plane.cpp" />
     <ClCompile Include="Maths\Quaternion.cpp" />
     <ClCompile Include="Maths\Matrix3.cpp" />
+    <ClCompile Include="Maths\VectorBuilder.cpp" />
     <ClCompile Include="NetworkBase.cpp" />
     <ClCompile Include="Text\PeriodicTextModifier.cpp" />
   </ItemGroup>

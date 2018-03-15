@@ -1,32 +1,19 @@
 #pragma once
 #include "../../Resource Management/XMLParser.h"
+#include <sstream>
 
-class VectorBuilder {
+class NCLVector3;
+class NCLVector4;
+
+class VectorBuilder 
+{
 public:
-	static float getVectorComponentFromNode(const Node* node, float* min = nullptr, float* max = nullptr)
-	{
-		if (node->nodeType == "random")
-		{
+	static float getVectorComponentFromNode(const Node* node, float* min = nullptr, float* max = nullptr);
+	static float getRandomVectorComponent(const float mi, const float ma);
 
-			*min = std::stof(node->children[0]->value);
-			*max = std::stof(node->children[1]->value);
-			return getRandomVectorComponent(*min, *max);
-		}
-		else
-		{
-			if(min != nullptr)
-			{
-				*min = 0.0f;
-			}
-			if(max != nullptr)
-			{
-				*max = 0.0f;
-			}
-			return std::stof(node->value);
-		}
-	}
-	static float getRandomVectorComponent(const float mi, const float ma)
-	{
-			return (rand() % (int)((ma - mi) * 1000)) / 1000 + mi;	
-	}
+	static NCLVector3 buildVector3(Node* node);
+	static NCLVector3 buildVector3(std::string text);
+
+	static NCLVector4 buildVector4(Node* node);
+	static NCLVector4 buildVector4(std::string text);
 };
