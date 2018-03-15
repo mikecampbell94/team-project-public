@@ -174,7 +174,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					physicsNode->setStatic(false);
 					meteor->setPhysicsNode(physicsNode);
 
-					meteor->setPosition(gameObject->getPosition() + NCLVector3(i * 10, 50, 0));
+					meteor->setPosition(gameObject->getPosition() + NCLVector3((float)i * 10.f, 50.f, 0.f));
 					meteor->setRotation(NCLVector4(0.f, 0.f, 0.f, 0.f));
 					
 					meteor->setEnabled(false);
@@ -360,7 +360,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 					auto random_integer1 = uni(rng);
 					auto random_integer2 = uni(rng);
 
-					meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10));
+					meteor->setPosition(gameObject->getPosition() + NCLVector3((float)random_integer1 * 10.f, 100.f + (i * 40.f), (float)random_integer2 * 10.f));
 					meteor->setEnabled(true);
 				}
 
@@ -422,7 +422,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 							auto random_integer1 = uni(rng);
 							auto random_integer2 = uni(rng);
 
-							meteor->setPosition(gameObject->getPosition() + NCLVector3(random_integer1 * 10, 100 + (i * 40), random_integer2 * 10));
+							meteor->setPosition(gameObject->getPosition() + NCLVector3((float)random_integer1 * 10.f, 100.f + (i * 40.f), (float)random_integer2 * 10.f));
 							meteor->setEnabled(true);
 
 						}
@@ -483,7 +483,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 						GameObject* meteor = static_cast<GameObject*>(
 							PaintGameActionBuilder::database->getTable("GameObjects")->getResource(gameObject->getName() + "Meteor" + std::to_string(i)));
 
-						meteor->setPosition(gameObject->getPosition() + NCLVector3(PaintGameActionBuilder::others[i] * 10, 100 + (i * 40), PaintGameActionBuilder::others[9-i] * 10));
+						meteor->setPosition(gameObject->getPosition() + NCLVector3((float)PaintGameActionBuilder::others[i] * 10.f, 100.f + (i * 40.f), (float)PaintGameActionBuilder::others[9-i] * 10.f));
 						meteor->setEnabled(true);
 
 					}

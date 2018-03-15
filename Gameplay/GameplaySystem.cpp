@@ -121,7 +121,7 @@ void GameplaySystem::connectPlayerbase(PlayerBase* playerBase)
 {
 	inputBridge = GameplayInputBridge();
 
-	for (int i = 0; i < playerBase->getPlayers().size(); i++)//every ionput action map in playersInGame
+	for (size_t i = 0; i < playerBase->getPlayers().size(); i++)//every ionput action map in playersInGame
 	{
 		inputBridge.addInputActionMapForPlayer(playerBase->getPlayersAction()[i]);
 	}
@@ -239,7 +239,7 @@ void GameplaySystem::removeScriptsInbuffer()
 {
 	for (std::string gameObjectLogicToRemove : gameObjectLogicRemoveBuffer)
 	{
-		for (int i = 0; i < objects.size(); ++i)
+		for (size_t i = 0; i < objects.size(); ++i)
 		{
 			if (objects[i].getScriptFile() == gameObjectLogicToRemove)
 			{

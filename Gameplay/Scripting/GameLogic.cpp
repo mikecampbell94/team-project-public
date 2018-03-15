@@ -58,7 +58,7 @@ void GameLogic::executeMessageBasedActions()
 {
 	if (!messageBasedActions.empty())
 	{
-		for (int i = 0; i < publishers.size(); ++i)
+		for (size_t i = 0; i < publishers.size(); ++i)
 		{
 			if (publishers[i].first == "CollisionMessage" || publishers[i].first == "InputMessage")
 			{
@@ -73,7 +73,7 @@ void GameLogic::executeMessageBasedActions()
 
 void GameLogic::executeTimeBasedActions(const float& deltaTime)
 {
-	for (int i = 0; i < timedActions.size(); ++i)
+	for (size_t i = 0; i < timedActions.size(); ++i)
 	{
 		timers[i] += deltaTime;
 		timedActions[i](timers[i]);

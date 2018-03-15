@@ -27,7 +27,6 @@ Startup::~Startup()
 	delete loopTimer;
 	delete window;
 	delete camera;
-	delete keyboardAndMouse;
 
 }
 

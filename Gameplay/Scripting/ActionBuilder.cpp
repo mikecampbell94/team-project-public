@@ -36,7 +36,7 @@ GameplayAction ActionBuilder::buildAction(Node* node)
 	}
 	else
 	{
-		buildFinalAction(executables);
+		return buildFinalAction(executables);
 	}
 }
 

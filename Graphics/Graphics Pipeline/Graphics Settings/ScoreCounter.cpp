@@ -74,7 +74,7 @@ void ScoreCounter::calculateScores()
 {
 	GLuint zero = 0;
 
-	for (int i = 0; i < scoreHolders.size(); ++i)
+	for (size_t i = 0; i < scoreHolders.size(); ++i)
 	{
 		scoreData[i] = 0;
 	}
@@ -107,7 +107,7 @@ void ScoreCounter::displayScores()
 	setCurrentShader(textShader);
 	updateShaderMatrices();
 
-	for (int i = 0; i < scoreHolders.size(); ++i)
+	for (size_t i = 0; i < scoreHolders.size(); ++i)
 	{
 		if (scoreData[i] != 0)
 		{
@@ -115,7 +115,7 @@ void ScoreCounter::displayScores()
 		}
 	}
 
-	for (int i = 0; i < scoreHolders.size(); ++i)
+	for (size_t i = 0; i < scoreHolders.size(); ++i)
 	{
 		viewMatrix.toIdentity();
 		glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_ORTHOGRAPHIC_MATRIX);

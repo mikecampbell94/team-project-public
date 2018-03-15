@@ -88,7 +88,7 @@ void Renderer::initialise(SceneManager* sceneManager, Database* database)
 	graphicsconfigParser.loadXMLFile("../Data/Resources/Graphics Config/graphicsConfigXML.xml");
 	Node* node = graphicsconfigParser.parsedXml;
 
-	for (int i = 0; i < node->children.size(); i++)
+	for (size_t i = 0; i < node->children.size(); i++)
 	{
 		std::string enabled = node->children[i]->value;
 		std::string graphicsModuleName = node->children[i]->name;
