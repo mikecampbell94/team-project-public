@@ -162,7 +162,88 @@
       <isStatic>False</isStatic>
     </PhysicsNode>
   </GameObjects>
+  
+  <GameObjects name="enemy2" >
+    <SceneNode>
+      <Mesh>SphereMesh</Mesh>
+      <Colour>
+        <R>0</R>
+        <G>1</G>
+        <B>0.75</B>
+        <A>1</A>
+      </Colour>
+      <isReflective>0.8</isReflective>
+    </SceneNode>
+    <Enabled>True/False</Enabled>
+    <Position>
+      <X>-100</X>
+      <Y>80</Y>
+      <Z>-100</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>10</X>
+      <Y>10</Y>
+      <Z>10</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0.5</Elasticity>
+      <Friction>0.9</Friction>
+      <Damping>0.995</Damping>
+      <isStatic>False</isStatic>
+    </PhysicsNode>
+  </GameObjects>
 
+  <GameObjects name="enemy3" >
+    <SceneNode>
+      <Mesh>SphereMesh</Mesh>
+      <Colour>
+        <R>0</R>
+        <G>1</G>
+        <B>0.75</B>
+        <A>1</A>
+      </Colour>
+      <isReflective>0.8</isReflective>
+    </SceneNode>
+    <Enabled>True/False</Enabled>
+    <Position>
+      <X>100</X>
+      <Y>80</Y>
+      <Z>-100</Z>
+    </Position>
+    <Rotation>
+      <X>000</X>
+      <Y>000</Y>
+      <Z>000</Z>
+      <W>000</W>
+    </Rotation>
+    <Scale>
+      <X>10</X>
+      <Y>10</Y>
+      <Z>10</Z>
+    </Scale>
+    <PhysicsNode>
+      <Enabled>True</Enabled>
+      <TransmitCollision>True</TransmitCollision>
+      <CollisionShape>Sphere</CollisionShape>
+      <Mass>1</Mass>
+      <isCollision>True</isCollision>
+      <Elasticity>0.5</Elasticity>
+      <Friction>0.9</Friction>
+      <Damping>0.995</Damping>
+      <isStatic>False</isStatic>
+    </PhysicsNode>
+  </GameObjects>
 
   <GameObjects name="pWall1" >
     <SceneNode>

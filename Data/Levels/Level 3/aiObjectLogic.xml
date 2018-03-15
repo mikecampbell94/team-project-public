@@ -5,6 +5,8 @@
 	<resource>AI2</resource>
 	<resource>enemy</resource>
 	<resource>enemy1</resource>
+	<resource>enemy2</resource>
+	<resource>enemy3</resource>
 </Resources>
 
 <GameplayScript>

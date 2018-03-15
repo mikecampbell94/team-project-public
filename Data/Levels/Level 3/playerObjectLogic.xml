@@ -20,6 +20,8 @@
 				<colliderIdentifier>AI2</colliderIdentifier>
 				<colliderIdentifier>enemy</colliderIdentifier>
 				<colliderIdentifier>enemy1</colliderIdentifier>
+				<colliderIdentifier>enemy2</colliderIdentifier>
+				<colliderIdentifier>enemy3</colliderIdentifier>
 			</Condition>
 
 			
