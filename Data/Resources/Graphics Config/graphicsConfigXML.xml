@@ -3,7 +3,7 @@
 	<Settings name="Bloom">Disabled</Settings>
 	<Settings name="BPLighting">Enabled</Settings>
 	<Settings name="gbuffer">Enabled</Settings>
-	<Settings name="MotionBlur">Disabled</Settings>
+	<Settings name="MotionBlur">Enabled</Settings>
 	<Settings name="Particles">Disabled</Settings>
 	<Settings name="ShadowMapping">Disabled</Settings>
 	<Settings name="Skybox">Enabled</Settings>

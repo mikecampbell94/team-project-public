@@ -91,7 +91,6 @@ void BPLighting::apply()
 
 void BPLighting::lightingPass()
 {
-	//glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	setCurrentShader(lightingPassShader);

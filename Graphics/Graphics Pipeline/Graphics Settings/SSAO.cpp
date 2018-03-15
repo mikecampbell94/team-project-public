@@ -25,8 +25,8 @@ SSAO::SSAO(const std::string identifier, const NCLVector2 resolution, Camera* ca
 	ambientTextures->textures[CommonGraphicsData::SSAO_INDEX] = &ssaoColorBufferBlur;
 	ambientTextures->texUnit = new int(3);
 
-	xSize = 2;// GLConfig::RESOLUTION.x / RESOLUTION_SCALE_X;
-	ySize = 2;//GLConfig::RESOLUTION.y / RESOLUTION_SCALE_Y;
+	xSize = 4;// GLConfig::RESOLUTION.x / RESOLUTION_SCALE_X;
+	ySize = 4;//GLConfig::RESOLUTION.y / RESOLUTION_SCALE_Y;
 }
 
 void SSAO::linkShaders()
@@ -90,7 +90,7 @@ void SSAO::initSSAOBuffers()
 	//SSAO color buffer
 	glGenTextures(1, &ssaoColorBuffer);
 	GraphicsUtility::CreateScreenTexture(resolution, ssaoColorBuffer, 
-		GL_RED, GL_RGB, GL_FLOAT, GL_NEAREST, 0, false);
+		GL_RED, GL_RGB, GL_FLOAT, GL_NEAREST, 0, true);
 
 	GraphicsUtility::VerifyBuffer("SSAO Frame", false);
 
@@ -98,7 +98,7 @@ void SSAO::initSSAOBuffers()
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFBO);
 	glGenTextures(1, &ssaoColorBufferBlur);
 	GraphicsUtility::CreateScreenTexture(resolution, ssaoColorBufferBlur, 
-		GL_RED, GL_RGB, GL_FLOAT, GL_NEAREST, 0, false);
+		GL_RED, GL_RGB, GL_FLOAT, GL_NEAREST, 0, true);
 
 	GraphicsUtility::VerifyBuffer("Blur", false);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
