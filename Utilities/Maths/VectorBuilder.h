@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Resource Management/XMLParser.h"
+#include <random>
 
 class VectorBuilder {
 public:
@@ -27,6 +28,10 @@ public:
 	}
 	static float getRandomVectorComponent(const float mi, const float ma)
 	{
-			return (rand() % (int)((ma - mi) * 1000)) / 1000 + mi;	
+		std::random_device rd;
+		std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+		std::uniform_int_distribution<int> uni(mi, ma); // guaranteed unbiased
+		auto r1 = uni(rng);
+		return r1;	
 	}
 };
