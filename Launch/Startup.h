@@ -46,8 +46,6 @@ private:
 
 	void addSystemsToEngine();
 
-
-	//make all these unique ptrs
 	System* engine;
 	GameLoop* game;
 

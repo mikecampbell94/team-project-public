@@ -90,29 +90,20 @@ void GameLoop::executeGameLoop()
 		DeliverySystem::getPostman()->clearAllMessages();
 		updateGameObjects(deltaTime);
 		DeliverySystem::getPostman()->deliverAllMessages();
-
-		
-		//engine->updateNextSystemFrame(deltaTime);
-		//
-		//engine->processAllMessages();
-		//incomingMessages.processMessagesInBuffer();
-		//DeliverySystem::getPostman()->clearAllMessages();
-		//updateGameObjects(deltaTime);
-		//DeliverySystem::getPostman()->deliverAllMessages();
 	}
 }
 
 void GameLoop::updateGameObjects(float deltaTime)
 {
 	auto gameObjectResources = database->getTable("GameObjects")->getAllResources()->getResourceBuffer();
+
 	for (auto gameObjectIterator = gameObjectResources.begin(); gameObjectIterator != gameObjectResources.end(); ++gameObjectIterator)
 	{
 		GameObject* gObj = static_cast<GameObject*>((*gameObjectIterator).second);
+
 		if (gObj->getPhysicsNode() != nullptr)
 		{
 			gObj->update(deltaTime);
 		}
-		//DeliverySystem::getPostman()->insertMessage(TextMeshMessage("RenderingSystem", "thing",
-		//	gObj->getSceneNode()->GetWorldTransform().getPositionVector(), Vector3(10, 10, 1), false));
 	}
 }

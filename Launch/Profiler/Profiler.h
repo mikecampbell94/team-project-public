@@ -23,6 +23,10 @@ public:
 private:
 	void updateProfiling();
 	
+	void updateFPS();
+	void updateMemory();
+	void updateTimers();
+
 	void displayChildTimers();
 	void saveProfilingInfo(GameTimer* parentTimer, int currentDepth, float parentXOffset);
 

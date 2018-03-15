@@ -51,7 +51,6 @@ void LevelEditor::initialiseLevelEditor(Database* providedDatabase, GameplaySyst
 		DeliverySystem::getPostman()->insertMessage(TextMessage("RenderingSystem", "addscenenode " + devConsoleTokens[1]));
 	} });
 
-	//addphysicsnode obj shape=Box invMass=0.5 static=true
 	actions.insert({ "addphysicsnode", [&database = database](std::vector<std::string> devConsoleTokens)
 	{
 		GameObject* gameObject = static_cast<GameObject*>(

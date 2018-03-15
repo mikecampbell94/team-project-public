@@ -24,7 +24,6 @@ class GameLoop
 {
 public:
 	GameLoop(System* gameSystem, Database* database, Startup* startup);
-	GameLoop();
 	~GameLoop();
 
 	void executeGameLoop();
@@ -55,9 +54,6 @@ private:
 
 	bool loadingLevel = false;
 	bool quit = false;
-	bool paused = false;
-	float pitch = 0.0f;
-	float yaw   = 0.0f;
 	float deltaTimeMultiplier = 1.0f;
 };
 

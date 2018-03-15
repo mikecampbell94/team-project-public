@@ -48,7 +48,6 @@ PhysicsEngine::PhysicsEngine(Database* database, Keyboard* keyboard) : Subsystem
 		}
 		else if (tokens[0] == "removephysicsnode")
 		{
-			//MUST REMOVE FROM OCTREE ONCE OCTREES ARE WORKING
 			for (auto physicsNodeiterator = physicsNodes.begin(); physicsNodeiterator != physicsNodes.end(); ++physicsNodeiterator)
 			{
 				if ((*physicsNodeiterator)->getParent()->getName() == tokens[1])
@@ -67,7 +66,6 @@ PhysicsEngine::PhysicsEngine(Database* database, Keyboard* keyboard) : Subsystem
 			database->getTable("GameObjects")->getResource(translationMessage->resourceName));
 
 		gameObject->getPhysicsNode()->setPosition(translationMessage->transform.getPositionVector());
-		//gameObject->getPhysicsNode()->setOrientation();
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::MOVE_GAMEOBJECT, [database = database](Message* message)
@@ -365,17 +363,6 @@ void PhysicsEngine::updatePhysics()
 
 void PhysicsEngine::broadPhaseCollisions()
 {
-	/*if (physicsNodes.size() > 0)
-	{
-		if (octreeChanged)
-		{
-			octree->UpdateTree();
-			octreeChanged = false;
-			broadphaseColPairs = octree->GetAllCollisionPairs();
-		}
-	}*/
-
-
 	broadphaseColPairs.clear();
 
 	PhysicsNode* nodeA;
@@ -436,39 +423,6 @@ void PhysicsEngine::broadPhaseCollisions()
 	}
 }
 
-
-	/*if (physicsNodes.size() > 0)
-	{
-		for (size_t i = 0; i < physicsNodes.size() - 1; ++i)
-		{
-			for (size_t j = i + 1; j < physicsNodes.size(); j++)
-			{
-				nodeA = physicsNodes[i];
-				nodeB = physicsNodes[j];
-
-				if (nodeA->getCollisionShape() && nodeB->getCollisionShape())
-				{
-					CollisionPair pair;
-					pair.pObjectA = nodeA;
-					pair.pObjectB = nodeB;
-
-					if (pair.pObjectA->getIsCollision() && pair.pObjectB->getIsCollision())
-					{
-						if (pair.pObjectA->getEnabled() && pair.pObjectB->getEnabled())
-						{
-							if (!(pair.pObjectA->getIsStatic() && pair.pObjectB->getIsStatic()))
-							{
-								broadphaseColPairs.push_back(pair);
-							}
-							
-						}
-					}
-				}
-			}
-		}
-	}
-}*/
-
 void PhysicsEngine::narrowPhaseCollisions()
 {
 	if (broadphaseColPairs.size() > 0)
@@ -519,22 +473,4 @@ void PhysicsEngine::narrowPhaseCollisions()
 void PhysicsEngine::InitialiseOctrees(int entityLimit)
 {
 	BpOct.initBroadphase(NCLVector3(-300,-300,-300),NCLVector3(300,300,300));
-	//octree = new OctreePartitioning(physicsNodes, NCLVector3(600, 400, 600), NCLVector3(0, 0, 0));
-	//octree->ENTITY_PER_PARTITION_THRESHOLD = entityLimit;
-
-
-	//if (physicsNodes.size() > 0)
-	//{
-	//	octree->BuildInitialTree();
-	//}
-
-	//octreeChanged = false;
-	//octreeInitialised = true;
-
-	//for (PhysicsNode* node : physicsNodes)
-	//{
-	//	node->movedSinceLastBroadPhase = false;
-	//}
-
-	//broadphaseColPairs = octree->GetAllCollisionPairs();
 }

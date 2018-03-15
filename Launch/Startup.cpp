@@ -42,6 +42,7 @@ void Startup::initialiseSubsystems()
 	game->addWindowToGameLoop(window);
 	game->addCameraToGameLoop(camera);
 	game->addGameTimerToGameLoop(loopTimer);
+
 	LevelEditor::initialiseLevelEditor(database, gameplay);
 }
 
@@ -64,8 +65,6 @@ void Startup::initialiseRenderingSystem()
 	
 	nodes = new std::vector<SceneNode*>();
 	scene = new SceneManager(camera, nodes);
-	//rendering->initialise(database);
-	//rendering->SetSceneToRender(scene);
 }
 
 void Startup::startUserInterface()
@@ -91,30 +90,8 @@ void Startup::initialiseAudioSystem()
 
 void Startup::initialiseInputSystem()
 {
-	//rendering->initialise(database);
-	//rendering->SetSceneToRender(scene, database);
-
-	//---------------------------------
-	//---------------------------------
-
-	//node = new SceneNode("../Data/meshes/centeredcube.obj");
-	//node->SetTransform(Matrix4::translation(Vector3(0, -10, 0)) * Matrix4::scale(Vector3(10, 10, 10)));
-
-	//-------------------------------------------
-	//-------------------------------------------
-
 	keyboardAndMouse = new KeyboardMouseRecorder(window->getKeyboard(), window->getMouse());
-
 	playerbase = new PlayerBase(database);
-	//playerbase->getPlayers()[0]->setSceneNode(node);
-
-	//std::string seperator = "|";
-	//std::string keyboard = "KEYBOARD_W|KEYBOARD_A|KEYBOARD_S|KEYBOARD_D";
-	//std::string xbox = "XBOX_A|XBOX_B";
-	//std::vector<int> kmTestConfig = playerbase->getPlayers()[0]->getInputFilter()->getListenedKeys(keyboard, seperator);
-
-	//playerbase->getPlayers()[0]->getInputRecorder()->addKeysToListen(kmTestConfig);
-
 	inputManager = new InputManager(playerbase);
 }
 
@@ -158,9 +135,6 @@ void Startup::loadMainMenu()
 	XMLParser::deleteAllParsedXML();
 	level->loadLevelFile(LEVELDIR + "MainMenu.xml", gameplay);
 	XMLParser::deleteAllParsedXML();
-	//gameplay->compileGameplayScript("../Data/Gameplay/mainMenuScript.xml");
-	//userInterface->initialise(database);
-	//gameplay->setUnTimedLevel();
 }
 
 void Startup::loadLevel(std::string levelFile, bool online)
@@ -178,35 +152,39 @@ void Startup::loadLevel(std::string levelFile, bool online)
 		gameplay->connectPlayerbase(inputManager->GetPlayerbase());
 	}
 
-	//gameplay->compileGameplayScript("../Data/Gameplay/gameplay.xml");
 	gameplay->compileGameObjectScripts();
-
-	//XMLWriter writer(database);
-	//writer.saveLevelFile("myLevel");
 	XMLParser::deleteAllParsedXML();
 }
 
 void Startup::switchLevel()
 {
 	XMLParser::deleteAllParsedXML();
+
 	gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
+
 	rendering->clearScores();
 	rendering->clearPainters();
+
 	audio->clearSoundNodesWhenUnloadingLevel();
 	level->unloadLevelWhileKeepingUserInterface();
+
 	XMLParser::deleteAllParsedXML();
 }
 
 void Startup::unloadLevel()
 {
 	XMLParser::deleteAllParsedXML();
+
 	gameplay->setDefaultGameplayScript();
 	gameplay->deleteGameObjectScripts();
+
 	rendering->clearScores();
 	rendering->clearPainters();
+
 	audio->clearSoundNodesWhenUnloadingLevel();
 	level->unloadLevel();
+
 	XMLParser::deleteAllParsedXML();
 }
 

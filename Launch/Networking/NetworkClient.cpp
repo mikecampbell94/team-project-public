@@ -24,8 +24,6 @@ struct IntegerData
 	int data;
 };
 
-
-
 const float UPDATE_FREQUENCY = 50.0f;
 const float UPDATE_TIMESTEP = 1.0f / 60.0f;
 
@@ -157,10 +155,7 @@ void NetworkClient::updateNextFrame(const float& deltaTime)
 			displayPlayerScores();
 		}
 
-		//if(scoresToSend.size() == numberOfOtherPlayersToWaitFor)
-		//{
-			broadcastPlayerScores();
-		//}
+		broadcastPlayerScores();
 	}
 	else
 	{
@@ -397,14 +392,11 @@ void NetworkClient::processNetworkMessages(const float& deltaTime)
 			}
 			else if (evnt.packet->dataLength == sizeof(PlayerScore) && joinedGame)
 			{
-				//if (clientID != 0)
-				//{
-					PlayerScore recievedScore;
-					memcpy(&recievedScore, evnt.packet->data, sizeof(PlayerScore));
+				PlayerScore recievedScore;
+				memcpy(&recievedScore, evnt.packet->data, sizeof(PlayerScore));
 
-					std::string playerName = "player" + to_string(recievedScore.playerID);
-					playerScores[playerName] = recievedScore.playerScore;
-				//}
+				std::string playerName = "player" + to_string(recievedScore.playerID);
+				playerScores[playerName] = recievedScore.playerScore;
 			}
 			
 		}

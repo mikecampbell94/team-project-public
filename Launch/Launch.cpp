@@ -18,6 +18,7 @@ int main()
 	if (enet_initialize() != 0)
 	{
 		std::cout << "ENET failed to initialize!" << std::endl;
+		return -1;
 	}
 
 	SendMessageActionBuilder::initialiseBuilders();
@@ -26,18 +27,18 @@ int main()
 	Startup startup(&threadPool);
 	startup.initialiseRenderingSystem();
 
-	bool loaded = false;
+	bool loadedSubsystems = false;
 
-	threadPool.submitJob([&startup = startup, &loaded = loaded]()
+	threadPool.submitJob([&startup = startup, &loadedSubsystems = loadedSubsystems]()
 	{
 		startup.initialiseSubsystems();
 		startup.loadMainMenu();
 
-		loaded = true;
+		loadedSubsystems = true;
 	});
 
 
-	while (!loaded)
+	while (!loadedSubsystems)
 	{
 		startup.renderLoadingScreen();
 	}
@@ -45,6 +46,7 @@ int main()
 	startup.startRenderingSystem();
 	startup.setupMeshes();
 	startup.startUserInterface();
+
 	startup.startGameLoop();
 
     return 0;
