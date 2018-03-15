@@ -23,14 +23,20 @@ public:
 	~Level();
 
 	void loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay);
+	void loadLevelNode(Node* resourceNode, GameplaySystem* gameplay);
 
 	void unloadLevelWhileKeepingUserInterface();
-	void unloadLevel();
+	void unloadLevel() const;
 
-	void addObjectsToGame();
-
+	void addObjectsToGame() const;
 
 private:
+	void loadUINode(Node* resourceNode) const;
+	void loadResource(Node* resourceNode);
+
+	void loadGameplayScripts(Node* resourceNode, GameplaySystem* gameplay) const;
+	void loadgameLogicScripts(Node* resourceNode, GameplaySystem* gameplay) const;
+
 	XMLParser parser;
 	Database *database;
 	SceneManager* sceneManager;

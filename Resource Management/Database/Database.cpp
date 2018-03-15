@@ -19,7 +19,7 @@ Table<Resource>* Database::getTable(const std::string tableName)
 	return tables.at(tableName);
 }
 
-std::vector<Table<Resource>*> Database::getAllTables()
+std::vector<Table<Resource>*> Database::getAllTables() const
 {
 	return tablesVector;
 }

@@ -20,10 +20,7 @@ public:
 		storage = new ResourceManager<ResourceType>(name, maxSize);
 	}
 
-	~Table()
-	{
-		
-	}
+	~Table() {}
 
 	void addNewResource(Node* resource)
 	{
@@ -35,7 +32,7 @@ public:
 		storage->addResource(resource);
 	}
 
-	void deleteResource(std::string identifier)
+	void deleteResource(const std::string& identifier)
 	{
 		storage->deleteResource(identifier);
 	}
@@ -45,22 +42,24 @@ public:
 		return storage;
 	}
 
-	ResourceType* getResource(std::string identifier)
+	ResourceType* getResource(const std::string& identifier)
 	{
-		if (storage->getResourceBuffer().find(identifier) == storage->getResourceBuffer().end())
+		if (resourceExists(identifier))
 		{
-			return nullptr;
-		}
-		else
-		{
-			
 			return storage->getResource(identifier);
 		}
+
+		return nullptr;
 	}
 
 	std::string getName()
 	{
 		return name;
+	}
+
+	bool resourceExists(const std::string& identifier)
+	{
+		return storage->getResourceBuffer().find(identifier) != storage->getResourceBuffer().end();
 	}
 
 

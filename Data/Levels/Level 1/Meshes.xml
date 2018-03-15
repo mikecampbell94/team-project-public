@@ -16,10 +16,10 @@
 		<MeshFile>../Data/Resources/Meshes/box/Crate/Crate1.obj</MeshFile>
 	</Meshes>
 
-	<Meshes name="MeteorMesh">
-		<MeshFile>../Data/Resources/Meshes/sphere.obj</MeshFile>
-		<texture>../Data/Resources/Textures/hell.jpg</texture>
-	</Meshes>	
+  <Meshes name="MeteorMesh" >
+    <MeshFile>../Data/Resources/Meshes/Rock.obj</MeshFile>
+    <texture>../Data/Resources/Textures/hell.jpg</texture>
+  </Meshes>
 
 	<Meshes name = "HeightMap">
 		<MeshType>HeightMap</MeshType>

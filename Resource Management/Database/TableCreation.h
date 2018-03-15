@@ -3,7 +3,6 @@
 #include <functional>
 #include <vector>
 #include "Database.h"
-#include "../GameObjectBuilder.h"
 
 class TableCreation
 {
@@ -14,10 +13,10 @@ public:
 	void addTablesToDatabase() const;
 
 private:
-	void addGameObject() const;
-	void addMesh() const;
+	void addGameObjectsTable() const;
+	void addMeshesTable() const;
 	void addUIMeshTable() const;
-	void addSounds() const;
+	void addSoundsTable() const;
 	void addLightsTable() const;
 
 	std::vector<std::function<void()>> tableAdditions;

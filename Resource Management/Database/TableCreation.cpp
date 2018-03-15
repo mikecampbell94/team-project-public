@@ -5,8 +5,8 @@
 #include "../../Gameplay/GameObject.h"
 #include "../../Graphics/Scene Management/SceneNode.h"
 #include "../../Graphics/Utility/Light.h"
-
 #include "../../Audio/Sound.h"
+#include "../GameObjectBuilder.h"
 
 const size_t MAX_MEMORY_PER_TABLE = 50000;
 
@@ -14,9 +14,9 @@ TableCreation::TableCreation(Database* database)
 {
 	this->database = database;
 
-	tableAdditions.push_back(std::bind(&TableCreation::addGameObject, this));
-	tableAdditions.push_back(std::bind(&TableCreation::addMesh, this));
-	tableAdditions.push_back(std::bind(&TableCreation::addSounds, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addGameObjectsTable, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addMeshesTable, this));
+	tableAdditions.push_back(std::bind(&TableCreation::addSoundsTable, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addLightsTable, this));
 	tableAdditions.push_back(std::bind(&TableCreation::addUIMeshTable, this));
 
@@ -28,22 +28,22 @@ TableCreation::~TableCreation()
 
 void TableCreation::addTablesToDatabase() const
 {
-	for (auto addTableToDatabase : tableAdditions)
+	for (const auto addTableToDatabase : tableAdditions)
 	{
 		addTableToDatabase();
 	}
 }
 
-void TableCreation::addGameObject() const
+void TableCreation::addGameObjectsTable() const
 {
-	
-	database->addTable("GameObjects", new Table<Resource>("GameObjects", MAX_MEMORY_PER_TABLE, [&](Node* node)
+	database->addTable("GameObjects", new Table<Resource>("GameObjects", MAX_MEMORY_PER_TABLE, [&database = database](Node* node)
 	{
-		return GameObjectBuilder::buildGameObject(node,database);	}));
+		return GameObjectBuilder::buildGameObject(node, database);	
+	}));
 }
 
 
-void TableCreation::addMesh() const
+void TableCreation::addMeshesTable() const
 {
 	database->addTable("Meshes", new Table<Resource>("Meshes", MAX_MEMORY_PER_TABLE, [](Node* node)
 	{
@@ -62,7 +62,6 @@ void TableCreation::addMesh() const
 
 			if (node->children.size() > 1)
 			{
-				//mesh->loadTexture(node->children[1]->value);
 				mesh->setTextureFile(node->children[1]->value);
 			}
 
@@ -83,7 +82,7 @@ void TableCreation::addUIMeshTable() const
 	}));
 }
 
-void TableCreation::addSounds() const
+void TableCreation::addSoundsTable() const
 {
 	database->addTable("SoundObjects", new Table<Resource>("SoundObjects", MAX_MEMORY_PER_TABLE, [](Node* node)
 	{
