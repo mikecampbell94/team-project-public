@@ -184,7 +184,7 @@
 					<resource>var</resource>
 					<multiplier>2</multiplier>
 					<powerupObj>powerup</powerupObj>
-					<duration>10</duration>
+					<duration>20</duration>
 				</RandomNetworkedPowerUp>
 			</Action>
 		</ReceiveMessage>

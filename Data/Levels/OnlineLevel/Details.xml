@@ -45,7 +45,7 @@
     <SceneNode>
       <Mesh>SphereMesh</Mesh>
       <Colour>
-        <R>-10</R>
+        <R>0</R>
         <G>1</G>
         <B>0</B>
         <A>1</A>

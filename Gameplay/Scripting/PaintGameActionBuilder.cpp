@@ -203,7 +203,8 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 
 			if (gameObject->getPhysicsNode()->getLinearVelocity().length() > 0.1f)
 			{
-				int paint = max(--gameObject->stats.currentPaint, 0);
+				gameObject->stats.currentPaint -= 2;
+				int paint = max(gameObject->stats.currentPaint, 0);
 
 				float massDecrease = 1 - ((float)paint / (float)gameObject->stats.maxPaint);
 
@@ -489,6 +490,7 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 						meteor->setEnabled(true);
 
 					}
+					gameObject->stats.timeToWait = 2000.f;
 					break;
 				}
 				default:

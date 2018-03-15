@@ -28,7 +28,7 @@ ScoreCounter::~ScoreCounter()
 void ScoreCounter::bufferScoreHolder(std::string scoreHoldername)
 {
 	const NCLVector4 scoreHolderColour = static_cast<GameObject*>(
-		database->getTable("GameObjects")->getResource(scoreHoldername))->getSceneNode()->getColour();
+		database->getTable("GameObjects")->getResource(scoreHoldername))->stats.colourToPaint;
 
 	scoreHolders.push_back(scoreHoldername);
 	coloursToCount.push_back(scoreHolderColour);
