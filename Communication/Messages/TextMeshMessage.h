@@ -10,6 +10,8 @@ public:
 		NCLVector3 position, NCLVector3 scale, NCLVector3 colour, bool orthographic, bool hasBackground = false);
 	~TextMeshMessage();
 
+	static TextMeshMessage builder(Node* node);
+
 	bool hasBackground;
 	bool orthographic;
 	std::string text;
