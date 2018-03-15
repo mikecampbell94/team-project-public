@@ -8,7 +8,6 @@
 
 #include <vector>
 #include "Skybox.h"
-#include "../Effects/ParticleSystem.h"
 
 #include "../../Scene Management/SceneManager.h"
 
