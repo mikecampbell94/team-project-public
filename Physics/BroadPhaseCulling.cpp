@@ -47,7 +47,7 @@ void BroadPhaseCulling::sortNode(PhysicsNode * p)
 		float radius = static_cast<SphereCollisionShape*>(p->getBroadPhaseShape())->getRadius();
 		NCLVector3 centre = p->getPosition();
 		//use iterator instead 
-		for (int i = 0; i < bpAreas.size(); ++i) {
+		for (size_t i = 0; i < bpAreas.size(); ++i) {
 			if (intersect(bpAreas[i].minVal, bpAreas[i].maxVal, centre, radius)) {
 				std::vector<PhysicsNode*>::iterator index = std::find(bpAreas[i].nodesInArea.begin(), bpAreas[i].nodesInArea.end(), p);
 				if (index != bpAreas[i].nodesInArea.end()) bpAreas[i].nodesInArea.erase(index);
@@ -72,7 +72,7 @@ void BroadPhaseCulling::clear()
 
 bool BroadPhaseCulling::splitArea(BParea a)
 {
-	if (a.nodesInArea.size() >= maxNodes && a.depthLvl < maxDepth) {
+	if (a.nodesInArea.size() >= (size_t)maxNodes && a.depthLvl < maxDepth) {
 		NCLVector3 areaSize = (a.maxVal - a.minVal) / 2;
 		for (int x = 0; x < 2; ++x) {
 			for (int y = 0; y < 2; ++y) {

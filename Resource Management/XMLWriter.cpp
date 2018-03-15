@@ -78,7 +78,7 @@ void XMLWriter::saveLevelFile(std::string levelName)
 		std::vector<std::string> objectLogicFiles;
 
 		//for (GameObjectLogic& objectLogic : *objectLogics)
-		for (int i = 0; i < objectLogics->size(); ++i)
+		for (size_t i = 0; i < objectLogics->size(); ++i)
 		{
 			objectLogicFiles.push_back((*objectLogics)[i].getScriptFile());
 			rapidxml::xml_node<>* gameLogicFileNode = levelFile.allocate_node(rapidxml::node_element, "File", objectLogicFiles[i].c_str());
@@ -126,7 +126,7 @@ void XMLWriter::saveMeshFile(std::string meshFileName)
 		}
 	}
 
-	for (int i = 0; i < meshNames.size(); ++i)
+	for (size_t i = 0; i < meshNames.size(); ++i)
 	{
 		rapidxml::xml_node<>* meshNode = meshFile.allocate_node(rapidxml::node_element, "Meshes");
 		meshNode->append_attribute(meshFile.allocate_attribute("name", meshNames[i].c_str()));
@@ -167,7 +167,7 @@ void XMLWriter::saveSoundsFile(std::string soundFileName)
 		soundFiles.push_back(sound->getSoundFile());
 	}
 
-	for (int i = 0; i < soundObjectNames.size(); ++i)
+	for (size_t i = 0; i < soundObjectNames.size(); ++i)
 	{
 		rapidxml::xml_node<>* soundNode = soundFile.allocate_node(rapidxml::node_element, "SoundObjects", soundFiles[i].c_str());
 		soundNode->append_attribute(soundFile.allocate_attribute("name", soundObjectNames[i].c_str()));
@@ -189,7 +189,7 @@ void XMLWriter::saveLightsFile(std::string lightsFileName)
 	levelLights.append_node(root);
 
 
-	for (int i = 0; i < state.lightNames.size(); ++i)
+	for (size_t i = 0; i < state.lightNames.size(); ++i)
 	{
 		rapidxml::xml_node<>* lightNode = levelLights.allocate_node(rapidxml::node_element, "Lights");
 		lightNode->append_attribute(levelLights.allocate_attribute("name", state.lightNames[i].c_str()));
@@ -240,7 +240,7 @@ void XMLWriter::saveLevelDetails(std::string levelDetailsFile)
 	levelDetails.append_node(root);
 
 	int physicsNodeIndex = 0;
-	for (int i = 0; i < state.hasPhysicsNode.size(); ++i)
+	for (size_t i = 0; i < state.hasPhysicsNode.size(); ++i)
 	{
 		rapidxml::xml_node<>* gameObjectNode = levelDetails.allocate_node(rapidxml::node_element, "GameObjects");
 		gameObjectNode->append_attribute(levelDetails.allocate_attribute("name", state.gameObjectNames[i].c_str()));

@@ -207,7 +207,7 @@ void Console::traverseInputHistory()
 
 	if (keyboard->keyTriggered(KEYBOARD_UP))
 	{
-		if (previousInputIndexOffset < previousInputs.size())
+		if ((size_t)previousInputIndexOffset < previousInputs.size())
 		{
 			input = previousInputs[previousInputIndexOffset];
 			++previousInputIndexOffset;
@@ -262,7 +262,7 @@ void Console::displayText()
 {
 	std::string displayLine = input;
 
-	for (int i = 0; i < 100 - input.size(); ++i)
+	for (size_t i = 0; i < 100 - input.size(); ++i)
 	{
 		displayLine += " ";
 	}

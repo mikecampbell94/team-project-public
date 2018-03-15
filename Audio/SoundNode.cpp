@@ -99,7 +99,7 @@ void SoundNode::attachSource(OALSource *s)
 	alSourcef(oalSource->source, AL_MAX_DISTANCE, radius);
 	alSourcef(oalSource->source, AL_REFERENCE_DISTANCE, radius * 0.2f);
 	alSourcei(oalSource->source, AL_BUFFER, sound->getBuffer());
-	alSourcef(oalSource->source, AL_SEC_OFFSET, (sound->getLength() / 1000.0) - (timeLeft / 1000.0));
+	alSourcef(oalSource->source, AL_SEC_OFFSET, (ALfloat)(sound->getLength() / 1000.0f) - (timeLeft / 1000.0f));
 	alSourcePlay(oalSource->source);
 	state = SoundState::PLAYING;
 }

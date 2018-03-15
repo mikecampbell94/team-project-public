@@ -64,7 +64,7 @@ void Startup::initialiseRenderingSystem()
 	resolution.y = std::stof(node->children[0]->children[1]->value);
 	bool fullScreen = node->children[1]->value == "Enabled";
 
-	window = new Window("Game Window", resolution.x, resolution.y, fullScreen);
+	window = new Window("Game Window", (int)resolution.x, (int)resolution.y, fullScreen);
 	window->lockMouseToWindow(true);
 	window->showOSPointer(false);
 

@@ -63,7 +63,7 @@ Player* PlayerBase::addNewPlayer(InputRecorder* recorder, int id)
 	std::string seperator = "|";
 	std::string keyboardButtonsToListenTo = "";
 
-	for (int i = 0; i < inputParser.parsedXml->children.size(); i++) 
+	for (size_t i = 0; i < inputParser.parsedXml->children.size(); i++) 
 	{
 		std::string keyName = inputParser.parsedXml->children[i]->children[0]->value;
 

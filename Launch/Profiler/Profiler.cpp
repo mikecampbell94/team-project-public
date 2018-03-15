@@ -95,7 +95,7 @@ void Profiler::updateMemory()
 		NCLVector3(-500.0f, nextLine, 0), TEXT_SIZE, TEXT_COLOUR, true, true));
 	nextLine += NEXT_LINE_OFFSET;
 
-	for (int i = 0; i < database->getAllTables().size(); i++)
+	for (size_t i = 0; i < database->getAllTables().size(); i++)
 	{
 		std::string text = database->getAllTables()[i]->getName() + ": " +
 			std::to_string(database->getAllTables()[i]->getAllResources()->getCurrentSize());

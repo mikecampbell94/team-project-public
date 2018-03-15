@@ -93,7 +93,7 @@ void OctreePartitioning::PartitionNodes(Partition& parent, vector<PhysicsNode*>&
 		}
 	}
 
-	if (parent.containedNodes.size() > ENTITY_PER_PARTITION_THRESHOLD)
+	if (parent.containedNodes.size() > (size_t)ENTITY_PER_PARTITION_THRESHOLD)
 	{
 		PartitionUtility::SplitPartition(parent);
 
@@ -118,7 +118,7 @@ void OctreePartitioning::PartitionNodeIntoExistingTree(Partition& parent, Physic
 			parent.containedNodes.push_back(node);
 		}
 
-		if (parent.containedNodes.size() > ENTITY_PER_PARTITION_THRESHOLD)
+		if (parent.containedNodes.size() > (size_t)ENTITY_PER_PARTITION_THRESHOLD)
 		{
 			PartitionUtility::SplitPartition(parent);
 
@@ -149,7 +149,7 @@ void OctreePartitioning::PartitionNodeIntoChild(Partition& child, PhysicsNode* n
 	//Check if this node contains child partitions.
 	PartitionNodeIntoExistingTree(child, node);
 
-	if (child.containedNodes.size() > ENTITY_PER_PARTITION_THRESHOLD)
+	if (child.containedNodes.size() > (size_t)ENTITY_PER_PARTITION_THRESHOLD)
 	{
 		PartitionUtility::SplitPartition(child);
 

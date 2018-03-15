@@ -62,7 +62,7 @@ NetworkClient::NetworkClient(InputRecorder* keyboardAndMouse, Database* database
 		}
 		else if (tokens[0] == "collision")
 		{
-			for (int i = 0; i < colliders.size(); ++i)
+			for (size_t i = 0; i < colliders.size(); ++i)
 			{
 				if (colliders[i] == tokens[2])
 				{
@@ -212,7 +212,7 @@ void NetworkClient::broadcastKinematicState()
 
 void NetworkClient::broadcastMinionState()
 {
-	for (int i = 0; i < objectsToToTransmitStatesFor.size(); ++i)
+	for (size_t i = 0; i < objectsToToTransmitStatesFor.size(); ++i)
 	{
 		MinionKinematicState state;
 		state.minionIndex = i;
