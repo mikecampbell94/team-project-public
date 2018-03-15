@@ -20,7 +20,6 @@
     <SendMessage type="PREPARE_PAINT_SURFACE">
       <destination>RenderingSystem</destination>
       <resource>floor</resource>
-	  <resource>floor1</resource>
     </SendMessage>
 
     <SendMessage type="ADD_SCORE_HOLDER">
@@ -31,16 +30,6 @@
     <SendMessage type="ADD_SCORE_HOLDER">
       <destination>RenderingSystem</destination>
       <name>player1</name>
-    </SendMessage>
-
-    <SendMessage type="ADD_SCORE_HOLDER">
-      <destination>RenderingSystem</destination>
-      <name>player2</name>
-    </SendMessage>
-	
-	<SendMessage type="ADD_SCORE_HOLDER">
-      <destination>RenderingSystem</destination>
-      <name>player3</name>
     </SendMessage>
 
     <SendMessage type="TEXT">

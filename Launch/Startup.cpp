@@ -192,7 +192,7 @@ void Startup::beginOnlineLobby()
 {
 	PaintGameActionBuilder::online = true;
 	engine->addSubsystem(network);
-	network->waitForOtherClients(2);
+	network->waitForOtherClients(4);
 	network->connectToServer();
 	DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "deltatime disable"));
 }

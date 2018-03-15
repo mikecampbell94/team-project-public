@@ -1,11 +1,8 @@
 <GameObjectLogic>
-
 	<Resources>
-
 		<resource>player0</resource>
 		<resource>player1</resource>
 		<resource>player2</resource>
-		<resource>player3</resource>
 	</Resources>
 
 
@@ -22,9 +19,9 @@
 				<colliderIdentifier>player0</colliderIdentifier>
 				<colliderIdentifier>player1</colliderIdentifier>
 				<colliderIdentifier>player2</colliderIdentifier>
-				<colliderIdentifier>player3</colliderIdentifier>
 				<colliderIdentifier>AI</colliderIdentifier>
 				<colliderIdentifier>AI2</colliderIdentifier>
+				<colliderIdentifier>enemy</colliderIdentifier>
 			</Condition>
 
 			
@@ -54,7 +51,6 @@
 				<amount>10</amount>
 				<Mesh>MeteorMesh</Mesh>
 				<Size>20</Size>
-				<isReflective>0.8</isReflective>
 			</CreateMeteorPool>
 
 			<SetMaxPaint>
@@ -73,7 +69,7 @@
 
 				<Jump>
 					<resource>var</resource>
-					<impulse>6</impulse>
+					<impulse>15</impulse>
 				</Jump>
 			</Action>
 		</ReceiveMessage>
@@ -86,19 +82,6 @@
 				</Condition>
 				<Condition type="OR">
 					<colliderIdentifier>floor</colliderIdentifier>
-					<colliderIdentifier>floor1</colliderIdentifier>
-					<colliderIdentifier>stair1</colliderIdentifier>
-					<colliderIdentifier>stair2</colliderIdentifier>
-					<colliderIdentifier>stair3</colliderIdentifier>
-					<colliderIdentifier>stair4</colliderIdentifier>
-					<colliderIdentifier>stair5</colliderIdentifier>
-					<colliderIdentifier>stair6</colliderIdentifier>
-					<colliderIdentifier>stair7</colliderIdentifier>
-					<colliderIdentifier>stair8</colliderIdentifier>
-					<colliderIdentifier>stair9</colliderIdentifier>
-					<colliderIdentifier>stair10</colliderIdentifier>
-					<colliderIdentifier>stair11</colliderIdentifier>
-					<colliderIdentifier>stair12</colliderIdentifier>
 					<colliderIdentifier>paintPool</colliderIdentifier>
 				</Condition>
 
@@ -112,12 +95,9 @@
 		<!-- OBJECTS WHERE THE PLAYER CAN PAINT -->
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
-				<Condition>
+				<Condition type="AND">
 					<objectIdentifier>var</objectIdentifier>
-				</Condition>
-				<Condition type="OR">
 					<colliderIdentifier>floor</colliderIdentifier>
-					<colliderIdentifier>floor1</colliderIdentifier>
 				</Condition>
 
 				<CheckPaint>
@@ -148,6 +128,21 @@
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>paintPool2</colliderIdentifier>
+				</Condition>
+
+				<RegainNetworkedPaint>
+					<resource>var</resource>
+					<paintpool>paintPool2</paintpool>
+				</RegainNetworkedPaint>
+			</Action>
+		</ReceiveMessage>
+
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
 					<objectIdentifier>var</objectIdentifier>					
 					<colliderIdentifier>AI</colliderIdentifier>
 				</Condition>
@@ -155,7 +150,7 @@
 				<PaintMinion>
 					<resource>var</resource>
 					<minion>AI</minion>
-				</PainMinion>
+				</PaintMinion>
 			</Action>
 		</ReceiveMessage>
 
@@ -169,7 +164,7 @@
 				<PaintMinion>
 					<resource>var</resource>
 					<minion>AI2</minion>
-				</PainMinion>
+				</PaintMinion>
 			</Action>
 		</ReceiveMessage>
 
@@ -184,7 +179,39 @@
 					<resource>var</resource>
 					<multiplier>2</multiplier>
 					<powerupObj>powerup</powerupObj>
-					<duration>10</duration>
+					<duration>5</duration>
+				</RandomNetworkedPowerUp>
+			</Action>
+		</ReceiveMessage>
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>powerup2</colliderIdentifier>
+				</Condition>
+
+				<RandomNetworkedPowerUp>
+					<resource>var</resource>
+					<multiplier>2</multiplier>
+					<powerupObj>powerup2</powerupObj>
+					<duration>5</duration>
+				</RandomNetworkedPowerUp>
+			</Action>
+		</ReceiveMessage>
+
+		<ReceiveMessage type="CollisionMessage">
+			<Action>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
+					<colliderIdentifier>powerup3</colliderIdentifier>
+				</Condition>
+
+				<RandomNetworkedPowerUp>
+					<resource>var</resource>
+					<multiplier>2</multiplier>
+					<powerupObj>powerup3</powerupObj>
+					<duration>5</duration>
 				</RandomNetworkedPowerUp>
 			</Action>
 		</ReceiveMessage>

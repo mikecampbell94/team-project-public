@@ -2,10 +2,7 @@
 
 <Resources>
 	<resource>powerup</resource>
-	<resource>powerup2</resource>
-	<resource>powerup3</resource>
 	<resource>paintPool</resource>
-	<resource>paintPool2</resource>
 </Resources>
 
 <GameplayScript>

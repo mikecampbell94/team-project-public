@@ -7,6 +7,25 @@
 </Resources>
 
 <GameplayScript>
+
+	<ReceiveMessage type="CollisionMessage">
+		<Action>
+			<Condition type="AND">
+				<objectIdentifier>var</objectIdentifier>
+				<colliderIdentifier>floor</colliderIdentifier>
+			</Condition>
+			
+			<SendMessage type="APPLY_IMPULSE">
+				<destination>Physics</destination>
+				<resource>var</resource>
+				<impulse>
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</impulse>
+			</SendMessage>
+		</Action>
+	</ReceiveMessage>
     
 	<ReceiveMessage type="CollisionMessage">
 		<Action>
@@ -21,6 +40,27 @@
 			</SendMessage>
 		</Action>
 	</ReceiveMessage>
+	
+	<Timed interval="0.5">
+		<SendMessage type="APPLY_FORCE">
+			<destination>Physics</destination>
+			<resource>var</resource>
+			<isRandom>True</isRandom>
+			<force>
+				<random>
+					<min>-10</min>
+					<max>10</max>
+				</random>
+				<Y>0</Y>
+				<random>
+					<min>-10</min>
+					<max>10</max>
+				</random>
+			</force>
+		</SendMessage>
+		
+		<!--<DecreasePaint>var</DecreasePaint>-->
+	</Timed>
 	
 	
 	<Timed interval="0.5">
@@ -42,33 +82,6 @@
 
 <HardCodedLogic>
 
-
-  <Timed interval="0.5">
-    <MoveMinions>
-      <SendMessage type="APPLY_FORCE">
-        <destination>Physics</destination>
-        <resource>var</resource>
-        <isRandom>True</isRandom>
-        <force>
-          <random>
-            <min>-8</min>
-            <max>8</max>
-          </random>
-          <Y>0</Y>
-          <random>
-            <min>-8</min>
-            <max>8</max>
-          </random>
-        </force>
-      </SendMessage>
-    </MoveMinions>
-  </Timed>
-
-  <OnStart>
-    <TransmitMinion>
-      <resource>var</resource>
-    </TransmitMinion>
-  </OnStart>
 
 </HardCodedLogic>
 

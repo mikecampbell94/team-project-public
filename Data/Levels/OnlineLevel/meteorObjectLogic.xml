@@ -12,6 +12,7 @@
 		<resource>player0Meteor7</resource>
 		<resource>player0Meteor8</resource>
 		<resource>player0Meteor9</resource>
+		
 		<resource>player1Meteor0</resource>
 		<resource>player1Meteor1</resource>
 		<resource>player1Meteor2</resource>
@@ -22,6 +23,7 @@
 		<resource>player1Meteor7</resource>
 		<resource>player1Meteor8</resource>
 		<resource>player1Meteor9</resource>
+		
 		<resource>player2Meteor0</resource>
 		<resource>player2Meteor1</resource>
 		<resource>player2Meteor2</resource>
@@ -32,6 +34,17 @@
 		<resource>player2Meteor7</resource>
 		<resource>player2Meteor8</resource>
 		<resource>player2Meteor9</resource>
+		
+		<resource>player3Meteor0</resource>
+		<resource>player3Meteor1</resource>
+		<resource>player3Meteor2</resource>
+		<resource>player3Meteor3</resource>
+		<resource>player3Meteor4</resource>
+		<resource>player3Meteor5</resource>
+		<resource>player3Meteor6</resource>
+		<resource>player3Meteor7</resource>
+		<resource>player3Meteor8</resource>
+		<resource>player3Meteor9</resource>
 	</Resources>
 
 
