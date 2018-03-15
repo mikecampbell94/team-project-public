@@ -73,41 +73,41 @@ public:
 
 	~Light(void) {};
 
-	static void AddLightsToArray(Light** lights, int numberExistingLights, int numberOfLights, Light lightToCopy);
+	static void addLightsToArray(Light** lights, int numberExistingLights, int numberOfLights, Light lightToCopy);
 
-	NCLVector3 GetPosition() const { return position; }
-	void	SetPosition(NCLVector3 val)
+	NCLVector3 getPosition() const { return position; }
+	void	setPosition(NCLVector3 val)
 	{
 		position = val;
 		data.lightPosition = NCLVector4(val.x, val.y, val.z, 1.0f);
 	}
 
-	float	GetRadius() const { return radius; }
-	void	SetRadius(float val) { radius = val; }
+	float	getRadius() const { return radius; }
+	void	setRadius(float val) { radius = val; }
 
-	NCLVector4 GetColour() const { return colour; }
-	void	SetColour(NCLVector4 val)
+	NCLVector4 getColour() const { return colour; }
+	void	setColour(NCLVector4 val)
 	{
 		colour = val;
 		data.lightColour = val;
 	}
 
-	void SetDirection(NCLVector4 val)
+	void setDirection(NCLVector4 val)
 	{
 		spotLightData.direction = val;
 	}
 
-	LightData GetData()
+	LightData getData()
 	{
 		return data;
 	}
 
-	SpotLightData GetSpotData()
+	SpotLightData getSpotData()
 	{
 		return spotLightData;
 	}
 
-	bool IsShadowCasting()
+	bool isShadowCasting()
 	{
 		return isShadowCasting;
 	}

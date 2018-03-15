@@ -7,7 +7,7 @@ class GraphicsUtility
 {
 public:
 	template <class T>
-	static GLuint InitSSBO(int numBuffers, int binding, GLuint bufferID, size_t size, T* data, GLenum usage)
+	static GLuint initSSBO(int numBuffers, int binding, GLuint bufferID, size_t size, T* data, GLenum usage)
 	{
 		glGenBuffers(numBuffers, &bufferID);
 
@@ -21,7 +21,7 @@ public:
 	}
 
 	template <class T>
-	static GLuint RebufferData(const GLenum& target, const GLuint& bufferID, const size_t& offset, const size_t& size, const T* data)
+	static GLuint rebufferData(const GLenum& target, const GLuint& bufferID, const size_t& offset, const size_t& size, const T* data)
 	{
 		glBindBuffer(target, bufferID);
 		glBufferSubData(target, offset, size, data);
@@ -30,7 +30,7 @@ public:
 		return bufferID;
 	}
 
-	static void CreateScreenTexture(NCLVector2 resolution, GLuint textureID, GLuint internalFormat, GLenum format,
+	static void createScreenTexture(NCLVector2 resolution, GLuint textureID, GLuint internalFormat, GLenum format,
 		GLenum type, GLint minMagParam, int attachment, bool clamp)
 	{
 		glBindTexture(GL_TEXTURE_2D, textureID);
@@ -83,7 +83,7 @@ public:
 	- Ensure regular calls to assist debugging.
 	- Or clear the stack using the ClearGLErrorStack function.
 	*/
-	static void CheckGLError(std::string tag)
+	static void checkGLError(std::string tag)
 	{
 		GLenum err;
 		while ((err = glGetError()) != GL_NO_ERROR) {
@@ -106,7 +106,7 @@ public:
 		}
 	}
 
-	static void ClearGLErrorStack()
+	static void clearGLErrorStack()
 	{
 		GLenum err;
 		while ((err = glGetError()) != GL_NO_ERROR)
@@ -115,7 +115,7 @@ public:
 		}
 	}
 
-	static void VerifyBuffer(std::string name, bool successMsg) {
+	static void verifyBuffer(std::string name, bool successMsg) {
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		{
 			std::cout << name + " - buffer not complete!" << "\n";
