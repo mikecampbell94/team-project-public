@@ -19,7 +19,7 @@ public:
 	XMLParser();
 	~XMLParser();
 
-	std::string loadFile(std::string filename);
+	std::string loadXMLFile(std::string filename);
 
 	void recursivelyParse(rapidxml::xml_node<>* unParsedXml, Node** parsedNode);
 	static void deleteAllParsedXML();

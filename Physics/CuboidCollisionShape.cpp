@@ -83,7 +83,7 @@ void CuboidCollisionShape::getMinMaxVertexOnAxis(const NCLVector3 & axis, NCLVec
 {
 	NCLMatrix4 wsTransform = parent()->getWorldSpaceTransform() * NCLMatrix4::scale(halfDims);
 
-	NCLMatrix3 invNormalMatrix = NCLMatrix3::Inverse(NCLMatrix3(wsTransform));
+	NCLMatrix3 invNormalMatrix = NCLMatrix3::inverse(NCLMatrix3(wsTransform));
 	NCLVector3 local_axis = invNormalMatrix * axis;
 	local_axis.normalise();
 
@@ -98,8 +98,8 @@ void CuboidCollisionShape::getIncidentReferencePolygon(const NCLVector3 & axis, 
 {
 	NCLMatrix4 wsTransform = parent()->getWorldSpaceTransform() * NCLMatrix4::scale(halfDims);
 
-	NCLMatrix3 invNormalMatrix = NCLMatrix3::Inverse(NCLMatrix3(wsTransform));
-	NCLMatrix3 normalMatrix = NCLMatrix3::Inverse(invNormalMatrix);
+	NCLMatrix3 invNormalMatrix = NCLMatrix3::inverse(NCLMatrix3(wsTransform));
+	NCLMatrix3 normalMatrix = NCLMatrix3::inverse(invNormalMatrix);
 
 	NCLVector3 local_axis = invNormalMatrix * axis;
 

@@ -25,7 +25,7 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 	gameplay->deleteGameObjectScripts();
 	//std::string lvlStr = LEVELDIR;
 
-	parser.loadFile(levelFilePath);
+	parser.loadXMLFile(levelFilePath);
 	levelNode = *parser.parsedXml;
 	for (Node* child : levelNode.children)
 	{
@@ -47,7 +47,7 @@ void Level::loadLevelFile(std::string levelFilePath, GameplaySystem* gameplay)
 		}
 		else
 		{
-			parser.loadFile(LEVELDIR + child->value);
+			parser.loadXMLFile(LEVELDIR + child->value);
 			for (Node* grandchild : parser.parsedXml->children)
 			{
 				database->addResourceToTable(grandchild->nodeType, grandchild);

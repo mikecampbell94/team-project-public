@@ -94,11 +94,6 @@ void XMLWriter::saveLevelFile(std::string levelName)
 
 void XMLWriter::createFolder(const char* path)
 {
-	//if (!CreateDirectory(path, NULL))
-	//{
-	//	throw std::runtime_error("Cannot create directory.");
-	//}
-
 	CreateDirectory(path, NULL);
 }
 

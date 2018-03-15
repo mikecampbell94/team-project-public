@@ -17,8 +17,8 @@ public:
 
 		NCLVector3 r1 = (globalOnA - pnodeA->getPosition());
 		NCLVector3 r2 = (globalOnB - pnodeB->getPosition());
-		relPosA = NCLMatrix3::Transpose(pnodeA->getOrientation().toMatrix3()) * r1;
-		relPosB = NCLMatrix3::Transpose(pnodeB->getOrientation().toMatrix3()) * r2;
+		relPosA = NCLMatrix3::transpose(pnodeA->getOrientation().toMatrix3()) * r1;
+		relPosB = NCLMatrix3::transpose(pnodeB->getOrientation().toMatrix3()) * r2;
 	}
 
 	virtual void applyImpulse(float dt) override

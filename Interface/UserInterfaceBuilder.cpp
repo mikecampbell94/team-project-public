@@ -6,7 +6,7 @@
 std::vector<Button> UserInterfaceBuilder::buildButtons(std::string UIFile, Database* database)
 {
 	XMLParser xmlParser;
-	xmlParser.loadFile(UIFile);
+	xmlParser.loadXMLFile(UIFile);
 
 	ButtonActionCreator actionCreator;
 

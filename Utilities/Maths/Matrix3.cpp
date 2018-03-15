@@ -57,12 +57,12 @@ NCLMatrix3::~NCLMatrix3(void)
 
 
 //Default States
-void NCLMatrix3::ToZero()
+void NCLMatrix3::toZero()
 {
 	memset(mat_array, 0, 9 * sizeof(float));
 }
 
-void NCLMatrix3::ToIdentity()
+void NCLMatrix3::toIdentity()
 {
 	_11 = 1.0f; _12 = 0.0f; _13 = 0.0f;
 	_21 = 0.0f; _22 = 1.0f; _23 = 0.0f;
@@ -72,7 +72,7 @@ void NCLMatrix3::ToIdentity()
 
 
 //Transformation Matrix
-NCLMatrix3 NCLMatrix3::Rotation(float degrees, const NCLVector3 &inaxis)
+NCLMatrix3 NCLMatrix3::rotation(float degrees, const NCLVector3 &inaxis)
 {
 	NCLMatrix3 m;
 
@@ -97,7 +97,7 @@ NCLMatrix3 NCLMatrix3::Rotation(float degrees, const NCLVector3 &inaxis)
 	return m;
 }
 
-NCLMatrix3 NCLMatrix3::Rotation(const NCLVector3 &forward_direction, const NCLVector3& up_direction)
+NCLMatrix3 NCLMatrix3::rotation(const NCLVector3 &forward_direction, const NCLVector3& up_direction)
 {
 	NCLVector3 f = forward_direction;
 	NCLVector3 u = up_direction;
@@ -125,20 +125,20 @@ NCLMatrix3 NCLMatrix3::Rotation(const NCLVector3 &forward_direction, const NCLVe
 	return m;
 }
 
-NCLMatrix3 NCLMatrix3::Scale(const NCLVector3 &scale)
+NCLMatrix3 NCLMatrix3::scale(const NCLVector3 &scale)
 {
 	NCLMatrix3 m;
-	m.SetScalingVector(scale);
+	m.setScalingVector(scale);
 	return m;
 }
 
 
 
 // Standard Matrix Functionality
-NCLMatrix3 NCLMatrix3::Inverse(const NCLMatrix3& rhs)
+NCLMatrix3 NCLMatrix3::inverse(const NCLMatrix3& rhs)
 {
 	NCLMatrix3 out;
-	float det = rhs.Determinant();
+	float det = rhs.determinant();
 	if (det != 0.f)
 	{
 		float invdet = 1.0f / det;
@@ -157,7 +157,7 @@ NCLMatrix3 NCLMatrix3::Inverse(const NCLMatrix3& rhs)
 	return out;
 }
 
-NCLMatrix3 NCLMatrix3::Transpose(const NCLMatrix3& rhs)
+NCLMatrix3 NCLMatrix3::transpose(const NCLMatrix3& rhs)
 {
 	NCLMatrix3 m;
 
@@ -176,7 +176,7 @@ NCLMatrix3 NCLMatrix3::Transpose(const NCLMatrix3& rhs)
 	return m;
 }
 
-NCLMatrix3 NCLMatrix3::Adjugate(const NCLMatrix3& m)
+NCLMatrix3 NCLMatrix3::adjugate(const NCLMatrix3& m)
 {
 	NCLMatrix3 adj;
 
@@ -195,7 +195,7 @@ NCLMatrix3 NCLMatrix3::Adjugate(const NCLMatrix3& m)
 	return adj;
 }
 
-NCLMatrix3 NCLMatrix3::OuterProduct(const NCLVector3& a, const NCLVector3& b)
+NCLMatrix3 NCLMatrix3::outerProduct(const NCLVector3& a, const NCLVector3& b)
 {
 	NCLMatrix3 m;
 
@@ -217,12 +217,12 @@ NCLMatrix3 NCLMatrix3::OuterProduct(const NCLVector3& a, const NCLVector3& b)
 
 
 // Additional Functionality
-float NCLMatrix3::Trace() const
+float NCLMatrix3::trace() const
 {
 	return _11 + _22 + _33;
 }
 
-float NCLMatrix3::Determinant() const
+float NCLMatrix3::determinant() const
 {
 	return _11*(_22*_33 - _32*_23) - _12*(_21*_33 - _23*_31) + _13*(_21*_32 - _22*_31);
 }

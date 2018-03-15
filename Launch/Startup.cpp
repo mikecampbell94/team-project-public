@@ -48,7 +48,7 @@ void Startup::initialiseSubsystems()
 void Startup::initialiseRenderingSystem()
 {
 	XMLParser windowConfiguration;
-	windowConfiguration.loadFile("../Data/Resources/Graphics Config/windowConfigXML.xml");
+	windowConfiguration.loadXMLFile("../Data/Resources/Graphics Config/windowConfigXML.xml");
 	Node* node = windowConfiguration.parsedXml;
 	resolution.x = std::stof(node->children[0]->children[0]->value);
 	resolution.y = std::stof(node->children[0]->children[1]->value);

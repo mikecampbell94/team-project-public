@@ -15,7 +15,7 @@ GameObjectLogic::GameObjectLogic(Database* database, MessageProcessor* messages,
 
 	scriptFile = script;
 	XMLParser parser;
-	parser.loadFile(script);
+	parser.loadXMLFile(script);
 	parsedScript = parser.parsedXml;
 }
 

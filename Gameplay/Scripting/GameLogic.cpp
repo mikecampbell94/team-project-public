@@ -22,7 +22,7 @@ GameLogic::~GameLogic()
 void GameLogic::compileScript(std::string scriptFile)
 {
 	XMLParser xmlParser;
-	xmlParser.loadFile(scriptFile);
+	xmlParser.loadXMLFile(scriptFile);
 	this->scriptFile = scriptFile;
 
 	compileParsedXMLIntoScript(xmlParser.parsedXml);
