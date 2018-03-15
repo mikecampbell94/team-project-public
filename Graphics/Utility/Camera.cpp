@@ -19,8 +19,6 @@ void Camera::updateCamera(float msec) {
 		yaw -= 360.0f;
 	}
 
-	//std::cout << "yaw   : " << yaw << std::endl;
-	//std::cout << "pitch : " << pitch << std::endl;
 }
 
 bool Camera::subMeshIsInCameraView(SubMesh* submesh)

@@ -22,9 +22,7 @@ public:
 	}
 
 private:
-	void sendInputMessageForUnblockedKeys(std::vector<ButtonInputData>& inputData, Player* player);
-	void blockKeysFromMessages();
-	void unblockKeysFromMessages();
+	void sendInputMessagesForKeys(std::vector<ButtonInputData>& inputData, Player* player);
 
 	PlayerBase* playerbase;
 	Window* window;

@@ -164,7 +164,6 @@
     <ClInclude Include="Recorders\KeyboardMouseRecorder.h" />
     <ClInclude Include="Players\Player.h" />
     <ClInclude Include="Players\PlayerBase.h" />
-    <ClInclude Include="CameraControllers\ThirdPersonCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Devices\Keyboard.cpp" />
@@ -180,7 +179,6 @@
     <ClCompile Include="Recorders\KeyboardMouseRecorder.cpp" />
     <ClCompile Include="Players\Player.cpp" />
     <ClCompile Include="Players\PlayerBase.cpp" />
-    <ClCompile Include="CameraControllers\ThirdPersonCameraController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

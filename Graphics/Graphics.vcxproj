@@ -160,12 +160,9 @@
     <ClInclude Include="Rendering\Renderer.h" />
     <ClInclude Include="Scene Management\SceneManager.h" />
     <ClInclude Include="Utility\Camera.h" />
-    <ClInclude Include="Graphics Pipeline\Effects\ParticleSystem.h" />
     <ClInclude Include="Graphics Pipeline\Graphics Settings\Skybox.h" />
-    <ClInclude Include="Graphics Pipeline\Graphics Settings\Bloom.h" />
     <ClInclude Include="Graphics Pipeline\Graphics Settings\BPLighting.h" />
     <ClInclude Include="Graphics Pipeline\Graphics Settings\GBuffer.h" />
-    <ClInclude Include="Graphics Pipeline\Graphics Settings\MotionBlur.h" />
     <ClInclude Include="Graphics Pipeline\Graphics Settings\Shadows.h" />
     <ClInclude Include="Graphics Pipeline\Graphics Settings\SSAO.h" />
     <ClInclude Include="GraphicsCommon.h" />
@@ -197,12 +194,9 @@
     <ClCompile Include="Rendering\Renderer.cpp" />
     <ClCompile Include="Scene Management\SceneManager.cpp" />
     <ClCompile Include="Utility\Camera.cpp" />
-    <ClCompile Include="Graphics Pipeline\Effects\ParticleSystem.cpp" />
     <ClCompile Include="Graphics Pipeline\Graphics Settings\Skybox.cpp" />
-    <ClCompile Include="Graphics Pipeline\Graphics Settings\Bloom.cpp" />
     <ClCompile Include="Graphics Pipeline\Graphics Settings\BPLighting.cpp" />
     <ClCompile Include="Graphics Pipeline\Graphics Settings\GBuffer.cpp" />
-    <ClCompile Include="Graphics Pipeline\Graphics Settings\MotionBlur.cpp" />
     <ClCompile Include="Graphics Pipeline\Graphics Settings\Shadows.cpp" />
     <ClCompile Include="Graphics Pipeline\Graphics Settings\SSAO.cpp" />
     <ClCompile Include="Utility\Light.cpp" />

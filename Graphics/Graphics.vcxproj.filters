@@ -30,19 +30,10 @@
     <ClInclude Include="GraphicsCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics Pipeline\Effects\ParticleSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics Pipeline\Graphics Settings\Bloom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics Pipeline\Graphics Settings\BPLighting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics Pipeline\Graphics Settings\GBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics Pipeline\Graphics Settings\MotionBlur.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics Pipeline\Graphics Settings\Shadows.h">
@@ -128,19 +119,10 @@
     <ClCompile Include="Shaders\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics Pipeline\Effects\ParticleSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics Pipeline\Graphics Settings\Bloom.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics Pipeline\Graphics Settings\BPLighting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics Pipeline\Graphics Settings\GBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics Pipeline\Graphics Settings\MotionBlur.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics Pipeline\Graphics Settings\Shadows.cpp">

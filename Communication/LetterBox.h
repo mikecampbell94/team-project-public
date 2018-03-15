@@ -49,7 +49,6 @@ public:
 	void insertMessage(ScaleGameObjectMessage message) override;
 	void insertMessage(RotateGameObjectMessage message) override;
 	void insertMessage(ToggleGameObjectMessage message) override;
-	void insertMessage(TogglePlayerInputKeyMessage message) override;
 	void insertMessage(DebugLineMessage message) override;
 	void insertMessage(DebugSphereMessage message) override;
 
@@ -82,7 +81,6 @@ private:
 	MessageBuffer<ScaleGameObjectMessage> scaleGameObjectBuffer;
 	MessageBuffer<RotateGameObjectMessage> rotateGameObjectBuffer;
 	MessageBuffer<ToggleGameObjectMessage> toggleGameObjectBuffer;
-	MessageBuffer<TogglePlayerInputKeyMessage> togglePlayerInputKeyBuffer;
 	MessageBuffer<DebugLineMessage> debugLineBuffer;
 	MessageBuffer<DebugSphereMessage> debugCircleBuffer;
 };

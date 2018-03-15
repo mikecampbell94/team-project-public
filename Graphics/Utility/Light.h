@@ -34,11 +34,6 @@ public:
 		this->isShadowCasting = isShadowCasting;
 		this->direction = direction;
 
-		//float positionData[3] = { position.x, position.y, position.z };
-		//float colourData[4] = { colour.x, colour.y, colour.z, colour.w };
-		//memcpy(data.lightPosition, positionData, 3 * sizeof(float));
-		//memcpy(data.lightColour, colourData, 4 * sizeof(float));
-
 		data.lightPosition = NCLVector4(position.x, position.y, position.z, 1.0f);
 		data.lightColour = colour;
 		data.lightRadius = radius;

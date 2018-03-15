@@ -57,9 +57,6 @@
     <ClInclude Include="Players\InputFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CameraControllers\ThirdPersonCameraController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="InputControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -99,9 +96,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Players\InputFilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraControllers\ThirdPersonCameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputControl.cpp">

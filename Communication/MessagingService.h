@@ -24,7 +24,6 @@
 #include "Messages/ScaleGameObjectMessage.h"
 #include "Messages/RotateGameObjectMessage.h"
 #include "Messages/ToggleGameObjectMessage.h"
-#include "Messages/TogglePlayerInputKeyMessage.h"
 #include "Messages/DebugLineMessage.h"
 #include "Messages/DebugSphereMessage.h"
 
@@ -57,7 +56,6 @@ public:
 	virtual void insertMessage(ScaleGameObjectMessage message) = 0;
 	virtual void insertMessage(RotateGameObjectMessage message) = 0;
 	virtual void insertMessage(ToggleGameObjectMessage message) = 0;
-	virtual void insertMessage(TogglePlayerInputKeyMessage message) = 0;
 	virtual void insertMessage(DebugLineMessage message) = 0;
 	virtual void insertMessage(DebugSphereMessage message) = 0;
 

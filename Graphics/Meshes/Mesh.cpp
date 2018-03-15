@@ -215,7 +215,6 @@ Mesh * Mesh::GenerateHeightMap(int width, int height)
 		}
 	}
 	heightMap->SetupMesh();
-	heightMap->BufferData();
 	Mesh* mesh = new Mesh();
 	mesh->radius = 100;
 	mesh->numModels = 1;

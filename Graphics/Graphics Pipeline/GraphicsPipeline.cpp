@@ -40,17 +40,6 @@ void GraphicsPipeline::toggleModule(std::string moduleIdentifier, bool enabled)
 	}
 }
 
-void GraphicsPipeline::intialisePipeline()
-{
-	for (GraphicsModule* module : modules)
-	{
-		if (module->isEnabled())
-		{
-			module->initialise();
-		}
-	}
-}
-
 void GraphicsPipeline::updateModules(float dt)
 {
 	for (GraphicsModule* module : modules)

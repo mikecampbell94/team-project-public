@@ -102,9 +102,6 @@
     <ClInclude Include="Messages\ToggleGameObjectMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Messages\TogglePlayerInputKeyMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Messages\DebugLineMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -195,9 +192,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\ToggleGameObjectMessage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Messages\TogglePlayerInputKeyMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Messages\DebugLineMessage.cpp">

@@ -25,8 +25,8 @@ SSAO::SSAO(const std::string identifier, const NCLVector2 resolution, Camera* ca
 	ambientTextures->textures[CommonGraphicsData::SSAO_INDEX] = &ssaoColorBufferBlur;
 	ambientTextures->texUnit = new int(3);
 
-	xSize = 4;// GLConfig::RESOLUTION.x / RESOLUTION_SCALE_X;
-	ySize = 4;//GLConfig::RESOLUTION.y / RESOLUTION_SCALE_Y;
+	xSize = 2;// GLConfig::RESOLUTION.x / RESOLUTION_SCALE_X;
+	ySize = 2;//GLConfig::RESOLUTION.y / RESOLUTION_SCALE_Y;
 }
 
 void SSAO::linkShaders()

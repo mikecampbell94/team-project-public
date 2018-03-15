@@ -24,8 +24,6 @@ public:
 	void initialise(SceneManager* sceneManager, Database* database);
 	void update(const float& deltatime);
 
-	void changeResolution(NCLVector2 resolution);
-
 	void addSceneNode(SceneNode* sceneNode);
 	void removeSceneNodeByResourceName(std::string resourcename);
 

@@ -93,11 +93,6 @@ void RenderingSystem::initialise(Database* database)
 				}
 			}
 		}
-		else if (tokens[0] == "Resolution")
-		{
-			NCLVector2 resolution(stof(tokens[1]), stof(tokens[2]));
-			renderer->changeResolution(resolution);
-		}
 		else if (tokens[0] == "togglecamera")
 		{
 			blockCamera = !blockCamera;
@@ -162,7 +157,6 @@ void RenderingSystem::initialise(Database* database)
 			database->getTable("GameObjects")->getResource(toggleMessage->gameObjectID));
 
 		gameObject->getSceneNode()->setEnabled(toggleMessage->isEnabled);
-		//gameObject->setEnabled(toggleMessage->isEnabled);
 	});
 
 	incomingMessages.addActionToExecuteOnMessage(MessageType::TEXT_MESH_MESSAGE, [database = database, &renderer = renderer](Message* message)
