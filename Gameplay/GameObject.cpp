@@ -43,12 +43,6 @@ PhysicsNode * GameObject::getPhysicsNode()
 
 void GameObject::update(float dt)
 {
-	//if (toEnable)
-	//{
-	//	setEnabled(true);
-	//	toEnable = false;
-	//}
-
 	if (stats.executeAfter)
 	{
 		stats.timer += dt;

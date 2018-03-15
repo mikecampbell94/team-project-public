@@ -36,7 +36,15 @@ public:
 	}
 
 private:
+	void updateGameplayWhenTimed(const float& deltaTime);
+	void updateGameplayWithTimeRemaining(const float& deltaTime);
+	void updateGameOverScreen();
+
 	void updateGameLogic(const float& deltaTime);
+	void updateGameObjectLogics(const float& deltaTime);
+	void removeScriptsInbuffer();
+
+	void updateGameTimer(const float& deltaTime);
 
 	GameLogic gameLogic;
 	std::vector<GameObjectLogic> objects;

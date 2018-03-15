@@ -8,16 +8,20 @@ class PhysicsNode;
 
 struct PaintGameStats
 {
-	int maxPaint;
-	int currentPaint = 0;
-	float defaultInvMass = 1.f;
-	int meteors;
 	NCLVector4 colourToPaint;
 	NCLVector3 defaultScale;
+
+	int maxPaint;
+	int currentPaint = 0;
+	int meteors;
+
+	float defaultInvMass = 1.f;
 	float timeToWait;
-	std::function<void()> executeAfter = std::function<void()>();
 	float timer;
+
 	bool canJump = false;
+
+	std::function<void()> executeAfter = std::function<void()>();
 };
 
 class GameObject : public Resource
@@ -54,14 +58,11 @@ public:
 	}
 
 	bool isEnabled = true;
-	bool toEnable = false;
 	PaintGameStats stats;
 
 private: 
 	SceneNode *sceneNode = nullptr;
 	PhysicsNode *physicsNode = nullptr;
-
-	
 
 	NCLVector3 position;
 	NCLVector3 scale;

@@ -117,7 +117,7 @@ void Startup::addSystemsToEngine()
 	engine->addConcurrentSubsystem(gameplay);
 	engine->addConcurrentSubsystem(inputManager);
 	engine->addSubsystem(rendering);
-	engine->addConcurrentSubsystem(audio);
+	engine->addSubsystem(audio);
 	engine->addConcurrentSubsystem(userInterface);
 	engine->addConcurrentSubsystem(physics);
 	engine->addConcurrentSubsystem(profiler);

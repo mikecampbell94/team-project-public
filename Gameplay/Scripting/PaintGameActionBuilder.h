@@ -24,6 +24,8 @@ public:
 	static void initialiseBuilders(Database* database);
 	static Executable buildExecutable(Node* node);
 
+	static void updateBufferedVariables();
+
 	static std::string localPlayer;
 	static bool online;
 
