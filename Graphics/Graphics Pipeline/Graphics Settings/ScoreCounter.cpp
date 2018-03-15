@@ -88,10 +88,11 @@ void ScoreCounter::calculateScores()
 
 	glUniform1i(glGetUniformLocation(computeShader->GetProgram(), "arraySize"), coloursToCount.size());
 	glUniform1i(glGetUniformLocation(computeShader->GetProgram(), "paintTrailTexture"), 6);
+	glUniform2fv(glGetUniformLocation(computeShader->GetProgram(), "resolution"), 1, (float*)&resolution);
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, *paintTrailTexture);
 	glMemoryBarrier(GL_ALL_BARRIER_BITS);
-	computeShader->Compute(NCLVector3(64, 36, 1));
+	computeShader->Compute(NCLVector3(resolution.x * 0.1f, resolution.y * 0.1f, 1));
 }
 
 void ScoreCounter::displayScores()
