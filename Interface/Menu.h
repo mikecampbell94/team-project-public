@@ -20,7 +20,7 @@ public:
 
 	void moveSelectedDown() override;
 	void moveSelectedUp() override;
-	void moveSelectedRight() override;
+	void moveSelectedRight();
 	void moveSelectedLeft() override;
 
 	std::vector<Button*>* getAllButtonsInMenu() override;

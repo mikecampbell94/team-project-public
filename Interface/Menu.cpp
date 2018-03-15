@@ -57,16 +57,23 @@ void Menu::UnhighlightButton()
 
 void Menu::ExecuteSelectedButton()
 {
-	std::vector<Button>* column = &menu;
-
-	for (int i = 0; i < depth; ++i)
+	if (currentSelectedButton->childButtons.size() > 0)
 	{
-		column = &(column->at(indexes[i + 1]).childButtons);
+		moveSelectedRight();
 	}
-
-	if (column->at(selectedRowIndex).childButtons.size() == 0)
+	else
 	{
-		column->at(selectedRowIndex).action();
+		std::vector<Button>* column = &menu;
+
+		for (int i = 0; i < depth; ++i)
+		{
+			column = &(column->at(indexes[i + 1]).childButtons);
+		}
+
+		if (column->at(selectedRowIndex).childButtons.size() == 0)
+		{
+			column->at(selectedRowIndex).action();
+		}
 	}
 }
 
@@ -92,14 +99,11 @@ void Menu::moveSelectedUp()
 
 void Menu::moveSelectedRight()
 {
-	if (currentSelectedButton->childButtons.size() > 0)
-	{
-		UnhighlightButton();
-		++depth;
-		indexes.push_back(selectedRowIndex);
-		selectedRowIndex = 0;
-		HighlightSelectedButton();
-	}
+	UnhighlightButton();
+	++depth;
+	indexes.push_back(selectedRowIndex);
+	selectedRowIndex = 0;
+	HighlightSelectedButton();
 }
 
 void Menu::moveSelectedLeft()
