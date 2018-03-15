@@ -275,7 +275,6 @@ OALSource* SoundManager::getOALSource()
 		}
 	}
 
-	//TECH_DEBT
 	return nullptr;
 }
 
