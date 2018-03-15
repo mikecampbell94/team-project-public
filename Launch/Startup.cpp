@@ -36,7 +36,6 @@ void Startup::initialiseSubsystems()
 	initialiseInputSystem();
 	PaintGameActionBuilder::initialiseBuilders(database);
 	initialiseGameplaySystem();
-	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
 	addSystemsToEngine();
 
 	game->addWindowToGameLoop(window);
@@ -190,6 +189,14 @@ void Startup::unloadLevel()
 
 void Startup::beginOnlineLobby()
 {
+	if (network)
+	{
+		delete network;
+		network = nullptr;
+	}
+
+	network = new NetworkClient(keyboardAndMouse, database, inputManager->GetPlayerbase(), gameplay);
+
 	PaintGameActionBuilder::online = true;
 	engine->addSubsystem(network);
 	network->waitForOtherClients(4);

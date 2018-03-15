@@ -61,7 +61,7 @@ private:
 	AudioSystem* audio;
 	PhysicsEngine* physics;
 	UserInterface* userInterface;
-	NetworkClient* network;
+	NetworkClient* network = nullptr;
 	Profiler* profiler;
 	Keyboard* keyboard;
 
