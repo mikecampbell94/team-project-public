@@ -65,7 +65,6 @@ public:
 			}
 			else
 			{
-				std::cout << "Cubemap texture failed to load at path: " << textures[i] << std::endl;
 				stbi_image_free(data);
 			}
 		}
@@ -101,8 +100,6 @@ public:
 
 			cerr << tag << "  -  GL_" << error.c_str() << "\n";
 			err = glGetError();
-
-			std::cout << error << std::endl;
 		}
 	}
 
@@ -115,14 +112,14 @@ public:
 		}
 	}
 
-	static void VerifyBuffer(std::string name, bool successMsg) {
+	static bool VerifyBuffer(std::string name, bool successMsg) {
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		{
-			std::cout << name + " - buffer not complete!" << "\n";
+			return false;
 		}
 		else if (successMsg)
 		{
-			std::cout << name + " - buffer intialised succesfully." << "\n";
+			return true;
 		}
 	}
 

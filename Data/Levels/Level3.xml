@@ -13,5 +13,6 @@
 		<File>Level 3/aiObjectLogic.xml</File>
 		<File>Level 3/playerObjectLogic.xml</File>
 		<File>Level 3/meteorObjectLogic.xml</File>
+		<File>Level 3/powerupLogic.xml</File>
 	</GameLogic>
 </Level>

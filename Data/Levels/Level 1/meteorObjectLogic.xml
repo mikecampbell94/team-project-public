@@ -12,26 +12,7 @@
 		<resource>player0Meteor7</resource>
 		<resource>player0Meteor8</resource>
 		<resource>player0Meteor9</resource>
-		<resource>player1Meteor0</resource>
-		<resource>player1Meteor1</resource>
-		<resource>player1Meteor2</resource>
-		<resource>player1Meteor3</resource>
-		<resource>player1Meteor4</resource>
-		<resource>player1Meteor5</resource>
-		<resource>player1Meteor6</resource>
-		<resource>player1Meteor7</resource>
-		<resource>player1Meteor8</resource>
-		<resource>player1Meteor9</resource>
-		<resource>player2Meteor0</resource>
-		<resource>player2Meteor1</resource>
-		<resource>player2Meteor2</resource>
-		<resource>player2Meteor3</resource>
-		<resource>player2Meteor4</resource>
-		<resource>player2Meteor5</resource>
-		<resource>player2Meteor6</resource>
-		<resource>player2Meteor7</resource>
-		<resource>player2Meteor8</resource>
-		<resource>player2Meteor9</resource>
+		
 	</Resources>
 
 
@@ -39,9 +20,16 @@
 		
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
-				<Condition type="AND">
-					<objectIdentifier>var</objectIdentifier>
+				<Condition>
+				<objectIdentifier>var</objectIdentifier>
+				</Condition>
+				<Condition type="OR">
+					<colliderIdentifier>thirdfloor3</colliderIdentifier>
 					<colliderIdentifier>floor</colliderIdentifier>
+					<colliderIdentifier>thirdfloor4</colliderIdentifier>
+					<colliderIdentifier>thirdfloor5</colliderIdentifier>
+					<colliderIdentifier>Crossing3f</colliderIdentifier>
+					
 				</Condition>
 
 				

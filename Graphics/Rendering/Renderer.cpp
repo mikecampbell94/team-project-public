@@ -40,7 +40,7 @@ Renderer::Renderer(GameTimer* parentTimer, Window* window, Camera* camera)
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	loadingScreenShader = new Shader(SHADERDIR"/basicVertex.glsl", SHADERDIR"/basicFrag.glsl", "", true);
+	loadingScreenShader = new Shader(SHADERDIR"/basicVertex.glsl", SHADERDIR"/basicFrag.glsl");
 	loadingScreenShader->LinkProgram();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);

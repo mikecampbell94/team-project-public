@@ -6,16 +6,22 @@
 
 
 	<GameplayScript>
+		
+
+	
 		<ReceiveMessage type="CollisionMessage">
 		<Action>
 			<Condition>
 				<objectIdentifier>var</objectIdentifier>
 			</Condition>
 			<Condition type="OR">
-				<colliderIdentifier>player0</colliderIdentifier>				
+				<colliderIdentifier>player0</colliderIdentifier>
 				<colliderIdentifier>AI</colliderIdentifier>
 				<colliderIdentifier>AI2</colliderIdentifier>
 				<colliderIdentifier>enemy</colliderIdentifier>
+				<colliderIdentifier>enemy1</colliderIdentifier>
+				<colliderIdentifier>enemy2</colliderIdentifier>
+				<colliderIdentifier>enemy3</colliderIdentifier>
 			</Condition>
 
 			
@@ -33,25 +39,31 @@
 			
 		</Action>
 	 </ReceiveMessage>
+	 
+		
 	</GameplayScript>
 
 	<PaintGameLogic>
 
 		<OnStart>
-		    <CreateMeteorPool>
+			<CreateMeteorPool>
 				<resource>var</resource>
 				<amount>10</amount>
 				<Mesh>MeteorMesh</Mesh>
 				<Size>20</Size>
+				<isReflective>0.8</isReflective>
 			</CreateMeteorPool>
+
 			<SetMaxPaint>
 				<resource>var</resource>
 				<paint>100</paint>
 			</SetMaxPaint>
 		</OnStart>
+
+
 		<ReceiveMessage type="InputMessage">
 			<Action>
-				<Condition type = "AND">
+				<Condition type="AND">
 					<playerName>var</playerName>
 					<key>32</key>
 				</Condition>
@@ -63,6 +75,7 @@
 			</Action>
 		</ReceiveMessage>
 
+		<!-- OBJECTS WHERE THE PLAYER CAN JUMP FROM -->
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition>
@@ -70,74 +83,39 @@
 				</Condition>
 				<Condition type="OR">
 					<colliderIdentifier>floor</colliderIdentifier>
-					<colliderIdentifier>platformasstair</colliderIdentifier>
-					<colliderIdentifier>platformwithfirststair</colliderIdentifier>
-					<colliderIdentifier>platformassecondstair</colliderIdentifier>
-					<colliderIdentifier>secondfloor1</colliderIdentifier>
-					<colliderIdentifier>secondfloor2</colliderIdentifier>
-					<colliderIdentifier>secondfloor3</colliderIdentifier>
-					<colliderIdentifier>platformasthirdstair1</colliderIdentifier>
-					<colliderIdentifier>platformasthirdstair2</colliderIdentifier>
-					<colliderIdentifier>thirdfloor1</colliderIdentifier>
-					<colliderIdentifier>platformasstair1</colliderIdentifier>
-					<colliderIdentifier>platformwithfirststair1</colliderIdentifier>
-					<colliderIdentifier>platformassecondstair1</colliderIdentifier>
-					<colliderIdentifier>secondfloor4</colliderIdentifier>
-					<colliderIdentifier>secondfloor5</colliderIdentifier>
-					<colliderIdentifier>secondfloor6</colliderIdentifier>
-					<colliderIdentifier>platformasthirdstair3</colliderIdentifier>
-					<colliderIdentifier>platformasthirdstair4</colliderIdentifier>
-					<colliderIdentifier>thirdfloor2</colliderIdentifier>
-					<colliderIdentifier>thirdfloor3</colliderIdentifier>
-					<colliderIdentifier>thirdfloorlinker1</colliderIdentifier>
-					<colliderIdentifier>thirdfloorlinker2</colliderIdentifier>
-					<colliderIdentifier>Crossing3f</colliderIdentifier>
-					<colliderIdentifier>thirdfloorlinker3</colliderIdentifier>
-					<colliderIdentifier>thirdfloor4</colliderIdentifier>
-					<colliderIdentifier>thirdfloor5</colliderIdentifier>
-					<colliderIdentifier>thirdfloorlinker4</colliderIdentifier>
-					<colliderIdentifier>thirdfloorlinker5</colliderIdentifier>
-					<colliderIdentifier>thirdfloorlinker6</colliderIdentifier>
-					<colliderIdentifier>thirdfloorlinker7</colliderIdentifier>
+					<colliderIdentifier>floor1</colliderIdentifier>
+					<colliderIdentifier>stair1</colliderIdentifier>
+					<colliderIdentifier>stair2</colliderIdentifier>
+					<colliderIdentifier>stair3</colliderIdentifier>
+					<colliderIdentifier>stair4</colliderIdentifier>
+					<colliderIdentifier>stair5</colliderIdentifier>
+					<colliderIdentifier>stair6</colliderIdentifier>
+					<colliderIdentifier>stair7</colliderIdentifier>
+					<colliderIdentifier>stair8</colliderIdentifier>
+					<colliderIdentifier>stair9</colliderIdentifier>
+					<colliderIdentifier>stair10</colliderIdentifier>
+					<colliderIdentifier>stair11</colliderIdentifier>
+					<colliderIdentifier>stair12</colliderIdentifier>
+					
 					<colliderIdentifier>paintPool</colliderIdentifier>
-					<colliderIdentifier>jumpplatform1</colliderIdentifier>
-					<colliderIdentifier>jumpplatform2</colliderIdentifier>
-					<colliderIdentifier>jumpplatform3</colliderIdentifier>
-					<colliderIdentifier>jumpplatform4</colliderIdentifier>
-					<colliderIdentifier>jumpplatform5</colliderIdentifier>
-					<colliderIdentifier>jumpplatform6</colliderIdentifier>
 				</Condition>
+
 				<LetJump>
 					<resource>var</resource>
 				</LetJump>
 			</Action>
 		</ReceiveMessage>
-		<ReceiveMessage type="CollisionMessage">
-			<Action>
-				<Condition type = "AND">
-					<objectIdentifier>var</objectIdentifier>
-					<colliderIdentifier>jumpquad</colliderIdentifier>
-				</Condition>
 
-				<Jump>
-					<resource>var</resource>
-					<impulse>70</impulse>
-				</Jump>
-			</Action>
-		</ReceiveMessage>
 
+		<!-- OBJECTS WHERE THE PLAYER CAN PAINT -->
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition>
 					<objectIdentifier>var</objectIdentifier>
 				</Condition>
 				<Condition type="OR">
-					<colliderIdentifier>floor</colliderIdentifier>							
-					<colliderIdentifier>thirdfloor2</colliderIdentifier>
-					<colliderIdentifier>thirdfloor3</colliderIdentifier>				
-					<colliderIdentifier>Crossing3f</colliderIdentifier>					
-					<colliderIdentifier>thirdfloor4</colliderIdentifier>
-					<colliderIdentifier>thirdfloor5</colliderIdentifier>					
+					<colliderIdentifier>floor</colliderIdentifier>
+					<colliderIdentifier>floor1</colliderIdentifier>
 				</Condition>
 
 				<CheckPaint>
@@ -162,6 +140,8 @@
 				</RegainPaint>
 			</Action>
 		</ReceiveMessage>
+
+
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition type="AND">
@@ -172,9 +152,10 @@
 				<PaintMinion>
 					<resource>var</resource>
 					<minion>AI</minion>
-				</PaintMinion>
+				</PainMinion>
 			</Action>
 		</ReceiveMessage>
+
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition type="AND">
@@ -185,10 +166,12 @@
 				<PaintMinion>
 					<resource>var</resource>
 					<minion>AI2</minion>
-				</PaintMinion>
+				</PainMinion>
 			</Action>
 		</ReceiveMessage>
-		
+
+
+
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
 				<Condition type="AND">
@@ -200,39 +183,12 @@
 					<resource>var</resource>
 					<multiplier>2</multiplier>
 					<powerupObj>powerup</powerupObj>
-					<duration>8</duration>
+					<duration>10</duration>
 				</RandomPowerUp>
 			</Action>
 		</ReceiveMessage>
-		<ReceiveMessage type="CollisionMessage">
-			<Action>
-				<Condition type="AND">
-					<objectIdentifier>var</objectIdentifier>
-					<colliderIdentifier>powerup1</colliderIdentifier>
-				</Condition>
 
-				<RandomPowerUp>
-					<resource>var</resource>
-					<multiplier>2</multiplier>
-					<powerupObj>powerup1</powerupObj>
-					<duration>8</duration>
-				</RandomPowerUp>
-			</Action>
-		</ReceiveMessage><ReceiveMessage type="CollisionMessage">
-			<Action>
-				<Condition type="AND">
-					<objectIdentifier>var</objectIdentifier>
-					<colliderIdentifier>powerup2</colliderIdentifier>
-				</Condition>
 
-				<RandomPowerUp>
-					<resource>var</resource>
-					<multiplier>2</multiplier>
-					<powerupObj>powerup2</powerupObj>
-					<duration>8</duration>
-				</RandomPowerUp>
-			</Action>
-		</ReceiveMessage>
 		<Timed interval="0.5">
 			<ReducePaint>
 				<resource>var</resource>

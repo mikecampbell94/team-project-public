@@ -1,6 +1,7 @@
 <GameObjectLogic>
 
 	<Resources>
+
 		<resource>player0Meteor0</resource>
 		<resource>player0Meteor1</resource>
 		<resource>player0Meteor2</resource>
@@ -18,9 +19,16 @@
 		
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
-				<Condition type="AND">
+				<Condition>
 					<objectIdentifier>var</objectIdentifier>
+				</Condition>
+				<Condition type="OR">
 					<colliderIdentifier>floor</colliderIdentifier>
+					<colliderIdentifier>paintPool</colliderIdentifier>
+					<colliderIdentifier>secondfloor1</colliderIdentifier>
+					<colliderIdentifier>secondfloor2</colliderIdentifier>
+					<colliderIdentifier>secondfloor3</colliderIdentifier>
+					<colliderIdentifier>secondfloor4</colliderIdentifier>
 				</Condition>
 
 				

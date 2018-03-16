@@ -270,21 +270,6 @@ unsigned int Mesh::TextureFromFile(const char *path, const string &directory)
 	int width, height, nrComponents;
 	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
 
-	//if (!data)
-	//{
-	//	//Try another location... ARRHHHA
-	//	string spath = string(path);
-	//	spath = spath.substr((spath.find_last_of(("\\/") + 1)), string::npos);
-
-	//	//filename = directory + '/' + spath;
-	//	data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
-
-	//	if (!data)
-	//	{
-	//		std::cout << "Texture failed to load at path: " << spath << std::endl;
-	//	}
-	//}
-
 	if (data)
 	{
 		GLenum format;
@@ -308,7 +293,6 @@ unsigned int Mesh::TextureFromFile(const char *path, const string &directory)
 	}
 	else
 	{
-		std::cout << "Texture failed to load at path: " << path << std::endl;
 		stbi_image_free(data);
 	}
 
@@ -381,7 +365,6 @@ void Mesh::loadTexture(std::string textureFile)
 	}
 	else
 	{
-		std::cout << "Texture failed to load at path: " << textureFile << std::endl;
 		stbi_image_free(data);
 	}
 

@@ -7,7 +7,7 @@ const float DIVISOR = 360.0f / STEP_COUNT;
 
 Wireframe::Wireframe(const std::string identifier, const NCLVector2 resolution, Camera* camera) : GraphicsModule(identifier, resolution)
 {
-	debugShader = new Shader(SHADERDIR"/debugVertex.glsl", SHADERDIR"/debugFragment.glsl", "", true);
+	debugShader = new Shader(SHADERDIR"/debugVertex.glsl", SHADERDIR"/debugFragment.glsl");
 	this->camera = camera;
 }
 

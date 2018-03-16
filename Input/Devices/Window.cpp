@@ -60,7 +60,6 @@ Window::Window(std::string title,
 		windowClass.lpszClassName = WINDOWCLASS;
 
 		if (!RegisterClassEx(&windowClass)) {
-			std::cout << "Window::Window(): Failed to register class!" << std::endl;
 			return;
 		}
 	}
@@ -77,7 +76,6 @@ Window::Window(std::string title,
 		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY;
 
 		if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL) {
-			std::cout << "Window::Window(): Failed to switch to fullscreen!" << std::endl;
 			return;
 		}
 	}
@@ -96,7 +94,6 @@ Window::Window(std::string title,
 		NULL);				// No multiple windows!
 
 	if (!windowHandle) {
-		std::cout << "Window::Window(): Failed to create window!" << std::endl;
 		return;
 	}
 

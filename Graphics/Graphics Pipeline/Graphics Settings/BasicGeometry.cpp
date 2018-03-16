@@ -9,7 +9,6 @@ BasicGeometry::BasicGeometry(const std::string identifier,
 {
 	this->nodesInFrame = nodesInFrame;
 	basicShader = new Shader(SHADERDIR"/basicVertex.glsl", SHADERDIR"/basicFrag.glsl");
-	//basicShader = new Shader(SHADERDIR"/TexturedVertex.glsl", SHADERDIR"/TexturedFrag.glsl");
 	this->camera = camera;
 
 }

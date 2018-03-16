@@ -10,11 +10,6 @@ ButtonActionCreator::ButtonActionCreator()
 	{
 	} });
 
-	actions.insert({"PrintText", []()
-	{
-		std::cout << "Button pressed" << std::endl;
-	} });
-
 	actions.insert({ "Quit", []()
 	{
 		DeliverySystem::getPostman()->insertMessage(TextMessage("GameLoop", "Quit"));

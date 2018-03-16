@@ -23,7 +23,7 @@ Sound::Sound(std::string filePath)
 	}
 	else
 	{
-		cout << "Invalid sound file extension!" << endl;
+		throw runtime_error("Invalid sound file extension!");
 	}
 }
 
@@ -60,7 +60,7 @@ void	Sound::loadFromWAV(string filename)
 
 	if (!file) 
 	{
-		cout << "Failed to load WAV file '" << filename << "'!" << endl;
+		throw runtime_error("Failed to load WAV file '" + filename + "'!");
 		return;
 	}
 

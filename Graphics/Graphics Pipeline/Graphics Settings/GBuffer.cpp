@@ -14,7 +14,7 @@ GBuffer::GBuffer(const std::string identifier, const NCLVector2 resolution,
 	this->window = window;
 
 	geometryPass = new Shader(SHADERDIR"/SSAO/ssao_geometryPerlinVert.glsl",
-		SHADERDIR"/SSAO/ssao_geometryfrag.glsl","", true);
+		SHADERDIR"/SSAO/ssao_geometryfrag.glsl");
 
 	noiseTexture = SOIL_load_OGL_texture(TEXTUREDIR"noiseSampler.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
 

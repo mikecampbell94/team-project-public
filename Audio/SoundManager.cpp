@@ -39,13 +39,11 @@ SoundManager::~SoundManager()
 void SoundManager::initialiseOpenAl()
 {
 	device = alcOpenDevice(NULL);
+
 	if (!device)
 	{
-		std::cout << "OpenAL initialisation failed! No valid device" << std::endl;
 		throw runtime_error("No OALDevice");
 	}
-
-	std::cout << "OpenAL initialised successfully! Device: " << alcGetString(NULL, ALC_DEVICE_SPECIFIER) << endl;
 
 	context = alcCreateContext(device, NULL);
 	alcMakeContextCurrent(context);

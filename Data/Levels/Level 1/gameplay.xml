@@ -4,7 +4,7 @@
       <destination>Gameplay</destination>
       <text>setmaxtime true 120</text>
     </SendMessage>
-
+    
     <SendMessage type="TOGGLE_GRAPHICS_MODULE">
       <destination>RenderingSystem</destination>
       <moduleName>PaintTrail</moduleName>
@@ -19,7 +19,12 @@
     
     <SendMessage type="PREPARE_PAINT_SURFACE">
       <destination>RenderingSystem</destination>
-      <resource>floor</resource>
+      <resource>floor</resource> 
+	  <resource>thirdfloor3</resource>      
+      <resource>Crossing3f</resource>      
+      <resource>thirdfloor4</resource>
+      <resource>thirdfloor5</resource>
+     
     </SendMessage>
 
     <SendMessage type="ADD_SCORE_HOLDER">
@@ -29,19 +34,12 @@
 
     <SendMessage type="ADD_SCORE_HOLDER">
       <destination>RenderingSystem</destination>
-      <name>player1</name>
+      <name>enemy</name>
     </SendMessage>
-
-    <SendMessage type="ADD_SCORE_HOLDER">
-      <destination>RenderingSystem</destination>
-      <name>player2</name>
-    </SendMessage>
-
     <SendMessage type="TEXT">
       <destination>UserInterface</destination>
       <text>Toggle</text>
     </SendMessage>
-	
 	
 	<SendMessage type="MOVING_SOUND">
 		<destination>AudioSystem</destination>
@@ -56,8 +54,7 @@
 	</SendMessage>
 	
   </OnStart>
-
-    
+  
   <Timed interval="0.01">
     <SendMessage type="MOVE_CAMERA_RELATIVE_TO_GAMEOBJECT">
       <destination>RenderingSystem</destination>

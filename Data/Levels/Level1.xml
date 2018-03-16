@@ -3,7 +3,7 @@
 	<File>Level 1/Details.xml</File>
 	<File>Level 1/Sounds.xml</File>
 	<File>Level 1/Lights.xml</File>
-	 <UI>
+	<UI>
 		<File>../Data/UserInterface/InGameMenu.xml</File>
 	</UI>
 	<GamePlay>

@@ -24,8 +24,7 @@ OGLRenderer::OGLRenderer(HWND windowHandle, NCLVector2 size)
 	// Did We Get A Device Context?
 	if (!(deviceContext = GetDC(windowHandle)))
 	{
-		std::cout << "OGLRenderer::OGLRenderer(): Failed to create window!" << std::endl;
-		return;
+		throw runtime_error("OGLRenderer::OGLRenderer(): Failed to create window!");
 	}
 
 	//A pixel format descriptor is a struct that tells the Windows OS what type of front / back buffers we want to create etc
@@ -44,29 +43,25 @@ OGLRenderer::OGLRenderer(HWND windowHandle, NCLVector2 size)
 	GLuint		PixelFormat;
 	if (!(PixelFormat = ChoosePixelFormat(deviceContext, &pfd)))
 	{	// Did Windows Find A Matching Pixel Format for our PFD?
-		std::cout << "OGLRenderer::OGLRenderer(): Failed to choose a pixel format!" << std::endl;
-		return;
+		throw runtime_error("OGLRenderer::OGLRenderer(): Failed to choose a pixel format!");
 	}
 
 	if (!SetPixelFormat(deviceContext, PixelFormat, &pfd))
 	{		// Are We Able To Set The Pixel Format?
-		std::cout << "OGLRenderer::OGLRenderer(): Failed to set a pixel format!" << std::endl;
-		return;
+		throw runtime_error("OGLRenderer::OGLRenderer(): Failed to set a pixel format!");
 	}
 
 	HGLRC		tempContext;		//We need a temporary OpenGL context to check for OpenGL 3.2 compatibility...stupid!!!
 	if (!(tempContext = wglCreateContext(deviceContext)))
 	{	// Are We Able To get the temporary context?
-		std::cout << "OGLRenderer::OGLRenderer(): Cannot create a temporary context!" << std::endl;
 		wglDeleteContext(tempContext);
-		return;
+		throw runtime_error("OGLRenderer::OGLRenderer(): Cannot create a temporary context!");
 	}
 
 	if (!wglMakeCurrent(deviceContext, tempContext))
 	{	// Try To Activate The Rendering Context
-		std::cout << "OGLRenderer::OGLRenderer(): Cannot set temporary context!" << std::endl;
 		wglDeleteContext(tempContext);
-		return;
+		throw runtime_error("OGLRenderer::OGLRenderer(): Cannot create a temporary context!");
 	}
 
 	//Now we have a temporary context, we can find out if we support OGL 3.x
@@ -76,14 +71,12 @@ OGLRenderer::OGLRenderer(HWND windowHandle, NCLVector2 size)
 
 	if (major < 3)
 	{					//Graphics hardware does not support OGL 3! Erk...
-		std::cout << "OGLRenderer::OGLRenderer(): Device does not support OpenGL 3.x!" << std::endl;
 		wglDeleteContext(tempContext);
 		return;
 	}
 
 	if (major == 3 && minor < 2)
 	{	//Graphics hardware does not support ENOUGH of OGL 3! Erk...
-		std::cout << "OGLRenderer::OGLRenderer(): Device does not support OpenGL 3.2!" << std::endl;
 		wglDeleteContext(tempContext);
 		return;
 	}
@@ -108,7 +101,6 @@ OGLRenderer::OGLRenderer(HWND windowHandle, NCLVector2 size)
 	// Check for the context, and try to make it the current rendering context
 	if (!renderContext || !wglMakeCurrent(deviceContext, renderContext))
 	{
-		std::cout << "OGLRenderer::OGLRenderer(): Cannot set OpenGL 3 context!" << std::endl;	//It's all gone wrong!
 		wglDeleteContext(renderContext);
 		wglDeleteContext(tempContext);
 		return;
@@ -121,7 +113,6 @@ OGLRenderer::OGLRenderer(HWND windowHandle, NCLVector2 size)
 
 	if (glewInit() != GLEW_OK)
 	{	//Try to initialise GLEW
-		std::cout << "OGLRenderer::OGLRenderer(): Cannot initialise GLEW!" << std::endl;	//It's all gone wrong!
 		return;
 	}
 	//If we get this far, everything's going well!
@@ -288,7 +279,6 @@ void OGLRenderer::DebugCallback(GLuint source, GLuint type, GLuint id, GLuint se
 	case GL_DEBUG_SEVERITY_LOW_ARB: severityName = "Priority(Low)"; break;
 	}
 
-	cout << "OpenGL Debug Output: " + sourceName + ", " + typeName + ", " + severityName + ", " + string(message) << endl;
 }
 #endif
 

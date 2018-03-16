@@ -1,7 +1,6 @@
 <GameObjectLogic>
 
 	<Resources>
-
 		<resource>player0Meteor0</resource>
 		<resource>player0Meteor1</resource>
 		<resource>player0Meteor2</resource>
@@ -12,7 +11,6 @@
 		<resource>player0Meteor7</resource>
 		<resource>player0Meteor8</resource>
 		<resource>player0Meteor9</resource>
-		
 	</Resources>
 
 
@@ -20,16 +18,9 @@
 		
 		<ReceiveMessage type="CollisionMessage">
 			<Action>
-				<Condition>
-				<objectIdentifier>var</objectIdentifier>
-				</Condition>
-				<Condition type="OR">
-					<colliderIdentifier>thirdfloor3</colliderIdentifier>
+				<Condition type="AND">
+					<objectIdentifier>var</objectIdentifier>
 					<colliderIdentifier>floor</colliderIdentifier>
-					<colliderIdentifier>thirdfloor4</colliderIdentifier>
-					<colliderIdentifier>thirdfloor5</colliderIdentifier>
-					<colliderIdentifier>Crossing3f</colliderIdentifier>
-					
 				</Condition>
 
 				

@@ -65,16 +65,6 @@ void PaintGameActionBuilder::initialiseBuilders(Database* database)
 		};
 	} });
 
-	builders.insert({ "PrintText", [](Node* node)
-	{
-		std::string text = node->children[0]->value;
-
-		return [text]()
-		{
-			std::cout << text << std::endl;
-		};
-	} });
-
 	builders.insert({ "Jump", [](Node* node)
 	{
 		GameObject* gameObject = static_cast<GameObject*>(

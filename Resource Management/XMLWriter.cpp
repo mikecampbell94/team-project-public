@@ -2,18 +2,14 @@
 
 #include "FilePaths.h"
 #include "Database/Database.h"
-//#include "../Graphics/Meshes/Mesh.h"
-//#include "../Gameplay/GameObject.h"
 #include "../Physics/PhysicsNode.h"
 #include "../Extrernal Libs/rapidxml-1.13/rapidxml_print.hpp"
 #include "../Gameplay/GameplaySystem.h"
 
-//#include <stdio.h>
 #include <fstream>
 #include <array>
 #include "../Audio/Sound.h"
 #include "../Graphics/Utility/Light.h"
-//#include <fileapi.h>
 
 XMLWriter::XMLWriter(Database* database, GameplaySystem* gameplay)
 {
@@ -77,7 +73,6 @@ void XMLWriter::saveLevelFile(std::string levelName)
 		root->append_node(gameLogicNode);
 		std::vector<std::string> objectLogicFiles;
 
-		//for (GameObjectLogic& objectLogic : *objectLogics)
 		for (size_t i = 0; i < objectLogics->size(); ++i)
 		{
 			objectLogicFiles.push_back((*objectLogics)[i].getScriptFile());
@@ -359,7 +354,6 @@ LevelGameObjectsState XMLWriter::getGameObjectStates()
 
 		state.gameObjectNames.push_back((*gameObjectIterator).first);
 		state.gameObjectMeshNames.push_back(gameObject->getSceneNode()->GetMesh()->getName());
-		//state.gameObjectColours.push_back(gameObject->getSceneNode()->getColour());
 
 		state.gameObjectColours.push_back(std::array<std::string, 4>
 		{

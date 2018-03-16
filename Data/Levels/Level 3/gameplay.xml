@@ -20,20 +20,20 @@
     <SendMessage type="PREPARE_PAINT_SURFACE">
       <destination>RenderingSystem</destination>
       <resource>floor</resource>
-	  <resource>floor1</resource>
+	  <resource>secondfloor1</resource>
+	  <resource>secondfloor2</resource>
+	  <resource>secondfloor3</resource>
+	  <resource>secondfloor4</resource>
     </SendMessage>
 
     <SendMessage type="ADD_SCORE_HOLDER">
       <destination>RenderingSystem</destination>
       <name>player0</name>
     </SendMessage>
-
-    <SendMessage type="ADD_SCORE_HOLDER">
+	<SendMessage type="ADD_SCORE_HOLDER">
       <destination>RenderingSystem</destination>
       <name>enemy</name>
     </SendMessage>
-
-
     <SendMessage type="TEXT">
       <destination>UserInterface</destination>
       <text>Toggle</text>
@@ -68,18 +68,6 @@
         <pitch>-40</pitch>
         <yaw>180</yaw>
       </rotation>
-    </SendMessage>
-
-    <SendMessage type="ROTATE_GAMEOBJECT">
-      <destination>Physics</destination>
-      <rotation>
-        <x>0</x>
-        <y>1</y>
-        <z>0</z>
-        <w>1</w>
-      </rotation>
-      <relative>True</relative>
-      <resource>powerup</resource>
     </SendMessage>
   </Timed>
 

@@ -12,8 +12,8 @@
 ScoreCounter::ScoreCounter(const std::string identifier, const NCLVector2 resolution, Database* database)
 	: GraphicsModule(identifier, resolution)
 {
-	computeShader = new ComputeShader(SHADERDIR"/Compute/compute.glsl", true);
-	textShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"/ScoreText/textFrag.glsl", "", true);
+	computeShader = new ComputeShader(SHADERDIR"/Compute/compute.glsl");
+	textShader = new Shader(SHADERDIR"UITextVertex.glsl", SHADERDIR"/ScoreText/textFrag.glsl");
 	this->database = database;
 
 	font = new Font(SOIL_load_OGL_texture(TEXTUREDIR"tahoma.tga", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_COMPRESS_TO_DXT), 16, 16);

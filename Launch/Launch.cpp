@@ -17,7 +17,6 @@ int main()
 {
 	if (enet_initialize() != 0)
 	{
-		std::cout << "ENET failed to initialize!" << std::endl;
 		return -1;
 	}
 
