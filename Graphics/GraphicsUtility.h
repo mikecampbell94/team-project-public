@@ -117,7 +117,7 @@ public:
 		{
 			return false;
 		}
-		else if (successMsg)
+		else
 		{
 			return true;
 		}
