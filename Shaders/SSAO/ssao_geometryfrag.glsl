@@ -6,6 +6,7 @@ layout (location = 2) out vec4 gAlbedo;
 
 uniform sampler2D texture_diffuse;
 uniform int hasTexture;
+uniform vec2 resolution;
 
 uniform sampler2D paintTrailTexture;
 uniform mat4 paintTrailTextureMatrix;
@@ -37,15 +38,6 @@ void main(void) {
 	{
 		col = texture(texture_diffuse, TexCoords);
 	}
-	//
-	//if (isreflective == 1) 
-	//{
-	//	vec3 i = normalize(reflectionpos - camerapos);
-	//	vec3 r = reflect(i, normalize(reflectionnormal));
-	//	vec4 reflectioncolour = vec4(texture(skybox, r).rgb, 1.0);
-	//	col += reflectioncolour * reflectionstrength;
-	//	col /= 2;
-	//}
 
 	if (isPaintSurface == 1)
 	{
@@ -56,13 +48,13 @@ void main(void) {
 
 		if (paintTrailProjection.w > 0.0)
 		{
-			vec2 texelSize = vec2(1.0f, 1.0f) / vec2(1280.0f, 720.0f);//textureSize(paintTrailTexture, 0);
+			vec2 texelSize = vec2(1.0f, 1.0f) / resolution;
 
 			int sampleCount = 0;
 
-			for (int x = -10; x <= 10; ++x)
+			for (int x = -11; x <= 11; ++x)
 			{
-				for (int y = -10; y <= 10; ++y)
+				for (int y = -11; y <= 11; ++y)
 				{
 					vec2 sampleCoord = vec2(x, y) * texelSize * 100.0f;
 					paintColour += textureProj(paintTrailTexture, paintTrailProjection + vec4(sampleCoord, 0.0f, 0.0f));

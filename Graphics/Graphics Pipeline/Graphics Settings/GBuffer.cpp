@@ -130,6 +130,7 @@ void GBuffer::renderGeometry(std::vector<SceneNode*>* nodesInFrame)
 	viewMatrix = camera->buildViewMatrix();
 	updateShaderMatrices();
 	glUniformMatrix4fv(glGetUniformLocation(geometryPass->GetProgram(), "projMatrix"), 1, false, (float*)&CommonGraphicsData::SHARED_PROJECTION_MATRIX);
+	glUniform2fv(glGetUniformLocation(geometryPass->GetProgram(), "resolution"), 1, (float*)&resolution);
 
 	glUniform1i(glGetUniformLocation(geometryPass->GetProgram(), "paintTrailTexture"), 6);
 	glUniformMatrix4fv(glGetUniformLocation(geometryPass->GetProgram(), "paintTrailTextureMatrix"), 1, false, (float*)paintTextureMatrix);
